@@ -44,23 +44,23 @@ namespace Utils {
 				Component() throw(std::runtime_error);
 				virtual ~Component() = 0;
 
-				void setRect(int x, int y, unsigned int width, unsigned int height);
+				virtual void setRect(int x, int y, unsigned int width, unsigned int height);
 
-				int getX() const;
-				int getY() const;
-				unsigned int getWidth() const;
-				unsigned int getHeight() const;
+				virtual int getX() const;
+				virtual int getY() const;
+				virtual unsigned int getWidth() const;
+				virtual unsigned int getHeight() const;
 
-				void setText(const char* text);
-				void setText(const std::string& text);
-				const std::string& getText() const;
+				virtual void setText(const char* text);
+				virtual void setText(const std::string& text);
+				virtual const std::string& getText() const;
 
-				void setName(const char* name);
-				void setName(const std::string& text);
-				const std::string& getName() const;
+				virtual void setName(const char* name);
+				virtual void setName(const std::string& text);
+				virtual const std::string& getName() const;
 
-				void setFont(const Utils::FreeType::Font& font);
-				Utils::FreeType::Font getFont() const;
+				virtual void setFont(const Utils::FreeType::Font& font);
+				virtual Utils::FreeType::Font getFont() const;
 
 				// возвращает true, если прямоугольник 
 				// компонента, содержит (x;y)
@@ -81,15 +81,15 @@ namespace Utils {
 
 				virtual void draw();
 				
-				void setHoveredEvent(const MouseHoverEvent& eventHandler);
-				void setClickedEvent(const MouseClickEvent& eventHandler);
-				void setMouseDownEvent(const MouseDownEvent& eventHandler);
-				void setMouseUpEvent(const MouseUpEvent& eventHandler);
+				virtual void setHoveredEvent(const MouseHoverEvent& eventHandler);
+				virtual void setClickedEvent(const MouseClickEvent& eventHandler);
+				virtual void setMouseDownEvent(const MouseDownEvent& eventHandler);
+				virtual void setMouseUpEvent(const MouseUpEvent& eventHandler);
 
-				void setDrawEvent(const DrawEvent& eventHandler);
+				virtual void setDrawEvent(const DrawEvent& eventHandler);
 
-				void setKeyDownEvent(const KeyDownEvent& eventHandler);
-				void setKeyUpEvent(const KeyUpEvent& eventHandler);
+				virtual void setKeyDownEvent(const KeyDownEvent& eventHandler);
+				virtual void setKeyUpEvent(const KeyUpEvent& eventHandler);
 
 			private:
 
