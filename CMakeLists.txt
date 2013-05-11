@@ -95,8 +95,35 @@ set(TINY_XML_HEADERS
   ${INCLUDE_DIR}/TinyXML/tinyxml.h
 )
 
-set(UTILS_HEADERS
+set(UTILS_FREETYPE_HEADERS
+  ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
+  ${INCLUDE_DIR}/Utils/FreeType/Library.hpp
+)
 
+set(UTILS_UI_HEADERS
+  ${INCLUDE_DIR}/Utils/UI/Button.hpp
+  ${INCLUDE_DIR}/Utils/UI/Component.hpp
+  ${INCLUDE_DIR}/Utils/UI/ComponentEvent_wrapper.hpp
+  ${INCLUDE_DIR}/Utils/UI/ComponentFactory.hpp
+  ${INCLUDE_DIR}/Utils/UI/Event.hpp
+  ${INCLUDE_DIR}/Utils/UI/KeyEvent.hpp
+  ${INCLUDE_DIR}/Utils/UI/Label.hpp
+  ${INCLUDE_DIR}/Utils/UI/Menu.hpp
+  ${INCLUDE_DIR}/Utils/UI/MenuFactory.hpp
+  ${INCLUDE_DIR}/Utils/UI/MouseEvent.hpp
+)
+
+set(UTILS_HEADERS
+  ${UTILS_FREETYPE_HEADERS}
+  ${UTILS_UI_HEADERS}
+  ${INCLUDE_DIR}/Utils/assert.hpp
+  ${INCLUDE_DIR}/Utils/Color.hpp
+  ${INCLUDE_DIR}/Utils/FreeType.hpp
+  ${INCLUDE_DIR}/Utils/Lua.hpp
+  ${INCLUDE_DIR}/Utils/MouseButton.hpp
+  ${INCLUDE_DIR}/Utils/Singleton.hpp
+  ${INCLUDE_DIR}/Utils/Texture.hpp
+  ${INCLUDE_DIR}/Utils/UI.hpp
 )
 
 set(HEADERS
