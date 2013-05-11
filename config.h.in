@@ -1,0 +1,11 @@
+#ifndef _CONFIG_H
+#define _CONFIG_H
+
+#define Salt2D_VERSION_MAJOR @Salt2D_VERSION_MAJOR@
+#define Salt2D_VERSION_MINOR @Salt2D_VERSION_MINOR@
+
+#define SCRIPT_PATH "../script"
+
+#cmakedefine MS_WINDOWS
+
+#endif
