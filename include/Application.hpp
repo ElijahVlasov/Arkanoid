@@ -9,7 +9,7 @@
 #ifndef _SALT2D_APPLICATION_HPP
 #define _SALT2D_APPLICATION_HPP
 
-#include <cstdint>
+#include <boost/cstdint.hpp>
 
 #include <stdexcept>
 #include <string>
@@ -25,50 +25,50 @@
 
 class Application: public boost::noncopyable {
 
-	public:
+    public:
 
-		Application() throw(already_exist_error, std::runtime_error);
-		~Application();
+        Application() throw(already_exist_error, std::runtime_error);
+        ~Application();
 
-		int run() throw(std::runtime_error);
+        int run() throw(std::runtime_error);
 
-		void OnEvent(SDL_Event* event);
+        void OnEvent(SDL_Event* event);
 	
-		void OnRender();
+        void OnRender();
 
-		void OnQuit();
+        void OnQuit();
 		
-		void OnRestore();
+        void OnRestore();
 
-		void OnMinimize();
+        void OnMinimize();
 
-		void OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode);
+        void OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode);
 
-		void OnKeyDown(SDLKey key, SDLMod mod, Uint16 unicode);	
+        void OnKeyDown(SDLKey key, SDLMod mod, Uint16 unicode);	
 
-		void OnMouseDown(int x, int y, uint8_t button);
-		void OnMouseUp(int x, int y, uint8_t button);
+        void OnMouseDown(int x, int y, uint8_t button);
+        void OnMouseUp(int x, int y, uint8_t button);
 
-		void OnMouseMotion(int x, int y);
+        void OnMouseMotion(int x, int y);
 
-	private:
+    private:
 
-		void initSDL(unsigned int width, unsigned int height, const char* name);
+        void initSDL(unsigned int width, unsigned int height, const char* name);
 
-		void setSurfaceSize(unsigned int width, unsigned int height) throw(std::runtime_error);
+        void setSurfaceSize(unsigned int width, unsigned int height) throw(std::runtime_error);
 
-		static const uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_OPENGL;
+        static const uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_OPENGL;
 
-		Engine::Game* game_;
+        Engine::Game* game_;
 
-		// Предназначен для проверки, приложение 
-		// запущенно ли уже
-		static const std::string SHARED_MEM_NAME;
-		boost::interprocess::shared_memory_object* sharedMem_;
+        // Предназначен для проверки, приложение 
+        // запущенно ли уже
+        static const std::string SHARED_MEM_NAME;
+        boost::interprocess::shared_memory_object* sharedMem_;
 
-		SDL_Surface* surface_;
+        SDL_Surface* surface_;
 
-		bool isRunning_;
+        bool isRunning_;
 
 };
 

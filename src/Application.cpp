@@ -1,4 +1,4 @@
-#include <cstdint>
+#include <boost/cstdint.hpp>
 
 #include <stdexcept>
 #include <string>
@@ -30,25 +30,27 @@ const string Application::SHARED_MEM_NAME = "SALT2D_ENGINE_SHARED_MEMORY_test___
 
 
 Application::Application() throw(already_exist_error, runtime_error):
-	game_(Game::getInstance()),
-	sharedMem_(0),
-	surface_(0)       
+    game_(Game::getInstance()),
+    sharedMem_(0),
+    surface_(0)       
 {
 	
-	// Создаем create_only shared_memory_object.
-	// Если объект уже создан, значит, приложение уже
-	// запущено.
-	try {
+    // Создаем create_only shared_memory_object.
+    // Если объект уже создан, значит, приложение уже
+    // запущено.
+    try {
 
-		sharedMem_ = new shared_memory_object(create_only, SHARED_MEM_NAME.c_str(), read_write);
+        sharedMem_ = new shared_memory_object(create_only, SHARED_MEM_NAME.c_str(), read_write);
 	
-	} catch(...) {
+    } catch(...) {
 		
-		throw(already_exist_error(""));
+        throw(already_exist_error(""));
 
-	}
+    }
 	
-	initSDL(640, 480, "Shoter");
+    initSDL(640, 480, "Shoter");
+
+    game_->setScreenRect(640, 480);
 
 }
 
@@ -56,20 +58,19 @@ Application::Application() throw(already_exist_error, runtime_error):
 
 Application::~Application() {
 
-	if(game_ != 0) {
-		game_->Free();
-	}
+    if(game_ != 0) {
+        game_->Free();
+    }
 
-	if(sharedMem_ != 0) {
-		delete sharedMem_;
-	}
+    if(sharedMem_ != 0) {
+        delete sharedMem_;
+    }
 	
-	if(surface_ != 0) {
-		::SDL_FreeSurface(surface_);
-	}
+    if(surface_ != 0) {
+        ::SDL_FreeSurface(surface_);
+    }
 
-	//::TTF_Quit();
-	::SDL_Quit();
+    ::SDL_Quit();
 
 }
 
@@ -77,34 +78,34 @@ Application::~Application() {
 
 void Application::initSDL(unsigned int width, unsigned int height, const char* name) {
 	
-	ASSERT(
-		(::SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0),
-		runtime_error("Can't load SDL library!")
-	);
+    ASSERT(
+        (::SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0),
+        runtime_error("Can't load SDL library!")
+    );
 
-	// Задаем иконку и заголовок окна
-	::SDL_WM_SetCaption(name, 0);
+    // Задаем иконку и заголовок окна
+    ::SDL_WM_SetCaption(name, 0);
 
 	
-	// Задаем параметры OpenGL
-	::SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
-	::SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
-	::SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
-	::SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
+    // Задаем параметры OpenGL
+    ::SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
+    ::SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
+    ::SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
+    ::SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
  
-	::SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
-	::SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,        32);
+    ::SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
+    ::SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);
  
-	::SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,    8);
-	::SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
-	::SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,    8);
-	::SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
+    ::SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,    8);
+    ::SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,  8);
+    ::SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,   8);
+    ::SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,  8);
  
-	::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
-	::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
+    ::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
+    ::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
 
-	// создаем SDL_Surface width * height
-	setSurfaceSize(width, height);
+    // создаем SDL_Surface width * height
+    setSurfaceSize(width, height);
 
 }
 
@@ -112,16 +113,16 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
 
 void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(runtime_error) {
 	
-	if(surface_ != 0) { // удаляем предыдущий surface
-		::SDL_FreeSurface(surface_);
-	}
+    if(surface_ != 0) { // удаляем предыдущий surface
+        ::SDL_FreeSurface(surface_);
+    }
 
-	surface_ = ::SDL_SetVideoMode(width, height, 32, SDL_FLAGS);
+    surface_ = ::SDL_SetVideoMode(width, height, 32, SDL_FLAGS);
 
-	ASSERT(
-		(surface_ == 0),
-		runtime_error(::SDL_GetError())
-	);
+    ASSERT(
+        (surface_ == 0),
+        runtime_error(::SDL_GetError())
+    );
 
 }
 
@@ -129,23 +130,23 @@ void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(
 
 int Application::run() throw(runtime_error) {
 
-	SDL_Event event;
+    SDL_Event event;
 
-	game_->setRunning(true);
+    game_->setRunning(true);
 
-	while(game_->isRunning()) { 
+    while(game_->isRunning()) { 
 
-		while(::SDL_PollEvent(&event)) { // неблокирующе, проверяем наличие событий 
+        while(::SDL_PollEvent(&event)) { // неблокирующе, проверяем наличие событий 
 
-			OnEvent(&event);
+            OnEvent(&event);
 
-		}
+        }
 
-		OnRender();
+        OnRender();
 
-	}
+    }
 
-	return 0;
+    return 0;
 
 }
 
