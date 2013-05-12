@@ -46,7 +46,7 @@ namespace Utils {
                         std::invalid_argument("funcName")
                     );
 
-                    functionObject_ = lua_->getFunctionObject(string(funcName));
+                    functionObject_ = lua_->getFunctionObject(funcName);
 
                 }
 
