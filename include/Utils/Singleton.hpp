@@ -13,6 +13,7 @@
 
 #include <stdexcept>
 
+#include <boost/thread/lock_guard/hpp>
 #include <boost/thread/mutex.hpp>
 
 #include <boost/utility.hpp>
