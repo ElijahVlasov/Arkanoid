@@ -21,79 +21,64 @@
 
 namespace Utils {	
 
-	template <class T> class Singleton: public boost::noncopyable {
+    template <class T> class Singleton: public boost::noncopyable {
 		
-		public:
+        public:
 
-			// Получить объект синглтона, конструктор
-			// объекта может сгенерировать runtime_error
-			static T* getInstance() throw(std::runtime_error) {
+            // Получить объект синглтона, конструктор
+            // объекта может сгенерировать runtime_error
+            static T* getInstance() throw(std::runtime_error) {
 	
-				//boost::lock_guard<boost::mutex> guard(singletonMutex_);
+                boost::lock_guard<boost::mutex> guard(singletonMutex_);
 
-				singletonMutex_.lock();
-
-				if(instance_ == 0) {
+                if(instance_ == 0) {
 	
-					instance_ = new T();
+                    instance_ = new T();
 					
-				}
+                }
 
-				refCount_++;
+                refCount_++;
 
-				singletonMutex_.unlock();
+                return instance_;
 
-				return instance_;
+            }
 
-			}
+            // освободить синглтон
+            void Free() {
+ 
+                boost::lock_guard<boost::mutex> guard(singletonMutex_);
 
-			// освободить синглтон
-			void Free() {
+                if(instance_ == 0) {
+                    return;
+                }
 
-				//boost::lock_guard<boost::mutex> guard(singletonMutex_);
+                if(--refCount_ <= 0) {
+                    delete instance_;
+                }
 
-				singletonMutex_.lock();
+            }
 
-				if(instance_ == 0) {
-					
-					singletonMutex_.unlock();
-					return;
+        protected:		
 
-				}
+            Singleton() {}
 
-				if(--refCount_ <= 0) {
-		
-					delete instance_;
+            virtual ~Singleton() {
+                instance_ = 0;
+            }
 
-				}
+            static boost::mutex singletonMutex_;
 
-				singletonMutex_.unlock();
+        private:
 
-			}
+            static T* instance_;
+            // кол - во указателей на синглтон
+            static size_t refCount_;
 
-		protected:		
+    };
 
-			Singleton() {}
-
-			virtual ~Singleton() {
-
-				instance_ = 0;
-
-			}
-
-			static boost::mutex singletonMutex_;
-
-		private:
-
-			static T* instance_;
-			// кол - во указателей на синглтон
-			static size_t refCount_;
-
-	};
-
-	template <class T> T*			Singleton<T>::instance_		 = 0;
-	template <class T> size_t		Singleton<T>::refCount_		 = 0;
-	template <class T> boost::mutex	Singleton<T>::singletonMutex_;
+    template <class T> T*			Singleton<T>::instance_		 = 0;
+    template <class T> size_t		Singleton<T>::refCount_		 = 0;
+    template <class T> boost::mutex	Singleton<T>::singletonMutex_;
 
 }
 
