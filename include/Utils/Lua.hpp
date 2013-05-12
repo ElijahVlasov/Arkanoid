@@ -18,44 +18,41 @@
 
 namespace Utils {
 	
-	class Lua: public Utils::Singleton<Lua> {
+    class Lua: public Utils::Singleton<Lua> {
 
-		SINGLETON(Lua)
+        SINGLETON(Lua)
 	
-		public:
+        public:
 
-			// Загрузить скрипт. Если возникает ошибка выполнения скрипта или
-			// этот скрипт не найден, то генерируется runtime_error.
-			// Если scriptName == NULL или scriptName - пустая строка,
-			// то генерируется invalid_argument
-			void loadScript(const char* scriptName)			throw(std::runtime_error, std::invalid_argument);
-			void loadScript(const std::string& scriptName)		throw(std::runtime_error, std::invalid_argument);
+            // Загрузить скрипт. Если возникает ошибка выполнения скрипта или
+            // этот скрипт не найден, то генерируется runtime_error.
+            // Если scriptName == NULL или scriptName - пустая строка,
+            // то генерируется invalid_argument
+            void loadScript(const char* scriptName)        throw(std::runtime_error, std::invalid_argument);
+            void loadScript(const std::string& scriptName) throw(std::runtime_error, std::invalid_argument);
 
-			lua_State* getLuaState();
-			lua_State* getLuaState_newThread();
+            lua_State* getLuaState();
+            lua_State* getLuaState_newThread();
 
-			luabind::object getFunctionObject(const char* funcName)
-										throw(std::runtime_error, std::invalid_argument);
+            luabind::object getFunctionObject(const char* funcName)
+                                                           throw(std::runtime_error, std::invalid_argument);
 
-			luabind::object getFunctionObject(const std::string& funcName)
-										throw(std::runtime_error, std::invalid_argument);
+            luabind::object getFunctionObject(const std::string& funcName)
+                                                           throw(std::runtime_error, std::invalid_argument);
 
-		protected:
+        protected:
 			
-			Lua();
-			~Lua();
+            Lua();
+            ~Lua();
 
-		private:
+        private:
 
-			lua_State* luaState_;
+            lua_State* luaState_;
 
-			
-			Lua(const Lua&);
+            std::string createModuleName(const std::string& scriptName);
+            std::string createScriptPath(const std::string& scriptName);
 
-			std::string createModuleName(const std::string& scriptName);
-			std::string createScriptPath(const std::string& scriptName);
-
-	};
+    };
 
 }
 
