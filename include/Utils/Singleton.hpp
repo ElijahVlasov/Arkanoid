@@ -76,9 +76,9 @@ namespace Utils {
 
     };
 
-    template <class T> T*			Singleton<T>::instance_		 = 0;
-    template <class T> size_t		Singleton<T>::refCount_		 = 0;
-    template <class T> boost::mutex	Singleton<T>::singletonMutex_;
+    template <class T> T*           Singleton<T>::instance_      = 0;
+    template <class T> size_t       Singleton<T>::refCount_      = 0;
+    template <class T> boost::mutex Singleton<T>::singletonMutex_;
 
 }
 
