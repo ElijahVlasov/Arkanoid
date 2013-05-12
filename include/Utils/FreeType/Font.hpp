@@ -1,7 +1,7 @@
 #ifndef _SALT2D_UTILS_FONT_HPP
 #define _SALT2D_UTILS_FONT_HPP
 
-#include <cstdint>
+#include <boost/cstdint.hpp>
 
 #include <string>
 #include <stdexcept>
