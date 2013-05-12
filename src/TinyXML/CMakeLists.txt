@@ -11,4 +11,4 @@ set(TINY_XML_SOURCES
   tinyxmlparser.cpp
 )
 
-add_library(TinyXML ${TINY_XML_SOURCES})
+add_library(TinyXML ${TINY_XML_HEADERS} ${TINY_XML_SOURCES})
