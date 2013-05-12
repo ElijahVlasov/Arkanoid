@@ -22,7 +22,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX )
 option(MS_WINDOWS OFF)
 
 if(WIN32)
-    option(MS_WINDOWS ON)
+    set(MS_WINDOWS ON)
 endif()
 
 include_directories(${LUA_INCLUDE_DIR})
