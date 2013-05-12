@@ -13,8 +13,9 @@
 
 #include <stdexcept>
 
+#include <mutex>
+
 #include <boost/thread/lock_guard.hpp>
-#include <boost/thread/mutex.hpp>
 
 #include <boost/utility.hpp>
 
@@ -30,7 +31,7 @@ namespace Utils {
             // объекта может сгенерировать runtime_error
             static T* getInstance() throw(std::runtime_error) {
 	
-                boost::lock_guard<boost::mutex> guard(singletonMutex_);
+                boost::lock_guard<std::mutex> guard(singletonMutex_);
 
                 if(instance_ == 0) {
 	
@@ -47,7 +48,7 @@ namespace Utils {
             // освободить синглтон
             void Free() {
  
-                boost::lock_guard<boost::mutex> guard(singletonMutex_);
+                boost::lock_guard<std::mutex> guard(singletonMutex_);
 
                 if(instance_ == 0) {
                     return;
@@ -67,7 +68,7 @@ namespace Utils {
                 instance_ = 0;
             }
 
-            static boost::mutex singletonMutex_;
+            static std::mutex singletonMutex_;
 
         private:
 
@@ -79,7 +80,7 @@ namespace Utils {
 
     template <class T> T*           Singleton<T>::instance_      = 0;
     template <class T> size_t       Singleton<T>::refCount_      = 0;
-    template <class T> boost::mutex Singleton<T>::singletonMutex_;
+    template <class T> std::mutex   Singleton<T>::singletonMutex_;
 
 }
 
