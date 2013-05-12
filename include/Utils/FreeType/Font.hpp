@@ -27,8 +27,8 @@ namespace Utils {
 
                 typedef boost::array<uint8_t, 3> Color;
 
-                explicit Font(const char* filePath)         throw(std::runtime_error, std::invalid_argument);
-                explicit Font(const std::string& filePath)  throw(std::runtime_error, std::invalid_argument);
+                explicit Font(const char* filePath)         throw(std::invalid_argument, std::runtime_error);
+                explicit Font(const std::string& filePath)  throw(std::invalid_argument, std::runtime_error);
                 Font(const Font& font);
 
                 ~Font();
