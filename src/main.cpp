@@ -17,21 +17,21 @@ using namespace std;
 
 void ProcessError(const runtime_error& err) {
 	
-	try {
+    try {
 
-		dynamic_cast<const already_exist_error&>(err);
+        dynamic_cast<const already_exist_error&>(err);
 
-		// Действия при уже запущенном приложении
+        // Действия при уже запущенном приложении
 
-	} catch(std::bad_cast&) {
+    } catch(const std::bad_cast&) {
 
- 		#ifdef WINDOWS
+        #ifdef MS_WINDOWS
 
-		::MessageBoxA(0, err.what(), "Runtime error", MB_OK | MB_ICONERROR);
+        ::MessageBoxA(0, err.what(), "Runtime error", MB_OK | MB_ICONERROR);
 
-		#endif
+        #endif
 
-	}
+    }
 
 
 
@@ -41,21 +41,20 @@ void ProcessError(const runtime_error& err) {
 
 int main(int argc, char* argv[]) {
 
-	try {
-		auto_ptr<Application> app(new Application());
+    try {
 
-		int result = app->run();
+        auto_ptr<Application> app(new Application());
 
-		return result;
+        return app->run();
 
-	} catch (runtime_error& err) {
+    } catch (const runtime_error& err) {
 
-		::ProcessError(err);
+        ::ProcessError(err);
 
-		return EXIT_FAILURE;
+        return EXIT_FAILURE;
 
-	}
+    }
 		 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 
 }
