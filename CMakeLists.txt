@@ -54,6 +54,7 @@ set(UTILS_UI_SOURCES
 )
 
 set(UTILS_SOURCES
+  ${UTILS_UI_SOURCES}
   ${SRC_DIR}/Utils/Lua.cpp 
   ${SRC_DIR}/Utils/Texture.cpp 
   ${SRC_DIR}/Utils/Utils.cc
