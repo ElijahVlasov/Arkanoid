@@ -9,7 +9,7 @@
 #ifndef _SALT2D_UTILS_SINGLETON_HPP
 #define _SALT2D_UTILS_SINGLETON_HPP
 
-#include <cstdint>
+#include <boost/cstdint.hpp>
 
 #include <stdexcept>
 
