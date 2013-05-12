@@ -18,11 +18,11 @@ using namespace std;
 
 
 Component::Component() throw(runtime_error):
-	font_("arial.ttf"),
-	x_(0),
-	y_(0),
-	width_(0),
-	height_(0)	
+    font_("arial.ttf"),
+    x_(0),
+    y_(0),
+    width_(0),
+    height_(0)	
 {
 }
 
@@ -34,10 +34,10 @@ Component::~Component() {}
 
 void Component::setRect(int x, int y, unsigned int width, unsigned int height) {
 	
-	x_		=	x;
-	y_		=	y;
-	width_	=	width;
-	height_	=	height;
+    x_       =  x;
+    y_       =  y;
+    width_   =  width;
+    height_  =  height;
 
 }
 
@@ -45,7 +45,7 @@ void Component::setRect(int x, int y, unsigned int width, unsigned int height) {
 
 int Component::getX() const {
 	
-	return x_;
+    return x_;
 
 }
 
@@ -53,7 +53,7 @@ int Component::getX() const {
 
 int Component::getY() const {
 
-	return y_;
+    return y_;
 
 }
 
@@ -61,7 +61,7 @@ int Component::getY() const {
 
 unsigned int Component::getWidth() const {
 	
-	return width_;
+    return width_;
 
 }
 
@@ -69,7 +69,7 @@ unsigned int Component::getWidth() const {
 
 unsigned int Component::getHeight() const {
 
-	return height_;
+    return height_;
 
 }
 
@@ -77,15 +77,15 @@ unsigned int Component::getHeight() const {
 
 void Component::setText(const char* text) {
 
-	if(text == 0) {
-	
-		text_ = "";
+    if(text == 0) {
 
-	} else {
-		
-		text_ = text;
+        text_ = "";
 
-	}
+    } else {
+
+        text_ = text;
+
+    }
 
 }
 
@@ -93,7 +93,7 @@ void Component::setText(const char* text) {
 
 void Component::setText(const string& text) {
 
-	text_ = text;
+    text_ = text;
 
 }
 
@@ -101,7 +101,7 @@ void Component::setText(const string& text) {
 
 const string& Component::getText() const {
 
-	return text_;
+    return text_;
 
 }
 
@@ -109,15 +109,15 @@ const string& Component::getText() const {
 
 void Component::setName(const char* name) {
 
-	if(name == 0) {
+    if(name == 0) {
+
+        name_ = "";
+
+    } else {	
 	
-		name_ = "";
+        name_ = name;
 
-	} else {
-		
-		name_ = name;
-
-	}
+    }
 
 }
 
@@ -125,7 +125,7 @@ void Component::setName(const char* name) {
 
 void Component::setName(const string& name) {
 
-	setName(name.c_str());
+    setName(name.c_str());
 
 }
 
@@ -133,7 +133,7 @@ void Component::setName(const string& name) {
 
 const string& Component::getName() const {
 
-	return name_;
+    return name_;
 
 }
 
@@ -141,7 +141,7 @@ const string& Component::getName() const {
 
 void Component::setFont(const Font& font) {
 
-	font_ = font;
+    font_ = font;
 
 }
 
@@ -149,7 +149,7 @@ void Component::setFont(const Font& font) {
 
 Font Component::getFont() const {
 
-	return font_;
+    return font_;
 
 }
 
@@ -157,17 +157,17 @@ Font Component::getFont() const {
 
 bool Component::isContains(int x, int y) {
 
-	if((x >= x_)
-		|| (x <= x_ + static_cast<int>(width_))) {
+    if((x >= x_)
+        || (x <= x_ + static_cast<int>(width_))) {
 
-		if((y >= y_)
-			|| (y <= y_ + static_cast<int>(height_))) {
-			return true;
-		}
+            if((y >= y_)
+                || (y <= y_ + static_cast<int>(height_))) {
+                    return true;
+            }
 
-	}
+    }
 
-	return false;
+    return false;
 
 }
 
@@ -181,24 +181,24 @@ bool Component::isContains(int x, int y) {
 
 void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
-	if(btn == Utils::BUTTON_LEFT) { // если, потенциально, происходит клик
-		// сохраняем координаты
-		mouseDownX_ = x;
-		mouseDownY_ = y;
+    if(btn == Utils::BUTTON_LEFT) { // если, потенциально, происходит клик
+            // сохраняем координаты
+            mouseDownX_ = x;
+            mouseDownY_ = y;
 	
-	}
+    }
 
-	try {
+    try {
 
-		MouseEvent event;
+        MouseEvent event;
 		
-		event.x				=	x;
-		event.y				=	y;
-		event.mouseButton	=	btn;
+        event.x            =  x;
+        event.y            =  y;
+        event.mouseButton  =  btn;
 
-		mouseDownEvent_(event);
+        mouseDownEvent_(event);
 
-	} catch(const boost::bad_function_call&) {}
+    } catch(const boost::bad_function_call&) {}
 
 
 }
@@ -207,31 +207,31 @@ void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
 void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
 
-	try {
+    try {
 
-		MouseEvent event;
+        MouseEvent event;
 		
-		event.x				=	x;
-		event.y				=	y;
-		event.mouseButton	=	btn;
+        event.x            =  x;
+        event.y            =  y;
+        event.mouseButton  =  btn;
 
-		mouseUpEvent_(event);
+        mouseUpEvent_(event);
 
-	} catch(const boost::bad_function_call&) {}
+    } catch(const boost::bad_function_call&) {}
 
 
-	// если, потенциально, не произошел клик,
-	if(btn != Utils::BUTTON_LEFT) { // то выходим из метода
-		return;
-	}
+    // если, потенциально, не произошел клик,
+    if(btn != Utils::BUTTON_LEFT) { // то выходим из метода
+        return;
+    }
 
 		
-	if((mouseDownX_ == x)
-		|| (mouseDownY_ == y)) { // иначе вызываем метод клика
+    if((mouseDownX_ == x)
+        || (mouseDownY_ == y)) { // иначе вызываем метод клика
 	
-			click(x, y);
+            click(x, y);
 
-	}
+    }
 
 }
 
@@ -239,17 +239,17 @@ void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
 
 void Component::click(int x, int y) {
 
-	try {
+    try {
 
-		MouseEvent event;
+        MouseEvent event;
 		
-		event.x				=	x;
-		event.y				=	y;
-		event.mouseButton	=	MouseButton::BUTTON_LEFT;
+        event.x            =  x;
+        event.y            =  y;
+        event.mouseButton  =  MouseButton::BUTTON_LEFT;
 
-		clickEvent_(event);
+        clickEvent_(event);
 
-	} catch(const boost::bad_function_call&) {}
+    } catch(const boost::bad_function_call&) {}
 
 
 }
@@ -258,17 +258,17 @@ void Component::click(int x, int y) {
 
 void Component::hoverMouse(int x, int y) {
 
-	try {
+    try {
 
-		MouseEvent event;
+        MouseEvent event;
 		
-		event.x				=	x;
-		event.y				=	y;
-		event.mouseButton	=	MouseButton::BUTTON_NONE;
+        event.x            =  x;
+        event.y            =  y;
+        event.mouseButton  =  MouseButton::BUTTON_NONE;
 
-		hoverEvent_(event);
+        hoverEvent_(event);
 
-	} catch(const boost::bad_function_call&) {}
+    } catch(const boost::bad_function_call&) {}
 
 
 }
@@ -277,13 +277,13 @@ void Component::hoverMouse(int x, int y) {
 
 void Component::draw() {
 
-	try {
+    try {
 
-		Event event;
+        Event event;
 
-		drawEvent_(event);
+        drawEvent_(event);
 
-	} catch(const boost::bad_function_call&) {}
+    } catch(const boost::bad_function_call&) {}
 
 }
 
@@ -291,15 +291,15 @@ void Component::draw() {
 
 void Component::keyDown(int key) {
 
-	try {
+    try {
 
-		KeyEvent event;
+        KeyEvent event;
 
-		event.key = key;
+        event.key = key;
 
-		keyDownEvent_(event);
+        keyDownEvent_(event);
 
-	} catch(const boost::bad_function_call&) {}
+    } catch(const boost::bad_function_call&) {}
 
 }
 
@@ -307,15 +307,15 @@ void Component::keyDown(int key) {
 
 void Component::keyUp(int key) {
 
-	try {
+    try {
 
-		KeyEvent event;
+        KeyEvent event;
 
-		event.key = key;
+        event.key = key;
 
-		keyUpEvent_(event);
+        keyUpEvent_(event);
 
-	} catch(const boost::bad_function_call&) {}
+    } catch(const boost::bad_function_call&) {}
 
 }
 
@@ -323,7 +323,7 @@ void Component::keyUp(int key) {
 
 void Component::setHoveredEvent(const Component::MouseHoverEvent& eventHandler) {
 
-	hoverEvent_ = eventHandler;
+    hoverEvent_ = eventHandler;
 
 }
 
@@ -331,7 +331,7 @@ void Component::setHoveredEvent(const Component::MouseHoverEvent& eventHandler) 
 
 void Component::setClickedEvent(const Component::MouseClickEvent& eventHandler) {
 
-	clickEvent_ = eventHandler;
+    clickEvent_ = eventHandler;
 
 }
 
@@ -339,7 +339,7 @@ void Component::setClickedEvent(const Component::MouseClickEvent& eventHandler) 
 
 void Component::setMouseDownEvent(const Component::MouseDownEvent& eventHandler) {
 
-	mouseDownEvent_ = eventHandler;
+    mouseDownEvent_ = eventHandler;
 
 }
 
@@ -347,7 +347,7 @@ void Component::setMouseDownEvent(const Component::MouseDownEvent& eventHandler)
 
 void Component::setMouseUpEvent(const Component::MouseUpEvent& eventHandler) {
 
-	mouseUpEvent_ = eventHandler;
+    mouseUpEvent_ = eventHandler;
 
 }
 
@@ -355,7 +355,7 @@ void Component::setMouseUpEvent(const Component::MouseUpEvent& eventHandler) {
 
 void Component::setDrawEvent(const Component::DrawEvent& eventHandler) {
 
-	drawEvent_ = eventHandler;
+    drawEvent_ = eventHandler;
 
 }
 
@@ -363,7 +363,7 @@ void Component::setDrawEvent(const Component::DrawEvent& eventHandler) {
 
 void Component::setKeyDownEvent(const Component::KeyDownEvent& eventHandler) {
 
-	keyDownEvent_ = eventHandler;
+    keyDownEvent_ = eventHandler;
 
 }
 
@@ -371,6 +371,6 @@ void Component::setKeyDownEvent(const Component::KeyDownEvent& eventHandler) {
 
 void Component::setKeyUpEvent(const Component::KeyUpEvent& eventHandler) {
 
-	keyUpEvent_ = eventHandler;
+    keyUpEvent_ = eventHandler;
 
 }
