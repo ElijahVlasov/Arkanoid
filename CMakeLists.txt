@@ -44,6 +44,11 @@ set(ENGINE_SOURCES
   ${SRC_DIR}/Engine/World.cpp
 )
 
+set(UTILS_FREETYPE_SOURCES
+  ${SRC_DIR}/Utils/FreeType/Font.cpp
+  ${SRC_DIR}/Utils/FreeType/Library.cpp
+)
+
 set(UTILS_UI_SOURCES
   ${SRC_DIR}/Utils/UI/Button.cpp
   ${SRC_DIR}/Utils/UI/Component.cpp
@@ -54,6 +59,7 @@ set(UTILS_UI_SOURCES
 )
 
 set(UTILS_SOURCES
+  ${UTILS_FREETYPE_SOURCES}
   ${UTILS_UI_SOURCES}
   ${SRC_DIR}/Utils/Lua.cpp 
   ${SRC_DIR}/Utils/Texture.cpp 
@@ -155,12 +161,12 @@ set(LIBS
 )
 
 configure_file(
-	"config.h.in"
-	"include/config.h"
+  "config.h.in"
+  "include/config.h"
 )
 
 add_subdirectory(${SRC_DIR}/TinyXML bin)
 
-add_executable(Salt2D ${HEADERS} ${SOURCES})
+add_executable(Salt2D WIN32 ${HEADERS} ${SOURCES})
 
 target_link_libraries(Salt2D ${LIBS})
