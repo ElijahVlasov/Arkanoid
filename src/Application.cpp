@@ -38,7 +38,8 @@ Application::Application() throw(already_exist_error, runtime_error):
     // Создаем create_only shared_memory_object.
     // Если объект уже создан, значит, приложение уже
     // запущено.
-    try {
+    // TODO: Изменить этот код на более универсальный
+  /*  try {
 
         sharedMem_ = new shared_memory_object(create_only, SHARED_MEM_NAME.c_str(), read_write);
 	
@@ -46,7 +47,7 @@ Application::Application() throw(already_exist_error, runtime_error):
 		
         throw(already_exist_error(""));
 
-    }
+    }*/
 	
     initSDL(640, 480, "Shoter");
 
@@ -82,7 +83,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
         (::SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0),
         runtime_error("Can't load SDL library!")
     );
-
+    
     // Задаем иконку и заголовок окна
     ::SDL_WM_SetCaption(name, 0);
 
@@ -104,8 +105,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
     ::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
     ::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
 
-    // создаем SDL_Surface width * height
-    setSurfaceSize(width, height);
+    setSurfaceSize(640, 480);
 
 }
 
@@ -120,7 +120,7 @@ void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(
     surface_ = ::SDL_SetVideoMode(width, height, 32, SDL_FLAGS);
 
     ASSERT(
-        (surface_ == 0),
+        (surface_ != 0),
         runtime_error(::SDL_GetError())
     );
 
