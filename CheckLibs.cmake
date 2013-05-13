@@ -63,3 +63,13 @@ if(NOT Boost_FOUND)
     return()
 endif ()
 
+if(NOT WIN32)
+
+  find_package(GTK2 REQUIRED)
+
+  if(NOT GTK2_FOUND)
+    message(FATAL_ERROR "Can't find gtk+ 2.0")
+  endif()
+
+endif()
+
