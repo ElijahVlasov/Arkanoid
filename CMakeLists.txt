@@ -16,7 +16,7 @@ include_directories(${INCLUDE_DIR})
 include(CheckLibs.cmake)
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
-    set(CMAKE_CXX_FLAGS  "-Wall -std=c++0x")
+    set(CMAKE_CXX_FLAGS  "-Wall -std=c++0x -g")
 endif(CMAKE_COMPILER_IS_GNUCXX )
 
 option(MS_WINDOWS OFF)
@@ -160,12 +160,19 @@ set(LIBS
   TinyXML
 )
 
+if(NOT WIN32)
+  include_directories(${GTK2_INCLUDE_DIRS})
+  set(LIBS ${LIBS} ${GTK2_LIBRARIES})
+endif()
+
 configure_file(
   "config.h.in"
   "include/config.h"
 )
 
 add_subdirectory(${SRC_DIR}/TinyXML bin)
+
+
 
 add_executable(Salt2D WIN32 ${HEADERS} ${SOURCES})
 
