@@ -7,8 +7,6 @@
 
 #include <Application.hpp>
 
-#include <Exceptions/already_exist_error.hpp>
-
 #include <Engine/Game.hpp>
 
 #include <Utils.hpp>
@@ -25,29 +23,11 @@ using Engine::Game;
 
 
 
-const string Application::SHARED_MEM_NAME = "SALT2D_ENGINE_SHARED_MEMORY_test_____12345";
-
-
-
-Application::Application() throw(already_exist_error, runtime_error):
+Application::Application() throw(runtime_error):
     game_(Game::getInstance()),
     sharedMem_(0),
     surface_(0)       
 {
-	
-    // Создаем create_only shared_memory_object.
-    // Если объект уже создан, значит, приложение уже
-    // запущено.
-    // TODO: Изменить этот код на более универсальный
-  /*  try {
-
-        sharedMem_ = new shared_memory_object(create_only, SHARED_MEM_NAME.c_str(), read_write);
-	
-    } catch(...) {
-		
-        throw(already_exist_error(""));
-
-    }*/
 	
     initSDL(640, 480, "Shoter");
 

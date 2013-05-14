@@ -93,10 +93,6 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/World.hpp
 )
 
-set(EXCEPTIONS_HEADERS
-  ${INCLUDE_DIR}/Exceptions/already_exist_error.hpp
-)
-
 set(TINY_XML_HEADERS
   ${INCLUDE_DIR}/TinyXML/tinystr.h
   ${INCLUDE_DIR}/TinyXML/tinyxml.h
@@ -135,7 +131,6 @@ set(UTILS_HEADERS
 
 set(HEADERS
   ${ENGINE_HEADERS}
-  ${EXCEPTIONS_HEADERS}
   ${TINY_XML_HEADERS}
   ${UTILS_HEADERS}
   ${INCLUDE_DIR}/Application.hpp

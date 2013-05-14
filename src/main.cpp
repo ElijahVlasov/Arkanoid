@@ -16,8 +16,6 @@
 
 #include <Application.hpp>
 
-#include <Exceptions/already_exist_error.hpp>
-
 using namespace std;
 
 #ifndef MS_WINDOWS
@@ -50,25 +48,15 @@ static void MessageBox(const char* caption, const char* text)
 
 static void ProcessError(const runtime_error& err) {
 	
-    try {
+    #ifdef MS_WINDOWS
 
-        dynamic_cast<const already_exist_error&>(err);
+    ::MessageBoxA(0, err.what(), "Runtime error", MB_OK | MB_ICONERROR);
 
-        // Действия при уже запущенном приложении
+    #else 
 
-    } catch(const std::bad_cast&) {
+    ::MessageBox("Runtime error", err.what());
 
-        #ifdef MS_WINDOWS
-
-        ::MessageBoxA(0, err.what(), "Runtime error", MB_OK | MB_ICONERROR);
-
-        #else 
-
-        ::MessageBox("Runtime error", err.what());
-
-        #endif
-
-    }
+    #endif
 
 }
 

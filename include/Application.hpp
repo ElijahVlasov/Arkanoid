@@ -18,8 +18,6 @@
 
 #include <Engine/Game.hpp>
 
-#include <Exceptions/already_exist_error.hpp>
-
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/utility.hpp>
 
@@ -27,7 +25,7 @@ class Application: public boost::noncopyable {
 
     public:
 
-        Application() throw(already_exist_error, std::runtime_error);
+        Application() throw(std::runtime_error);
         ~Application();
 
         int run() throw(std::runtime_error);
@@ -57,7 +55,7 @@ class Application: public boost::noncopyable {
 
         void setSurfaceSize(unsigned int width, unsigned int height) throw(std::runtime_error);
 
-        static const uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_OPENGL;
+        static const uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL;
 
         Engine::Game* game_;
 
