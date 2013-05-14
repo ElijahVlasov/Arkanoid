@@ -42,7 +42,7 @@ namespace Engine {
 			private:
 
 				void showDebugInfo();
-				void doScreenshot();
+				void makeScreenshot();
 
 				Engine::Game*		game_;
 				Engine::Renderer*	renderer_;

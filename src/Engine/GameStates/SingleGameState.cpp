@@ -19,7 +19,7 @@ using namespace Utils;
 
 
 
-SingleGameState::SingleGameState():
+SingleGameState::SingleGameState() throw(runtime_error):
 	game_(Game::getInstance()),
 	lua_(Lua::getInstance()),
 	menuState_(MenuState::getInstance())
@@ -42,6 +42,14 @@ SingleGameState::~SingleGameState() {
 	}
 
 }
+
+
+
+void SingleGameState::showDebugInfo() {}
+
+
+
+void SingleGameState::makeScreenshot() {}
 
 
 
@@ -95,7 +103,7 @@ void SingleGameState::onKeyUp(int key) {
 		break;
 
 		case SDLK_F2: {
-			doScreenshot();
+			makeScreenshot();
 		}
 		break;
 

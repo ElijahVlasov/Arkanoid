@@ -8,17 +8,13 @@
 
 #include <Engine/Game.hpp>
 
-using Utils::Singleton;
-
 namespace Engine {
 	
-	class SaltEngine: public Singleton<SaltEngine> {
+	class SaltEngine: public Utils::Singleton<SaltEngine> {
 		
 		SINGLETON(SaltEngine)
 
 		public:
-
-//			void setGame(const Game* game);
 
 			void onRender();
 

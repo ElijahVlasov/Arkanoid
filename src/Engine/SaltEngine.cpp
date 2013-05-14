@@ -48,11 +48,3 @@ void SaltEngine::operator() () {
 
 
 }
-
-
-
-void SaltEngine::setGame(const Game* game) {
-	
-
-
-}
