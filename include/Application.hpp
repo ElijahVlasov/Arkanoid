@@ -18,6 +18,8 @@
 
 #include <Engine/Game.hpp>
 
+#include <Engine/GameStates.hpp>
+
 #include <boost/utility.hpp>
 
 class Application: public boost::noncopyable {
@@ -56,7 +58,12 @@ class Application: public boost::noncopyable {
 
         static const uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL;
 
+        bool isFullscreen_;
+
         Engine::Game* game_;
+
+        Engine::GameStates::MenuState*       menuGameState_;
+        Engine::GameStates::SingleGameState* singleGameState_;
 
         SDL_Surface* surface_;
 

@@ -9,9 +9,13 @@
 
 #include <Engine/Game.hpp>
 
+#include <Engine/GameStates.hpp>
+
 #include <Utils.hpp>
 
 using namespace std;
+
+using namespace Engine::GameStates;
 
 using Utils::MouseButton;
 
@@ -20,7 +24,10 @@ using Engine::Game;
 
 
 Application::Application() throw(runtime_error):
+    isFullscreen_(false),
     game_(Game::getInstance()),
+    menuGameState_(MenuState::getInstance()),
+    singleGameState_(SingleGameState::getInstance()),
     surface_(0)       
 {
 	
@@ -36,6 +43,14 @@ Application::~Application() {
 
     if(game_ != 0) {
         game_->Free();
+    }
+
+    if(menuGameState_ != 0) {
+        menuGameState_->Free();
+    }
+
+    if(singleGameState_ != 0) {
+        singleGameState_->Free();
     }
 	
     if(surface_ != 0) {
@@ -85,11 +100,17 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
 
 void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(runtime_error) {
 	
+    uint32_t flags = SDL_FLAGS;
+
     if(surface_ != 0) { // удаляем предыдущий surface
         ::SDL_FreeSurface(surface_);
     }
 
-    surface_ = ::SDL_SetVideoMode(width, height, 32, SDL_FLAGS);
+    if(isFullscreen_) {
+        flags |= SDL_FULLSCREEN;
+    }
+
+    surface_ = ::SDL_SetVideoMode(width, height, 32, flags);
 
     ASSERT(
         (surface_ != 0),
@@ -126,25 +147,25 @@ int Application::run() throw(runtime_error) {
 
 void Application::OnRender() {
 
-	unsigned int scrWidth, scrHeight;
+    unsigned int scrWidth, scrHeight;
 
 
-	// Проверяем, было ли изменено разрешение экрана
-	// в объекте Game
+    // Проверяем, было ли изменено разрешение экрана
+    // в объекте Game
 
-	scrWidth  = game_->getScreenWidth();
-	scrHeight = game_->getScreenHeight();
+    scrWidth  = game_->getScreenWidth();
+    scrHeight = game_->getScreenHeight();
 
-	if( (scrWidth != static_cast<unsigned int>(surface_->w) )
-		|| (scrHeight != static_cast<unsigned int>(surface_->h)) ) { // если измененно, то меняем размер surface'а
+    if( (scrWidth != static_cast<unsigned int>(surface_->w) )
+        || (scrHeight != static_cast<unsigned int>(surface_->h)) ) { // если измененно, то меняем размер surface'а
 		
-		setSurfaceSize(scrWidth, scrHeight);
+        setSurfaceSize(scrWidth, scrHeight);
 
-	}
+    }
 
-	game_->onRender();
+    game_->onRender();
 
-	::SDL_GL_SwapBuffers();
+    ::SDL_GL_SwapBuffers();
 
 }
 
@@ -167,16 +188,26 @@ void Application::OnRestore() {
 
 
 void Application::OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode) {
-		
-	game_->onKeyUp(static_cast<int>(key));
+
+    if(key == SDLK_F7) {
+        
+        isFullscreen_ = !isFullscreen_;
+        setSurfaceSize(surface_->w, surface_->h);  
+    
+    } else {		
+
+        game_->onKeyUp(static_cast<int>(key));
+
+    }
 	
 }
 
 
 
 void Application::OnKeyDown(SDLKey key, SDLMod mod, Uint16 unicode) {
-	
-	game_->onKeyDown(static_cast<int>(key));
+
+  	
+    game_->onKeyDown(static_cast<int>(key));
 
 }
 
@@ -184,34 +215,34 @@ void Application::OnKeyDown(SDLKey key, SDLMod mod, Uint16 unicode) {
 
 void Application::OnMouseDown(int x, int y, uint8_t button) {
 
-	MouseButton btn;
+    MouseButton btn;
 
-	switch(button) {
+    switch(button) {
 	
-		case SDL_BUTTON_LEFT:{
+        case SDL_BUTTON_LEFT:{
 
-			btn = MouseButton::BUTTON_LEFT;
+            btn = MouseButton::BUTTON_LEFT;
 
-		}
-		break;
+        }
+        break;
 
-		case SDL_BUTTON_RIGHT:{
+        case SDL_BUTTON_RIGHT:{
 
-			btn = MouseButton::BUTTON_RIGHT;
+            btn = MouseButton::BUTTON_RIGHT;
 
-		}
-		break;
+        }
+        break;
 
-		case SDL_BUTTON_MIDDLE:{
+        case SDL_BUTTON_MIDDLE:{
 
-			btn = MouseButton::BUTTON_MIDDLE;
+            btn = MouseButton::BUTTON_MIDDLE;
 
-		}
-		break;
+        }
+        break;
 
-	}
+    }
 
-	game_->onMouseDown(x, y, btn);
+    game_->onMouseDown(x, y, btn);
 
 }
 
@@ -219,34 +250,34 @@ void Application::OnMouseDown(int x, int y, uint8_t button) {
 
 void Application::OnMouseUp(int x, int y, uint8_t button) {
 
-	MouseButton btn;
+    MouseButton btn;
 
-	switch(button) {
+    switch(button) {
 	
-		case SDL_BUTTON_LEFT:{
+        case SDL_BUTTON_LEFT:{
 
-			btn = MouseButton::BUTTON_LEFT;
+            btn = MouseButton::BUTTON_LEFT;
 
-		}
-		break;
+        }
+        break;
 
-		case SDL_BUTTON_RIGHT:{
+        case SDL_BUTTON_RIGHT:{
 
-			btn = MouseButton::BUTTON_RIGHT;
+            btn = MouseButton::BUTTON_RIGHT;
 
-		}
-		break;
+        }
+        break;
 
-		case SDL_BUTTON_MIDDLE:{
+        case SDL_BUTTON_MIDDLE:{
 
-			btn = MouseButton::BUTTON_MIDDLE;
+            btn = MouseButton::BUTTON_MIDDLE;
 
-		}
-		break;
+        }
+        break;
 
-	}
+    }
 
-	game_->onMouseUp(x, y, btn);
+    game_->onMouseUp(x, y, btn);
 
 }
 
@@ -254,7 +285,7 @@ void Application::OnMouseUp(int x, int y, uint8_t button) {
 
 void Application::OnMouseMotion(int x, int y) {
 
-	game_->onMouseMotion(x, y);
+    game_->onMouseMotion(x, y);
 
 }
 
@@ -262,7 +293,7 @@ void Application::OnMouseMotion(int x, int y) {
 
 void Application::OnQuit() {
 	
-	game_->setRunning(false);
+    game_->setRunning(false);
 
 }
 
@@ -270,55 +301,53 @@ void Application::OnQuit() {
 
 void Application::OnEvent(SDL_Event* event) {
 
-
-	switch(event->type) {
+    switch(event->type) {
 	
-		case SDL_QUIT: { // по закрытию
+        case SDL_QUIT: { // по закрытию
 	
-			OnQuit();
+            OnQuit();
 		
-		}
-		break;
+        }
+        break;
 
-		case SDL_ACTIVEEVENT: {
+        case SDL_ACTIVEEVENT: {
 
-			if(event->active.state != SDL_APPACTIVE) {
-				
-				return;
-
-			}
+            if(event->active.state != SDL_APPACTIVE) {	
+                return;
+            }
 			
 			// если приложение развертывается
-			if(event->active.gain) {
+            if(event->active.gain) {
 				
-				OnRestore();
+                OnRestore();
 
-			} else { // если свертывается
+            } else { // если свертывается
 				
-				OnMinimize();
+                OnMinimize();
 
-			}
+            }
 
-		}
-		break;
+        }
+        break;
 
-		case SDL_KEYDOWN: { // по нажатию клавиши
+        case SDL_KEYDOWN: { // по нажатию клавиши
 
-			OnKeyDown(event->key.keysym.sym, 
-						event->key.keysym.mod,
-							event->key.keysym.unicode);
+            OnKeyDown(event->key.keysym.sym, 
+                        event->key.keysym.mod,
+                            event->key.keysym.unicode);
 
-		}
-		break;
+        }
+        break;
 
-		case SDL_KEYUP: { // по отпусканию клавиши
+        case SDL_KEYUP: { // по отпусканию клавиши
 			
-			OnKeyUp(event->key.keysym.sym, 
-						event->key.keysym.mod,
-							event->key.keysym.unicode);
+            OnKeyUp(event->key.keysym.sym, 
+                        event->key.keysym.mod,
+                            event->key.keysym.unicode);
 
-		}
-		break;
+        }
+        break;
 
-	}
+    }
+
 }
