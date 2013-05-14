@@ -25,7 +25,6 @@ using Engine::Game;
 
 Application::Application() throw(runtime_error):
     game_(Game::getInstance()),
-    sharedMem_(0),
     surface_(0)       
 {
 	

@@ -59,11 +59,6 @@ class Application: public boost::noncopyable {
 
         Engine::Game* game_;
 
-        // Предназначен для проверки, приложение 
-        // запущенно ли уже
-        static const std::string SHARED_MEM_NAME;
-        boost::interprocess::shared_memory_object* sharedMem_;
-
         SDL_Surface* surface_;
 
         bool isRunning_;
