@@ -11,10 +11,6 @@
 
 #include <Utils.hpp>
 
-#include <boost/interprocess/shared_memory_object.hpp>
-
-using namespace boost::interprocess;
-
 using namespace std;
 
 using Utils::MouseButton;
@@ -40,10 +36,6 @@ Application::~Application() {
 
     if(game_ != 0) {
         game_->Free();
-    }
-
-    if(sharedMem_ != 0) {
-        delete sharedMem_;
     }
 	
     if(surface_ != 0) {
