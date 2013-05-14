@@ -85,6 +85,7 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/Controller.hpp
   ${INCLUDE_DIR}/Engine/Direction.hpp
   ${INCLUDE_DIR}/Engine/Game.hpp
+  ${INCLUDE_DIR}/Engine/GameStates.hpp
   ${INCLUDE_DIR}/Engine/IUpdatable.hpp
   ${INCLUDE_DIR}/Engine/Object.hpp
   ${INCLUDE_DIR}/Engine/Player.hpp
