@@ -18,7 +18,6 @@
 
 #include <Engine/Game.hpp>
 
-#include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/utility.hpp>
 
 class Application: public boost::noncopyable {
