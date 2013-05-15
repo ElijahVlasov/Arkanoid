@@ -16,7 +16,7 @@ include_directories(${INCLUDE_DIR})
 include(CheckLibs.cmake)
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
-    set(CMAKE_CXX_FLAGS  "-Wall -std=c++0x -g")
+    set(CMAKE_CXX_FLAGS  "-Wall -std=c++0x")
 endif(CMAKE_COMPILER_IS_GNUCXX )
 
 option(MS_WINDOWS OFF)
@@ -33,6 +33,7 @@ include_directories(${Boost_INCLUDE_DIR})
 set(ENGINE_GAME_STATES_SOURCES
   ${SRC_DIR}/Engine/GameStates/MenuState.cpp
   ${SRC_DIR}/Engine/GameStates/SingleGameState.cpp
+  ${SRC_DIR}/Engine/GameStates/StartLogoState.cpp
 )
 
 set(ENGINE_SOURCES
@@ -77,6 +78,7 @@ set(ENGINE_GAME_STATES_HEADERS
   ${INCLUDE_DIR}/Engine/GameStates/IGameState.hpp
   ${INCLUDE_DIR}/Engine/GameStates/MenuState.hpp
   ${INCLUDE_DIR}/Engine/GameStates/SingleGameState.hpp
+  ${INCLUDE_DIR}/Engine/GameStates/StartLogoState.hpp
 )
 
 set(ENGINE_HEADERS
