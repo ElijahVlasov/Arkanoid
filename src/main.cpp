@@ -67,7 +67,7 @@ static void SignalDispatcher(int sig) {
     switch(sig) {
 
         case SIGSEGV: {
-            ::ProcessError(runtime_error("Segment Fault!"));
+            ::ProcessError(runtime_error("Segmentation Fault!"));
             exit(EXIT_FAILURE);
         }
         break;  
@@ -91,7 +91,15 @@ static void SetSignals() {
 
 
 
+#ifdef MS_WINDOWS
+
+int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+
+#else
+
 int main(int argc, char* argv[]) {
+
+#endif
 
     ::SetSignals();
 
