@@ -1,21 +1,10 @@
-#include "config.h"
-
-#ifdef MS_WINDOWS
-#include <Windows.h>
-#endif
-
-#include <GL/gl.h>
-
-#include <boost/interprocess/shared_memory_object.hpp>
-
 #include <stdexcept>
+#include <thread>
 
 #include <Engine/Game.hpp>
-#include <Engine/GameStates/IGameState.hpp>
-
+#include <Engine/GameStates.hpp>
 #include <Utils/MouseButton.hpp>
 
-using namespace boost::interprocess;
 using namespace std;
 
 using namespace Engine;
@@ -25,9 +14,7 @@ using namespace Utils;
 
 
 
-Game::Game():
-	state_(0)
-{}
+Game::Game() throw(runtime_error) {}
 
 
 
@@ -35,11 +22,25 @@ Game::~Game() {}
 
 
 
+Game* Game::Create() {
+
+    Game* game = getInstance();
+
+    game->startLogoState_  =  StartLogoState::getInstance();
+    game->menuGameState_       =  MenuState::getInstance();
+    game->singleGameState_ =  SingleGameState::getInstance();
+
+    return game;   
+
+}
+
+
+
 void Game::onRender() {
 
-	if(state_ != 0) {
-		state_->onRender();
-	}
+    if(state_ != 0) {
+        state_->onRender();
+    }
 
 }
 
@@ -47,9 +48,9 @@ void Game::onRender() {
 
 void Game::onKeyDown(int key) {
 
-	if(state_ != 0) {
-		state_->onKeyDown(key);
-	}
+    if(state_ != 0) {
+        state_->onKeyDown(key);
+    }
 
 }
 
@@ -57,9 +58,9 @@ void Game::onKeyDown(int key) {
 
 void Game::onKeyUp(int key) {
 
-	if(state_ != 0) {
-		state_->onKeyUp(key);
-	}
+    if(state_ != 0) {
+        state_->onKeyUp(key);
+    }
 
 }
 
@@ -67,9 +68,9 @@ void Game::onKeyUp(int key) {
 
 void Game::onMouseMotion(int x, int y) {
 
-	if(state_ != 0) {
-		state_->onMouseMotion(x, y);
-	}
+    if(state_ != 0) {
+        state_->onMouseMotion(x, y);
+    }
 
 }
 
@@ -77,9 +78,9 @@ void Game::onMouseMotion(int x, int y) {
 
 void Game::onMouseDown(int x, int y, MouseButton btn) {
 
-	if(state_ != 0) {
-		state_->onMouseDown(x, y, btn);
-	}
+    if(state_ != 0) {
+        state_->onMouseDown(x, y, btn);
+    }
 
 }
 
@@ -87,9 +88,9 @@ void Game::onMouseDown(int x, int y, MouseButton btn) {
 
 void Game::onMouseUp(int x, int y, MouseButton btn) {
 
-	if(state_ != 0) {
-		state_->onMouseUp(x, y, btn);
-	}
+    if(state_ != 0) {
+        state_->onMouseUp(x, y, btn);
+    }
 
 }
 
@@ -97,8 +98,8 @@ void Game::onMouseUp(int x, int y, MouseButton btn) {
 
 void Game::setScreenRect(unsigned int width, unsigned int height) {
 	
-	scrHeight_	=	height;
-	scrWidth_	=	width;
+    scrHeight_ =  height;
+    scrWidth_  =  width;
 
 }
 
@@ -106,7 +107,7 @@ void Game::setScreenRect(unsigned int width, unsigned int height) {
 
 int Game::getScreenHeight() const {
 	
-	return scrHeight_;
+    return scrHeight_;
 
 }
 
@@ -114,7 +115,7 @@ int Game::getScreenHeight() const {
 
 int Game::getScreenWidth() const {
 	
-	return scrWidth_;
+    return scrWidth_;
 
 }
 
@@ -122,7 +123,7 @@ int Game::getScreenWidth() const {
 
 const IGameState* Game::getState() const {
 
-	return state_;
+    return state_;
 
 }
 
@@ -130,15 +131,27 @@ const IGameState* Game::getState() const {
 
 void Game::setState(IGameState* state) {
 
-	state_ = state;
+    state_ = state;
 
 }
 
 
 
-void Game::setRunning(bool isRunning) {
+void Game::run() {
 
-	isRunning_ = isRunning;
+  //  thread initThread();
+
+    isRunning_ = true;
+
+    
+
+}
+
+
+
+void Game::quit() {
+
+    isRunning_ = false;
 
 }
 
@@ -146,6 +159,14 @@ void Game::setRunning(bool isRunning) {
 
 bool Game::isRunning() const {
 
-	return isRunning_;
+    return isRunning_;
+
+}
+
+
+
+void Game::loadingThread() {
+
+    menuGameState_ = MenuState::getInstance();
 
 }
