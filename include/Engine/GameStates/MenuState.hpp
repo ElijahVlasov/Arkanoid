@@ -14,44 +14,54 @@
 
 namespace Engine {
 
-	namespace GameStates {
+    namespace GameStates {
 	
-		class MenuState: public Utils::Singleton<MenuState>, public IGameState {
+        class MenuState: public Utils::Singleton<MenuState>, public IGameState {
 
-			SINGLETON(MenuState)
+            SINGLETON(MenuState)
 		
-			public:
+            public:
 
-				void setMenu(const boost::shared_ptr<Utils::UI::Menu>& menu) throw(std::invalid_argument);
-				const boost::shared_ptr<Utils::UI::Menu>& getMenu() const;
+                void setMenu(const boost::shared_ptr<Utils::UI::Menu>& menu) throw(std::invalid_argument);
+                const boost::shared_ptr<Utils::UI::Menu>& getMenu() const;
 
-				void onRender();
+                void onRender();
 
-				void onResize(unsigned int width, unsigned int height);
+                void onResize(unsigned int width, unsigned int height);
 
-				void onKeyDown(int key);
-				void onKeyUp(int key);
+                void onKeyDown(int key);
+                void onKeyUp(int key);
 
-				void onMouseMotion(int x, int y);
-				void onMouseDown(int x, int y, Utils::MouseButton mouseButton);
-				void onMouseUp(int x, int y, Utils::MouseButton mouseButton);
+                void onMouseMotion(int x, int y);
+                void onMouseDown(int x, int y, Utils::MouseButton mouseButton);
+                void onMouseUp(int x, int y, Utils::MouseButton mouseButton);
 
-			protected:
+            protected:
 
-				MenuState() throw(std::runtime_error);
+                MenuState() throw(std::runtime_error);
 
-				~MenuState();
+                ~MenuState();
 
-			private:
+            private:
 
-				Engine::Game* game_;
+                Engine::Game* game_;
 
-				boost::shared_ptr<Utils::UI::Menu> menu_;
+                boost::shared_ptr<Utils::UI::Menu> menu_;
 
-		};
+        };
 
-	}
+    }
 
 }
 
 #endif
+
+namespace Engine {
+
+    namespace GameStates {
+
+        class MenuState;
+
+    }
+
+}

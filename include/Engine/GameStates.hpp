@@ -4,5 +4,6 @@
 #include <Engine/GameStates/IGameState.hpp>
 #include <Engine/GameStates/MenuState.hpp>
 #include <Engine/GameStates/SingleGameState.hpp>
+#include <Engine/GameStates/StartLogoState.hpp>
 
 #endif
