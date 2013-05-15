@@ -74,7 +74,7 @@ Texture::Texture(const Texture& texture):
 Texture::Texture(const SDL_Surface* textureSurface) throw(invalid_argument) {
 
 	ASSERT(
-		(textureSurface == 0),
+		(textureSurface != 0),
 		invalid_argument("textureSurface")
 	);
 
@@ -103,7 +103,7 @@ void Texture::loadBitmap(const char* fileName) throw(invalid_argument, runtime_e
 	SDL_Surface* imgSurface = IMG_Load(fileName); // загружаем текстуру
 
 	ASSERT(
-		(imgSurface == 0),
+		(imgSurface != 0),
 		
 		runtime_error(
 			(
