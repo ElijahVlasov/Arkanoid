@@ -5,13 +5,16 @@
 
 *****************************************************************/
 
+
+
 #ifndef _SALT2D_GAME_HPP
 #define _SALT2D_GAME_HPP
 
 #include <stdexcept>
 
 #include <Engine/SaltEngine.hpp>
-#include <Engine/GameStates/IGameState.hpp>
+#include <Engine/GameStates.hpp>
+
 
 #include <Utils/MouseButton.hpp>
 #include <Utils/Singleton.hpp>
@@ -24,6 +27,8 @@ namespace Engine {
 
         public:
 	
+            static Game* Create();
+
             void onRender();
 
             void onKeyDown(int key);
@@ -41,15 +46,23 @@ namespace Engine {
             const GameStates::IGameState* getState() const;
             void setState(GameStates::IGameState* state);
 
-            void setRunning(bool isRunning);
+            void run();
+            void quit();            
+
             bool isRunning() const;
 
         protected:
 
-            Game();
+            Game() throw(std::runtime_error);
             ~Game();
 
         private:
+
+            void loadingThread();
+
+            GameStates::StartLogoState*  startLogoState_;
+            GameStates::MenuState*       menuGameState_;
+            GameStates::SingleGameState* singleGameState_;
 
             bool isRunning_;
 
@@ -62,3 +75,9 @@ namespace Engine {
 }
 
 #endif
+
+namespace Engine {
+
+    class Game;
+
+}
