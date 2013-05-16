@@ -22,42 +22,44 @@
 
 namespace Utils {
 	
-	class Texture {
+    class Texture {
 
-		public:
+        public:
 
-			Texture();
+            Texture();
 
-			Texture(const Texture& texture);
+            Texture(const Texture& texture);
 
-			explicit Texture(const std::string& textureFileName) throw(std::invalid_argument, std::runtime_error);
+            explicit Texture(const std::string& textureFileName) throw(std::invalid_argument, std::runtime_error);
 
-			explicit Texture(const char* textureFileName) throw(std::invalid_argument, std::runtime_error);
+            explicit Texture(const char* textureFileName) throw(std::invalid_argument, std::runtime_error);
 
-			Texture(GLuint glTexture);
+            Texture(GLuint glTexture);
 
-			// генерирует invalid_argument, если textureSurface == 0
-			Texture(const SDL_Surface* textureSurface) throw(std::invalid_argument);
+            // генерирует invalid_argument, если textureSurface == 0
+            Texture(const SDL_Surface* textureSurface) throw(std::invalid_argument);
 
-			~Texture();
+            ~Texture();
 
-			Texture& operator = (const Texture& texture);
+            Texture& operator = (const Texture& texture);
 
-			unsigned int getName()const;
+            unsigned int getName()const;
 
-			unsigned int getWidth() const;
-			unsigned int getHeight() const;
+            unsigned int getWidth() const;
+            unsigned int getHeight() const;
 	
-		private:
+        private:
 
-			unsigned int width_, height_;
+            bool isCreated_;
 
-			GLuint name_;
+            unsigned int width_, height_;
 
-			void createFromSurface(const SDL_Surface* surface);
-			void loadBitmap(const char* name) throw(std::invalid_argument, std::runtime_error);
+            GLuint name_;
 
-	};
+            void createFromSurface(const SDL_Surface* surface);
+            void loadBitmap(const char* name) throw(std::invalid_argument, std::runtime_error);
+
+    };
 
 }
 

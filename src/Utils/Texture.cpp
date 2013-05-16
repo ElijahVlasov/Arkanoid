@@ -28,7 +28,8 @@ using namespace std;
 
 
 Texture::Texture():
-	name_(0)
+    isCreated_(false),
+    name_(0)
 {
 }
 
@@ -36,7 +37,7 @@ Texture::Texture():
 
 Texture::Texture(const std::string& fileName) throw(invalid_argument, runtime_error) {
 
-	loadBitmap(fileName.c_str());
+    loadBitmap(fileName.c_str());
 
 }
 
@@ -45,27 +46,30 @@ Texture::Texture(const std::string& fileName) throw(invalid_argument, runtime_er
 Texture::Texture(const char* fileName) throw(invalid_argument, runtime_error) {
 	
 
-	loadBitmap(fileName);
+    loadBitmap(fileName);
 
 }
 
 
 
 Texture::Texture(GLuint glTexture):
-	name_(glTexture)
+    isCreated_(true),
+    name_(glTexture)
 {
-	glBindTexture(GL_TEXTURE_2D, name_);
+    glBindTexture(GL_TEXTURE_2D, name_);
 
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,	reinterpret_cast<GLint*>(&width_));
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,	reinterpret_cast<GLint*>(&height_));
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,	reinterpret_cast<GLint*>(&width_));
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,	reinterpret_cast<GLint*>(&height_));
+
 }
 
 
 
 Texture::Texture(const Texture& texture):
-	width_(texture.width_),
-	height_(texture.height_),
-	name_(texture.name_)
+    isCreated_(texture.isCreated_),
+    width_(texture.width_),
+    height_(texture.height_),
+    name_(texture.name_)
 {
 }
 
@@ -73,26 +77,34 @@ Texture::Texture(const Texture& texture):
 
 Texture::Texture(const SDL_Surface* textureSurface) throw(invalid_argument) {
 
-	ASSERT(
-		(textureSurface != 0),
-		invalid_argument("textureSurface")
-	);
+    ASSERT(
+        (textureSurface != 0),
+        invalid_argument("textureSurface")
+    );
 
-	createFromSurface(textureSurface);
+    createFromSurface(textureSurface);
 
 }
 
 
 
-Texture::~Texture() {}
+Texture::~Texture() {
+
+    if(isCreated_) {
+
+        glDeleteTextures(1, &name_);
+
+    }
+
+}
 
 
 
 Texture& Texture::operator=(const Texture& texture) {
 
-	name_ = texture.name_;
+    name_ = texture.name_;
 
-	return *this;
+    return *this;
 
 }
 
@@ -100,48 +112,51 @@ Texture& Texture::operator=(const Texture& texture) {
 
 void Texture::loadBitmap(const char* fileName) throw(invalid_argument, runtime_error) {
 
-	SDL_Surface* imgSurface = IMG_Load(fileName); // загружаем текстуру
+    SDL_Surface* imgSurface = IMG_Load(fileName); // загружаем текстуру
 
-	ASSERT(
-		(imgSurface != 0),
+    ASSERT(
+        (imgSurface != 0),
 		
-		runtime_error(
-			(
-				boost::format("Can't load texture %1%") 
-					% fileName
-			).str()
-		)
+        runtime_error(
+            (
+                boost::format("Can't load texture %1%:\n%2%") 
+                        % fileName % ::IMG_GetError()
+            ).str()
+        )
 
-	);
+    );
 	
-	createFromSurface(imgSurface);
+    createFromSurface(imgSurface);
  
-	SDL_FreeSurface(imgSurface);
+    SDL_FreeSurface(imgSurface);
+
 }
 
 
 
 void Texture::createFromSurface(const SDL_Surface* surface) {
 	
-	GLint mode = GL_RGB;
+    GLint mode = GL_RGB;
 
-	if(surface->format->BytesPerPixel == 4) {
+    if(surface->format->BytesPerPixel == 4) {
 		
-		mode = GL_RGBA;
+        mode = GL_RGBA;
 
-	}
+    }
 	
-	glGenTextures(1, &name_);
+    glGenTextures(1, &name_);
 
-	glBindTexture(GL_TEXTURE_2D, name_);
-	// переносим из SDL_Surface в OpenGL texture
-	glTexImage2D(GL_TEXTURE_2D, 0, mode, surface->w, surface->h, 0, mode, GL_UNSIGNED_BYTE, surface->pixels);
+    glBindTexture(GL_TEXTURE_2D, name_);
+    // переносим из SDL_Surface в OpenGL texture
+    glTexImage2D(GL_TEXTURE_2D, 0, mode, surface->w, surface->h, 0, mode, GL_UNSIGNED_BYTE, surface->pixels);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	width_  = surface->w;
-	height_ = surface->h;
+    width_  = surface->w;
+    height_ = surface->h;
+
+    isCreated_ = true;
 
 }
 
@@ -149,7 +164,7 @@ void Texture::createFromSurface(const SDL_Surface* surface) {
 
 unsigned int Texture::getName() const {
 	
-	return name_;
+    return name_;
 
 }
 
@@ -157,7 +172,7 @@ unsigned int Texture::getName() const {
 
 unsigned int Texture::getWidth() const {
 
-	return width_;
+    return width_;
 
 }
 
