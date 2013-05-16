@@ -15,8 +15,6 @@
 
 #include <mutex>
 
-#include <boost/thread/lock_guard.hpp>
-
 #include <boost/utility.hpp>
 
 #define SINGLETON(CLASS_NAME) friend class Utils::Singleton<CLASS_NAME>;
@@ -31,7 +29,7 @@ namespace Utils {
             // объекта может сгенерировать runtime_error
             static T* getInstance() throw(std::runtime_error) {
 	
-                boost::lock_guard<std::mutex> guard(singletonMutex_);
+                std::lock_guard<std::mutex> guard(singletonMutex_);
 
                 if(instance_ == 0) {
 	
@@ -48,7 +46,7 @@ namespace Utils {
             // освободить синглтон
             void Free() {
  
-                boost::lock_guard<std::mutex> guard(singletonMutex_);
+                std::lock_guard<std::mutex> guard(singletonMutex_);
 
                 if(instance_ == 0) {
                     return;
