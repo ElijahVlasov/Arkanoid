@@ -54,9 +54,9 @@ endif()
 set(Boost_USE_STATIC_LIBS        1)
 set(Boost_USE_MULTITHREADED      1)
 set(Boost_USE_STATIC_RUNTIME     0)
-set(Booost_DEBUG                 0)
+set(Boost_DEBUG                  0)
 
-find_package(Boost 1.53.0)
+find_package(Boost 1.50.0 COMPONENTS date_time system thread)
 
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Can't find Boost")

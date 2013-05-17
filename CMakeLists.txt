@@ -16,7 +16,7 @@ include_directories(${INCLUDE_DIR})
 include(CheckLibs.cmake)
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
-    set(CMAKE_CXX_FLAGS  "-Wall -std=c++0x")
+    set(CMAKE_CXX_FLAGS  "-Wall -std=c++0x -g")
 endif(CMAKE_COMPILER_IS_GNUCXX )
 
 option(MS_WINDOWS OFF)
@@ -62,6 +62,7 @@ set(UTILS_UI_SOURCES
 set(UTILS_SOURCES
   ${UTILS_FREETYPE_SOURCES}
   ${UTILS_UI_SOURCES}
+  ${SRC_DIR}/Utils/Graphics.cpp
   ${SRC_DIR}/Utils/Lua.cpp 
   ${SRC_DIR}/Utils/Texture.cpp 
   ${SRC_DIR}/Utils/Utils.cc
@@ -125,6 +126,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/assert.hpp
   ${INCLUDE_DIR}/Utils/Color.hpp
   ${INCLUDE_DIR}/Utils/FreeType.hpp
+  ${INCLUDE_DIR}/Utils/Graphics.hpp
   ${INCLUDE_DIR}/Utils/Lua.hpp
   ${INCLUDE_DIR}/Utils/MouseButton.hpp
   ${INCLUDE_DIR}/Utils/Singleton.hpp
