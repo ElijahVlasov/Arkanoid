@@ -15,7 +15,7 @@
 #include <Engine/SaltEngine.hpp>
 #include <Engine/GameStates.hpp>
 
-
+#include <Utils/Graphics.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/Singleton.hpp>
 
@@ -27,7 +27,7 @@ namespace Engine {
 
         public:
 	
-            static Game* Create();
+            static Game* Create() throw(std::runtime_error);
 
             void onRender();
 
@@ -59,6 +59,8 @@ namespace Engine {
         private:
 
             void loadingThread();
+
+            Utils::Graphics* graphics_;
 
             GameStates::StartLogoState*  startLogoState_;
             GameStates::MenuState*       menuGameState_;

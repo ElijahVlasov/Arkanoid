@@ -1,8 +1,19 @@
+#include "config.h"
+
+#ifdef MS_WINDOWS
+#include <Windows.h>
+#endif
+
+#include <GL/gl.h>
+#include <GL/glu.h>
+
 #include <stdexcept>
 #include <thread>
 
 #include <Engine/Game.hpp>
 #include <Engine/GameStates.hpp>
+
+#include <Utils/Graphics.hpp>
 #include <Utils/MouseButton.hpp>
 
 using namespace std;
@@ -14,21 +25,37 @@ using namespace Utils;
 
 
 
-Game::Game() throw(runtime_error) {}
+Game::Game() throw(runtime_error):
+    graphics_(Graphics::getInstance()),
+    scrWidth_(640),
+    scrHeight_(480)
+{
+
+    graphics_->setViewportSize(scrWidth_, scrHeight_);
+
+}
 
 
 
-Game::~Game() {}
+Game::~Game() {
+
+    if(graphics_ != 0) {
+        graphics_->Free();
+    }
+
+}
 
 
 
-Game* Game::Create() {
+Game* Game::Create() throw(runtime_error) {
 
     Game* game = getInstance();
 
     game->startLogoState_  =  StartLogoState::getInstance();
-    game->menuGameState_       =  MenuState::getInstance();
+    game->menuGameState_   =  MenuState::getInstance();
     game->singleGameState_ =  SingleGameState::getInstance();
+
+    game->setState(game->startLogoState_);
 
     return game;   
 

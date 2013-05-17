@@ -21,25 +21,27 @@ using namespace Utils;
 
 StartLogoState::StartLogoState() throw(runtime_error):
     game_(Game::getInstance()),
-    logo_("logo.png")
+    logo_("logo.jpg")
 {}
+
+
+
+StartLogoState::~StartLogoState() {
+
+    if(game_ != 0) {
+        game_->Free();
+    }
+
+}
 
 
 
 void StartLogoState::onRender() {
 
-    static const CoordArray coords = {
-        point_xy<float>(0.0f, 0.0f),
-        point_xy<float>(1.0f, 0.0f),
-        point_xy<float>(0.0f, 1.0f),
-        point_xy<float>(1.0f, 1.0f)
-    };
-
-    draw(
+    Graphics::DrawTexture(
         0.0f, 0.0f,
         game_->getScreenWidth(),
         game_->getScreenHeight(),
-        coords,
         logo_
     );
 
