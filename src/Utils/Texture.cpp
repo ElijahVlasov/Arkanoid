@@ -58,8 +58,8 @@ Texture::Texture(GLuint glTexture):
 {
     glBindTexture(GL_TEXTURE_2D, name_);
 
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,	reinterpret_cast<GLint*>(&width_));
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,	reinterpret_cast<GLint*>(&height_));
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,    reinterpret_cast<GLint*>(&width_));
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,   reinterpret_cast<GLint*>(&height_));
 
 }
 
@@ -112,7 +112,7 @@ Texture& Texture::operator=(const Texture& texture) {
 
 void Texture::loadBitmap(const char* fileName) throw(invalid_argument, runtime_error) {
 
-    SDL_Surface* imgSurface = IMG_Load(fileName); // çàãðóæàåì òåêñòóðó
+    SDL_Surface* imgSurface = IMG_Load(fileName); // Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÐ¼ Ñ‚ÐµÐºÑÑ‚ÑƒÑ€Ñƒ
 
     ASSERT(
         (imgSurface != 0),
@@ -147,7 +147,7 @@ void Texture::createFromSurface(const SDL_Surface* surface) {
     glGenTextures(1, &name_);
 
     glBindTexture(GL_TEXTURE_2D, name_);
-    // ïåðåíîñèì èç SDL_Surface â OpenGL texture
+    // Ð¿ÐµÑ€ÐµÐ½Ð¾ÑÐ¸Ð¼ Ð¸Ð· SDL_Surface Ð² OpenGL texture
     glTexImage2D(GL_TEXTURE_2D, 0, mode, surface->w, surface->h, 0, mode, GL_UNSIGNED_BYTE, surface->pixels);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -180,6 +180,6 @@ unsigned int Texture::getWidth() const {
 
 unsigned int Texture::getHeight() const {
 
-	return height_;
+    return height_;
 
 }
