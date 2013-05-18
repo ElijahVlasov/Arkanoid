@@ -3,9 +3,15 @@
 
 namespace Utils {
 
-	enum MouseButton {
-		BUTTON_NONE, BUTTON_LEFT, BUTTON_RIGHT, BUTTON_MIDDLE
-	};
+    /** Перечисления кнопок мыши
+    */
+
+    enum MouseButton {
+        BUTTON_NONE, /**< Ни одна кнопка мыши не нажата*/
+        BUTTON_LEFT, /**< Левая кнопка мыши*/
+        BUTTON_RIGHT, /**< Правая кнопка мыши*/
+        BUTTON_MIDDLE /**< Средняя кнопка мыши*/
+    };
 
 }
 
