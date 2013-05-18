@@ -9,7 +9,7 @@ namespace Utils {
       * Красный цвет - Color[0]
       * Зеленый цвет - Color[1]
       * Синий цвет - Color[2]
-      * Альфа-канад - Color[3]
+      * Альфа-канал - Color[3]
     */
 
     typedef boost::array<float, 4> Color;
