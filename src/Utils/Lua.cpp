@@ -21,17 +21,17 @@ using namespace Utils;
 
 
 Lua::Lua():
-	luaState_(lua_open()) // Подготавливаем Lua VM
+    luaState_(lua_open()) // РџРѕРґРіРѕС‚Р°РІР»РёРІР°РµРј Lua VM
 {
 
-	luaL_openlibs(luaState_);
-	/*luaopen_base(luaState_);
-	luaopen_table(luaState_);
-	luaopen_io(luaState_);
-	luaopen_string(luaState_);
-	luaopen_math(luaState_);*/
+    luaL_openlibs(luaState_);
+    /*luaopen_base(luaState_);
+    luaopen_table(luaState_);
+    luaopen_io(luaState_);
+    luaopen_string(luaState_);
+    luaopen_math(luaState_);*/
 
-	luabind::open(luaState_); // подключаем luabind
+    luabind::open(luaState_); // РїРѕРґРєР»СЋС‡Р°РµРј luabind
 
 }
 
@@ -39,8 +39,8 @@ Lua::Lua():
 
 Lua::~Lua() {
 
-	// закрываем Lua VM
-	lua_close(luaState_);
+    // Р·Р°РєСЂС‹РІР°РµРј Lua VM
+    lua_close(luaState_);
 
 }
 
@@ -48,24 +48,24 @@ Lua::~Lua() {
 
 string Lua::createModuleName(const string& name) {
 
-	string moduleName = name;
+    string moduleName = name;
 
-	::replace(moduleName.begin(), moduleName.end(), '/', '.');
+    ::replace(moduleName.begin(), moduleName.end(), '/', '.');
 
-	return moduleName;
+    return moduleName;
 
 }
 
 
 
-// Создаем строку вида SCRIPT_PATH/name.lua
+// РЎРѕР·РґР°РµРј СЃС‚СЂРѕРєСѓ РІРёРґР° SCRIPT_PATH/name.lua
 string Lua::createScriptPath(const string& name) {
-	
-	boost::format scriptPathFmt("%1%%2%.lua");
 
-	scriptPathFmt % SCRIPT_PATH % name;
+    boost::format scriptPathFmt("%1%%2%.lua");
 
-	return scriptPathFmt.str();
+    scriptPathFmt % SCRIPT_PATH % name;
+
+    return scriptPathFmt.str();
 
 }
 
@@ -73,43 +73,43 @@ string Lua::createScriptPath(const string& name) {
 
 void Lua::loadScript(const string& name) throw(runtime_error, invalid_argument) {
 
-	ASSERT(
-		(!name.empty()),
-		invalid_argument("name")
-	);
+    ASSERT(
+        (!name.empty()),
+        invalid_argument("name")
+    );
 
-	string moduleName = createModuleName(name);
-	string scriptPath = createScriptPath(name);
+    string moduleName = createModuleName(name);
+    string scriptPath = createScriptPath(name);
 
-	// открываем файл скипта
-	ifstream fileScriptStream(scriptPath);
+    // РѕС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» СЃРєРёРїС‚Р°
+    ifstream fileScriptStream(scriptPath);
 
-	ASSERT(
-		fileScriptStream.good(),
-		runtime_error(
-			(boost::format("Can't load script: %1%.lua")
-				% name
-			).str()
-		)
-	);
+    ASSERT(
+        fileScriptStream.good(),
+        runtime_error(
+            (boost::format("Can't load script: %1%.lua")
+                % name
+            ).str()
+        )
+    );
 
-	// считываем его
-	string script = Utils::readStreamToString(fileScriptStream);
+    // СЃС‡РёС‚С‹РІР°РµРј РµРіРѕ
+    string script = Utils::readStreamToString(fileScriptStream);
 
-	// Добавляем объявление скрипта, как модуля
-	script = (boost::format("module(\"%1%\", package.seeall)\n%2%") % moduleName % script).str();
+    // Р”РѕР±Р°РІР»СЏРµРј РѕР±СЉСЏРІР»РµРЅРёРµ СЃРєСЂРёРїС‚Р°, РєР°Рє РјРѕРґСѓР»СЏ
+    script = (boost::format("module(\"%1%\", package.seeall)\n%2%") % moduleName % script).str();
 
-	int result = luaL_dostring(luaState_, script.c_str());
+    int result = luaL_dostring(luaState_, script.c_str());
 
-	ASSERT(
-		(result == 0),
-		runtime_error(
-			(boost::format("Error in %1%:\n\"%2%\"")
-				% scriptPath
-				% lua_tostring(luaState_, -1)
-			).str()
-		)
-	);
+    ASSERT(
+        (result == 0),
+        runtime_error(
+            (boost::format("Error in %1%:\n\"%2%\"")
+                % scriptPath
+                % lua_tostring(luaState_, -1)
+            ).str()
+        )
+    );
 
 }
 
@@ -117,17 +117,17 @@ void Lua::loadScript(const string& name) throw(runtime_error, invalid_argument) 
 
 void Lua::loadScript(const char* name) throw(runtime_error, invalid_argument) {
 
-	ASSERT(
-		(name != 0),
-		invalid_argument("name")
-	);
+    ASSERT(
+        (name != 0),
+        invalid_argument("name")
+    );
 
-	ASSERT(
-		(strlen(name) != 0),
-		invalid_argument("name")
-	);
+    ASSERT(
+        (strlen(name) != 0),
+        invalid_argument("name")
+    );
 
-	loadScript(string(name));
+    loadScript(string(name));
 
 }
 
@@ -135,7 +135,7 @@ void Lua::loadScript(const char* name) throw(runtime_error, invalid_argument) {
 
 lua_State* Lua::getLuaState() {
 
-	return luaState_;
+    return luaState_;
 
 }
 
@@ -143,7 +143,7 @@ lua_State* Lua::getLuaState() {
 
 lua_State* Lua::getLuaState_newThread() {
 
-	return lua_newthread(luaState_);
+    return lua_newthread(luaState_);
 
 }
 
@@ -151,35 +151,35 @@ lua_State* Lua::getLuaState_newThread() {
 
 luabind::object Lua::getFunctionObject(const char* funcName) throw(runtime_error, invalid_argument) {
 
-	ASSERT(
-		(funcName != 0),
-		invalid_argument("funcName")
-	);
+    ASSERT(
+        (funcName != 0),
+        invalid_argument("funcName")
+    );
 
-	ASSERT(
-		(strlen(funcName) != 0),
-		invalid_argument("funcName")
-	);
+    ASSERT(
+        (strlen(funcName) != 0),
+        invalid_argument("funcName")
+    );
 
-	string name = funcName;
+    string name = funcName;
 
-	luabind::object module = luabind::globals(luaState_);
+    luabind::object module = luabind::globals(luaState_);
 
-	string::iterator point = std::find(name.begin(), name.end(), '.');
+    string::iterator point = std::find(name.begin(), name.end(), '.');
 
-	while(point != name.end()) {
+    while(point != name.end()) {
 
-		string moduleName(name.begin(), point);
+        string moduleName(name.begin(), point);
 
-		name.erase(name.begin(), ++point);
+        name.erase(name.begin(), ++point);
 
-		module = module[moduleName];
+        module = module[moduleName];
 
-		point = std::find(name.begin(), name.end(), '.');
+        point = std::find(name.begin(), name.end(), '.');
 
-	}
+    }
 
-	return module[name];
+    return module[name];
 
 }
 
@@ -187,6 +187,6 @@ luabind::object Lua::getFunctionObject(const char* funcName) throw(runtime_error
 
 luabind::object Lua::getFunctionObject(const string& funcName) throw(runtime_error, invalid_argument) {
 
-	return getFunctionObject(funcName.c_str());
+    return getFunctionObject(funcName.c_str());
 
 }
