@@ -1,11 +1,3 @@
-/*******************************************
-    
-    Шаблонный класс - синглтон. Для 
-    создания синглтона использовать этот 
-    класс.
-
-*******************************************/
-
 #ifndef _SALT2D_UTILS_SINGLETON_HPP
 #define _SALT2D_UTILS_SINGLETON_HPP
 
@@ -19,22 +11,29 @@
 
 #define SINGLETON(CLASS_NAME) friend class Utils::Singleton<CLASS_NAME>;
 
-namespace Utils {	
+namespace Utils {
+
+    /** РЁР°Р±Р»РѕРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ СЃРёРЅРіР»С‚РѕРЅРѕРІ.
+      * Р§С‚РѕР±С‹ СЃРѕР·РґР°С‚СЊ СЃРёРЅРіР»С‚РѕРЅ T РЅСѓР¶РЅРѕ РѕС‚РЅР°СЃР»РµРґРѕРІР°С‚СЊ РѕС‚ Singleton<T>
+      * Рё РІ Р»СЋР±РѕРј РјРµСЃС‚Рµ РєР»Р°СЃСЃР° РїРѕРјРµСЃС‚РёС‚СЊ РјР°РєСЂРѕСЃ SINGLETON(T).
+    */
 
     template <class T> class Singleton: public boost::noncopyable {
-		
+
         public:
 
-            // Получить объект синглтона, конструктор
-            // объекта может сгенерировать runtime_error
+            /** РџРѕР»СѓС‡РёС‚СЊ РѕР±СЉРµРєС‚ СЃРёРЅРіР»С‚РѕРЅР°.
+              * РЎРѕР·РґР°РµС‚ СЃРёРЅРіР»С‚РѕРЅ РёР»Рё СѓРІРµР»РёС‡РёРІР°РµС‚ СЃС‡РµС‚С‡РёРє СЃСЃС‹Р»РѕРє.
+              * @throw РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґРѕС‡РµСЂРЅРµРіРѕ РєР»Р°СЃСЃР° РјРѕР¶РµС‚ СЃРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ std::runtime_error
+            */
             static T* getInstance() throw(std::runtime_error) {
-	
+
                 std::lock_guard<std::mutex> guard(singletonMutex_);
 
                 if(instance_ == 0) {
-	
+
                     instance_ = new T();
-					
+
                 }
 
                 refCount_++;
@@ -43,7 +42,9 @@ namespace Utils {
 
             }
 
-            // освободить синглтон
+            /** РћСЃРІРѕР±РѕРґРёС‚СЊ СЃРёРЅРіР»С‚РѕРЅ.
+              * РЈРјРµРЅСЊС€Р°РµС‚ СЃС‡РµС‚С‡РёРє СЃСЃС‹Р»РѕРє РёР»Рё СѓРґР°Р»СЏРµС‚ СЃРёРЅРіР»С‚РѕРЅ.
+            */
             void Free() {
  
                 std::lock_guard<std::mutex> guard(singletonMutex_);
@@ -71,7 +72,7 @@ namespace Utils {
         private:
 
             static T* instance_;
-            // кол - во указателей на синглтон
+            // РєРѕР» - РІРѕ СѓРєР°Р·Р°С‚РµР»РµР№ РЅР° СЃРёРЅРіР»С‚РѕРЅ
             static size_t refCount_;
 
     };
