@@ -3,28 +3,31 @@
 
 #include <stdexcept>
 
+#include <Utils/UI/Event.hpp>
 #include <Utils/UI/Component.hpp>
 
 namespace Utils {
 
-	namespace UI {
+    namespace UI {
 	
-		class Label: public Component {
+        class Label: public Component {
 
-			public:
+            public:
 
-				Label() throw(std::runtime_error);
-				~Label();
+                Label() throw(std::runtime_error);
+                ~Label();
 
-				void draw();
+            protected:
 
-			private:
+                void onDraw(Event&);
 
-				void drawText();
+            private:
+
+                void drawText();
 		
-		};
+        };
 
-	}
+    }
 
 }
 

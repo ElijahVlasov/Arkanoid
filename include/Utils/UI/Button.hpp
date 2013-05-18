@@ -1,6 +1,6 @@
 /****************************************
 
-			Класс кнопки.
+            Класс кнопки.
 
 *****************************************/
 
@@ -15,40 +15,43 @@
 #include <Utils/MouseButton.hpp>
 #include <Utils/Texture.hpp>
 
+#include <Utils/UI/Event.hpp>
 #include <Utils/UI/Component.hpp>
 
 namespace Utils {
 
-	namespace UI {
+    namespace UI {
 	
-		class Button: public Component {
+        class Button: public Component {
 		
-			public:
+            public:
 
-				Button() throw(std::runtime_error);
-				~Button();
+                Button() throw(std::runtime_error);
+                ~Button();
 
-				void mouseDown(int x, int y, Utils::MouseButton btn);
-				void mouseUp(int x, int y, Utils::MouseButton btn);
+                void mouseDown(int x, int y, Utils::MouseButton btn);
+                void mouseUp(int x, int y, Utils::MouseButton btn);
 
-				void draw();
+            protected:
 
-			private:
+                void onDraw(Event&);
 
-				void drawTexture();
-				void drawText();
+            private:
 
-				Texture curTexture_;
+                void drawTexture();
+                void drawText();
 
-				Texture defTexture_;
+                Texture curTexture_;
 
-				Texture clickedTexture_;
+                Texture defTexture_;
 
-				Texture hoveredTexture_;
+                Texture clickedTexture_;
 
-		};
+                Texture hoveredTexture_;
 
-	}
+        };
+
+    }
 
 }
 

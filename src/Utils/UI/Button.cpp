@@ -3,14 +3,15 @@
 #include <stdexcept>
 #include <string>
 
-#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/bind.hpp>
+
 #include <boost/function.hpp>
 
 #include <Utils.hpp>
 
 using namespace std;
 
-using namespace boost::geometry::model::d2;
+using namespace boost;
 
 using namespace Utils;
 
@@ -19,8 +20,11 @@ using namespace Utils::UI;
 
 
 Button::Button() throw(runtime_error):
-	Component()
+    Component()
 {
+
+    setDrawEvent(bind(mem_fn(&Button::onDraw), this, _1));
+
 }
 
 
@@ -29,12 +33,12 @@ Button::~Button() {}
 
 
 
-void Button::draw() {
+void Button::onDraw(Event&) {
 
-	drawTexture();
-	drawText();
+    drawTexture();
+    drawText();
 
-	Component::draw();
+    Component::draw();
 
 }
 
@@ -42,26 +46,18 @@ void Button::draw() {
 
 void Button::drawTexture() {
 
-	CoordArray coordArray = {
-		point_xy<float>(0.0f, 0.0f),
-		point_xy<float>(1.0f, 0.0f),
-		point_xy<float>(0.0f, 1.0f),
-		point_xy<float>(1.0f, 1.0f)
-	};
+    float x       =  static_cast<float>(getX());
+    float y       =  static_cast<float>(getY());
+    float width   =  static_cast<float>(getWidth());
+    float height  =  static_cast<float>(getHeight());
 
-	float x			=	static_cast<float>(getX());
-	float y			=	static_cast<float>(getY());
-	float width		=	static_cast<float>(getWidth());
-	float height		=	static_cast<float>(getHeight());
-
-	::draw(
-		x,
-		y,
-		width,
-		height,
-		coordArray,
-		curTexture_
-	);
+    Graphics::DrawTexture(
+        x,
+        y,
+        width,
+        height,
+        curTexture_
+    );
 
 }
 
@@ -69,70 +65,62 @@ void Button::drawTexture() {
 
 void Button::drawText() {
 
-	CoordArray coordArray = {
-		point_xy<float>(0.0f, 0.0f),
-		point_xy<float>(1.0f, 0.0f),
-		point_xy<float>(0.0f, 1.0f),
-		point_xy<float>(1.0f, 1.0f)
-	};
+    float x       =  static_cast<float>(getX());
+    float y       =  static_cast<float>(getY());
+    float width	  =  static_cast<float>(getWidth());
+    float height  =  static_cast<float>(getHeight());
 
-	float x			=	static_cast<float>(getX());
-	float y			=	static_cast<float>(getY());
-	float width		=	static_cast<float>(getWidth());
-	float height	=	static_cast<float>(getHeight());
+    Texture text;
 
-	Texture text;
+    // рендерим текст
+    try {
 
-	// рендерим текст
-	try {
+        text = getFont().renderText(getText());
 
-		text = getFont().renderText(getText());
+    } catch(const invalid_argument&) {
 
-	} catch(const invalid_argument&) {
+    } catch(const runtime_error&) {
 
-	} catch(const runtime_error&) {
-
-	}
+    }
 
 
-	float textWidth		=	static_cast<float>(text.getWidth());
-	float textHeight	=	static_cast<float>(text.getHeight());
+    float textWidth   =  static_cast<float>(text.getWidth());
+    float textHeight  =  static_cast<float>(text.getHeight());
 
-	float textX, textY;
+    float textX, textY;
 
-	// получаем величину отступа от края кнопки
-	textX = abs(width	-	textWidth)	/ 2;
-	textY = abs(height	-	textHeight)	/ 2;
+    // получаем величину отступа от края кнопки
+    textX = abs(width  -  textWidth)  / 2;
+    textY = abs(height -  textHeight) / 2;
 
-	if(textWidth >= width) { 
+    if(textWidth >= width) { 
 	
-		textX = x - textX; // текст выходит за край кнопки
+        textX = x - textX; // текст выходит за край кнопки
 
-	} else {
+    } else {
 	
-		textX = x + textX; // не выходит
+        textX = x + textX; // не выходит
 
-	}
+    }
 
-	// аналогично
-	if(textHeight >= height) {
+    // аналогично
+    if(textHeight >= height) {
 	
-		textY = y - textY;
+        textY = y - textY;
 
-	} else {
+    } else {
 	
-		textY = y + textY;
+        textY = y + textY;
 
-	}
+    }
 
-	::draw(
-		textX,
-		textY,
-		textWidth,
-		textHeight,
-		coordArray,
-		text
-	);
+    Graphics::DrawTexture(
+        textX,
+        textY,
+        textWidth,
+        textHeight,
+        text
+    );
 
 }
 
@@ -140,9 +128,9 @@ void Button::drawText() {
 
 void Button::mouseDown(int x, int y, Utils::MouseButton btn) {
 
-	curTexture_ = clickedTexture_;
+    curTexture_ = clickedTexture_;
 
-	Component::mouseDown(x, y, btn);
+    Component::mouseDown(x, y, btn);
 
 }
 
@@ -150,8 +138,8 @@ void Button::mouseDown(int x, int y, Utils::MouseButton btn) {
 
 void Button::mouseUp(int x, int y, Utils::MouseButton btn) {
 
-	curTexture_ = defTexture_;
+    curTexture_ = defTexture_;
 
-	Component::mouseUp(x, y, btn);
+    Component::mouseUp(x, y, btn);
 
 }
