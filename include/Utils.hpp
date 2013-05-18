@@ -25,7 +25,9 @@
 
 namespace Utils {
 
-    // Считать поток stream до символа EOF в std::string
+    /** Считать поток до символа EOF в std::string.
+      * @param stream поток для чтения
+    */
     std::string readStreamToString(std::ifstream& stream);
 	
 }
