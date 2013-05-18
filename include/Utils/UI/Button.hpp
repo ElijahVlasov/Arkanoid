@@ -1,9 +1,3 @@
-/****************************************
-
-            ����� ������.
-
-*****************************************/
-
 #ifndef _SALT2D_UTILS_UI_BUTTON_HPP
 #define _SALT2D_UTILS_UI_BUTTON_HPP
 
@@ -21,9 +15,12 @@
 namespace Utils {
 
     namespace UI {
-	
+
+        /** Класс кнопки.
+        */
+
         class Button: public Component {
-		
+
             public:
 
                 Button() throw(std::runtime_error);
@@ -33,6 +30,9 @@ namespace Utils {
                 void mouseUp(int x, int y, Utils::MouseButton btn);
 
             protected:
+
+                /** Прорисовка кнопки по-умолчанию.
+                */
 
                 void onDraw(Event&);
 
