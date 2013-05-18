@@ -5,7 +5,14 @@
 
 namespace Utils {
 
-	typedef boost::array<float, 4> Color;
+    /** Тип для RGBA-цвета.
+      * Красный цвет - Color[0]
+      * Зеленый цвет - Color[1]
+      * Синий цвет - Color[2]
+      * Альфа-канад - Color[3]
+    */
+
+    typedef boost::array<float, 4> Color;
 
 }
 
