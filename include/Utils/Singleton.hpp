@@ -16,6 +16,7 @@ namespace Utils {
     /** Шаблон для создания синглтонов.
       * Чтобы создать синглтон T нужно отнаследовать от Singleton<T>
       * и в любом месте класса поместить макрос SINGLETON(T).
+      * @author Elijah Rasta
     */
 
     template <class T> class Singleton: public boost::noncopyable {
