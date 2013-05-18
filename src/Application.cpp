@@ -25,15 +25,11 @@ using Engine::Game;
 
 Application::Application() throw(runtime_error):
     isFullscreen_(false),
-    game_(Game::getInstance()),
-    menuGameState_(MenuState::getInstance()),
-    singleGameState_(SingleGameState::getInstance()),
+    game_(0),
     surface_(0)       
 {
-	
-    initSDL(640, 480, "Shoter");
 
-    game_->setScreenRect(640, 480);
+    initSDL(640, 480, "Shoter");
 
 }
 
@@ -45,14 +41,6 @@ Application::~Application() {
         game_->Free();
     }
 
-    if(menuGameState_ != 0) {
-        menuGameState_->Free();
-    }
-
-    if(singleGameState_ != 0) {
-        singleGameState_->Free();
-    }
-	
     if(surface_ != 0) {
         ::SDL_FreeSurface(surface_);
     }
@@ -90,7 +78,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
     // ::SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,  8);
  
     ::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
-    ::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
+    ::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  4);
 
     setSurfaceSize(640, 480);
 
@@ -125,7 +113,11 @@ int Application::run() throw(runtime_error) {
 
     SDL_Event event;
 
-    game_->setRunning(true);
+    game_ = Game::Create();
+
+    game_->setScreenRect(640, 480);
+
+    game_->run();
 
     while(game_->isRunning()) { 
 
@@ -293,7 +285,7 @@ void Application::OnMouseMotion(int x, int y) {
 
 void Application::OnQuit() {
 	
-    game_->setRunning(false);
+    game_->quit();
 
 }
 
@@ -316,7 +308,7 @@ void Application::OnEvent(SDL_Event* event) {
                 return;
             }
 			
-			// если приложение развертывается
+            // если приложение развертывается
             if(event->active.gain) {
 				
                 OnRestore();
