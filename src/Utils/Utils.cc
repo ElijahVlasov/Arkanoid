@@ -22,7 +22,7 @@ string Utils::readStreamToString(ifstream& is) {
 
     char ch;
 
-    while((ch = is.get()) != EOF) { // читаем по символу
+    while((ch = is.get()) != EOF) { // С‡РёС‚Р°РµРј РїРѕ СЃРёРјРІРѕР»Сѓ
 
         streamText.push_back(ch);
 
