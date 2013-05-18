@@ -1,10 +1,3 @@
-/****************************************
-
-    Базовый класс для создания UI.
-
-*****************************************/
-
-
 #ifndef _SALT2D_UTILS_UI_COMPONENT_HPP
 #define _SALT2D_UTILS_UI_COMPONENT_HPP
 
@@ -23,21 +16,24 @@
 namespace Utils {
 
     namespace UI {
-	
+
+        /** Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ GUI.
+        */
+
         class Component {
-		
+
             public:
 
-                // события, связаннные с нажатием мыши
+                // СЃРѕР±С‹С‚РёСЏ, СЃРІСЏР·Р°РЅРЅРЅС‹Рµ СЃ РЅР°Р¶Р°С‚РёРµРј РјС‹С€Рё
                 typedef boost::function<void (MouseEvent& event)> MouseDownEvent;
                 typedef boost::function<void (MouseEvent& event)> MouseUpEvent;
                 typedef boost::function<void (MouseEvent& event)> MouseClickEvent;
                 typedef boost::function<void (MouseEvent& event)> MouseHoverEvent;
 
-                // событие перерисовки
+                // СЃРѕР±С‹С‚РёРµ РїРµСЂРµСЂРёСЃРѕРІРєРё
                 typedef boost::function<void (Event&)> DrawEvent;
 
-                // события, связанные с клавиатурой
+                // СЃРѕР±С‹С‚РёСЏ, СЃРІСЏР·Р°РЅРЅС‹Рµ СЃ РєР»Р°РІРёР°С‚СѓСЂРѕР№
                 typedef boost::function<void (KeyEvent)> KeyUpEvent;
                 typedef boost::function<void (KeyEvent)> KeyDownEvent;
 
@@ -62,16 +58,16 @@ namespace Utils {
                 void setFont(const Utils::FreeType::Font& font);
                 Utils::FreeType::Font getFont() const;
 
-                // возвращает true, если прямоугольник 
-                // компонента, содержит (x;y)
+                // РІРѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє 
+                // РєРѕРјРїРѕРЅРµРЅС‚Р°, СЃРѕРґРµСЂР¶РёС‚ (x;y)
                 virtual bool isContains(int x, int y);
 
                 virtual void mouseDown(int x, int y, MouseButton btn);
                 virtual void mouseUp(int x, int y, MouseButton btn);
 
-                // клик вызывается, если были последовательно
-                // вызваны mouseDown и mouseUp, с одинаковыми 
-                // координатами
+                // РєР»РёРє РІС‹Р·С‹РІР°РµС‚СЃСЏ, РµСЃР»Рё Р±С‹Р»Рё РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ
+                // РІС‹Р·РІР°РЅС‹ mouseDown Рё mouseUp, СЃ РѕРґРёРЅР°РєРѕРІС‹РјРё 
+                // РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё
                 virtual void click(int x, int y);
 
                 virtual void hoverMouse(int x, int y);
