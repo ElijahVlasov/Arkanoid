@@ -13,3 +13,28 @@
 #include <Utils/UI/MouseEvent.hpp>
 
 #endif
+
+
+
+namespace Utils {
+
+    /** Классы для создания графических элементов интерфейса.
+      * @author Elijah Vlasov
+    */
+
+    namespace UI {
+
+        class Button;
+        class Component;
+        template<class EventType> class ComponentEvent_wrapper;
+        class ComponentFactory;
+        class Event;
+        struct KeyEvent;
+        class Label;
+        class Menu;
+        class MenuFactory;
+        struct MouseEvent;
+
+    }
+
+}
