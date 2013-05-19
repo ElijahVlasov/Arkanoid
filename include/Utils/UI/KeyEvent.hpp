@@ -7,9 +7,12 @@ namespace Utils {
 
 	namespace UI {
 	
+        /** Событие клавиатуры.
+        */
+    
 		struct KeyEvent: public Event {
 		
-			int key;
+			int key; /**< Код клавиши*/
 
 		};
 
