@@ -1,4 +1,4 @@
-#ifndef _SALT2D_UTILS_UI_MOUSEEVENT_HPP
+п»ї#ifndef _SALT2D_UTILS_UI_MOUSEEVENT_HPP
 #define _SALT2D_UTILS_UI_MOUSEEVENT_HPP
 
 #include <Utils/MouseButton.hpp>
@@ -9,16 +9,16 @@ namespace Utils {
 
     namespace UI {
     
-        /** Событие мыши.
+        /** РЎРѕР±С‹С‚РёРµ РјС‹С€Рё.
           * @author Elijah Vlasov
         */
 	
         struct MouseEvent: public Event {
 		
-            int x; /**< X-координата курсора */
-            int y; /**< Y-координата курсора */
+            int x; /**< X-РєРѕРѕСЂРґРёРЅР°С‚Р° РєСѓСЂСЃРѕСЂР° */
+            int y; /**< Y-РєРѕРѕСЂРґРёРЅР°С‚Р° РєСѓСЂСЃРѕСЂР° */
 
-            Utils::MouseButton mouseButton; /**< Кнопка мыши */
+            Utils::MouseButton mouseButton; /**< РљРЅРѕРїРєР° РјС‹С€Рё */
 
         };
 
