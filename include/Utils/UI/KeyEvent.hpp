@@ -5,18 +5,18 @@
 
 namespace Utils {
 
-	namespace UI {
-	
-        /** Событие клавиатуры.
+    namespace UI {
+
+        /** РЎРѕР±С‹С‚РёРµ РєР»Р°РІРёР°С‚СѓСЂС‹.
         */
     
-		struct KeyEvent: public Event {
-		
-			int key; /**< Код клавиши*/
+        struct KeyEvent: public Event {
 
-		};
+            int key; /**< РљРѕРґ РєР»Р°РІРёС€Рё*/
 
-	}
+        };
+
+    }
 
 }
 
