@@ -1,11 +1,4 @@
-/****************************************
-
-        ������� ��� �������, Lua-
-        �����������	�������.
-
-*****************************************/
-
-#ifndef _SALT2D_UTILS_UI_COMPONENTEVENT_WRAPPER_HPP
+﻿#ifndef _SALT2D_UTILS_UI_COMPONENTEVENT_WRAPPER_HPP
 #define _SALT2D_UTILS_UI_COMPONENTEVENT_WRAPPER_HPP
 
 #include <cstring>
@@ -26,10 +19,23 @@
 namespace Utils {
 
     namespace UI {
+    
+        /** Класс-обертка над вызовом Lua-функции
+          * обработчика события.
+          * @author Elijah Vlasov
+        */
 
         template<class EventType> class ComponentEvent_wrapper {
 	
             public:
+            
+                /** Создать обертку над функцией.
+                  * @param funcName имя функции
+                  * @throws Генерирует std::invalid_argument, если
+                  *         funcName == NULL или funcName - пустая строка.
+                  *         Генерирует std::runtime_error, если произошла ошибка
+                  *         Lua.
+                */
 			
                 explicit ComponentEvent_wrapper(const char* funcName)		
                                     throw(std::invalid_argument, std::runtime_error):
@@ -50,7 +56,12 @@ namespace Utils {
 
                 }
 
-
+                /** Создать обертку над функцией.
+                  * @param funcName имя функции
+                  * @throw Генерирует std::invalid_argument, если funcName
+                  *        пустая строка. Генерирует std::runtime_error, если
+                  *        произошла ошибка Lua.
+                */
 
                 explicit ComponentEvent_wrapper(const std::string& funcName)	
                                     throw(std::invalid_argument, std::runtime_error):
@@ -95,7 +106,8 @@ namespace Utils {
 
                 }
 
-
+                /** Вызвать функцию.
+                */
 
                 void operator() (EventType& event) {
 				
