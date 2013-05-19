@@ -7,17 +7,22 @@
 
 namespace Utils {
 
-	namespace UI {
+    namespace UI {
+    
+        /** —обытие мыши.
+          * @author Elijah Vlasov
+        */
 	
-		struct MouseEvent: public Event {
+        struct MouseEvent: public Event {
 		
-			int x, y;
+            int x; /**< X-координата курсора */
+            int y; /**< Y-координата курсора */
 
-			Utils::MouseButton mouseButton;
+            Utils::MouseButton mouseButton; /**<  нопка мыши */
 
-		};
+        };
 
-	}
+    }
 
 }
 
