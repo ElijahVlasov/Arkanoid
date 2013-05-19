@@ -1,5 +1,5 @@
-﻿#ifndef _SALT2D_GAME_HPP
-#define _SALT2D_GAME_HPP
+﻿#ifndef _SALT2D_ENGINE_GAME_HPP
+#define _SALT2D_ENGINE_GAME_HPP
 
 #include <stdexcept>
 
