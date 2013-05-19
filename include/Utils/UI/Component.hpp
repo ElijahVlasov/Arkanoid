@@ -18,7 +18,7 @@ namespace Utils {
     namespace UI {
 
         /** Базовый класс для всех компонентов GUI.
-		  * @author Elijah Vlasov
+          * @author Elijah Vlasov
         */
 
         class Component {
