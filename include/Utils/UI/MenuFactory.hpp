@@ -19,11 +19,11 @@ namespace Utils {
           * @author Elijah Vlasov
         */
 	
-		class MenuFactory: public Utils::Singleton<MenuFactory> {
+        class MenuFactory: public Utils::Singleton<MenuFactory> {
 
-			SINGLETON(MenuFactory)
+            SINGLETON(MenuFactory)
 
-			public:
+            public:
 
                 /** Создать меню из XML-документа.
                   * @param fileName XML-документ
@@ -33,8 +33,8 @@ namespace Utils {
                   *        открыть файл или произошла ошибка парсинга.
                 */
             
-				Utils::UI::Menu* createFromXML(const char* fileName)			
-									throw(std::invalid_argument, std::runtime_error);
+                Utils::UI::Menu* createFromXML(const char* fileName)			
+                                    throw(std::invalid_argument, std::runtime_error);
                                     
                 /** Создать меню из XML-документа.
                   * @param fileName XML-документ
@@ -43,29 +43,29 @@ namespace Utils {
                   *        открыть файл или произошла ошибка парсинга.
                 */
                                     
-				Utils::UI::Menu* createFromXML(const std::string& fileName)	
-									throw(std::invalid_argument, std::runtime_error);
+                Utils::UI::Menu* createFromXML(const std::string& fileName)	
+                                    throw(std::invalid_argument, std::runtime_error);
 				
 
-			protected:
+            protected:
 
-				MenuFactory() throw(std::runtime_error);
-				~MenuFactory();
+                MenuFactory() throw(std::runtime_error);
+                ~MenuFactory();
 
-			private:
+            private:
 
-				ComponentFactory* componentFactory_;
+                ComponentFactory* componentFactory_;
 
-				static const std::string MENU_ROOT_NODE_VALUE;
+                static const std::string MENU_ROOT_NODE_VALUE;
 
-				std::string curXMLFileName_;
+                std::string curXMLFileName_;
 
 				// Загрузить menu из TiXml document
-				void loadComponents(TiXmlDocument& document, Utils::UI::Menu* menu) throw(std::runtime_error);				
+                void loadComponents(TiXmlDocument& document, Utils::UI::Menu* menu) throw(std::runtime_error);				
 
-		};
+        };
 
-	}
+    }
 
 }
 
