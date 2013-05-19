@@ -15,6 +15,7 @@ namespace Utils {
 	namespace UI {
     
         /** Фабрика для создания компонентов.
+          * @author Elijah Vlasov
         */
 	
 		class ComponentFactory: public Utils::Singleton<ComponentFactory> {
