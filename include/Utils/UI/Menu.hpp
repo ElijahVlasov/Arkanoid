@@ -1,4 +1,4 @@
-#ifndef _SALT2D_UTILS_UI_MENU_HPP
+﻿#ifndef _SALT2D_UTILS_UI_MENU_HPP
 #define _SALT2D_UTILS_UI_MENU_HPP
 
 #include <fstream>
@@ -14,47 +14,70 @@
 
 namespace Utils {
 	
-	namespace UI {
+    namespace UI {
+    
+        /** Меню.
+          * @author Elijah Vlasov 
+        */
 	
-		class Menu: public Component {
+        class Menu: public Component {
 		
-			public:
+            public:
 
-			//	typedef Utils::Color Color;
+                Menu() throw(std::runtime_error);
 
-				Menu() throw(std::runtime_error);
+                ~Menu();
+                
+                /** Добавить компонент в меню.
+                  * @param component boost::shared_ptr на компонент
+                */
 
-				~Menu();
+                void addComponent(const boost::shared_ptr<Component>& component);
 
-				void addComponent(const boost::shared_ptr<Component>& component);
+                /** Список компонентов.
+                */
+                
+                const std::list<boost::shared_ptr<Component>>& getComponents() const;
 
-				const std::list<boost::shared_ptr<Component>>& getComponents() const;
+                void mouseDown(int x, int y, Utils::MouseButton btn);
+                void mouseUp(int x, int y, Utils::MouseButton btn);
 
-				void mouseDown(int x, int y, Utils::MouseButton btn);
-				void mouseUp(int x, int y, Utils::MouseButton btn);
+                void hoverMouse(int x, int y);
 
-				void hoverMouse(int x, int y);
+                void keyDown(int key);
+                void keyUp(int key);
 
-				void keyDown(int key);
-				void keyUp(int key);
+                void draw();
+                
+                /** Установить фоновую текстуру.
+                */
 
-				void draw();
+                void setBackground(const Utils::Texture& background);
+                
+                /** Фоновая текстура.
+                */
+                
+                const Utils::Texture& getBackground() const;
+                
+                /** Установить фоновый цвет.
+                */
 
-				void setBackground(const Utils::Texture& background);
-				const Utils::Texture& getBackground() const;
+                void setBackgroundColor(const Utils::Color& color);
+                
+                /** Фоновый цвет.
+                */
+                
+                const Utils::Color& getBackgroundColor() const;
 
-				void setBackgroundColor(const Utils::Color& color);
-				const Utils::Color& getBackgroundColor() const;
+            private:
 
-			private:
+                Utils::Color backgroundColor_;
 
-				Utils::Color backgroundColor_;
+                Texture background_;
 
-				Texture background_;
+                std::list<boost::shared_ptr<Component>> components_;
 
-				std::list<boost::shared_ptr<Component>> components_;
-
-		};
+        };
 
 	}
 
