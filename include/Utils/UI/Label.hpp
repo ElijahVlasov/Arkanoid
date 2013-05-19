@@ -1,4 +1,4 @@
-#ifndef _SALT2D_UTILS_UI_LABEL_HPP
+﻿#ifndef _SALT2D_UTILS_UI_LABEL_HPP
 #define _SALT2D_UTILS_UI_LABEL_HPP
 
 #include <stdexcept>
@@ -9,6 +9,11 @@
 namespace Utils {
 
     namespace UI {
+    
+        /** Класс метки.
+          * Простой текст.
+          * @author Elijah Vlasov
+        */
 	
         class Label: public Component {
 
@@ -19,6 +24,9 @@ namespace Utils {
 
             protected:
 
+                /** Перерисовка по-умолчанию.
+                */
+            
                 void onDraw(Event&);
 
             private:
