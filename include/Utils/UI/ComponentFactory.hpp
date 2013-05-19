@@ -1,4 +1,4 @@
-#ifndef _SALT2D_UTILS_UI_COMPONENTFACTORY_HPP
+﻿#ifndef _SALT2D_UTILS_UI_COMPONENTFACTORY_HPP
 #define _SALT2D_UTILS_UI_COMPONENTFACTORY_HPP
 
 #include <stdexcept>
@@ -13,6 +13,9 @@
 namespace Utils {
 
 	namespace UI {
+    
+        /** Фабрика для создания компонентов.
+        */
 	
 		class ComponentFactory: public Utils::Singleton<ComponentFactory> {
 
@@ -20,6 +23,13 @@ namespace Utils {
 
 			public:
 
+                /** Создать компонент из XML-элемента.
+                  * @param element XML-элемент
+                  * @throw Генерирует std::invalid_argument, если
+                  *        element == NULL. Генерирует std::runtime_error,
+                  *        если произошли ошибки парсинга или другие.
+                */
+            
 				Component* createFromXMLElement(const TiXmlElement* element) 
 													throw(std::invalid_argument, std::runtime_error);
 
