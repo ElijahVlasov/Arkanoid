@@ -25,11 +25,18 @@
 
 namespace Utils {
 
-    /** Считать поток до символа EOF в std::string.
-      * @param stream поток для чтения
+    /** Чтение потока до символа EOF в std::string.
+      * @param stream Поток для чтения
     */
+
     std::string readStreamToString(std::ifstream& stream);
-	
+
+    /** Полное чтение двоичного потока.
+      * @param stream Поток для чтения
+    */
+
+    std::string readBinaryStream(std::ifstream& stream);
+
 }
 
 #endif
