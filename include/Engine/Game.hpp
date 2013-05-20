@@ -2,6 +2,9 @@
 #define _SALT2D_ENGINE_GAME_HPP
 
 #include <stdexcept>
+#include <thread>
+
+#include <boost/shared_ptr.hpp>
 
 #include <Engine/SaltEngine.hpp>
 #include <Engine/GameStates.hpp>
@@ -9,6 +12,9 @@
 #include <Utils/Graphics.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/Singleton.hpp>
+
+#include <Utils/UI/Menu.hpp>
+#include <Utils/UI/MenuFactory.hpp>
 
 namespace Engine {
 
@@ -87,7 +93,7 @@ namespace Engine {
             /** Запустить игру.
             */
             
-            void run();
+            void run() throw(std::runtime_error);
             
             /** Завершить игру.
             */
@@ -106,7 +112,14 @@ namespace Engine {
 
         private:
 
-            void loadingThread();
+            Utils::UI::MenuFactory* menuFactory_;
+
+            boost::shared_ptr<Utils::UI::Menu> mainMenu_;
+            boost::shared_ptr<Utils::UI::Menu> pauseMenu_;
+
+            std::thread* initThread_;
+
+            void loadResources() throw(std::runtime_error);
 
             Utils::Graphics* graphics_;
 

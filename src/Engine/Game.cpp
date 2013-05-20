@@ -1,14 +1,9 @@
-#include "config.h"
-
-#ifdef MS_WINDOWS
-#include <Windows.h>
-#endif
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-
 #include <stdexcept>
 #include <thread>
+
+#include <boost/bind.hpp>
+#include <boost/mem_fn.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <Engine/Game.hpp>
 #include <Engine/GameStates.hpp>
@@ -16,16 +11,23 @@
 #include <Utils/Graphics.hpp>
 #include <Utils/MouseButton.hpp>
 
+#include <Utils/UI/Menu.hpp>
+#include <Utils/UI/MenuFactory.hpp>
+
+
 using namespace std;
+
+using namespace boost;
 
 using namespace Engine;
 using namespace Engine::GameStates;
 
 using namespace Utils;
-
+using namespace Utils::UI;
 
 
 Game::Game() throw(runtime_error):
+    menuFactory_(MenuFactory::getInstance()),
     graphics_(Graphics::getInstance()),
     scrWidth_(640),
     scrHeight_(480)
@@ -43,6 +45,10 @@ Game::~Game() {
         graphics_->Free();
     }
 
+    if(menuFactory_ != 0) {
+        menuFactory_->Free();
+    }
+
 }
 
 
@@ -51,9 +57,8 @@ Game* Game::Create() throw(runtime_error) {
 
     Game* game = getInstance();
 
+    // Создаем состояние, которое будет показывать лого
     game->startLogoState_  =  StartLogoState::getInstance();
-    game->menuGameState_   =  MenuState::getInstance();
-    game->singleGameState_ =  SingleGameState::getInstance();
 
     game->setState(game->startLogoState_);
 
@@ -164,9 +169,10 @@ void Game::setState(IGameState* state) {
 
 
 
-void Game::run() {
+void Game::run() throw(runtime_error) {
 
-  //  thread initThread();
+    // Запускаем загрузку ресурсов
+    initThread_ =  new std::thread(mem_fn(&Game::loadResources), this);
 
     isRunning_ = true;
 
@@ -192,8 +198,17 @@ bool Game::isRunning() const {
 
 
 
-void Game::loadingThread() {
+// Загрузка ресурсов
+void Game::loadResources() throw(runtime_error) {
 
-    menuGameState_ = MenuState::getInstance();
+    // Загружаем главное меню
+    mainMenu_ = boost::shared_ptr<Menu>(menuFactory_->createFromXML("main_menu.xml"));
+
+    menuGameState_    =  MenuState::getInstance();
+    singleGameState_  =  SingleGameState::getInstance();
+
+    menuGameState_->setMenu(mainMenu_);
+
+    
 
 }

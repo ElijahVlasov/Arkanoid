@@ -4,7 +4,13 @@
 #define Salt2D_VERSION_MAJOR @Salt2D_VERSION_MAJOR@
 #define Salt2D_VERSION_MINOR @Salt2D_VERSION_MINOR@
 
-#define SCRIPT_PATH "../script"
+#define SCRIPT_PATH "./script"
+
+#define FONT_PATH "/home/elijah/projects/Salt2D/font"
+
+#define TEXTURE_PATH "./textures"
+
+#define CONFIG_PATH "./config"
 
 #cmakedefine MS_WINDOWS
 

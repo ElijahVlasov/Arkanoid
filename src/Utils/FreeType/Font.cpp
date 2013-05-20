@@ -7,6 +7,8 @@
 
 #include <Utils/assert.hpp>
 
+#include <Utils/Color.hpp>
+
 #include <Utils/Texture.hpp>
 
 #include <Utils/FreeType/Font.hpp>
@@ -14,15 +16,16 @@
 
 using namespace std;
 
-using namespace Utils::FreeType;
+using namespace Utils;
 
-using Utils::Texture;
+using namespace Utils::FreeType;
 
 
 
 Font::Font(const char* filePath) throw(invalid_argument, runtime_error):
     lib_(Library::getInstance()),
-    facePtr_(lib_->loadFace(filePath, 0, new FT_Face)),
+    fontBuffer_(lib_->loadFaceFile(filePath)),
+    face_(lib_->createFaceFromBuffer(fontBuffer_, 0)),
     size_(12)
 {}
 
@@ -30,7 +33,8 @@ Font::Font(const char* filePath) throw(invalid_argument, runtime_error):
 
 Font::Font(const string& filePath) throw(invalid_argument, runtime_error):
     lib_(Library::getInstance()),
-    facePtr_(lib_->loadFace(filePath, 0, new FT_Face)),
+    fontBuffer_(lib_->loadFaceFile(filePath)),
+    face_(lib_->createFaceFromBuffer(fontBuffer_, 0)),
     size_(12)
 {}
 
@@ -38,7 +42,8 @@ Font::Font(const string& filePath) throw(invalid_argument, runtime_error):
 
 Font::Font(const Font& font):
     lib_(Library::getInstance()),
-    facePtr_(font.facePtr_),
+    fontBuffer_(font.fontBuffer_),
+    face_(lib_->createFaceFromBuffer(fontBuffer_, 0)),
     size_(font.size_)
 {
 }
@@ -57,8 +62,10 @@ Font::~Font() {
 
 Font& Font::operator=(const Font& font) {
 
-    facePtr_  =  font.facePtr_;
-    size_     =  font.size_;
+    fontBuffer_  =  font.fontBuffer_;
+    size_        =  font.size_;
+
+    face_ = lib_->createFaceFromBuffer(fontBuffer_, 0);
 
     return *this;
 
@@ -119,7 +126,7 @@ void Font::setSize(unsigned int size) throw(invalid_argument) {
 
 
 
-Font::Color Font::getColor() const {
+const Color& Font::getColor() const {
 
     return color_;
 
@@ -127,7 +134,7 @@ Font::Color Font::getColor() const {
 
 
 
-void Font::setColor(const Font::Color& color) {
+void Font::setColor(const Color& color) {
 
     color_ = color;
 

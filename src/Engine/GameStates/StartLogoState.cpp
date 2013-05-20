@@ -21,7 +21,7 @@ using namespace Utils;
 
 StartLogoState::StartLogoState() throw(runtime_error):
     game_(Game::getInstance()),
-    logo_("logo.jpg")
+    logo_("logo.png")
 {}
 
 

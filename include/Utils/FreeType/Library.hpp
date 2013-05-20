@@ -12,18 +12,21 @@
 namespace Utils {
 
     namespace FreeType {
-	
+
         class Library: public Utils::Singleton<Library> {
-		
+
             SINGLETON(Library)
 
             public:
 
                 // filePath - путь до файла с шрифтом, index - индекс в файле
                 // в faceBuf будет загружена структура FT_Face
-                FT_Face* loadFace(const char* filePath, unsigned int index, FT_Face* faceBuf) 
+                std::string loadFaceFile(const char* filePath) 
                                                             throw(std::invalid_argument, std::runtime_error);
-                FT_Face* loadFace(const std::string& filePath, unsigned int index, FT_Face* faceBuf) 
+                std::string loadFaceFile(const std::string& filePath) 
+                                                            throw(std::invalid_argument, std::runtime_error);
+
+                FT_Face createFaceFromBuffer(const std::string& buffer, unsigned int index) 
                                                             throw(std::invalid_argument, std::runtime_error);
 
             protected:

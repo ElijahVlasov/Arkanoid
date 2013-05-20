@@ -1,5 +1,6 @@
 #include <cstring>
 
+#include <fstream>
 #include <stdexcept>
 #include <string>
 
@@ -11,6 +12,8 @@
 #include <Utils.hpp>
 
 #include <Utils/FreeType/Library.hpp>
+
+#include "config.h"
 
 using namespace std;
 
@@ -37,7 +40,7 @@ Library::~Library() {
 
 
 
-FT_Face* Library::loadFace(const char* filePath, unsigned int index, FT_Face* faceBuf) throw(invalid_argument, runtime_error) {
+string Library::loadFaceFile(const char* filePath) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (filePath != 0),
@@ -49,26 +52,48 @@ FT_Face* Library::loadFace(const char* filePath, unsigned int index, FT_Face* fa
         invalid_argument("filePath")
     );
 
-    ASSERT(
-        (faceBuf != 0),
-        invalid_argument("faceBuf")
-    );
+    // путь к шрифту
+    string fontPath = (boost::format("%1%/%2%") % FONT_PATH % filePath).str();
 
-    FT_Error err = FT_New_Face(library_, filePath, index, faceBuf);
+    ifstream fontStream(fontPath, ios::binary);
 
-    ASSERT(
-        (err == 0),
-        runtime_error((boost::format("Can't load face \"%1%\".") % filePath).str())
-    );
+    string fontBuf(Utils::readBinaryStream(fontStream));
 
-    return faceBuf;
+    return fontBuf;
 
 }
 
 
 
-FT_Face* Library::loadFace(const string& filePath, unsigned int index, FT_Face* faceBuf) throw(invalid_argument, runtime_error) {
+string Library::loadFaceFile(const string& filePath) throw(invalid_argument, runtime_error) {
 
-    return loadFace(filePath.c_str(), index, faceBuf);
+    return loadFaceFile(filePath.c_str());
+
+}
+
+
+
+FT_Face Library::createFaceFromBuffer(const string& buffer, unsigned int index) throw(invalid_argument, runtime_error) {
+
+    ASSERT(
+        (buffer.length() != 0),
+        invalid_argument(buffer)
+    );
+
+    FT_Face face;
+
+    FT_Error err = FT_New_Memory_Face(library_,
+                                      reinterpret_cast<const FT_Byte*>(buffer.c_str()),
+                                      buffer.length(),
+                                      index,
+                                      &face
+                                     );
+
+    ASSERT(
+        (err == 0),
+        runtime_error("Font buffer has unknown type!")
+    );
+
+    return face;
 
 }

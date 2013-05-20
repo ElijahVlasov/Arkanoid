@@ -72,6 +72,11 @@ static void SignalDispatcher(int sig) {
         }
         break;  
 
+        default: {
+            ::ProcessError(runtime_error("Unknown error!"));
+            exit(EXIT_FAILURE);
+        }
+
     }
 
 }

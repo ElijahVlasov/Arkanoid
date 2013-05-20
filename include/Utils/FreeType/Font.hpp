@@ -9,9 +9,9 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include <boost/array.hpp>
-
 #include <boost/shared_ptr.hpp>
+
+#include <Utils/Color.hpp>
 
 #include <Utils/Texture.hpp>
 
@@ -22,10 +22,8 @@ namespace Utils {
     namespace FreeType {
 
         class Font {
-	
-            public:
 
-                typedef boost::array<uint8_t, 3> Color;
+            public:
 
                 explicit Font(const char* filePath)         throw(std::invalid_argument, std::runtime_error);
                 explicit Font(const std::string& filePath)  throw(std::invalid_argument, std::runtime_error);
@@ -43,18 +41,20 @@ namespace Utils {
                 unsigned int getSize() const;
                 void setSize(unsigned int size)             throw(std::invalid_argument);
 
-                Color getColor() const;
-                void setColor(const Color& color);
+                const Utils::Color& getColor() const;
+                void setColor(const Utils::Color& color);
 
             private:
 
                 Library* lib_;
-				
-                boost::shared_ptr<FT_Face> facePtr_;
 
-                Color color_;
+                std::string fontBuffer_;
+
+                FT_Face face_;
 
                 unsigned int size_;
+
+                Utils::Color color_;
 
         };
 
