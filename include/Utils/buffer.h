@@ -8,11 +8,11 @@
   * переполнения буфера.
 */
 
-typedef struct buffer {
+typedef struct BUFFER {
 
     char   *buf; /**< C-строка */
     size_t size; /**< Размер C-строки */
 
-};
+} BUFFER;
 
 #endif
