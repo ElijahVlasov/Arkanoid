@@ -132,7 +132,6 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Singleton.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp
-  ${INCLUDE_DIR}/Utils/buffer.h
 )
 
 set(HEADERS
