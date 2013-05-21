@@ -83,15 +83,18 @@ namespace Utils {
             */
 
             unsigned int getHeight() const;
-	
+
         private:
 
             bool isCreated_;
 
             unsigned int width_, height_;
 
+            GLint mode_;
+
             GLuint name_;
 
+            void createFromGLTex(GLuint tex);
             void createFromSurface(const SDL_Surface* surface);
             void loadBitmap(const char* name) throw(std::invalid_argument, std::runtime_error);
 

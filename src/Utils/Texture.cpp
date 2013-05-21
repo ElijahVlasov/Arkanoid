@@ -1,5 +1,7 @@
 #include "config.h"
 
+#include <cstdlib>
+
 #include <stdexcept>
 #include <string>
 
@@ -43,8 +45,7 @@ Texture::Texture(const std::string& fileName) throw(invalid_argument, runtime_er
 
 
 
-Texture::Texture(const char* fileName) throw(invalid_argument, runtime_error) {
-	
+Texture::Texture(const char* fileName) throw(invalid_argument, runtime_error) { 
 
     loadBitmap(fileName);
 
@@ -53,13 +54,19 @@ Texture::Texture(const char* fileName) throw(invalid_argument, runtime_error) {
 
 
 Texture::Texture(GLuint glTexture):
-    isCreated_(true),
-    name_(glTexture)
+    isCreated_(true)
 {
+
     glBindTexture(GL_TEXTURE_2D, name_);
 
+    // Получаем формат текстуры
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &mode_);
+
+    // Получаем размеры текстуры
     glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,    reinterpret_cast<GLint*>(&width_));
     glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,   reinterpret_cast<GLint*>(&height_));
+
+    createFromGLTex(glTexture);
 
 }
 
@@ -69,8 +76,15 @@ Texture::Texture(const Texture& texture):
     isCreated_(texture.isCreated_),
     width_(texture.width_),
     height_(texture.height_),
-    name_(texture.name_)
+    mode_(texture.mode_)
 {
+
+    if(!isCreated_) {
+        return;
+    }
+
+    createFromGLTex(texture.name_);
+
 }
 
 
@@ -102,7 +116,18 @@ Texture::~Texture() {
 
 Texture& Texture::operator=(const Texture& texture) {
 
-    name_ = texture.name_;
+    width_      =  texture.width_;
+    height_     =  texture.height_;
+
+    mode_       =  texture.mode_;
+
+    isCreated_  =  texture.isCreated_;
+
+    if(!isCreated_) {
+        return *this;
+    }
+
+    createFromGLTex(texture.name_);
 
     return *this;
 
@@ -116,7 +141,7 @@ void Texture::loadBitmap(const char* fileName) throw(invalid_argument, runtime_e
 
     ASSERT(
         (imgSurface != 0),
-		
+
         runtime_error(
             (
                 boost::format("Can't load texture %1%:\n%2%") 
@@ -125,7 +150,7 @@ void Texture::loadBitmap(const char* fileName) throw(invalid_argument, runtime_e
         )
 
     );
-	
+
     createFromSurface(imgSurface);
  
     SDL_FreeSurface(imgSurface);
@@ -135,20 +160,21 @@ void Texture::loadBitmap(const char* fileName) throw(invalid_argument, runtime_e
 
 
 void Texture::createFromSurface(const SDL_Surface* surface) {
-	
-    GLint mode = GL_RGB;
+
+    mode_ = GL_RGB;
 
     if(surface->format->BytesPerPixel == 4) {
-		
-        mode = GL_RGBA;
+
+        mode_ = GL_RGBA;
 
     }
-	
+
     glGenTextures(1, &name_);
 
     glBindTexture(GL_TEXTURE_2D, name_);
+
     // переносим из SDL_Surface в OpenGL texture
-    glTexImage2D(GL_TEXTURE_2D, 0, mode, surface->w, surface->h, 0, mode, GL_UNSIGNED_BYTE, surface->pixels);
+    glTexImage2D(GL_TEXTURE_2D, 0, mode_, surface->w, surface->h, 0, mode_, GL_UNSIGNED_BYTE, surface->pixels);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -162,8 +188,47 @@ void Texture::createFromSurface(const SDL_Surface* surface) {
 
 
 
+void Texture::createFromGLTex(GLuint tex) {
+
+    unsigned int bpp;
+
+    switch(mode_) {
+
+        case GL_RGB: {
+            bpp = 3;
+        }
+        break;
+
+        case GL_RGBA: {
+            bpp = 4;
+        }
+        break;
+
+    }
+
+    GLvoid* buffer = malloc(width_ * height_ * bpp); // Промежуточный буфер для текстуры
+
+    glBindTexture(GL_TEXTURE_2D, tex);
+
+    glGetTexImage(GL_TEXTURE_2D, 0, mode_, GL_UNSIGNED_BYTE, buffer);
+
+    glGenTextures(1, &name_);
+
+    glBindTexture(GL_TEXTURE_2D, name_);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, mode_, width_, height_, 0, mode_, GL_UNSIGNED_BYTE, buffer);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    free(buffer);
+
+}
+
+
+
 unsigned int Texture::getName() const {
-	
+
     return name_;
 
 }
