@@ -21,7 +21,7 @@ namespace Utils {
 
     namespace FreeType {
 
-        /** Класс шрифта.
+        /** РљР»Р°СЃСЃ С€СЂРёС„С‚Р°.
           * @author Elijah Vlasov
         */
 
@@ -29,21 +29,21 @@ namespace Utils {
 
             public:
 
-                /** Загрузить шрифт из файла.
-                  * Шрифт ищется в папке FONT_PATH
-                  * @param filePath Имя файла шрифта.
-                  * @throws Генерирует std::invalid_argument, если filePath == NULL,
-                  *         или пустая строка. Генерирует std::runtime_error, если произошла
-                  *         ошибка загрузки.
+                /** Р—Р°РіСЂСѓР·РёС‚СЊ С€СЂРёС„С‚ РёР· С„Р°Р№Р»Р°.
+                  * РЁСЂРёС„С‚ РёС‰РµС‚СЃСЏ РІ РїР°РїРєРµ FONT_PATH
+                  * @param filePath РРјСЏ С„Р°Р№Р»Р° С€СЂРёС„С‚Р°.
+                  * @throws Р“РµРЅРµСЂРёСЂСѓРµС‚ std::invalid_argument, РµСЃР»Рё filePath == NULL,
+                  *         РёР»Рё РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°. Р“РµРЅРµСЂРёСЂСѓРµС‚ std::runtime_error, РµСЃР»Рё РїСЂРѕРёР·РѕС€Р»Р°
+                  *         РѕС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё.
                 */
 
                 explicit Font(const char* filePath)         throw(std::invalid_argument, std::runtime_error);
 
-                /** Загрузить шрифт из файла.
-                  * Шрифт ищется в папке FONT_PATH
-                  * @param filePath Имя файла шрифта.
-                  * @throws Генерирует std::invalid_argument, если filePath - пустая строка. 
-                  *         Генерирует std::runtime_error, если произошла ошибка загрузки.
+                /** Р—Р°РіСЂСѓР·РёС‚СЊ С€СЂРёС„С‚ РёР· С„Р°Р№Р»Р°.
+                  * РЁСЂРёС„С‚ РёС‰РµС‚СЃСЏ РІ РїР°РїРєРµ FONT_PATH
+                  * @param filePath РРјСЏ С„Р°Р№Р»Р° С€СЂРёС„С‚Р°.
+                  * @throws Р“РµРЅРµСЂРёСЂСѓРµС‚ std::invalid_argument, РµСЃР»Рё filePath - РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°. 
+                  *         Р“РµРЅРµСЂРёСЂСѓРµС‚ std::runtime_error, РµСЃР»Рё РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё.
                 */
 
                 explicit Font(const std::string& filePath)  throw(std::invalid_argument, std::runtime_error);
@@ -53,38 +53,38 @@ namespace Utils {
 
                 Font& operator=(const Font& font);
 
-                /** Отрендерить текст в OpenGL-текстуру.
-                  * @param text Текст для рендеринга 
-                  * @throws Генерирует std::invalid_argument, если text == NULL.
-                  *         Генерирует std::runtime_error, при ошибке Freetype2
+                /** РћС‚СЂРµРЅРґРµСЂРёС‚СЊ С‚РµРєСЃС‚ РІ OpenGL-С‚РµРєСЃС‚СѓСЂСѓ.
+                  * @param text РўРµРєСЃС‚ РґР»СЏ СЂРµРЅРґРµСЂРёРЅРіР° 
+                  * @throws Р“РµРЅРµСЂРёСЂСѓРµС‚ std::invalid_argument, РµСЃР»Рё text == NULL.
+                  *         Р“РµРЅРµСЂРёСЂСѓРµС‚ std::runtime_error, РїСЂРё РѕС€РёР±РєРµ Freetype2
                 */
 
                 Texture renderText(const char* text)        throw(std::invalid_argument, std::runtime_error);
 
-                /** Отрендерить текст в OpenGL-текстуру.
-                  * @param text Текст для рендеринга 
-                  * @throws Генерирует std::runtime_error, при ошибке Freetype2
+                /** РћС‚СЂРµРЅРґРµСЂРёС‚СЊ С‚РµРєСЃС‚ РІ OpenGL-С‚РµРєСЃС‚СѓСЂСѓ.
+                  * @param text РўРµРєСЃС‚ РґР»СЏ СЂРµРЅРґРµСЂРёРЅРіР° 
+                  * @throws Р“РµРЅРµСЂРёСЂСѓРµС‚ std::runtime_error, РїСЂРё РѕС€РёР±РєРµ Freetype2
                 */
 
                 Texture renderText(const std::string& text) throw(std::runtime_error);
 
-                /** Кегль шрифта.
+                /** РљРµРіР»СЊ С€СЂРёС„С‚Р°.
                 */
 
                 unsigned int getSize() const;
 
-                /** Установить кегль шрифта.
-                  * @throw Генерирует std::invalid_argument, если size == 0.
+                /** РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РєРµРіР»СЊ С€СЂРёС„С‚Р°.
+                  * @throw Р“РµРЅРµСЂРёСЂСѓРµС‚ std::invalid_argument, РµСЃР»Рё size == 0.
                 */
 
                 void setSize(unsigned int size)             throw(std::invalid_argument);
 
-                /** Цвет шрифта.
+                /** Р¦РІРµС‚ С€СЂРёС„С‚Р°.
                 */
 
                 const Utils::Color& getColor() const;
 
-                /** Установить цвет шрифта.
+                /** РЈСЃС‚Р°РЅРѕРІРёС‚СЊ С†РІРµС‚ С€СЂРёС„С‚Р°.
                 */
 
                 void setColor(const Utils::Color& color);
