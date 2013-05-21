@@ -17,6 +17,10 @@ using namespace boost::geometry::model::d2;
 using namespace Utils;
 
 
+float Graphics::scrWidth_;
+float Graphics::scrHeight_;
+
+
 
 Graphics::Graphics() {
 
@@ -69,16 +73,16 @@ void Graphics::DrawTexture(float x, float y, float width, float height, const Co
     // рисуем 2 треугольника
     glBegin(GL_TRIANGLE_STRIP);
 
-    glTexCoord2f(    1.0f - texCoords[0].x(), 1.0f - texCoords[0].y()); 
+    glTexCoord2f(    texCoords[0].x(), (texCoords[0].y())); 
     glVertex2f(x,            y);
 
-    glTexCoord2f(    1.0f - texCoords[1].x(), 1.0f - texCoords[1].y());
+    glTexCoord2f(    texCoords[1].x(), texCoords[1].y());
     glVertex2f(x + width,    y);
 
-    glTexCoord2f(    1.0f - texCoords[2].x(), 1.0f - texCoords[2].y());
+    glTexCoord2f(    texCoords[2].x(), texCoords[2].y());
     glVertex2f(x,            y + height);
 
-    glTexCoord2f(    1.0f - texCoords[3].x(), 1.0f - texCoords[3].y());
+    glTexCoord2f(    texCoords[3].x(), texCoords[3].y());
     glVertex2f(x + width,    y + height);
 
     glEnd();
@@ -88,6 +92,9 @@ void Graphics::DrawTexture(float x, float y, float width, float height, const Co
 
 
 void Graphics::setViewportSize(unsigned int width, unsigned int height) {
+
+    scrWidth_   =  static_cast<float>(width);
+    scrHeight_  =  static_cast<float>(height);
 
     gluOrtho2D(0, width, 0, height);
 
