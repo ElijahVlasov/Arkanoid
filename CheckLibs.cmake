@@ -21,6 +21,13 @@ if(NOT OPENGL_FOUND)
     return()
 endif()
 
+find_package(DevIL REQUIRED)
+
+if(NOT IL_FOUND)
+    message(FATAL_ERROR "Can't find DevIL!")
+    return()
+endif()
+
 find_package(SDL REQUIRED)
 
 if(NOT SDL_FOUND)
