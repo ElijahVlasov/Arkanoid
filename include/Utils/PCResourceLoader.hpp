@@ -9,6 +9,7 @@
 #include <IL/il.h>
 
 #include <Utils/Resource.hpp>
+#include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/Texture.hpp>
 
@@ -18,16 +19,14 @@ namespace Utils {
       * @author Elijah Vlasov
     */
 
-    class PCResourceLoader: public Singleton<ResourceLoader> {
+    class PCResourceLoader: public Singleton<ResourceLoader>,
+                                public ResourceLoader {
 
         SINGLETON(ResourceLoader)
 
         public:
 
             boost::shared_ptr<Resource> loadResource(ResourceType resourceType, const char* resourceName)
-                                                        throw(std::invalid_argument, std::runtime_error);
-
-            boost::shared_ptr<Resource> loadResource(ResourceType resourceType, const std::string& resourceName)
                                                         throw(std::invalid_argument, std::runtime_error);
 
         protected:

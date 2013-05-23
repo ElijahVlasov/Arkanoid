@@ -12,6 +12,7 @@ namespace Utils {
 
     /** Загрузчик ресурсов.
       * Унифицирует доступ к ресурсам.
+      * @author Elijah Vlasov
     */
 
     class ResourceLoader {
