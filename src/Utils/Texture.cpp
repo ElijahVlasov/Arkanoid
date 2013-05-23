@@ -32,44 +32,23 @@ using namespace std;
 
 
 Texture::Texture():
-    isCreated_(false),
-    name_(0)
-{
-}
-
-
-
-Texture::Texture(GLuint glTexture):
-    isCreated_(true)
+    width_(0),
+    height_(0)
 {
 
-    glBindTexture(GL_TEXTURE_2D, name_);
-
-    // Получаем формат текстуры
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &mode_);
-
-    // Получаем размеры текстуры
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,    reinterpret_cast<GLint*>(&width_));
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,   reinterpret_cast<GLint*>(&height_));
-
-    createFromGLTex(glTexture);
+    glGenTextures(1, &name_);
 
 }
 
 
 
 Texture::Texture(const Texture& texture):
-    isCreated_(texture.isCreated_),
     width_(texture.width_),
     height_(texture.height_),
-    mode_(texture.mode_)
+    format_(texture.format_)
 {
 
-    if(!isCreated_) {
-        return;
-    }
-
-    createFromGLTex(texture.name_);
+    setData(texture.getData());
 
 }
 
@@ -77,11 +56,7 @@ Texture::Texture(const Texture& texture):
 
 Texture::~Texture() {
 
-    if(isCreated_) {
-
-        glDeleteTextures(1, &name_);
-
-    }
+    glDeleteTextures(1, &name_);
 
 }
 
@@ -92,15 +67,9 @@ Texture& Texture::operator=(const Texture& texture) {
     width_      =  texture.width_;
     height_     =  texture.height_;
 
-    mode_       =  texture.mode_;
+    format_       =  texture.format_;
 
-    isCreated_  =  texture.isCreated_;
-
-    if(!isCreated_) {
-        return *this;
-    }
-
-    createFromGLTex(texture.name_);
+    setData(texture.getData());
 
     return *this;
 
@@ -108,11 +77,11 @@ Texture& Texture::operator=(const Texture& texture) {
 
 
 
-void Texture::createFromGLTex(GLuint tex) {
+string Texture::getData() const {
 
     unsigned int bpp;
 
-    switch(mode_) {
+    switch(format_) {
 
         case GL_RGB: {
             bpp = 3;
@@ -126,29 +95,15 @@ void Texture::createFromGLTex(GLuint tex) {
 
     }
 
-    GLvoid* buffer = malloc(width_ * height_ * bpp); // Промежуточный буфер для текстуры
+    string data;
 
-    glBindTexture(GL_TEXTURE_2D, tex);
-
-    glGetTexImage(GL_TEXTURE_2D, 0, mode_, GL_UNSIGNED_BYTE, buffer);
-
-    glGenTextures(1, &name_);
+    data.resize(width_ * height_ * bpp); // Размер данных равен количеству пикселей в текстуре * байт на пиксель
 
     glBindTexture(GL_TEXTURE_2D, name_);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, mode_, width_, height_, 0, mode_, GL_UNSIGNED_BYTE, buffer);
+    glGetTexImage(GL_TEXTURE_2D, 0, format_, GL_UNSIGNED_BYTE, const_cast<GLvoid*>(data.data()));
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    free(buffer);
-
-}
-
-
-const string& Texture::getData() const {
-
-    
+    return data;
 
 }
 
@@ -156,11 +111,12 @@ const string& Texture::getData() const {
 
 void Texture::setData(const std::string& data) {
 
-    const void* rawData = reinterpret_cast<const void*>(data.data());
+    glBindTexture(GL_TEXTURE_2D, name_);
 
-    mode_ = * ( reinterpret_cast<const GLint*>(rawData) );
+    glTexImage2D(GL_TEXTURE_2D, 0, format_, width_, height_, 0, format_, GL_UNSIGNED_BYTE, static_cast<const GLvoid*>(data.data()));
 
-    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 }
 
@@ -169,6 +125,21 @@ void Texture::setData(const std::string& data) {
 unsigned int Texture::getName() const {
 
     return name_;
+
+}
+
+
+void Texture::setWidth(unsigned int width) {
+
+    width_ = width;
+
+}
+
+
+
+void Texture::setHeight(unsigned int height) {
+
+    height_ = height;
 
 }
 

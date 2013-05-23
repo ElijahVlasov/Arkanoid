@@ -35,19 +35,37 @@ namespace Utils {
 
             Texture(const Texture& texture);
 
-            Texture(GLuint glTexture);
-
             ~Texture();
 
             Texture& operator = (const Texture& texture);
 
-            const std::string& getData() const;
+            std::string getData() const;
             void setData(const std::string& data);
+
+            /** Установить формат текстуры.
+            */
+
+            void setFormat(GLint format);
+
+            /** Формат текстуры.
+            */
+
+            GLint getFormat() const;
 
             /** OpenGL-идентификатор текстуры
             */
 
             GLuint getName()const;
+
+            /** Установить ширину.
+            */
+
+            void setWidth(unsigned int width);
+
+            /** Установить длину текстуры
+            */
+
+            void setHeight(unsigned int height);
 
             /** Ширина текстуры
             */
@@ -61,15 +79,11 @@ namespace Utils {
 
         private:
 
-            bool isCreated_;
-
             unsigned int width_, height_;
 
-            GLint mode_;
+            GLint format_;
 
             GLuint name_;
-
-            void createFromGLTex(GLuint tex);
 
     };
 

@@ -13,10 +13,12 @@ namespace Utils {
 
         public:
 
+            virtual ~Resource(){} = 0;
+
             /** Получить данные ресурса.
             */
 
-            virtual const std::string& getData() const    = 0;
+            virtual std::string getData() const    = 0;
 
             /** Установить данные ресурса.
             */
