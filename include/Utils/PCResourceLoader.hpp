@@ -32,7 +32,6 @@ namespace Utils {
         protected:
 
             PCResourceLoader();
-            ~PCResourceLoader();
 
         private:
 

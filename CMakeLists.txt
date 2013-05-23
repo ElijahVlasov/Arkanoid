@@ -7,8 +7,6 @@ set(Salt2D_VERSION_MINOR 1)
 
 set(SRC_DIR src)
 
-#set(CMAKE_CURRENT_BINARY_DIR bin)
-
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 include_directories(${INCLUDE_DIR})
@@ -179,8 +177,6 @@ configure_file(
 )
 
 add_subdirectory(${SRC_DIR}/TinyXML bin)
-
-
 
 add_executable(Salt2D WIN32 ${HEADERS} ${SOURCES})
 

@@ -38,10 +38,6 @@ PCResourceLoader::PCResourceLoader() {
 
 
 
-PCResourceLoader::~PCResourceLoader() {}
-
-
-
 boost::shared_ptr<Resource> PCResourceLoader::loadResource(ResourceLoader::ResourceType resourceType, const char* resourceName) 
                                                 throw(invalid_argument, runtime_error) {
 
