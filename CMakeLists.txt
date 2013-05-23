@@ -64,6 +64,7 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/Lua.cpp 
   ${SRC_DIR}/Utils/PCResourceLoader.cpp
   ${SRC_DIR}/Utils/ResourceLoader.cpp
+  ${SRC_DIR}/Utils/ResourceManager.cpp
   ${SRC_DIR}/Utils/Texture.cpp 
   ${SRC_DIR}/Utils/Utils.cc
 )
@@ -133,6 +134,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/PlainText.hpp
   ${INCLUDE_DIR}/Utils/Resource.hpp
   ${INCLUDE_DIR}/Utils/ResourceLoader.hpp
+  ${INCLUDE_DIR}/Utils/ResourceManager.hpp
   ${INCLUDE_DIR}/Utils/Singleton.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp
