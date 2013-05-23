@@ -8,7 +8,7 @@
 
 namespace Utils {
 
-    /** Обертка над FreeType.
+    /** Обертка над Freetype2.
       * @author Elijah Vlasov
     */
 

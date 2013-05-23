@@ -12,7 +12,7 @@
 
 #include <GL/gl.h>
 
-#include <SDL/SDL.h>
+#include <Utils/Resource.hpp>
 
 namespace Utils {
 
@@ -21,7 +21,7 @@ namespace Utils {
       * @author Elijah Vlasov
     */
 
-    class Texture {
+    class Texture: public Resource {
 
         public:
 
@@ -35,44 +35,19 @@ namespace Utils {
 
             Texture(const Texture& texture);
 
-            /** Загружает текстуру из файла.
-              * @param textureFileName Имя файла с текстурой
-              * @throw  Генерирует std::invalid_argument, если textureFileName - пустая строка.
-              *         Генрирует std::runtime_error, если невозможно открыть файл или файл 
-              *         неизвестного формата.
-            */
-
-            explicit Texture(const std::string& textureFileName) throw(std::invalid_argument, std::runtime_error);
-
-            /** Загружает текстуру из файла.
-              * @param textureFileName Имя файла с текстурой
-              * @throw  Генерирует std::invalid_argument, если textureFileName - пустая строка или NULL.
-              *         Генрирует std::runtime_error, если невозможно открыть файл или файл 
-              *         неизвестного формата.
-            */
-
-            explicit Texture(const char* textureFileName) throw(std::invalid_argument, std::runtime_error);
-
-            /** Создание текстуры из OpenGL-идентификатора.
-              * @param glTexture OpenGL-идентификатор текстуры
-            */
-
             Texture(GLuint glTexture);
-
-            /** Создание текстуры из SDL_Surface. 
-              * @param textureSurface SDL_Surface с текстурой
-              * @throw  Генерирует std::invalid_argument, если textureSurface - NULL
-            */
-            Texture(const SDL_Surface* textureSurface) throw(std::invalid_argument);
 
             ~Texture();
 
             Texture& operator = (const Texture& texture);
 
+            const std::string& getData() const;
+            void setData(const std::string& data);
+
             /** OpenGL-идентификатор текстуры
             */
 
-            unsigned int getName()const;
+            GLuint getName()const;
 
             /** Ширина текстуры
             */
@@ -95,8 +70,6 @@ namespace Utils {
             GLuint name_;
 
             void createFromGLTex(GLuint tex);
-            void createFromSurface(const SDL_Surface* surface);
-            void loadBitmap(const char* name) throw(std::invalid_argument, std::runtime_error);
 
     };
 

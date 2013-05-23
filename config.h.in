@@ -12,6 +12,8 @@
 
 #define CONFIG_PATH "./config"
 
+#define RESOURCE_PATH "../resources"
+
 #cmakedefine MS_WINDOWS
 
 #endif

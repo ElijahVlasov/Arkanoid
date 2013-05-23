@@ -63,7 +63,11 @@ namespace Utils {
 
         protected:
 
-            Graphics();      
+            Graphics();  
+
+        private:
+
+            static float scrWidth_, scrHeight_;
 
     };
 

@@ -19,8 +19,8 @@
 #include <Utils/Graphics.hpp>
 #include <Utils/Lua.hpp>
 #include <Utils/MouseButton.hpp>
-#include <Utils/PlainText.hpp>
 #include <Utils/Resource.hpp>
+#include <Utils/ResourceFile.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/Texture.hpp>

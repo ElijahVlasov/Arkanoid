@@ -13,6 +13,8 @@
 
 #include <GL/gl.h>
 
+#include <il/il.h>
+
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -33,22 +35,6 @@ Texture::Texture():
     isCreated_(false),
     name_(0)
 {
-}
-
-
-
-Texture::Texture(const std::string& fileName) throw(invalid_argument, runtime_error) {
-
-    loadBitmap(fileName.c_str());
-
-}
-
-
-
-Texture::Texture(const char* fileName) throw(invalid_argument, runtime_error) { 
-
-    loadBitmap(fileName);
-
 }
 
 
@@ -89,19 +75,6 @@ Texture::Texture(const Texture& texture):
 
 
 
-Texture::Texture(const SDL_Surface* textureSurface) throw(invalid_argument) {
-
-    ASSERT(
-        (textureSurface != 0),
-        invalid_argument("textureSurface")
-    );
-
-    createFromSurface(textureSurface);
-
-}
-
-
-
 Texture::~Texture() {
 
     if(isCreated_) {
@@ -130,59 +103,6 @@ Texture& Texture::operator=(const Texture& texture) {
     createFromGLTex(texture.name_);
 
     return *this;
-
-}
-
-
-
-void Texture::loadBitmap(const char* fileName) throw(invalid_argument, runtime_error) {
-
-    SDL_Surface* imgSurface = IMG_Load(fileName); // загружаем текстуру
-
-    ASSERT(
-        (imgSurface != 0),
-
-        runtime_error(
-            (
-                boost::format("Can't load texture %1%:\n%2%") 
-                        % fileName % ::IMG_GetError()
-            ).str()
-        )
-
-    );
-
-    createFromSurface(imgSurface);
- 
-    SDL_FreeSurface(imgSurface);
-
-}
-
-
-
-void Texture::createFromSurface(const SDL_Surface* surface) {
-
-    mode_ = GL_RGB;
-
-    if(surface->format->BytesPerPixel == 4) {
-
-        mode_ = GL_RGBA;
-
-    }
-
-    glGenTextures(1, &name_);
-
-    glBindTexture(GL_TEXTURE_2D, name_);
-
-    // переносим из SDL_Surface в OpenGL texture
-    glTexImage2D(GL_TEXTURE_2D, 0, mode_, surface->w, surface->h, 0, mode_, GL_UNSIGNED_BYTE, surface->pixels);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    width_  = surface->w;
-    height_ = surface->h;
-
-    isCreated_ = true;
 
 }
 
@@ -222,6 +142,25 @@ void Texture::createFromGLTex(GLuint tex) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     free(buffer);
+
+}
+
+
+const string& Texture::getData() const {
+
+    
+
+}
+
+
+
+void Texture::setData(const std::string& data) {
+
+    const void* rawData = reinterpret_cast<const void*>(data.data());
+
+    mode_ = * ( reinterpret_cast<const GLint*>(rawData) );
+
+    
 
 }
 

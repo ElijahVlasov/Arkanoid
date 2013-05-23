@@ -64,6 +64,7 @@ set(UTILS_SOURCES
   ${UTILS_UI_SOURCES}
   ${SRC_DIR}/Utils/Graphics.cpp
   ${SRC_DIR}/Utils/Lua.cpp 
+  ${SRC_DIR}/Utils/ResourceLoader.cpp
   ${SRC_DIR}/Utils/Texture.cpp 
   ${SRC_DIR}/Utils/Utils.cc
 )
@@ -129,6 +130,9 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Graphics.hpp
   ${INCLUDE_DIR}/Utils/Lua.hpp
   ${INCLUDE_DIR}/Utils/MouseButton.hpp
+  ${INCLUDE_DIR}/Utils/PlainText.hpp
+  ${INCLUDE_DIR}/Utils/Resource.hpp
+  ${INCLUDE_DIR}/Utils/ResourceLoader.hpp
   ${INCLUDE_DIR}/Utils/Singleton.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp
@@ -154,7 +158,7 @@ set(LIBS
   ${OPENAL_LIBRARY}
   ${OPENGL_LIBRARIES}
   ${IL_LIBRARIES}
-  ${IL_LIBRARIES}
+  ${ILU_LIBRARIES}
   ${SDL_LIBRARY}
   ${SDLIMAGE_LIBRARY}
   ${FREETYPE_LIBRARIES}
