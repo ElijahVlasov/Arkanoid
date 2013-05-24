@@ -19,6 +19,7 @@
 #include <Utils/Graphics.hpp>
 #include <Utils/Lua.hpp>
 #include <Utils/MouseButton.hpp>
+#include <Utils/PCResourceLoader.hpp>
 #include <Utils/Resource.hpp>
 #include <Utils/ResourceFile.hpp>
 #include <Utils/ResourceLoader.hpp>

@@ -45,6 +45,10 @@ Application::~Application() {
         ::SDL_FreeSurface(surface_);
     }
 
+    if(resourceLoader_ != 0) {
+        resourceLoader_->Free();
+    }
+
     ::SDL_Quit();
 
 }
@@ -52,7 +56,7 @@ Application::~Application() {
 
 
 void Application::initSDL(unsigned int width, unsigned int height, const char* name) {
-	
+
     ASSERT(
         (::SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0),
         runtime_error("Can't load SDL library!")
@@ -61,7 +65,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
     // Задаем иконку и заголовок окна
     ::SDL_WM_SetCaption(name, 0);
 
-	
+
     // Задаем параметры OpenGL
     ::SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
     ::SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
@@ -87,7 +91,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
 
 
 void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(runtime_error) {
-	
+
     uint32_t flags = SDL_FLAGS;
 
     if(surface_ != 0) { // удаляем предыдущий surface
@@ -113,7 +117,9 @@ int Application::run() throw(runtime_error) {
 
     SDL_Event event;
 
-    game_ = Game::Create();
+    resourceLoader_ = Utils::PCResourceLoader::getInstance();
+
+    game_ = Game::Create(resourceLoader_);
 
     game_->setScreenRect(640, 480);
 
@@ -150,7 +156,7 @@ void Application::OnRender() {
 
     if( (scrWidth != static_cast<unsigned int>(surface_->w) )
         || (scrHeight != static_cast<unsigned int>(surface_->h)) ) { // если измененно, то меняем размер surface'а
-		
+
         setSurfaceSize(scrWidth, scrHeight);
 
     }
@@ -164,7 +170,7 @@ void Application::OnRender() {
 
 
 void Application::OnMinimize() {
-	
+
 
 
 }
@@ -186,19 +192,19 @@ void Application::OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode) {
         isFullscreen_ = !isFullscreen_;
         setSurfaceSize(surface_->w, surface_->h);  
     
-    } else {		
+    } else {
 
         game_->onKeyUp(static_cast<int>(key));
 
     }
-	
+
 }
 
 
 
 void Application::OnKeyDown(SDLKey key, SDLMod mod, Uint16 unicode) {
 
-  	
+
     game_->onKeyDown(static_cast<int>(key));
 
 }
@@ -245,7 +251,7 @@ void Application::OnMouseUp(int x, int y, uint8_t button) {
     MouseButton btn;
 
     switch(button) {
-	
+
         case SDL_BUTTON_LEFT:{
 
             btn = MouseButton::BUTTON_LEFT;
@@ -284,7 +290,7 @@ void Application::OnMouseMotion(int x, int y) {
 
 
 void Application::OnQuit() {
-	
+
     game_->quit();
 
 }
@@ -294,11 +300,11 @@ void Application::OnQuit() {
 void Application::OnEvent(SDL_Event* event) {
 
     switch(event->type) {
-	
+
         case SDL_QUIT: { // по закрытию
-	
+
             OnQuit();
-		
+
         }
         break;
 
@@ -307,14 +313,14 @@ void Application::OnEvent(SDL_Event* event) {
             if(event->active.state != SDL_APPACTIVE) {	
                 return;
             }
-			
+
             // если приложение развертывается
             if(event->active.gain) {
-				
+
                 OnRestore();
 
             } else { // если свертывается
-				
+
                 OnMinimize();
 
             }

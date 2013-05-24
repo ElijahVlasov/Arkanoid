@@ -21,7 +21,8 @@ using namespace Utils;
 
 StartLogoState::StartLogoState() throw(runtime_error):
     game_(Game::getInstance()),
-    logo_("logo.png")
+    resourceManager_(ResourceManager::getInstance()),
+    logo_(dynamic_cast<Texture&>(*resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "logo.png")))
 {}
 
 
@@ -30,6 +31,10 @@ StartLogoState::~StartLogoState() {
 
     if(game_ != 0) {
         game_->Free();
+    }
+
+    if(resourceManager_ != 0) {
+        resourceManager_->Free();
     }
 
 }

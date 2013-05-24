@@ -11,6 +11,8 @@
 
 #include <Utils/Graphics.hpp>
 #include <Utils/MouseButton.hpp>
+#include <Utils/ResourceLoader.hpp>
+#include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
 
 #include <Utils/UI/Menu.hpp>
@@ -23,7 +25,7 @@ namespace Engine {
       * прорисовку, синглплеер, мультиплеер и др.
       * @author Elijah Vlasov
     */
-	
+
     class Game: public Utils::Singleton<Game> {
 
         SINGLETON(Game)
@@ -32,8 +34,8 @@ namespace Engine {
         
             /** Создать объект игры.
             */
-	
-            static Game* Create() throw(std::runtime_error);
+
+            static Game* Create(Utils::ResourceLoader* resourceLoader) throw(std::runtime_error);
             
             /** Отрисовка всего.
             */
@@ -111,6 +113,8 @@ namespace Engine {
             ~Game();
 
         private:
+
+            Utils::ResourceManager* resourceManager_;
 
             Utils::UI::MenuFactory* menuFactory_;
 

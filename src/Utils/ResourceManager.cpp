@@ -57,7 +57,7 @@ boost::shared_ptr<Resource> ResourceManager::getResource(ResourceLoader::Resourc
 
     boost::shared_ptr<Resource> newRes = resourceLoader_->loadResource(resourceType, resourceName); // загружаем ресурс
 
-    resource_[strResName] = newRes;
+    resources_[strResName] = newRes;
 
 }
 
@@ -71,7 +71,12 @@ boost::shared_ptr<Resource> ResourceManager::getResource(ResourceLoader::Resourc
 
 
 
-void ResourceManager::setResourceLoader(ResourceLoader* resourceLoader) {
+void ResourceManager::setResourceLoader(ResourceLoader* resourceLoader) throw(invalid_argument) {
+
+    ASSERT(
+        (resourceLoader != 0),
+        invalid_argument("resourceLoader")
+    );
 
     std::lock_guard<std::mutex> lockGuard(managerMutex_);
 

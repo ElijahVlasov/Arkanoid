@@ -13,7 +13,7 @@ namespace Utils {
 
         public:
 
-            virtual ~Resource(){} = 0;
+            virtual ~Resource();
 
             /** Получить данные ресурса.
             */

@@ -131,8 +131,8 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Lua.hpp
   ${INCLUDE_DIR}/Utils/MouseButton.hpp
   ${INCLUDE_DIR}/Utils/PCResourceLoader.hpp
-  ${INCLUDE_DIR}/Utils/PlainText.hpp
   ${INCLUDE_DIR}/Utils/Resource.hpp
+  ${INCLUDE_DIR}/Utils/ResourceFile.hpp
   ${INCLUDE_DIR}/Utils/ResourceLoader.hpp
   ${INCLUDE_DIR}/Utils/ResourceManager.hpp
   ${INCLUDE_DIR}/Utils/Singleton.hpp
@@ -179,6 +179,8 @@ configure_file(
 )
 
 add_subdirectory(${SRC_DIR}/TinyXML bin)
+
+set(CMAKE_BIN_DIRECTORY bin)
 
 add_executable(Salt2D WIN32 ${HEADERS} ${SOURCES})
 

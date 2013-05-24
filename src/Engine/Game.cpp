@@ -10,6 +10,8 @@
 
 #include <Utils/Graphics.hpp>
 #include <Utils/MouseButton.hpp>
+#include <Utils/ResourceLoader.hpp>
+#include <Utils/ResourceManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuFactory.hpp>
@@ -27,6 +29,7 @@ using namespace Utils::UI;
 
 
 Game::Game() throw(runtime_error):
+    resourceManager_(ResourceManager::getInstance()),
     menuFactory_(MenuFactory::getInstance()),
     graphics_(Graphics::getInstance()),
     scrWidth_(640),
@@ -49,20 +52,26 @@ Game::~Game() {
         menuFactory_->Free();
     }
 
+    if(resourceManager_ != 0) {
+        resourceManager_->Free();
+    }
+
 }
 
 
 
-Game* Game::Create() throw(runtime_error) {
+Game* Game::Create(Utils::ResourceLoader* resourceLoader) throw(runtime_error) {
 
     Game* game = getInstance();
+
+    game->resourceManager_->setResourceLoader(resourceLoader);
 
     // Создаем состояние, которое будет показывать лого
     game->startLogoState_  =  StartLogoState::getInstance();
 
     game->setState(game->startLogoState_);
 
-    return game;   
+    return game;
 
 }
 
@@ -129,7 +138,7 @@ void Game::onMouseUp(int x, int y, MouseButton btn) {
 
 
 void Game::setScreenRect(unsigned int width, unsigned int height) {
-	
+
     scrHeight_ =  height;
     scrWidth_  =  width;
 
@@ -138,7 +147,7 @@ void Game::setScreenRect(unsigned int width, unsigned int height) {
 
 
 int Game::getScreenHeight() const {
-	
+
     return scrHeight_;
 
 }
@@ -146,7 +155,7 @@ int Game::getScreenHeight() const {
 
 
 int Game::getScreenWidth() const {
-	
+
     return scrWidth_;
 
 }

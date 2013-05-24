@@ -70,7 +70,7 @@ boost::shared_ptr<Resource> PCResourceLoader::loadResource(ResourceLoader::Resou
 
     }
 
-    return boost::shared_ptr();
+    return boost::shared_ptr<Resource>((Resource*)0);
 
 }
 
@@ -85,7 +85,7 @@ boost::shared_ptr<Resource> PCResourceLoader::loadPlainText(const char* resource
 
     ResourceFile* resource = new ResourceFile();
 
-    ifstream resourcetStream(path);
+    ifstream resourceStream(path);
 
     // Если ошибка потока
     ASSERT(
@@ -141,14 +141,14 @@ boost::shared_ptr<Resource> PCResourceLoader::loadBinaryFile(const char* resourc
 boost::shared_ptr<Resource> PCResourceLoader::loadTexture(const char* resourceName) throw(runtime_error) {
 
     string path = (boost::format("%1%/%2%")
-                      % TEXTURE_PATH % fileName
+                      % TEXTURE_PATH % resourceName
                   ).str();
 
-    boost::shared_ptr<Resource> resource = loadBinaryFile(resourceName);
+    boost::shared_ptr<Resource> resource = loadBinaryFile(path.c_str());
 
     Texture* texture = new Texture();
 
-    string textureData = resource.getData();
+    string textureData = resource->getData();
 
     ILuint ilTexture;
 
@@ -161,7 +161,7 @@ boost::shared_ptr<Resource> PCResourceLoader::loadTexture(const char* resourceNa
         runtime_error(
             (boost::format("Can't load \"%1%\":\n%2%")
                 % resourceName
-                % iluErrorString(ilGetError()))
+                % iluErrorString(ilGetError())
             ).str()
         )
     );
@@ -178,7 +178,7 @@ void PCResourceLoader::ILImageToTexture(ILuint ilTex, Texture* texture) {
 
     unsigned int width, height, bpp;
 
-    ilBindImage(texture);
+    ilBindImage(ilTex);
 
     width   =  ilGetInteger(IL_IMAGE_WIDTH);
     height  =  ilGetInteger(IL_IMAGE_HEIGHT);
@@ -210,7 +210,7 @@ void PCResourceLoader::ILImageToTexture(ILuint ilTex, Texture* texture) {
 
     ilCopyPixels(0, 0, 0,
                  width, height, 1,
-                 format, IL_UNSIGNED_BYTE, const_cast<ILvoid*>(textureData.data())
+                 format, IL_UNSIGNED_BYTE, reinterpret_cast<void*>(const_cast<char*>(textureData.data()))
                 );
 
     texture->setData(textureData);

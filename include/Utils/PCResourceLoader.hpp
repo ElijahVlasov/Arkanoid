@@ -19,10 +19,10 @@ namespace Utils {
       * @author Elijah Vlasov
     */
 
-    class PCResourceLoader: public Singleton<ResourceLoader>,
+    class PCResourceLoader: public Singleton<PCResourceLoader>,
                                 public ResourceLoader {
 
-        SINGLETON(ResourceLoader)
+        SINGLETON(PCResourceLoader)
 
         public:
 

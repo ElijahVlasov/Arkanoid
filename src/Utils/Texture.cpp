@@ -13,11 +13,6 @@
 
 #include <GL/gl.h>
 
-#include <il/il.h>
-
-
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
 
 #include <Utils/assert.hpp>
 
@@ -101,7 +96,7 @@ string Texture::getData() const {
 
     glBindTexture(GL_TEXTURE_2D, name_);
 
-    glGetTexImage(GL_TEXTURE_2D, 0, format_, GL_UNSIGNED_BYTE, const_cast<GLvoid*>(data.data()));
+    glGetTexImage(GL_TEXTURE_2D, 0, format_, GL_UNSIGNED_BYTE, reinterpret_cast<GLvoid*>(const_cast<char*>(data.data())));
 
     return data;
 

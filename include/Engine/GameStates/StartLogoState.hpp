@@ -7,6 +7,7 @@
 
 #include <Engine/GameStates/IGameState.hpp>
 
+#include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
 #include <Utils/Singleton.hpp>
 
@@ -40,6 +41,8 @@ namespace Engine {
             private:
 
                 /*Engine::*/Game* game_; 
+
+                Utils::ResourceManager* resourceManager_;
 
                 Utils::Texture logo_;
 

@@ -17,6 +17,8 @@
 
 #include <Engine/GameStates.hpp>
 
+#include <Utils/PCResourceLoader.hpp>
+
 #include <boost/utility.hpp>
 
 class Application: public boost::noncopyable {
@@ -111,6 +113,8 @@ class Application: public boost::noncopyable {
         static const boost::uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL;
 
         bool isFullscreen_;
+
+        Utils::PCResourceLoader* resourceLoader_;
 
         Engine::Game* game_;
 
