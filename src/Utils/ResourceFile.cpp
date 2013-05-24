@@ -1,10 +1,18 @@
 #include <string>
 
-#include <Utils/PlainText.hpp>
+#include <Utils/ResourceFile.hpp>
 
 using namespace std;
 
 using namespace Utils;
+
+
+
+ResourceFile::ResourceFile() {}
+
+
+
+ResourceFile::~ResourceFile() {}
 
 
 
@@ -21,7 +29,3 @@ void ResourceFile::setData(const string& data) {
     text_ = data;
 
 }
-
-
-
-ResourceFile::~ResourceFile() {}

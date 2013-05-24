@@ -64,6 +64,7 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/Lua.cpp 
   ${SRC_DIR}/Utils/PCResourceLoader.cpp
   ${SRC_DIR}/Utils/Resource.cpp
+  ${SRC_DIR}/Utils/ResourceFile.cpp
   ${SRC_DIR}/Utils/ResourceLoader.cpp
   ${SRC_DIR}/Utils/ResourceManager.cpp
   ${SRC_DIR}/Utils/Texture.cpp 

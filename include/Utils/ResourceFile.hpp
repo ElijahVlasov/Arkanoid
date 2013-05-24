@@ -15,6 +15,7 @@ namespace Utils {
 
         public:
 
+            ResourceFile();
             ~ResourceFile();
 
             std::string getData() const;

@@ -124,6 +124,23 @@ unsigned int Texture::getName() const {
 }
 
 
+
+void Texture::setFormat(GLint format) {
+
+    format_ = format;
+
+}
+
+
+
+GLint Texture::getFormat() const {
+
+    return format_;
+
+}
+
+
+
 void Texture::setWidth(unsigned int width) {
 
     width_ = width;
