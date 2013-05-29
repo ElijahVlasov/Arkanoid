@@ -9,6 +9,9 @@ set(SRC_DIR src)
 
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
+
 include_directories(${INCLUDE_DIR})
 
 include(CheckLibs.cmake)
@@ -180,9 +183,7 @@ configure_file(
   "include/config.h"
 )
 
-add_subdirectory(${SRC_DIR}/TinyXML bin)
-
-set(CMAKE_BIN_DIRECTORY bin)
+add_subdirectory(${SRC_DIR}/TinyXML)
 
 add_executable(Salt2D WIN32 ${HEADERS} ${SOURCES})
 
