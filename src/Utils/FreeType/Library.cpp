@@ -49,12 +49,13 @@ FT_Face Library::createFaceFromBuffer(const string& buffer, unsigned int index) 
 
     FT_Face face;
 
-    FT_Error err = FT_New_Memory_Face(library_,
-                                      reinterpret_cast<const FT_Byte*>(buffer.c_str()),
-                                      buffer.length(),
-                                      index,
-                                      &face
-                                     );
+    FT_Byte* bufferData = new FT_Byte[buffer.length()]; //reinterpret_cast<const FT_Byte*>(buffer.data());
+
+    memcpy(bufferData, buffer.data(), buffer.length());
+
+    FT_Error err = FT_New_Memory_Face(library_, bufferData, buffer.length(), index + 1, &face);
+
+    delete bufferData;
 
     ASSERT(
         (err == 0),

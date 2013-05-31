@@ -135,9 +135,19 @@ int Application::run() throw(runtime_error) {
 
         OnRender();
 
+        OnLoop();
+
     }
 
     return 0;
+
+}
+
+
+
+void Application::OnLoop() throw(runtime_error) {
+
+    game_->onLoop();
 
 }
 

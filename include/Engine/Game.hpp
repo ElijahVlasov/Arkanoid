@@ -1,6 +1,8 @@
 ﻿#ifndef _SALT2D_ENGINE_GAME_HPP
 #define _SALT2D_ENGINE_GAME_HPP
 
+#include <exception>
+#include <mutex>
 #include <stdexcept>
 #include <thread>
 
@@ -36,7 +38,12 @@ namespace Engine {
             */
 
             static Game* Create(Utils::ResourceLoader* resourceLoader) throw(std::runtime_error);
-            
+
+            /** Завершение итерации цикла обработки сообщений.
+            */
+
+            void onLoop() throw(std::exception);
+
             /** Отрисовка всего.
             */
 
@@ -121,7 +128,15 @@ namespace Engine {
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;
 
+            std::exception_ptr e_;
+
+            std::mutex   exceptionCheckMutex_;
+
+            std::mutex   initMutex_; // нужен для синхронизации основного потока и потока загрузки
             std::thread* initThread_;
+
+            void setException(const std::exception_ptr& e);
+            const std::exception_ptr& getException();
 
             void loadResources() throw(std::runtime_error);
 

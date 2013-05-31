@@ -1,3 +1,5 @@
+#include <exception>
+#include <mutex>
 #include <stdexcept>
 #include <thread>
 
@@ -72,6 +74,18 @@ Game* Game::Create(Utils::ResourceLoader* resourceLoader) throw(runtime_error) {
     game->setState(game->startLogoState_);
 
     return game;
+
+}
+
+
+
+void Game::onLoop() throw(std::exception) {
+
+    exception_ptr e = getException();
+
+    if(e != 0) {
+        rethrow_exception(e);
+    }
 
 }
 
@@ -183,6 +197,8 @@ void Game::run() throw(runtime_error) {
     // Запускаем загрузку ресурсов
     initThread_ =  new std::thread(mem_fn(&Game::loadResources), this);
 
+    initThread_->detach();
+
     isRunning_ = true;
 
     
@@ -207,17 +223,49 @@ bool Game::isRunning() const {
 
 
 
+void Game::setException(const std::exception_ptr& e) {
+
+    std::lock_guard<std::mutex> guard(exceptionCheckMutex_);
+
+    e_ = e;
+
+}
+
+
+
+const std::exception_ptr& Game::getException() {
+
+    std::lock_guard<std::mutex> guard(exceptionCheckMutex_);
+
+    return e_;
+
+}
+
+
+
 // Загрузка ресурсов
 void Game::loadResources() throw(runtime_error) {
 
     // Загружаем главное меню
-/*    mainMenu_ = boost::shared_ptr<Menu>(menuFactory_->createFromXML("main_menu.xml"));
 
-    menuGameState_    =  MenuState::getInstance();
-    singleGameState_  =  SingleGameState::getInstance();
+    try {
 
-    menuGameState_->setMenu(mainMenu_);*/
+        std::lock_guard<std::mutex> guard(initMutex_);
 
-    
+        boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceLoader::ResourceType::PLAIN_TEXT, "ui/main_menu.xml");
+
+        mainMenu_ = boost::shared_ptr<Menu>(menuFactory_->createFromXML(menuResource->getData()));
+
+        menuGameState_    =  MenuState::getInstance();
+        singleGameState_  =  SingleGameState::getInstance();
+
+        menuGameState_->setMenu(mainMenu_);
+
+
+    } catch(...) {
+
+        setException(current_exception());
+
+    }
 
 }

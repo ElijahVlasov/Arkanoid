@@ -23,55 +23,55 @@ const std::string MenuFactory::MENU_ROOT_NODE_VALUE = "menu";
 
 
 MenuFactory::MenuFactory() throw(runtime_error):
-	componentFactory_(ComponentFactory::getInstance())
+    componentFactory_(ComponentFactory::getInstance())
 {}
 
 
 
 MenuFactory::~MenuFactory() {
 
-	if(componentFactory_ != 0) {
-		componentFactory_->Free();
-	}
+    if(componentFactory_ != 0) {
+        componentFactory_->Free();
+    }
 
 }
 
 
 
-Menu* MenuFactory::createFromXML(const char* fileName) throw(invalid_argument, runtime_error) {
+Menu* MenuFactory::createFromXML(const char* xmlMenu) throw(invalid_argument, runtime_error) {
 
-	ASSERT(
-		(fileName != 0),
-		invalid_argument("fileName")
-	);
+    ASSERT(
+        (xmlMenu != 0),
+        invalid_argument("xmlMenu")
+    );
 
-	ASSERT(
-		(strlen(fileName) != 0),
-		invalid_argument("fileName")
-	);
+    ASSERT(
+        (strlen(xmlMenu) != 0),
+        invalid_argument("xmlMenu")
+    );
 
-	curXMLFileName_ = fileName;
+    Menu* menu = new Menu();
 
-	Menu* menu = new Menu();
+    TiXmlDocument doc;
 
-	TiXmlDocument doc(fileName);
+    doc.Parse(xmlMenu);
 
-	ASSERT(
-		doc.LoadFile(),
-		runtime_error((boost::format("Failed to load file \"%1%\".") % fileName).str())
-	);
+    ASSERT(
+        !doc.Error(),
+        runtime_error(doc.ErrorDesc())
+    );
 
-	loadComponents(doc, menu);
+    loadComponents(doc, menu);
 
-	return menu;
+    return menu;
 
 }
 
 
 
-Menu* MenuFactory::createFromXML(const string& fileName) throw(invalid_argument, runtime_error) {
+Menu* MenuFactory::createFromXML(const string& xmlMenu) throw(invalid_argument, runtime_error) {
 
-	return createFromXML(fileName.c_str());
+    return createFromXML(xmlMenu.c_str());
 
 }
 
@@ -79,60 +79,46 @@ Menu* MenuFactory::createFromXML(const string& fileName) throw(invalid_argument,
 
 void MenuFactory::loadComponents(TiXmlDocument& document, Menu* menu) throw(runtime_error) {
 
-	TiXmlElement* rootElement = document.RootElement();
+    TiXmlElement* rootElement = document.RootElement();
 
-	ASSERT(
-		(rootElement != 0),
-		runtime_error(
-			(boost::format("%1%: document hasn't root element") 
-				% curXMLFileName_ 
-			).str()
-		)
-	);
+    ASSERT(
+        (rootElement != 0),
+        runtime_error("Document hasn't root element")
+    );
 
-	ASSERT(
-		(rootElement->ValueStr() == MENU_ROOT_NODE_VALUE),
-		runtime_error(
-			(boost::format("%1%: Root node of menu document must have \"%2%\" value")
-				% curXMLFileName_
-				% MENU_ROOT_NODE_VALUE
-			).str()
-		)
-	);
+    ASSERT(
+        (rootElement->ValueStr() == MENU_ROOT_NODE_VALUE),
+        runtime_error(
+            (boost::format("Root node of menu document must have \"%1%\" value")
+                % MENU_ROOT_NODE_VALUE
+            ).str()
+        )
+    );
 
-	// проходим по всем node'ам, если это элементы,
-	// то создаем компонент
-	for(TiXmlNode* node = rootElement->FirstChild(); node != 0; node = node->NextSibling()) {
-	
-		TiXmlElement* uiElement = node->ToElement();
+    // проходим по всем node'ам, если это элементы,
+    // то создаем компонент
+    for(TiXmlNode* node = rootElement->FirstChild(); node != 0; node = node->NextSibling()) {
 
-		if(uiElement == 0) {
-			continue;
-		}
+        TiXmlElement* uiElement = node->ToElement();
 
-		Component* component = 0;
+        if(uiElement == 0) {
+            continue;
+        }
 
-		try {
+        Component* component = 0;
 
-			component = componentFactory_->createFromXMLElement(uiElement);
+        try {
 
-		} catch(const runtime_error& err) {
+            component = componentFactory_->createFromXMLElement(uiElement);
 
-			throw(runtime_error(
-				(boost::format("%1%: %2%") 
-					% curXMLFileName_
-					% err.what()
-				).str()
-			));
+        } catch(const invalid_argument&) {}
 
-		} catch(const invalid_argument&) {}
+        if(component == 0) {
+            continue;
+        }
 
-		if(component == 0) {
-			continue;
-		}
+        menu->addComponent(boost::shared_ptr<Component>(component));
 
-		menu->addComponent(boost::shared_ptr<Component>(component));
-
-	}
+    }
 
 }

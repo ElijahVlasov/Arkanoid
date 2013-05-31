@@ -45,6 +45,11 @@ class Application: public boost::noncopyable {
 
         void OnEvent(SDL_Event* event);
 
+        /** Событие завершения итерации цикла.
+        */
+
+        void OnLoop() throw(std::runtime_error);
+
         /** Событие отрисовки.
         */
 
