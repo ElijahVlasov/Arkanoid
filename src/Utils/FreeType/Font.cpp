@@ -22,19 +22,7 @@ using namespace Utils::FreeType;
 
 
 
-Font::Font(const char* filePath) throw(invalid_argument, runtime_error):
-    lib_(Library::getInstance()),
-    fontBuffer_(lib_->loadFaceFile(filePath)),
-    face_(lib_->createFaceFromBuffer(fontBuffer_, 0)),
-    size_(12)
-{}
-
-
-
-Font::Font(const string& filePath) throw(invalid_argument, runtime_error):
-    lib_(Library::getInstance()),
-    fontBuffer_(lib_->loadFaceFile(filePath)),
-    face_(lib_->createFaceFromBuffer(fontBuffer_, 0)),
+Font::Font():
     size_(12)
 {}
 
@@ -42,15 +30,20 @@ Font::Font(const string& filePath) throw(invalid_argument, runtime_error):
 
 Font::Font(const Font& font):
     lib_(Library::getInstance()),
-    fontBuffer_(font.fontBuffer_),
-    face_(lib_->createFaceFromBuffer(fontBuffer_, 0)),
     size_(font.size_)
 {
+
+    setData(font.getData());
+
 }
 
 
 
 Font::~Font() {
+
+    if(fontBuffer_.size() != 0) { // если буфер не пуст, значит шрифт загружен
+        FT_Done_Face(face_);
+    }
 
     if(lib_ != 0) {
         lib_->Free();
@@ -62,10 +55,9 @@ Font::~Font() {
 
 Font& Font::operator=(const Font& font) {
 
-    fontBuffer_  =  font.fontBuffer_;
-    size_        =  font.size_;
+    size_ = font.size_;
 
-    face_ = lib_->createFaceFromBuffer(fontBuffer_, 0);
+    setData(font.getData());
 
     return *this;
 
@@ -77,11 +69,6 @@ Texture Font::renderText(const char* text) throw(invalid_argument, runtime_error
 
     ASSERT(
         (text != 0),
-        invalid_argument("text")
-    );
-
-    ASSERT(
-        (strlen(text) != 0),
         invalid_argument("text")
     );
 
@@ -137,5 +124,36 @@ const Color& Font::getColor() const {
 void Font::setColor(const Color& color) {
 
     color_ = color;
+
+}
+
+
+
+void Font::setData(const string& data) {
+
+    if(fontBuffer_.size() != 0) { // если буфер не пуст, значит шрифт загружен
+        FT_Done_Face(face_);
+    }
+
+    fontBuffer_ = data;
+
+    try {
+
+        face_ = lib_->createFaceFromBuffer(fontBuffer_, 0);
+
+    } catch(...) {
+
+        fontBuffer_.clear(); // если произошли ошибки очищаем буфер
+
+    }
+
+
+}
+
+
+
+string Font::getData() const {
+
+    return fontBuffer_;
 
 }

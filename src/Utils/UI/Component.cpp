@@ -4,6 +4,7 @@
 #include <string>
 
 #include <boost/function.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <Utils.hpp>
 
@@ -18,17 +19,32 @@ using namespace std;
 
 
 Component::Component() throw(runtime_error):
-    font_("arial.ttf"),
+    resourceManager_(ResourceManager::getInstance()),
     x_(0),
     y_(0),
     width_(0),
-    height_(0)	
+    height_(0)
 {
+
+    try {
+
+        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceLoader::ResourceType::FONT, "fonts/Arial.ttf");
+
+        font_ = *(boost::dynamic_pointer_cast<Font>(fontResource).get());
+
+    } catch(const bad_cast&) {}
+
 }
 
 
 
-Component::~Component() {}
+Component::~Component() {
+
+    if(resourceManager_ != 0) {
+        resourceManager_->Free();
+    }
+
+}
 
 
 
@@ -44,7 +60,7 @@ void Component::setRect(int x, int y, unsigned int width, unsigned int height) {
 
 
 int Component::getX() const {
-	
+
     return x_;
 
 }

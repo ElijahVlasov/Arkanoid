@@ -52,10 +52,10 @@ void Graphics::DrawTexture(float x, float y, float width, float height, const Te
 
     static const Graphics::CoordArray texCoords = {
 
-        point_xy<float>(0.0f, 0.0f),
-        point_xy<float>(1.0f, 0.0f),
         point_xy<float>(0.0f, 1.0f),
-        point_xy<float>(1.0f, 1.0f)
+        point_xy<float>(1.0f, 1.0f),
+        point_xy<float>(0.0f, 0.0f),
+        point_xy<float>(1.0f, 0.0f)
 
     };
 
@@ -73,7 +73,7 @@ void Graphics::DrawTexture(float x, float y, float width, float height, const Co
     // рисуем 2 треугольника
     glBegin(GL_TRIANGLE_STRIP);
 
-    glTexCoord2f(    texCoords[0].x(), (texCoords[0].y())); 
+    glTexCoord2f(    texCoords[0].x(), texCoords[0].y()); 
     glVertex2f(x,            y);
 
     glTexCoord2f(    texCoords[1].x(), texCoords[1].y());

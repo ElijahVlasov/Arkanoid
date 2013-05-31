@@ -3,6 +3,8 @@
 
 #include <stdexcept>
 
+#include <boost/shared_ptr.hpp>
+
 #include <Engine/Game.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
@@ -44,7 +46,7 @@ namespace Engine {
 
                 Utils::ResourceManager* resourceManager_;
 
-                Utils::Texture logo_;
+                boost::shared_ptr<Utils::Texture> logo_;
 
         };
 

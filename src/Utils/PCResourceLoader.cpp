@@ -27,6 +27,8 @@ using namespace std;
 
 using namespace Utils;
 
+using namespace Utils::FreeType;
+
 
 
 PCResourceLoader::PCResourceLoader() {
@@ -65,6 +67,11 @@ boost::shared_ptr<Resource> PCResourceLoader::loadResource(ResourceLoader::Resou
 
         case TEXTURE: {
             return loadTexture(resourceName);
+        }
+        break;
+
+        case FONT: {
+            return loadFont(resourceName);
         }
         break;
 
@@ -138,13 +145,25 @@ boost::shared_ptr<Resource> PCResourceLoader::loadBinaryFile(const char* resourc
 
 
 
+boost::shared_ptr<Resource> PCResourceLoader::loadFont(const char* resourceName) throw(runtime_error) {
+
+    boost::shared_ptr<Resource> resource = loadBinaryFile(resourceName);
+
+    Font* font = new Font();
+
+    string fontData = resource->getData();
+
+    font->setData(fontData);
+
+    return boost::shared_ptr<Font>(font);
+
+}
+
+
+
 boost::shared_ptr<Resource> PCResourceLoader::loadTexture(const char* resourceName) throw(runtime_error) {
 
-    string path = (boost::format("%1%/%2%")
-                      % TEXTURE_PATH % resourceName
-                  ).str();
-
-    boost::shared_ptr<Resource> resource = loadBinaryFile(path.c_str());
+    boost::shared_ptr<Resource> resource = loadBinaryFile(resourceName);
 
     Texture* texture = new Texture();
 
@@ -168,7 +187,7 @@ boost::shared_ptr<Resource> PCResourceLoader::loadTexture(const char* resourceNa
 
     ILImageToTexture(ilTexture, texture);
 
-    return boost::shared_ptr<Resource>(texture);
+    return boost::shared_ptr<Texture>(texture);
 
 }
 

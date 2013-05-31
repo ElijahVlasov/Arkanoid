@@ -3,9 +3,9 @@
 #include <stdexcept>
 #include <string>
 
-#include <boost/bind.hpp>
 #include <boost/format.hpp>
 #include <boost/function.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <lua/lua.hpp>
 #include <luabind/luabind.hpp>
@@ -23,44 +23,60 @@ using namespace Utils::UI;
 
 
 
-const std::string ComponentFactory::BUTTON_TYPE		=	"button";
-const std::string ComponentFactory::LABEL_TYPE		=	"label";
+const std::string ComponentFactory::BUTTON_TYPE     =   "button";
+const std::string ComponentFactory::LABEL_TYPE      =   "label";
+
+
+
+ComponentFactory::ComponentFactory():
+    resourceManager_(ResourceManager::getInstance())
+{}
+
+
+
+ComponentFactory::~ComponentFactory() {
+
+    if(resourceManager_ != 0) {
+        resourceManager_->Free();
+    }
+
+}
 
 
 
 Component* ComponentFactory::createFromXMLElement(const TiXmlElement* element) throw(invalid_argument, runtime_error) {
 
-	ASSERT(
-		(element != 0),
-		invalid_argument("element")
-	);
+    ASSERT(
+        (element != 0),
+        invalid_argument("element")
+    );
 
-	Component* component;
+    Component* component;
 
-	string elementType = element->ValueStr();
+    string elementType = element->ValueStr();
 
-	// Создаем нужный объект
-	if(elementType == BUTTON_TYPE) {
+    // Создаем нужный объект
+    if(elementType == BUTTON_TYPE) {
 
-		component = new Button();
+        component = new Button();
 
-	} else if(elementType == LABEL_TYPE) {
-	
-		component = new Label();
+    } else if(elementType == LABEL_TYPE) {
 
-	} else {
-	
-		string errMsg = (boost::format("Failed to create UI-element \"%1%\".") 
-			% elementType).str();
+        component = new Label();
 
-		throw(runtime_error(errMsg));
+    } else {
 
-	}
+        string errMsg = (boost::format("Failed to create UI-element \"%1%\".") 
+            % elementType).str();
 
-	// задаем свойства объекта
-	setXMLAttributes(element, component);
+        throw(runtime_error(errMsg));
 
-	return component;
+    }
+
+    // задаем свойства объекта
+    setXMLAttributes(element, component);
+
+    return component;
 
 }
 
@@ -68,41 +84,45 @@ Component* ComponentFactory::createFromXMLElement(const TiXmlElement* element) t
 
 void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* component) throw(runtime_error) {
 
-	if(component == 0) {
-		return;
-	}
+    if(component == 0) {
+        return;
+    }
 
-	if(element == 0) {
-		return;
-	}
+    if(element == 0) {
+        return;
+    }
 
-	int				x,			y;
-	unsigned int	width,		height;
-	const char*		text	=	element->GetText();
-	string			fontName,	componentName;
+    int             x,          y;
+    unsigned int    width,      height;
+    const char*     text    =   element->GetText();
+    string          fontName,   componentName;
 
-	// загружаем свойства объекта
-	x				=	getXMLAttribute<int>(element, "x", 0);
-	y				=	getXMLAttribute<int>(element, "y", 0);
-	width			=	static_cast<unsigned int>(getXMLAttribute<int>(element, "width", 100));
-	height			=	static_cast<unsigned int>(getXMLAttribute<int>(element, "height", 100));
+    // загружаем свойства объекта
+    x               =   getXMLAttribute<int>(element, "x", 0);
+    y               =   getXMLAttribute<int>(element, "y", 0);
+    width           =   static_cast<unsigned int>(getXMLAttribute<int>(element, "width", 100));
+    height          =   static_cast<unsigned int>(getXMLAttribute<int>(element, "height", 100));
 
-	fontName		=	getXMLAttribute<string>(element, "font", "arial.ttf");
-	componentName	=	getXMLAttribute<string>(element, "name");
+    fontName        =   getXMLAttribute<string>(element, "font", "arial.ttf");
+    componentName   =   getXMLAttribute<string>(element, "name");
 
-	component->setRect(x, y, width, height);
+    component->setRect(x, y, width, height);
 
-	try {
+    try {
 
-		component->setFont(Font(fontName));
+        boost::shared_ptr<Font> font = dynamic_pointer_cast<Font>(
+                                    resourceManager_->getResource(ResourceLoader::ResourceType::FONT, fontName));
 
-	} catch(const invalid_argument&) {}
+        component->setFont(*(font.get()));
 
-	component->setName(componentName);
-	component->setText(text);
+    } catch(const invalid_argument&) {}
+      catch(const bad_cast&) {}
 
-	// задаем луашные обработчики
-	setLuaHandlers(element, component);
+    component->setName(componentName);
+    component->setText(text);
+
+    // задаем луашные обработчики
+    setLuaHandlers(element, component);
 
 }
 
@@ -110,62 +130,62 @@ void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* 
 
 void ComponentFactory::setLuaHandlers(const TiXmlElement* element, Component* component) throw(runtime_error) {
 
-	string			clickEvent, hoverEvent, mouseDownEvent, mouseUpEvent, drawEvent, keyDownEvent, keyUpEvent;
+    string          clickEvent, hoverEvent, mouseDownEvent, mouseUpEvent, drawEvent, keyDownEvent, keyUpEvent;
 
-	clickEvent		=	getXMLAttribute<string>(element, "onClick");
-	hoverEvent		=	getXMLAttribute<string>(element, "onHover");
-	mouseDownEvent	=	getXMLAttribute<string>(element, "onMouseDown");
-	mouseUpEvent	=	getXMLAttribute<string>(element, "onMouseUp");
+    clickEvent      =   getXMLAttribute<string>(element, "onClick");
+    hoverEvent      =   getXMLAttribute<string>(element, "onHover");
+    mouseDownEvent  =   getXMLAttribute<string>(element, "onMouseDown");
+    mouseUpEvent    =   getXMLAttribute<string>(element, "onMouseUp");
 
-	drawEvent		=	getXMLAttribute<string>(element, "onDraw");
-	
-	keyDownEvent	=	getXMLAttribute<string>(element, "onKeyDown");
-	keyUpEvent		=	getXMLAttribute<string>(element, "onKeyUp");
+    drawEvent       =   getXMLAttribute<string>(element, "onDraw");
 
-	// Устанавливаем обработчики. Имя функции-обработчика может быть
-	// неправильным, тогда генерируется invalid_argument, просто
-	// игнорируем это событие.
-	try {
+    keyDownEvent    =   getXMLAttribute<string>(element, "onKeyDown");
+    keyUpEvent      =   getXMLAttribute<string>(element, "onKeyUp");
 
-		component->setClickedEvent		(ComponentEvent_wrapper<MouseEvent>(clickEvent));
+    // Устанавливаем обработчики. Имя функции-обработчика может быть
+    // неправильным, тогда генерируется invalid_argument, просто
+    // игнорируем это событие.
+    try {
 
-	} catch (const invalid_argument&) {} 
+        component->setClickedEvent      (ComponentEvent_wrapper<MouseEvent>(clickEvent));
 
-	try {
+    } catch (const invalid_argument&) {} 
 
-		component->setHoveredEvent		(ComponentEvent_wrapper<MouseEvent>(hoverEvent));
+    try {
 
-	} catch (const invalid_argument&) {} 
+        component->setHoveredEvent      (ComponentEvent_wrapper<MouseEvent>(hoverEvent));
 
-	try {
+    } catch (const invalid_argument&) {} 
 
-		component->setMouseDownEvent	(ComponentEvent_wrapper<MouseEvent>(mouseDownEvent));
+    try {
 
-	} catch (const invalid_argument&) {} 
+        component->setMouseDownEvent    (ComponentEvent_wrapper<MouseEvent>(mouseDownEvent));
 
-	try {
+    } catch (const invalid_argument&) {} 
 
-		component->setMouseUpEvent		(ComponentEvent_wrapper<MouseEvent>(mouseUpEvent));
+    try {
 
-	} catch (const invalid_argument&) {} 
+        component->setMouseUpEvent      (ComponentEvent_wrapper<MouseEvent>(mouseUpEvent));
 
-	try {
+    } catch (const invalid_argument&) {} 
 
-		component->setDrawEvent			(ComponentEvent_wrapper<Event>(drawEvent));
+    try {
 
-	} catch (const invalid_argument&) {} 
+        component->setDrawEvent         (ComponentEvent_wrapper<Event>(drawEvent));
 
-	try {
-		
-		component->setKeyDownEvent		(ComponentEvent_wrapper<KeyEvent>(keyDownEvent));
+    } catch (const invalid_argument&) {} 
 
-	} catch (const invalid_argument&) {} 
+    try {
 
-	try {
+        component->setKeyDownEvent      (ComponentEvent_wrapper<KeyEvent>(keyDownEvent));
 
-		component->setKeyUpEvent		(ComponentEvent_wrapper<KeyEvent>(keyUpEvent));
+    } catch (const invalid_argument&) {} 
 
-	} catch (const invalid_argument&) {} 
+    try {
+
+        component->setKeyUpEvent        (ComponentEvent_wrapper<KeyEvent>(keyUpEvent));
+
+    } catch (const invalid_argument&) {} 
 
 }
 
@@ -173,7 +193,7 @@ void ComponentFactory::setLuaHandlers(const TiXmlElement* element, Component* co
 
 template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const char* attrName) throw(runtime_error) {
 
-	return getXMLAttribute<T>(element, string(attrName));
+    return getXMLAttribute<T>(element, string(attrName));
 
 }
 
@@ -181,7 +201,7 @@ template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* ele
 
 template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const char* attrName, const T& defValue) throw(runtime_error) {
 
-	return getXMLAttribute<T>(element, string(attrName), defValue);
+    return getXMLAttribute<T>(element, string(attrName), defValue);
 
 }
 
@@ -189,7 +209,7 @@ template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* ele
 
 template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const string& attrName) throw(runtime_error) {
 
-	return getXMLAttribute<T>(element, attrName, T());
+    return getXMLAttribute<T>(element, attrName, T());
 
 }
 
@@ -197,23 +217,23 @@ template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* ele
 
 template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const string& attrName, const T& defValue) throw(runtime_error) {
 
-	T attr;
+    T attr;
 
-	int err = element->QueryValueAttribute<T>(attrName, &attr);
+    int err = element->QueryValueAttribute<T>(attrName, &attr);
 
-	ASSERT(
-		(err != TIXML_WRONG_TYPE),
-		runtime_error(
-			(boost::format("UI element attribute \"%1%\" has wrong type") 
-				% attrName
-			).str()
-		)
-	);
+    ASSERT(
+        (err != TIXML_WRONG_TYPE),
+        runtime_error(
+            (boost::format("UI element attribute \"%1%\" has wrong type") 
+                % attrName
+            ).str()
+        )
+    );
 
-	if(err == TIXML_NO_ATTRIBUTE) {
-		attr = defValue;
-	}
+    if(err == TIXML_NO_ATTRIBUTE) {
+        attr = defValue;
+    }
 
-	return attr;
+    return attr;
 
 }

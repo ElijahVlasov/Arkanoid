@@ -211,12 +211,12 @@ bool Game::isRunning() const {
 void Game::loadResources() throw(runtime_error) {
 
     // Загружаем главное меню
-    mainMenu_ = boost::shared_ptr<Menu>(menuFactory_->createFromXML("main_menu.xml"));
+/*    mainMenu_ = boost::shared_ptr<Menu>(menuFactory_->createFromXML("main_menu.xml"));
 
     menuGameState_    =  MenuState::getInstance();
     singleGameState_  =  SingleGameState::getInstance();
 
-    menuGameState_->setMenu(mainMenu_);
+    menuGameState_->setMenu(mainMenu_);*/
 
     
 

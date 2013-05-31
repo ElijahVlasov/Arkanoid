@@ -8,6 +8,7 @@
 
 #include <Utils/FreeType.hpp>
 #include <Utils/MouseButton.hpp>
+#include <Utils/ResourceManager.hpp>
 
 #include <Utils/UI/Event.hpp>
 #include <Utils/UI/KeyEvent.hpp>
@@ -173,7 +174,7 @@ namespace Utils {
                 */
                 
                 virtual void draw();
-				
+
                 /** Установить MouseHoverEvent.
                 */
                 
@@ -211,6 +212,8 @@ namespace Utils {
 
             private:
 
+                Utils::ResourceManager* resourceManager_;
+
                 Utils::FreeType::Font font_;
 
                 std::string text_;
@@ -226,7 +229,7 @@ namespace Utils {
                 MouseClickEvent   clickEvent_;
 
                 DrawEvent         drawEvent_;
-	
+
                 KeyDownEvent      keyDownEvent_;
                 KeyUpEvent        keyUpEvent_;
 

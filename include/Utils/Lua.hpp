@@ -7,6 +7,7 @@
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
+#include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
 
 namespace Utils {
@@ -18,7 +19,7 @@ namespace Utils {
     class Lua: public Utils::Singleton<Lua> {
 
         SINGLETON(Lua)
-	
+
         public:
 
             /** Загрузить скрипт.
@@ -68,16 +69,17 @@ namespace Utils {
                                                            throw(std::runtime_error, std::invalid_argument);
 
         protected:
-			
+
             Lua();
             ~Lua();
 
         private:
 
+            ResourceManager* resourceManager_;
+
             lua_State* luaState_;
 
             std::string createModuleName(const std::string& scriptName);
-            std::string createScriptPath(const std::string& scriptName);
 
     };
 

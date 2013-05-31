@@ -40,39 +40,6 @@ Library::~Library() {
 
 
 
-string Library::loadFaceFile(const char* filePath) throw(invalid_argument, runtime_error) {
-
-    ASSERT(
-        (filePath != 0),
-        invalid_argument("filePath")
-    );
-
-    ASSERT(
-        (strlen(filePath) != 0),
-        invalid_argument("filePath")
-    );
-
-    // путь к шрифту
-    string fontPath = (boost::format("%1%/%2%") % FONT_PATH % filePath).str();
-
-    ifstream fontStream(fontPath, ios::binary);
-
-    string fontBuf(Utils::readBinaryStream(fontStream));
-
-    return fontBuf;
-
-}
-
-
-
-string Library::loadFaceFile(const string& filePath) throw(invalid_argument, runtime_error) {
-
-    return loadFaceFile(filePath.c_str());
-
-}
-
-
-
 FT_Face Library::createFaceFromBuffer(const string& buffer, unsigned int index) throw(invalid_argument, runtime_error) {
 
     ASSERT(

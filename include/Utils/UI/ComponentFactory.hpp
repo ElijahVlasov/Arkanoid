@@ -6,23 +6,24 @@
 
 #include <TinyXML/tinyxml.h>
 
+#include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
 
 #include <Utils/UI/Component.hpp>
 
 namespace Utils {
 
-	namespace UI {
+    namespace UI {
     
         /** Фабрика для создания компонентов.
           * @author Elijah Vlasov
         */
-	
-		class ComponentFactory: public Utils::Singleton<ComponentFactory> {
 
-			SINGLETON(ComponentFactory)
+        class ComponentFactory: public Utils::Singleton<ComponentFactory> {
 
-			public:
+            SINGLETON(ComponentFactory)
+
+            public:
 
                 /** Создать компонент из XML-элемента.
                   * @param element XML-элемент
@@ -31,37 +32,42 @@ namespace Utils {
                   *        если произошли ошибки парсинга или другие.
                 */
             
-				Component* createFromXMLElement(const TiXmlElement* element) 
-													throw(std::invalid_argument, std::runtime_error);
+                Component* createFromXMLElement(const TiXmlElement* element) 
+                                                    throw(std::invalid_argument, std::runtime_error);
 
-			private:
+            protected:
 
-				static const std::string BUTTON_TYPE;
-				static const std::string LABEL_TYPE;
+                ComponentFactory();
+                ~ComponentFactory();
 
-				void setXMLAttributes(const TiXmlElement* element, Component* component)
-													throw(std::runtime_error);
+            private:
 
-				void setLuaHandlers(const TiXmlElement* element, Component* component)
-													throw(std::runtime_error);
+                static const std::string BUTTON_TYPE;
+                static const std::string LABEL_TYPE;
 
-			//	void setLuaHandler(const ComponentEvent_wrapper& handler, Component* component);
+                ResourceManager* resourceManager_;
 
-				template<typename T> T getXMLAttribute(const TiXmlElement* element, const char* attrName) 
-													throw(std::runtime_error);
+                void setXMLAttributes(const TiXmlElement* element, Component* component)
+                                                    throw(std::runtime_error);
 
-				template<typename T> T getXMLAttribute(const TiXmlElement* element, const std::string& attrName) 
-													throw(std::runtime_error);
+                void setLuaHandlers(const TiXmlElement* element, Component* component)
+                                                    throw(std::runtime_error);
 
-				template<typename T> T getXMLAttribute(const TiXmlElement* element, const char* attrName, const T& defValue) 
-													throw(std::runtime_error);
+                template<typename T> T getXMLAttribute(const TiXmlElement* element, const char* attrName) 
+                                                    throw(std::runtime_error);
 
-				template<typename T> T getXMLAttribute(const TiXmlElement* element, const std::string& attrName, const T& defValue) 
-													throw(std::runtime_error);
+                template<typename T> T getXMLAttribute(const TiXmlElement* element, const std::string& attrName) 
+                                                    throw(std::runtime_error);
 
-		};
+                template<typename T> T getXMLAttribute(const TiXmlElement* element, const char* attrName, const T& defValue) 
+                                                    throw(std::runtime_error);
 
-	}
+                template<typename T> T getXMLAttribute(const TiXmlElement* element, const std::string& attrName, const T& defValue) 
+                                                    throw(std::runtime_error);
+
+        };
+
+    }
 
 }
 

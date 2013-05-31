@@ -21,6 +21,7 @@ using namespace Utils;
 
 
 Lua::Lua():
+    resourceManager_(ResourceManager::getInstance()),
     luaState_(lua_open()) // Подготавливаем Lua VM
 {
 
@@ -39,6 +40,10 @@ Lua::Lua():
 
 Lua::~Lua() {
 
+    if(resourceManager_ != 0) {
+        resourceManager_->Free();
+    }
+
     // закрываем Lua VM
     lua_close(luaState_);
 
@@ -50,22 +55,13 @@ string Lua::createModuleName(const string& name) {
 
     string moduleName = name;
 
+    size_t index = moduleName.rfind(".lua");
+
+    moduleName.erase(index);
+
     ::replace(moduleName.begin(), moduleName.end(), '/', '.');
 
     return moduleName;
-
-}
-
-
-
-// Создаем строку вида SCRIPT_PATH/name.lua
-string Lua::createScriptPath(const string& name) {
-
-    boost::format scriptPathFmt("%1%%2%.lua");
-
-    scriptPathFmt % SCRIPT_PATH % name;
-
-    return scriptPathFmt.str();
 
 }
 
@@ -79,22 +75,8 @@ void Lua::loadScript(const string& name) throw(runtime_error, invalid_argument) 
     );
 
     string moduleName = createModuleName(name);
-    string scriptPath = createScriptPath(name);
 
-    // открываем файл скипта
-    ifstream fileScriptStream(scriptPath);
-
-    ASSERT(
-        fileScriptStream.good(),
-        runtime_error(
-            (boost::format("Can't load script: %1%.lua")
-                % name
-            ).str()
-        )
-    );
-
-    // считываем его
-    string script = Utils::readStreamToString(fileScriptStream);
+    string script = resourceManager_->getResource(ResourceLoader::ResourceType::SCRIPT, name)->getData();
 
     // Добавляем объявление скрипта, как модуля
     script = (boost::format("module(\"%1%\", package.seeall)\n%2%") % moduleName % script).str();
@@ -105,7 +87,7 @@ void Lua::loadScript(const string& name) throw(runtime_error, invalid_argument) 
         (result == 0),
         runtime_error(
             (boost::format("Error in %1%:\n\"%2%\"")
-                % scriptPath
+                % name
                 % lua_tostring(luaState_, -1)
             ).str()
         )

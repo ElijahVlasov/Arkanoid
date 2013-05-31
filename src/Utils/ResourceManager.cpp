@@ -59,6 +59,8 @@ boost::shared_ptr<Resource> ResourceManager::getResource(ResourceLoader::Resourc
 
     resources_[strResName] = newRes;
 
+    return newRes;
+
 }
 
 

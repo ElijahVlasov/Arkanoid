@@ -12,7 +12,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/Color.hpp>
-
+#include <Utils/Resource.hpp>
 #include <Utils/Texture.hpp>
 
 #include <Utils/FreeType/Library.hpp>
@@ -25,28 +25,11 @@ namespace Utils {
           * @author Elijah Vlasov
         */
 
-        class Font {
+        class Font: public Resource {
 
             public:
 
-                /** Загрузить шрифт из файла.
-                  * Шрифт ищется в папке FONT_PATH
-                  * @param filePath Имя файла шрифта.
-                  * @throws Генерирует std::invalid_argument, если filePath == NULL,
-                  *         или пустая строка. Генерирует std::runtime_error, если произошла
-                  *         ошибка загрузки.
-                */
-
-                explicit Font(const char* filePath)         throw(std::invalid_argument, std::runtime_error);
-
-                /** Загрузить шрифт из файла.
-                  * Шрифт ищется в папке FONT_PATH
-                  * @param filePath Имя файла шрифта.
-                  * @throws Генерирует std::invalid_argument, если filePath - пустая строка. 
-                  *         Генерирует std::runtime_error, если произошла ошибка загрузки.
-                */
-
-                explicit Font(const std::string& filePath)  throw(std::invalid_argument, std::runtime_error);
+                Font();
                 Font(const Font& font);
 
                 ~Font();
@@ -88,6 +71,9 @@ namespace Utils {
                 */
 
                 void setColor(const Utils::Color& color);
+
+                std::string getData() const;
+                void setData(const std::string& data);
 
             private:
 

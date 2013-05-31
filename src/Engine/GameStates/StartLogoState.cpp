@@ -2,6 +2,8 @@
 
 #include <boost/geometry/geometries/point_xy.hpp>
 
+#include <boost/shared_ptr.hpp>
+
 #include <Engine/Game.hpp>
 
 #include <Engine/GameStates/StartLogoState.hpp>
@@ -21,9 +23,18 @@ using namespace Utils;
 
 StartLogoState::StartLogoState() throw(runtime_error):
     game_(Game::getInstance()),
-    resourceManager_(ResourceManager::getInstance()),
-    logo_(dynamic_cast<Texture&>(*resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "logo.png")))
-{}
+    resourceManager_(ResourceManager::getInstance())
+{
+
+    try {
+
+        boost::shared_ptr<Resource> textureResource = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/logo.png");
+
+        logo_ = boost::dynamic_pointer_cast<Texture>(textureResource);
+
+    } catch(const bad_cast&) {}
+
+}
 
 
 
@@ -47,7 +58,7 @@ void StartLogoState::onRender() {
         0.0f, 0.0f,
         game_->getScreenWidth(),
         game_->getScreenHeight(),
-        logo_
+        *(logo_.get())
     );
 
 }

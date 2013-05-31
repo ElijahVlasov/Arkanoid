@@ -35,8 +35,9 @@ namespace Utils {
 
         private:
 
-            boost::shared_ptr<Resource> loadTexture(const char* fileName) throw(std::runtime_error);
-            boost::shared_ptr<Resource> loadPlainText(const char* fileName) throw(std::runtime_error);
+            boost::shared_ptr<Resource> loadTexture(const char* fileName)    throw(std::runtime_error);
+            boost::shared_ptr<Resource> loadFont(const char* fileName)       throw(std::runtime_error);
+            boost::shared_ptr<Resource> loadPlainText(const char* fileName)  throw(std::runtime_error);
             boost::shared_ptr<Resource> loadBinaryFile(const char* fileName) throw(std::runtime_error);
 
             void ILImageToTexture(ILuint ilTex, Texture* texture);
