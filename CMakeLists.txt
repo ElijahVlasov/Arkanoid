@@ -43,6 +43,7 @@ set(ENGINE_SOURCES
   ${SRC_DIR}/Engine/Object.cpp
   ${SRC_DIR}/Engine/Renderer.cpp
   ${SRC_DIR}/Engine/SaltEngine.cpp
+  ${SRC_DIR}/Engine/StaticObject.cpp
   ${SRC_DIR}/Engine/World.cpp
 )
 
@@ -95,11 +96,13 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/Direction.hpp
   ${INCLUDE_DIR}/Engine/Game.hpp
   ${INCLUDE_DIR}/Engine/GameStates.hpp
+  ${INCLUDE_DIR}/Engine/IRenderer.hpp
   ${INCLUDE_DIR}/Engine/IUpdatable.hpp
   ${INCLUDE_DIR}/Engine/Object.hpp
   ${INCLUDE_DIR}/Engine/Player.hpp
   ${INCLUDE_DIR}/Engine/Renderer.hpp
   ${INCLUDE_DIR}/Engine/SaltEngine.hpp
+  ${INCLUDE_DIR}/Engine/StaticObject.hpp
   ${INCLUDE_DIR}/Engine/World.hpp
 )
 
