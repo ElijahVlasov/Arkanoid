@@ -1,72 +1,64 @@
-/*#include <Engine/Object.hpp>
+#include <stdexcept>
+#include <string>
 
+#include <boost/geometry/geometries/box.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+
+#include <boost/shared_ptr.hpp>
+
+#include <Engine/Object.hpp>
+#include <Engine/Renderer.hpp>
+
+#include <Utils/ResourceManager.hpp>
+
+using namespace std;
 
 using namespace Engine;
+
+using namespace Utils;
+
+using namespace boost::geometry::model;
+
+
+
+Object::Object():
+    renderer_((IRenderer*)0)
+{}
+
+
 
 Object::~Object() {}
 
 
 
-void Object::setWidth(float width) {
-
-	width_ = width;
-
-}
-
-
-float Object::getWidth()const {
-
-	return width_;
-
-}
-
-void Object::setHeight(float height) {
-
-	height_ = height;
-
-}
-
-
-float Object::getHeight()const {
-
-	return height_;
-
-}
-
-void Object::setX(float x) {
-
-	x_ = x;
-
-}
-
-
-float Object::getX()const {
-
-	return x_;
-
-}
-
-
-void Object::setY(float y) {
-
-	y_ = y;
-
-}
-
-
-float Object::getY()const {
-
-	return y_;
-
-}
-
 int Object::getId() const {
-	return id_;
+
+    return id_;
+
 }
+
+
 
 void Object::onRender() {
 
+    if(renderer_ != 0) {
+        renderer_->onRender();
+    }
+
 }
 
-void Object::onCollision() {
-}*/
+
+
+void Object::setRenderer(const boost::shared_ptr<IRenderer>& renderer) {
+
+    renderer_ = renderer;
+
+}
+
+
+
+box< d2::point_xy<float> >& Object::box() {
+
+    return box_;
+
+}

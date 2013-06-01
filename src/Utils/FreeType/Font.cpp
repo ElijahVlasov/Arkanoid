@@ -141,7 +141,7 @@ void Font::setData(const string& data) {
 
         face_ = lib_->createFaceFromBuffer(fontBuffer_, 0);
 
-    } catch(...) {
+    } catch(const runtime_error&) {
 
         fontBuffer_.clear(); // если произошли ошибки очищаем буфер
 

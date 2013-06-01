@@ -1,7 +1,8 @@
 #ifndef _SALT2D_ENGINE_ENGINE_HPP
 #define _SALT2D_ENGINE_ENGINE_HPP
 
-#include <boost/thread/thread.hpp>
+#include <mutex>
+#include <thread>
 
 #include <Utils/Lua.hpp>
 #include <Utils/Singleton.hpp>
@@ -9,35 +10,33 @@
 #include <Engine/Game.hpp>
 
 namespace Engine {
-	
-	class SaltEngine: public Utils::Singleton<SaltEngine> {
-		
-		SINGLETON(SaltEngine)
 
-		public:
+    class SaltEngine: public Utils::Singleton<SaltEngine> {
 
-			void onRender();
+        SINGLETON(SaltEngine)
 
-			void run();
+        public:
 
-		protected:
+            
 
-			SaltEngine();
-			virtual ~SaltEngine();
+            void run();
 
-			//friend boost::thread;
+        protected:
 
-		private:
+            SaltEngine();
+            virtual ~SaltEngine();
 
-			boost::thread engineThread;
+            //friend boost::thread;
 
-			void operator() ();
+        private:
 
-			Utils::Lua*	lua_;
+            std::thread   engineThread;
 
-		//	Game* game;
+            void operator() ();
 
-	};
+            Utils::Lua*     lua_;
+
+    };
 
 }
 

@@ -1,64 +1,55 @@
-/****************************************************	
-
-	Базовый класс для всех объектов игры
-
-****************************************************/
-
 #ifndef _ENGINE_OBJECT_HPP
 #define _ENGINE_OBJECT_HPP
 
-#include <Engine/Direction.hpp>
+#include <mutex>
+#include <stdexcept>
+#include <string>
 
+#include <boost/geometry/geometries/box.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+
+#include <boost/shared_ptr.hpp>
+
+#include <Engine/Direction.hpp>
+#include <Engine/IRenderer.hpp>
+
+#include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
 
 namespace Engine {
 
-	class Object {
+    using namespace boost::geometry;
 
-		public:
+    class Object {
 
-			virtual ~Object();
+        public:
 
-			virtual void onCollision();
+            Object();
+            virtual ~Object();
 
-			// обновить состояние объекта
-			virtual void onUpdate() = 0;
+            virtual void onCollision() = 0;
 
-			virtual void onRender();
+            virtual void onRender();
 
-			
-		/*	void  setAngle(int angle);
-			int getAngle()const;*/
+            virtual void live() = 0;
 
-			void  setWidth(float width);
-			float getWidth()const;
+            int getId() const;
 
-			void  setHeight(float height);
-			float getHeight()const;
+            void setRenderer(const boost::shared_ptr<IRenderer>& renderer);
 
-			void  setX(float x);
-			float getX()const;
+            model::box< model::d2::point_xy<float> >& box();
 
-			void  setY(float y);
-			float getY()const;
+        private:
 
-			int getId()const;
+            model::box< model::d2::point_xy<float> > box_;
 
-                        Utils
+            boost::shared_ptr<IRenderer> renderer_;
 
-		protected:
+            DIRECTION dir_;
 
-			Utils::Texture* texture_;
+            int id_;
 
-			float x_, y_;
-
-			float width_, height_;
-
-			DIRECTION dir_;
-
-			int id_;
-
-	};
+    };
 
 }
 

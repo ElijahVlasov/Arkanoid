@@ -1,44 +1,28 @@
-#ifndef _WORLD_HPP
+#ifndef _SALT2D_ENGINE_WORLD_HPP
 #define _WORLD_HPP
 
-#include <SDL\SDL.h>
-
 #include <list>
-#include <memory>
 #include <string>
 #include <stdexcept>
 
-#include <Engine\Object.hpp>
+#include <boost/shared_ptr.hpp>
 
+#include <Engine/Object.hpp>
 
-using namespace std;
+#include "World.pb.h"
 
 namespace Engine {
 
-	class World: public Object {
+    class World: public Object {
 
-		public:
+        public:
 
-			typedef shared_ptr<Object> ObjectPointer;
-	
-		private:
+            typedef boost::shared_ptr<Object> ObjectPtr;
 
-			list<ObjectPointer> objects;
+            World();
+            World(const EngineData::World&);
 
-			SDL_Surface* worldSurface;
-
-		public: 
-
-			World(float x, float y, float width, float height, const string& textureName) throw(runtime_error);
-			~World();
-
-			void addObject(ObjectPointer object);
-			void removeObject(int id);
-
-			void update();
-			void draw();
-
-	};
+    };
 
 }
 

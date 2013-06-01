@@ -44,18 +44,21 @@ FT_Face Library::createFaceFromBuffer(const string& buffer, unsigned int index) 
 
     ASSERT(
         (buffer.length() != 0),
-        invalid_argument(buffer)
+        invalid_argument("buffer")
     );
 
     FT_Face face;
 
-    FT_Byte* bufferData = new FT_Byte[buffer.length()]; //reinterpret_cast<const FT_Byte*>(buffer.data());
+    FT_Open_Args args;
 
-    memcpy(bufferData, buffer.data(), buffer.length());
+    memset(&args, 0, sizeof(FT_Open_Args));
 
-    FT_Error err = FT_New_Memory_Face(library_, bufferData, buffer.length(), index + 1, &face);
+    args.flags          =   FT_OPEN_MEMORY;
+    args.memory_base    =   reinterpret_cast<const FT_Byte*>(buffer.data());
+    args.memory_size    =   static_cast<FT_Long>(buffer.length());
 
-    delete bufferData;
+    FT_Error err = FT_Open_Face(library_, &args, index, &face);
+
 
     ASSERT(
         (err == 0),
