@@ -1,5 +1,5 @@
-#ifndef _DIRECTION_HPP
-#define _DIRECTION_HPP
+﻿#ifndef _SALT2D_ENGINE_DIRECTION_HPP
+#define _SALT2D_ENGINE_DIRECTION_HPP
 
 namespace Engine {
 

@@ -1,8 +1,7 @@
-#include <Engine/StaticObject.hpp>
+﻿#include <Engine/StaticObject.hpp>
 
 using namespace Engine;
 
 
 
-StaticObject::live() {// ни чего не делать
-}
+StaticObject::live() {/* ни чего не делать */}

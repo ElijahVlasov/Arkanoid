@@ -39,6 +39,7 @@ set(ENGINE_GAME_STATES_SOURCES
 
 set(ENGINE_SOURCES
   ${ENGINE_GAME_STATES_SOURCES}
+  ${SRC_DIR}/Engine/DynamicObject.cpp
   ${SRC_DIR}/Engine/Game.cpp
   ${SRC_DIR}/Engine/Object.cpp
   ${SRC_DIR}/Engine/Renderer.cpp
@@ -94,6 +95,7 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/Camera.hpp
   ${INCLUDE_DIR}/Engine/Controller.hpp
   ${INCLUDE_DIR}/Engine/Direction.hpp
+  ${INCLUDE_DIR}/Engine/DynamicObject.hpp
   ${INCLUDE_DIR}/Engine/Game.hpp
   ${INCLUDE_DIR}/Engine/GameStates.hpp
   ${INCLUDE_DIR}/Engine/IRenderer.hpp

@@ -1,4 +1,4 @@
-#ifndef _ENGINE_OBJECT_HPP
+﻿#ifndef _ENGINE_OBJECT_HPP
 #define _ENGINE_OBJECT_HPP
 
 #include <mutex>
@@ -32,7 +32,12 @@ namespace Engine {
             virtual void onRender();
 
             virtual void live() = 0;
+            
+            virtual void move(float xShift, float yShift);
 
+            void setDirection(DIRECTION dir);
+            DIRECTION getDirection() const;
+            
             int getId() const;
 
             void setRenderer(const boost::shared_ptr<IRenderer>& renderer);
@@ -40,6 +45,8 @@ namespace Engine {
             model::box< model::d2::point_xy<float> >& box();
 
         private:
+        
+            std::mutex synchroMutex_;
 
             model::box< model::d2::point_xy<float> > box_;
 
