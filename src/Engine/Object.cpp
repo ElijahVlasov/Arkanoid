@@ -84,6 +84,26 @@ DIRECTION Object::getDirection() const {
 
 
 
+void Object::setParentLayer(const WorldLayerPtr& layer) {
+
+    std::lock_guard<std::mutex> guard(synchroMutex_);
+    
+    parentLayer_ = layer;
+
+}
+
+
+
+const WorldLayerPtr& Object::getParentLayer() const {
+
+    std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    return parentLayer_;
+
+}
+
+
+
 void Object::setRenderer(const boost::shared_ptr<IRenderer>& renderer) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);

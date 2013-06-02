@@ -38,6 +38,9 @@ namespace Engine {
             void setDirection(DIRECTION dir);
             DIRECTION getDirection() const;
             
+            void setParentLayer(const WorldLayerPtr& layer);
+            const WorldLayerPtr& getParentLayer() const;
+            
             int getId() const;
 
             void setRenderer(const boost::shared_ptr<IRenderer>& renderer);
@@ -47,6 +50,8 @@ namespace Engine {
         private:
         
             std::mutex synchroMutex_;
+            
+            WorldLayerPtr parentLayer_;
 
             model::box< model::d2::point_xy<float> > box_;
 
@@ -57,8 +62,17 @@ namespace Engine {
             int id_;
 
     };
+    
+    typedef boost::shared_ptr<Object> ObjectPtr;
 
 }
 
-
 #endif
+
+namespace Engine {
+
+    class Object;
+    
+    typedef boost::shared_ptr<Object> ObjectPtr;
+    
+}

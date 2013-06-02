@@ -93,11 +93,11 @@ set(ENGINE_GAME_STATES_HEADERS
 set(ENGINE_HEADERS
   ${ENGINE_GAME_STATES_HEADERS}
   ${INCLUDE_DIR}/Engine/Camera.hpp
-  ${INCLUDE_DIR}/Engine/Controller.hpp
   ${INCLUDE_DIR}/Engine/Direction.hpp
   ${INCLUDE_DIR}/Engine/DynamicObject.hpp
   ${INCLUDE_DIR}/Engine/Game.hpp
   ${INCLUDE_DIR}/Engine/GameStates.hpp
+  ${INCLUDE_DIR}/Engine/IController.hpp
   ${INCLUDE_DIR}/Engine/IRenderer.hpp
   ${INCLUDE_DIR}/Engine/IUpdatable.hpp
   ${INCLUDE_DIR}/Engine/Object.hpp
@@ -106,6 +106,7 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/SaltEngine.hpp
   ${INCLUDE_DIR}/Engine/StaticObject.hpp
   ${INCLUDE_DIR}/Engine/World.hpp
+  ${INCLUDE_DIR}/Engine/WorldLayer.hpp
 )
 
 set(TINY_XML_HEADERS
