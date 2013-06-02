@@ -35,13 +35,6 @@ if(NOT SDL_FOUND)
     return()
 endif()
 
-find_package(SDL_image REQUIRED)
-
-if(NOT SDLIMAGE_FOUND)
-    message(FATAL_ERROR "Can't find SDL_image!")
-    return()
-endif()
-
 find_package(Freetype REQUIRED)
 
 if(NOT FREETYPE_FOUND)
