@@ -18,6 +18,8 @@ namespace Engine {
         
             virtual void onStartMoving() = 0;
             virtual void onEndMoving()   = 0;
+
+            virtual void onCollision();
             
             virtual void live();
             
