@@ -1,0 +1,36 @@
+package EngineData;
+
+import "Box.proto";
+import "StaticObject.proto";
+
+option optimize_for = LITE_RUNTIME;
+
+message World {
+
+    optional string   name     = 1;
+    repeated Location location = 2;
+
+}
+
+
+
+message Location {
+
+    required string name   = 1;
+    optional string ground_texture = 2 [default = "textures/test.png"];
+    repeated Layer  layer = 3;
+    required float  width  = 4;
+    required float  height = 5;
+
+}
+
+
+
+message Layer {
+
+    required Box box = 1;
+
+    repeated StaticObject objects  = 2;
+
+}
+

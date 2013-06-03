@@ -12,6 +12,7 @@
 
 #include <Engine/Direction.hpp>
 #include <Engine/IRenderer.hpp>
+#include <Engine/WorldLayer.hpp>
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
@@ -49,7 +50,7 @@ namespace Engine {
 
         private:
         
-            std::mutex synchroMutex_;
+            mutable std::mutex synchroMutex_;
             
             WorldLayerPtr parentLayer_;
 

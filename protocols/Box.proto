@@ -1,0 +1,12 @@
+package EngineData;
+
+import "Point.proto";
+
+option optimize_for = LITE_RUNTIME;
+
+message Box {
+
+    required Point min_corner = 1;
+    required Point max_corner = 2;
+
+}

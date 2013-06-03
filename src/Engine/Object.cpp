@@ -58,11 +58,14 @@ void Object::move(float xShift, float yShift) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    box_.min_corner().x() += xShift;
-    box_.max_corner().x() += xShift;
-    
-    box_.min_corner().y() += yShift;
-    box_.max_corner().y() += yShift;
+    d2::point_xy<float>& min = box_.min_corner();
+    d2::point_xy<float>& max = box_.max_corner();
+
+    min.x(min.x() + xShift);
+    max.x(max.x() + xShift);
+
+    min.y(min.y() + yShift);
+    max.y(max.y() + yShift);
     
 }
 

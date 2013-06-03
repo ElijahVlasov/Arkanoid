@@ -1,0 +1,10 @@
+package EngineData;
+
+option optimize_for = LITE_RUNTIME;
+
+message Point {
+
+    required float x = 1;
+    required float y = 2;
+
+}

@@ -1,23 +1,27 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.8)
 
 project(Salt2D)
 
 set(Salt2D_VERSION_MAJOR 0)
 set(Salt2D_VERSION_MINOR 1)
 
-set(SRC_DIR src)
-
+set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(PROTOCOLS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/protocols)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
+
 include_directories(${INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 include(CheckLibs.cmake)
 
+set(PROTOBUF_IMPORT_DIRS ${PROTOCOLS_DIR})
+
 if ( CMAKE_COMPILER_IS_GNUCXX )
-    set(CMAKE_CXX_FLAGS  "-Wall -std=c++0x -g")
+    set(CMAKE_CXX_FLAGS  "-Wall -std=gnu++0x -g")
 endif(CMAKE_COMPILER_IS_GNUCXX )
 
 option(MS_WINDOWS OFF)
@@ -26,10 +30,15 @@ if(WIN32)
     set(MS_WINDOWS ON)
 endif()
 
-include_directories(${LUA_INCLUDE_DIR})
-include_directories(${FREETYPE_INCLUDE_DIR_freetype2})
-include_directories(${LUABIND_INCLUDE_DIR})
 include_directories(${Boost_INCLUDE_DIR})
+include_directories(${IL_INCLUDE_DIR})
+include_directories(${FREETYPE_INCLUDE_DIR_ft2build})
+include_directories(${FREETYPE_INCLUDE_DIR_freetype2})
+include_directories(${LUA_INCLUDE_DIR})
+include_directories(${LUABIND_INCLUDE_DIR})
+include_directories(${OPENAL_INCLUDE_DIR})
+include_directories(${OPENGL_INCLUDE_DIR})
+include_directories(${PROTOBUF_INCLUDE_DIRS})
 
 set(ENGINE_GAME_STATES_SOURCES
   ${SRC_DIR}/Engine/GameStates/MenuState.cpp
@@ -46,6 +55,7 @@ set(ENGINE_SOURCES
   ${SRC_DIR}/Engine/SaltEngine.cpp
   ${SRC_DIR}/Engine/StaticObject.cpp
   ${SRC_DIR}/Engine/World.cpp
+  ${SRC_DIR}/Engine/WorldLayer.cpp
 )
 
 set(UTILS_FREETYPE_SOURCES
@@ -74,6 +84,13 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/ResourceManager.cpp
   ${SRC_DIR}/Utils/Texture.cpp 
   ${SRC_DIR}/Utils/Utils.cc
+)
+
+set(PROTOCOLS
+  ${PROTOCOLS_DIR}/Box.proto
+  ${PROTOCOLS_DIR}/Point.proto
+  ${PROTOCOLS_DIR}/StaticObject.proto
+  ${PROTOCOLS_DIR}/World.proto
 )
 
 set(SOURCES 
@@ -175,6 +192,7 @@ set(LIBS
   ${SDL_LIBRARY}
   ${FREETYPE_LIBRARIES}
   ${LUABIND_LIBRARIES}
+  ${PROTOBUF_LITE_LIBRARIES}
   TinyXML
 )
 
@@ -183,6 +201,8 @@ if(NOT WIN32)
   set(LIBS ${LIBS} ${GTK2_LIBRARIES})
 endif()
 
+protobuf_generate_cpp(PROTOCOLS_SOURCES PROTOCOLS_HEADERS ${PROTOCOLS})
+
 configure_file(
   "config.h.in"
   "include/config.h"
@@ -190,6 +210,6 @@ configure_file(
 
 add_subdirectory(${SRC_DIR}/TinyXML)
 
-add_executable(Salt2D WIN32 ${HEADERS} ${SOURCES})
+add_executable(Salt2D WIN32 ${HEADERS} ${SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
 
 target_link_libraries(Salt2D ${LIBS})

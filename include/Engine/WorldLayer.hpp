@@ -17,12 +17,12 @@ namespace Engine {
 
     using namespace boost::geometry;
 
-	class WorldLayer {
-	
-		public:
-		
-			WorldLayer();
-			WorldLayer(const EngineData::Layer& layer);
+    class WorldLayer {
+
+        public:
+
+            WorldLayer();
+            WorldLayer(const EngineData::Layer* layer);
             
             void addObject(const ObjectPtr& object);
             const std::list<ObjectPtr>& getObjects() const;
@@ -33,13 +33,13 @@ namespace Engine {
             
         private:
         
-            std::mutex synchroMutex_;
+            mutable std::mutex synchroMutex_;
             
             model::box< model::d2::point_xy<float> > box_;
         
             std::list<ObjectPtr> objects_;
-	
-	};
+
+    };
 
     typedef boost::shared_ptr<WorldLayer> WorldLayerPtr;
     

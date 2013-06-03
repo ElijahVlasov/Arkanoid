@@ -28,13 +28,6 @@ SaltEngine::~SaltEngine() {
 
 
 
-void SaltEngine::onRender() {
-	
-
-}
-
-
-
 void SaltEngine::run() {
 
 

@@ -1,0 +1,16 @@
+package EngineData;
+
+import "Box.proto";
+
+option optimize_for = LITE_RUNTIME;
+
+message StaticObject {
+
+    optional string type  = 1;
+    optional string class = 2;
+
+    optional string texture_name = 3;
+
+    required Box box = 4;
+
+}
