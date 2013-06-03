@@ -50,12 +50,12 @@ set(ENGINE_SOURCES
   ${ENGINE_GAME_STATES_SOURCES}
   ${SRC_DIR}/Engine/DynamicObject.cpp
   ${SRC_DIR}/Engine/Game.cpp
+  ${SRC_DIR}/Engine/LocationLayer.cpp
   ${SRC_DIR}/Engine/Object.cpp
   ${SRC_DIR}/Engine/Renderer.cpp
   ${SRC_DIR}/Engine/SaltEngine.cpp
   ${SRC_DIR}/Engine/StaticObject.cpp
   ${SRC_DIR}/Engine/World.cpp
-  ${SRC_DIR}/Engine/WorldLayer.cpp
 )
 
 set(UTILS_FREETYPE_SOURCES
@@ -117,13 +117,13 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/IController.hpp
   ${INCLUDE_DIR}/Engine/IRenderer.hpp
   ${INCLUDE_DIR}/Engine/IUpdatable.hpp
+  ${INCLUDE_DIR}/Engine/LocationLayer.hpp
   ${INCLUDE_DIR}/Engine/Object.hpp
   ${INCLUDE_DIR}/Engine/Player.hpp
   ${INCLUDE_DIR}/Engine/Renderer.hpp
   ${INCLUDE_DIR}/Engine/SaltEngine.hpp
   ${INCLUDE_DIR}/Engine/StaticObject.hpp
   ${INCLUDE_DIR}/Engine/World.hpp
-  ${INCLUDE_DIR}/Engine/WorldLayer.hpp
 )
 
 set(TINY_XML_HEADERS
