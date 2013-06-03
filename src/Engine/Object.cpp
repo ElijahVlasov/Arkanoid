@@ -87,7 +87,7 @@ DIRECTION Object::getDirection() const {
 
 
 
-void Object::setParentLayer(const WorldLayerPtr& layer) {
+void Object::setParentLayer(const LocationLayerPtr& layer) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
     
@@ -97,7 +97,7 @@ void Object::setParentLayer(const WorldLayerPtr& layer) {
 
 
 
-const WorldLayerPtr& Object::getParentLayer() const {
+const LocationLayerPtr& Object::getParentLayer() const {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 

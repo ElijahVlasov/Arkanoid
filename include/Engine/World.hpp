@@ -2,6 +2,7 @@
 #define _WORLD_HPP
 
 #include <list>
+#include <mutex>
 #include <string>
 #include <stdexcept>
 
@@ -17,10 +18,16 @@ namespace Engine {
 
         public:
 
-            typedef boost::shared_ptr<Object> ObjectPtr;
-
             World();
             World(const EngineData::World&);
+
+            void setName(const char* name);
+            void setName(const std::string& name);
+            const std::string& getName() const;
+
+        private:
+
+            mutable std::mutex synchroMutex_;
 
     };
 

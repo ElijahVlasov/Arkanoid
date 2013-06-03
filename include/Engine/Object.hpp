@@ -12,7 +12,7 @@
 
 #include <Engine/Direction.hpp>
 #include <Engine/IRenderer.hpp>
-#include <Engine/WorldLayer.hpp>
+#include <Engine/LocationLayer.hpp>
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
@@ -39,8 +39,8 @@ namespace Engine {
             void setDirection(DIRECTION dir);
             DIRECTION getDirection() const;
             
-            void setParentLayer(const WorldLayerPtr& layer);
-            const WorldLayerPtr& getParentLayer() const;
+            void setParentLayer(const LocationLayerPtr& layer);
+            const LocationLayerPtr& getParentLayer() const;
             
             int getId() const;
 
@@ -52,7 +52,7 @@ namespace Engine {
         
             mutable std::mutex synchroMutex_;
             
-            WorldLayerPtr parentLayer_;
+            LocationLayerPtr parentLayer_;
 
             model::box< model::d2::point_xy<float> > box_;
 

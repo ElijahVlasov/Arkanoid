@@ -17,12 +17,12 @@ namespace Engine {
 
     using namespace boost::geometry;
 
-    class WorldLayer {
+    class LocationLayer {
 
         public:
 
-            WorldLayer();
-            WorldLayer(const EngineData::Layer* layer);
+            LocationLayer();
+            LocationLayer(const EngineData::Layer* layer);
             
             void addObject(const ObjectPtr& object);
             const std::list<ObjectPtr>& getObjects() const;
@@ -41,7 +41,7 @@ namespace Engine {
 
     };
 
-    typedef boost::shared_ptr<WorldLayer> WorldLayerPtr;
+    typedef boost::shared_ptr<LocationLayer> LocationLayerPtr;
     
 }
 
