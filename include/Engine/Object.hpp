@@ -21,6 +21,10 @@ namespace Engine {
 
     using namespace boost::geometry;
 
+    /** Базовый объект игры.
+      * @author Elijah Vlasov
+    */
+
     class Object {
 
         public:
@@ -28,23 +32,60 @@ namespace Engine {
             Object();
             virtual ~Object();
 
+            /** Собитие столкновения с другим объектом.
+            */
+
             virtual void onCollision() = 0;
+
+            /** Отрисовка объекта.
+            */ 
 
             virtual void onRender();
 
+            /** То, что будет выполняться все время жизни объекта.
+            */
+
             virtual void live() = 0;
-            
+
+            /** Передвинуть объект на xShift и yShift.
+            */
+
             virtual void move(float xShift, float yShift);
 
-            void setDirection(DIRECTION dir);
-            DIRECTION getDirection() const;
-            
+            /** Объекты равны если id'ы равны.
+            */
+
+            inline bool operator == (const Object& object) { return id_ == object.id_; }
+
+            /** Объекты не равны если id'ы не равны.
+            */
+
+            inline bool operator != (const Object& object) { return !(*this == object); }
+
+            void setDirection(Direction dir);
+            Direction getDirection() const;
+
+            /** Установить слой локации, в котором находится объект.
+            */
+
             void setParentLayer(const LocationLayerPtr& layer);
+
+            /** Слой локации, в котором находится объект.
+            */
+
             const LocationLayerPtr& getParentLayer() const;
-            
+
+            /** Идентификатор объекта.
+            */
+
             int getId() const;
 
+            /** Установить рендерер объекта.
+            */
             void setRenderer(const boost::shared_ptr<IRenderer>& renderer);
+
+            /** Получить бокс объекта (потоко-небезопасный метод).
+            */
 
             model::box< model::d2::point_xy<float> >& box();
 
@@ -58,7 +99,7 @@ namespace Engine {
 
             boost::shared_ptr<IRenderer> renderer_;
 
-            DIRECTION dir_;
+            Direction dir_;
 
             int id_;
 

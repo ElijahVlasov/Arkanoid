@@ -1,5 +1,6 @@
 #include <list>
 #include <mutex>
+#include <string>
 
 #include <boost/foreach.hpp>
 
@@ -12,7 +13,6 @@
 
 #include "Box.pb.h"
 #include "Point.pb.h"
-#include "StaticObject.pb.h"
 #include "World.pb.h"
 
 using namespace std;
@@ -48,6 +48,26 @@ LocationLayer::LocationLayer(const EngineData::Layer* layer) {
 
 
 
+inline template<class AreaType> std::list<ObjectPtr> LocationLayer::getObjectsInArea(const AreaType& area) const {
+
+    std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    std::list<ObjectPtr> objects;
+
+    BOOST_FOREACH(ObjectPtr obj, objects_) {
+
+        if(intersects(obj->box(), area)) {
+            objects.push_back(obj);
+        }
+
+    }
+
+    return objects;
+
+}
+
+
+
 void LocationLayer::addObject(const ObjectPtr& object) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
@@ -63,26 +83,6 @@ const list<ObjectPtr>& LocationLayer::getObjects() const {
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     return objects_;
-
-}
-
-
-
-list<ObjectPtr> LocationLayer::getObjectsInBox(const model::box< point_xy<float> >& box) const {
-
-    std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    std::list<ObjectPtr> objects;
-
-    BOOST_FOREACH(ObjectPtr obj, objects_) {
-
-        if(intersects(obj->box(), box)) {
-            objects.push_back(obj);
-        }
-
-    }
-
-    return objects;
 
 }
 

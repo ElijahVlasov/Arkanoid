@@ -3,11 +3,14 @@
 
 namespace Engine {
 
-	typedef enum {
+    /** Направление "взгляда" объекта.
+    */
 
-		UP, DOWN, RIGHT, LEFT,
+    enum  Direction{
 
-	} DIRECTION;
+        UP, DOWN, RIGHT, LEFT,
+
+    };
 
 }
 

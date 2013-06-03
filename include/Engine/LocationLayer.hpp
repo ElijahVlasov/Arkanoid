@@ -4,6 +4,8 @@
 #include <list>
 #include <mutex>
 
+#include <boost/foreach.hpp>
+
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 
@@ -27,7 +29,7 @@ namespace Engine {
             void addObject(const ObjectPtr& object);
             const std::list<ObjectPtr>& getObjects() const;
             
-            std::list<ObjectPtr> getObjectsInBox(const model::box< model::d2::point_xy<float> >& box) const;
+            inline template<class AreaType> std::list<ObjectPtr> getObjectsInArea(const AreaType& area) const;
             
             model::box< model::d2::point_xy<float> >& box();
             

@@ -58,6 +58,10 @@ set(ENGINE_SOURCES
   ${SRC_DIR}/Engine/World.cpp
 )
 
+set(LUA_API_SOURCES
+  ${SRC_DIR}/LuaAPI/LuaAPI.cpp
+)
+
 set(UTILS_FREETYPE_SOURCES
   ${SRC_DIR}/Utils/FreeType/Font.cpp
   ${SRC_DIR}/Utils/FreeType/Library.cpp
@@ -95,6 +99,7 @@ set(PROTOCOLS
 
 set(SOURCES 
   ${ENGINE_SOURCES}
+  ${LUA_API_SOURCES}
   ${UTILS_SOURCES}
   ${SRC_DIR}/main.cpp 
   ${SRC_DIR}/Application.cpp
@@ -124,6 +129,9 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/SaltEngine.hpp
   ${INCLUDE_DIR}/Engine/StaticObject.hpp
   ${INCLUDE_DIR}/Engine/World.hpp
+)
+
+set(LUA_API_HEADERS
 )
 
 set(TINY_XML_HEADERS
@@ -170,11 +178,13 @@ set(UTILS_HEADERS
 
 set(HEADERS
   ${ENGINE_HEADERS}
+  ${LUA_API_HEADERS}
   ${TINY_XML_HEADERS}
   ${UTILS_HEADERS}
   ${INCLUDE_DIR}/Application.hpp
   ${INCLUDE_DIR}/config.h
   ${INCLUDE_DIR}/Engine.hpp
+  ${INCLUDE_DIR}/LuaAPI.hpp
   ${INCLUDE_DIR}/Utils.hpp
 )
 

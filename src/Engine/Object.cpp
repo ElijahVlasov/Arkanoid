@@ -1,10 +1,11 @@
-﻿#include <mutex>
+#include <list>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 
 #include <boost/geometry/geometries/box.hpp>
-
 #include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/polygon.hpp>
 
 #include <boost/shared_ptr.hpp>
 
@@ -21,6 +22,7 @@ using namespace Engine;
 using namespace Utils;
 
 using namespace boost::geometry::model;
+using namespace boost::geometry::model::d2;
 
 
 
@@ -61,17 +63,46 @@ void Object::move(float xShift, float yShift) {
     d2::point_xy<float>& min = box_.min_corner();
     d2::point_xy<float>& max = box_.max_corner();
 
-    min.x(min.x() + xShift);
-    max.x(max.x() + xShift);
+    polygon< point_xy<float> > wayPolygon;
 
-    min.y(min.y() + yShift);
-    max.y(max.y() + yShift);
-    
+    // Составляем многоугольник для пути
+    polygon< point_xy<float> >::ring_type& wayOuter = wayPolygon.outer();
+
+    // верхняя левая точка объекта
+    wayOuter.push_back(point_xy<float>(min.x(),             max.y()         ));
+    // верхняя левая точка объекта в новом положении
+    wayOuter.push_back(point_xy<float>(min.x() + xShift,    max.y() + yShift));
+    // верхняя правая точка объекта в новом положении
+    wayOuter.push_back(point_xy<float>(max.x() + xShift,    max.y() + yShift));
+    // правая нижняя точка объекта в новом положении
+    wayOuter.push_back(point_xy<float>(max.x() + xShift,    min.y() + yShift));
+    // правая нижняя точка объекта
+    wayOuter.push_back(point_xy<float>(max.x(),             min.y()         ));
+    // правая верхняя точка объекта
+    wayOuter.push_back(point_xy<float>(max.x(),             max.y()         ));
+
+    list<ObjectPtr> objectsOnWay = parentLayer_->getObjectsInArea(wayPolygon);
+
+    if((objectsOnWay.empty())
+        || ( (objectsOnWay.size() == 1) && (*objectsOnWay.front() == *this) )) { // если путь пустой
+
+        min.x(min.x() + xShift);
+        max.x(max.x() + xShift);
+
+        min.y(min.y() + yShift);
+        max.y(max.y() + yShift);
+
+        return;
+
+    }
+
+    // есть потенциальные объекты для столкновений
+
 }
 
 
 
-void Object::setDirection(DIRECTION dir) {
+void Object::setDirection(Direction dir) {
     
     dir_ = dir;
     
@@ -79,7 +110,7 @@ void Object::setDirection(DIRECTION dir) {
 
 
 
-DIRECTION Object::getDirection() const {
+Direction Object::getDirection() const {
 
     return dir_;
 
