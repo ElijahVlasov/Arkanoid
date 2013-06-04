@@ -12,9 +12,9 @@ Audio::Audio():
     context_(alcCreateContext(device_, 0))
 {
 
-    alcMakeCurrent(context_);
+    alcMakeContextCurrent(context_);
 
-    alGenSources(1, musicSource_);
+    alGenSources(1, &musicSource_);
 
     
 
@@ -25,9 +25,9 @@ Audio::Audio():
 Audio::~Audio() {
 
     alSourceStop(musicSource_);
-    alDeleteSources(1, musicSource_);
+    alDeleteSources(1, &musicSource_);
 
-    alcMakeCurrent(0);
+    alcMakeContextCurrent(0);
     alcDestroyContext(context_);
     alcCloseDevice(device_);
 
@@ -45,7 +45,11 @@ void Audio::playMusic(const Sound& music) {
 
 
 
-void Audio::playSound(const Sound& sound) {
+void Audio::playSound(const Sound& sound, bool isLoop) {
+
+    ALuint soundSource;
+
+    alGenSources(1, &soundSource);
 
     
 

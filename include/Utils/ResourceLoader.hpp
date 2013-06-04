@@ -25,6 +25,7 @@ namespace Utils {
             enum ResourceType {
 
                 TEXTURE,      /**< Текстура          */
+                SOUND,
                 SCRIPT,       /**< Скрипт            */
                 FONT,         /**< Шрифт             */
                 WORLD,        /**< Карта             */

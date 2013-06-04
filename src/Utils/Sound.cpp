@@ -34,7 +34,7 @@ Sound::~Sound() {
 
 
 
-const std::string& Sound::getData() const {
+std::string Sound::getData() const {
 
     string data;
 
@@ -54,7 +54,7 @@ const std::string& Sound::getData() const {
 
 void Sound::setData(const string& data) {
 
-    alBufferData(buffer_, format_, reinterpret_cast<ALvoid*>(data.data()), data.size(), frequency_);
+    alBufferData(buffer_, format_, reinterpret_cast<ALvoid*>(const_cast<char*>(data.data())), data.size(), frequency_);
 
 }
 

@@ -17,7 +17,7 @@ namespace Utils {
 
             void playMusic(const Sound& music);
 
-            void playSound(const Sound& sound);
+            void playSound(const Sound& sound, bool isLoop = false);
 
         protected:
 

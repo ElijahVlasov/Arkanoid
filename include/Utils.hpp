@@ -14,6 +14,7 @@
 #include <boost/geometry/geometries/point_xy.hpp>
 
 #include <Utils/assert.hpp>
+#include <Utils/Audio.hpp>
 #include <Utils/Color.hpp>
 #include <Utils/FreeType.hpp>
 #include <Utils/Graphics.hpp>
@@ -24,6 +25,7 @@
 #include <Utils/ResourceFile.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/Sound.hpp>
 #include <Utils/Texture.hpp>
 #include <Utils/UI.hpp>
 
