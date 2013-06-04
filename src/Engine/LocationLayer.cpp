@@ -2,8 +2,6 @@
 #include <mutex>
 #include <string>
 
-#include <boost/foreach.hpp>
-
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
@@ -48,26 +46,6 @@ LocationLayer::LocationLayer(const EngineData::Layer* layer) {
 
 
 
-inline template<class AreaType> std::list<ObjectPtr> LocationLayer::getObjectsInArea(const AreaType& area) const {
-
-    std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    std::list<ObjectPtr> objects;
-
-    BOOST_FOREACH(ObjectPtr obj, objects_) {
-
-        if(intersects(obj->box(), area)) {
-            objects.push_back(obj);
-        }
-
-    }
-
-    return objects;
-
-}
-
-
-
 void LocationLayer::addObject(const ObjectPtr& object) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
@@ -91,5 +69,13 @@ const list<ObjectPtr>& LocationLayer::getObjects() const {
 box< point_xy<float> >& LocationLayer::box() {
 
     return box_;
+
+}
+
+
+
+box< point_xy<float> > LocationLayer::getObjectBox(const ObjectPtr& obj) const {
+
+    return obj->box();
 
 }

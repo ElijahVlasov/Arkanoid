@@ -6,6 +6,8 @@
 
 #include <boost/foreach.hpp>
 
+
+#include <boost/geometry.hpp>
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 
@@ -28,8 +30,24 @@ namespace Engine {
             
             void addObject(const ObjectPtr& object);
             const std::list<ObjectPtr>& getObjects() const;
-            
-            inline template<class AreaType> std::list<ObjectPtr> getObjectsInArea(const AreaType& area) const;
+
+            template<class AreaType> std::list<ObjectPtr> getObjectsInArea(const AreaType& area) const {
+
+                std::lock_guard<std::mutex> guard(synchroMutex_);
+
+                std::list<ObjectPtr> objects;
+
+                BOOST_FOREACH(ObjectPtr obj, objects_) {
+
+                    if(intersects(getObjectBox(obj), area)) {
+                        objects.push_back(obj);
+                    }
+
+                }
+
+                return objects;
+
+            }
             
             model::box< model::d2::point_xy<float> >& box();
             
@@ -38,8 +56,10 @@ namespace Engine {
             mutable std::mutex synchroMutex_;
             
             model::box< model::d2::point_xy<float> > box_;
-        
+
             std::list<ObjectPtr> objects_;
+
+            model::box< model::d2::point_xy<float> > getObjectBox(const ObjectPtr& obj) const;
 
     };
 

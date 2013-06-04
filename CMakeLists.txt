@@ -79,6 +79,7 @@ set(UTILS_UI_SOURCES
 set(UTILS_SOURCES
   ${UTILS_FREETYPE_SOURCES}
   ${UTILS_UI_SOURCES}
+  ${SRC_DIR}/Utils/Audio.cpp
   ${SRC_DIR}/Utils/Graphics.cpp
   ${SRC_DIR}/Utils/Lua.cpp 
   ${SRC_DIR}/Utils/PCResourceLoader.cpp
@@ -86,6 +87,7 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/ResourceFile.cpp
   ${SRC_DIR}/Utils/ResourceLoader.cpp
   ${SRC_DIR}/Utils/ResourceManager.cpp
+  ${SRC_DIR}/Utils/Sound.cpp
   ${SRC_DIR}/Utils/Texture.cpp 
   ${SRC_DIR}/Utils/Utils.cc
 )
@@ -161,6 +163,7 @@ set(UTILS_HEADERS
   ${UTILS_FREETYPE_HEADERS}
   ${UTILS_UI_HEADERS}
   ${INCLUDE_DIR}/Utils/assert.hpp
+  ${INCLUDE_DIR}/Utils/Audio.hpp
   ${INCLUDE_DIR}/Utils/Color.hpp
   ${INCLUDE_DIR}/Utils/FreeType.hpp
   ${INCLUDE_DIR}/Utils/Graphics.hpp
@@ -172,6 +175,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/ResourceLoader.hpp
   ${INCLUDE_DIR}/Utils/ResourceManager.hpp
   ${INCLUDE_DIR}/Utils/Singleton.hpp
+  ${INCLUDE_DIR}/Utils/Sound.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp
 )
