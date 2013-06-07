@@ -5,7 +5,6 @@ project(Salt2D)
 include_directories(${INCLUDE_DIR}/TinyXML)
 
 set(TINY_XML_SOURCES 
-  tinystr.cpp
   tinyxml.cpp
   tinyxmlerror.cpp
   tinyxmlparser.cpp

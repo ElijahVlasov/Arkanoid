@@ -3,12 +3,24 @@
 
 #include <boost/cstdint.hpp>
 
+#include <climits>
+
+#include <mutex>
 #include <string>
 #include <stdexcept>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "config.h"
+
+#ifdef MS_WINDOWS
+#include <Windows.h>
+#endif
+
+#include <GL/gl.h>
+
+#include <boost/array.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/Color.hpp>
@@ -36,20 +48,20 @@ namespace Utils {
 
                 Font& operator=(const Font& font);
 
-                /** Отрендерить текст в OpenGL-текстуру.
+                /** Отрендерить текст.
                   * @param text Текст для рендеринга 
                   * @throws Генерирует std::invalid_argument, если text == NULL.
                   *         Генерирует std::runtime_error, при ошибке Freetype2
                 */
 
-                Texture renderText(const char* text)        throw(std::invalid_argument, std::runtime_error);
+                void renderText(const char* text, float x, float y)        throw(std::invalid_argument, std::runtime_error);
 
-                /** Отрендерить текст в OpenGL-текстуру.
+                /** Отрендерить текст.
                   * @param text Текст для рендеринга 
                   * @throws Генерирует std::runtime_error, при ошибке Freetype2
                 */
 
-                Texture renderText(const std::string& text) throw(std::runtime_error);
+                void renderText(const std::string& text, float x, float y) throw(std::runtime_error);
 
                 /** Кегль шрифта.
                 */
@@ -75,7 +87,27 @@ namespace Utils {
                 std::string getData() const;
                 void setData(const std::string& data);
 
+                void testDraw();
+
             private:
+                
+                inline void renderFace();
+
+                // Возвращает следующую степень двойки, после val.
+                inline int next_p2(int val);
+
+                void createSymbolVisual(unsigned char ch) throw(std::runtime_error);
+
+                void setData_(const std::string& data);
+
+                mutable std::mutex synchroMutex_;
+
+                bool isRendered_;
+
+                GLuint listBase_;
+
+                // Текстуры символов.
+                boost::array< boost::shared_ptr<Utils::Texture>, UCHAR_MAX + 1 > symbols_;
 
                 Library* lib_;
 
@@ -88,6 +120,36 @@ namespace Utils {
                 Utils::Color color_;
 
         };
+
+
+
+        int Font::next_p2(int val) {
+        
+            int result = 1;
+
+            while(result < val) {
+                result <<= 1;
+            }
+
+            return result;
+
+        }
+
+
+
+        void Font::renderFace() {
+
+            FT_Set_Char_Size(face_, size_ << 6, size_ << 6, 96, 96);
+
+            for(unsigned char ch = 0; ch < UCHAR_MAX; ch++) {
+    
+                createSymbolVisual(ch);
+
+            }
+
+            isRendered_ = true;
+
+        }
 
     }
 

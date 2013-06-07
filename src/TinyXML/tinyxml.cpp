@@ -22,7 +22,15 @@ must not be misrepresented as being the original software.
 distribution.
 */
 
-#include <ctype.h>
+//#include <cstdint>
+//#include <cerrno>
+//#i//nclude <cctype>
+
+#include <stdint.h>
+#include <stdio.h>
+#include <cstdlib>
+#include <cstring>
+#include <cassert>
 
 #ifdef TIXML_USE_STL
 #include <sstream>

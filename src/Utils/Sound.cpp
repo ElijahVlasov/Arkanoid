@@ -36,23 +36,15 @@ Sound::~Sound() {
 
 std::string Sound::getData() const {
 
-    string data;
-
-    ALint size;
-
-    alGetBufferi(buffer_, AL_SIZE, &size);
-
-    data.resize(static_cast<string::size_type>(size));
-
-    alGetBufferi(buffer_, AL_DATA, reinterpret_cast<ALint*>(data.data()) );
-
-    return data;
+	return binaryBuffer_;
 
 }
 
 
 
 void Sound::setData(const string& data) {
+
+	binaryBuffer_ = data;
 
     alBufferData(buffer_, format_, reinterpret_cast<ALvoid*>(const_cast<char*>(data.data())), data.size(), frequency_);
 

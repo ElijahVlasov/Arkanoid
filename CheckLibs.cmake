@@ -56,7 +56,7 @@ set(Boost_USE_MULTITHREADED      1)
 set(Boost_USE_STATIC_RUNTIME     0)
 set(Boost_DEBUG                  0)
 
-find_package(Boost 1.53.0 COMPONENTS date_time system thread)
+find_package(Boost 1.53.0 REQUIRED)
 
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Can't find Boost")

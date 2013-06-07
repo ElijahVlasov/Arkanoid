@@ -1,6 +1,6 @@
 #ifndef _PLAYER_HPP
 #define _PLAYER_HPP
-
+/*
 namespace Engine {
 
 	class Player {
@@ -16,7 +16,7 @@ namespace Engine {
 
 	}
 
-};
+};*/
 
 
 #endif

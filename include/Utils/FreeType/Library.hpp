@@ -1,8 +1,11 @@
 #ifndef _SALT2D_UTILS_FREETYPE_LIBRARY_HPP
 #define _SALT2D_UTILS_FREETYPE_LIBRARY_HPP
 
+#include <map>
+#include <mutex>
 #include <stdexcept>
 #include <string>
+#include <thread>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -23,6 +26,12 @@ namespace Utils {
 
             public:
 
+                FT_Face createFaceFromFile(const char* fileName, unsigned int index)
+                                                            throw(std::invalid_argument, std::runtime_error);
+
+				FT_Face createFaceFromFile(const std::string& fileName, unsigned int index)
+                                                            throw(std::invalid_argument, std::runtime_error);
+
                 /** Создать шрифт из буфера.
                   * @param buffer Буфер шрифта
                   * @param index Индекс шрифта в буфере
@@ -42,7 +51,14 @@ namespace Utils {
 
             private:
 
-                FT_Library library_;
+                std::mutex synchroMutex_;
+
+                FT_Library getLibrary() throw(std::runtime_error);
+
+                // Объекты библиотеки для каждого потока приложения
+                std::map< std::thread::id, FT_Library> libraries_;
+
+                //FT_Library library_;
 
         };
 

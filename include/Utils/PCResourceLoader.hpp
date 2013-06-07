@@ -24,21 +24,17 @@ namespace Utils {
 
         SINGLETON(PCResourceLoader)
 
-        public:
-
-            boost::shared_ptr<Resource> loadResource(ResourceType resourceType, const char* resourceName)
-                                                        throw(std::invalid_argument, std::runtime_error);
-
         protected:
 
             PCResourceLoader();
 
-        private:
-
+            boost::shared_ptr<Resource> loadSound(const char* fileName)      throw(std::runtime_error);
             boost::shared_ptr<Resource> loadTexture(const char* fileName)    throw(std::runtime_error);
             boost::shared_ptr<Resource> loadFont(const char* fileName)       throw(std::runtime_error);
             boost::shared_ptr<Resource> loadPlainText(const char* fileName)  throw(std::runtime_error);
             boost::shared_ptr<Resource> loadBinaryFile(const char* fileName) throw(std::runtime_error);
+
+        private:
 
             void ILImageToTexture(ILuint ilTex, Texture* texture);
 

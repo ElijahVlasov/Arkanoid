@@ -27,6 +27,11 @@ namespace Utils {
 
             typedef boost::array<boost::geometry::model::d2::point_xy<float>, 4> CoordArray; 
 
+            static const CoordArray UP_COORDS;
+            static const CoordArray DOWN_COORDS;
+            static const CoordArray LEFT_COORDS;
+            static const CoordArray RIGHT_COORDS;
+
             /** Прорисовка текстуры в стандартном виде.
               * @param x координата на экране для прорисовки
               * @param y координата на экране для прорисовки

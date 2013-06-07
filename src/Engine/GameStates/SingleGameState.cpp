@@ -55,7 +55,7 @@ void SingleGameState::makeScreenshot() {}
 
 void SingleGameState::onRender() {
 
-	renderer_->onRender();
+//	renderer_->onRender();
 
 }
 

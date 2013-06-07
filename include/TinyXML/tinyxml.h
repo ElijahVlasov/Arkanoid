@@ -26,7 +26,7 @@ distribution.
 #ifndef TINYXML_INCLUDED
 #define TINYXML_INCLUDED
 
-#define TIXML_USE_STL
+#define TIXML_USE_STL 1
 
 #ifdef _MSC_VER
 #pragma warning( push )
@@ -34,11 +34,12 @@ distribution.
 #pragma warning( disable : 4786 )
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+/*#include <cerrno>
+#include <cctype>*/
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cassert>
 
 // Help out windows:
 #if defined( _DEBUG ) && !defined( DEBUG )

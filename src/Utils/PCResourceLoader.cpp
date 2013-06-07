@@ -40,49 +40,6 @@ PCResourceLoader::PCResourceLoader() {
 
 
 
-boost::shared_ptr<Resource> PCResourceLoader::loadResource(ResourceLoader::ResourceType resourceType, const char* resourceName) 
-                                                throw(invalid_argument, runtime_error) {
-
-    ASSERT(
-        (resourceName != 0),
-        invalid_argument("resourceName")
-    );
-
-    ASSERT(
-        (strlen(resourceName) != 0),
-        invalid_argument("resourceName")
-    );
-
-    switch(resourceType) {
-
-        case BINARY_FILE: {
-            return loadBinaryFile(resourceName);
-        }
-        break;
-
-        case PLAIN_TEXT: {
-            return loadPlainText(resourceName);
-        }
-        break;
-
-        case TEXTURE: {
-            return loadTexture(resourceName);
-        }
-        break;
-
-        case FONT: {
-            return loadFont(resourceName);
-        }
-        break;
-
-    }
-
-    return boost::shared_ptr<Resource>((Resource*)0);
-
-}
-
-
-
 boost::shared_ptr<Resource> PCResourceLoader::loadPlainText(const char* resourceName) throw(runtime_error) {
 
     // Получаем строку вида ресурсы/имя_ресурса
@@ -156,6 +113,16 @@ boost::shared_ptr<Resource> PCResourceLoader::loadFont(const char* resourceName)
     font->setData(fontData);
 
     return boost::shared_ptr<Font>(font);
+
+}
+
+
+
+boost::shared_ptr<Resource> PCResourceLoader::loadSound(const char* fileName) throw(runtime_error) {
+
+    Sound* sound = new Sound();
+
+    return boost::shared_ptr<Sound>(sound);
 
 }
 

@@ -17,6 +17,51 @@ using namespace boost::geometry::model::d2;
 using namespace Utils;
 
 
+
+const Graphics::CoordArray Graphics::UP_COORDS = {
+
+    point_xy<float>(0.0f, 1.0f),
+    point_xy<float>(1.0f, 1.0f),
+    point_xy<float>(0.0f, 0.0f),
+    point_xy<float>(1.0f, 0.0f)
+
+};
+
+
+
+const Graphics::CoordArray Graphics::DOWN_COORDS = {
+
+    point_xy<float>(1.0f, 0.0f),
+    point_xy<float>(0.0f, 0.0f),
+    point_xy<float>(1.0f, 1.0f),
+    point_xy<float>(0.0f, 1.0f)
+
+};
+
+
+
+const Graphics::CoordArray Graphics::LEFT_COORDS = {
+
+    point_xy<float>(0.0f, 0.0f),
+    point_xy<float>(0.0f, 1.0f),
+    point_xy<float>(1.0f, 0.0f),
+    point_xy<float>(1.0f, 1.0f)
+
+};
+
+
+
+const Graphics::CoordArray Graphics::RIGHT_COORDS = {
+
+    point_xy<float>(0.0f, 1.0f),
+    point_xy<float>(0.0f, 0.0f),
+    point_xy<float>(1.0f, 1.0f),
+    point_xy<float>(1.0f, 0.0f)
+
+};
+
+
+
 float Graphics::scrWidth_;
 float Graphics::scrHeight_;
 
@@ -50,14 +95,7 @@ void Graphics::DrawTexture(float x, float y, const Texture& texture) {
 
 void Graphics::DrawTexture(float x, float y, float width, float height, const Texture& texture) {
 
-    static const Graphics::CoordArray texCoords = {
-
-        point_xy<float>(0.0f, 1.0f),
-        point_xy<float>(1.0f, 1.0f),
-        point_xy<float>(0.0f, 0.0f),
-        point_xy<float>(1.0f, 0.0f)
-
-    };
+    static const Graphics::CoordArray texCoords = UP_COORDS;
 
     DrawTexture(x, y, width, height, texCoords, texture);
 

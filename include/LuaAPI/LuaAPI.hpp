@@ -18,10 +18,10 @@ namespace LuaAPI {
         public:
 
             boost::shared_ptr<Utils::Sound> System_LoadAudio(const char* name);
-            void System_PlayAudio(const boost::shared_ptr<Utils::Sound>& audio);
+            void System_PlayAudio(const boost::shared_ptr<Utils::Sound>& sound);
 
             boost::shared_ptr<Utils::Texture> System_LoadTexture(const char* name);
-            void System_DrawTexture(const boost::shared_ptr<Utils::Texture>& texture, Engine::Direction textureDirection);
+            void System_DrawTexture(float x, float y, const boost::shared_ptr<Utils::Texture>& texture, Engine::Direction textureDirection);
 
             void System_ShowDialog(const char* name);
             void System_ShowMenu(const char* name);

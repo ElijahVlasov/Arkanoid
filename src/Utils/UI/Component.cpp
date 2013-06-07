@@ -28,7 +28,7 @@ Component::Component() throw(runtime_error):
 
     try {
 
-        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceLoader::ResourceType::FONT, "fonts/ArnoPro.otf");
+        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceLoader::ResourceType::FONT, "fonts/arial.ttf");
 
         font_ = *(boost::dynamic_pointer_cast<Font>(fontResource).get());
 

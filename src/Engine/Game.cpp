@@ -195,7 +195,7 @@ void Game::setState(IGameState* state) {
 void Game::run() throw(runtime_error) {
 
     // Запускаем загрузку ресурсов
-    initThread_ =  new std::thread(mem_fn(&Game::loadResources), this);
+    initThread_ =  new std::thread(boost::mem_fn(&Game::loadResources), this);
 
     initThread_->detach();
 
@@ -259,7 +259,7 @@ void Game::loadResources() throw(runtime_error) {
         menuGameState_    =  MenuState::getInstance();
         singleGameState_  =  SingleGameState::getInstance();
 
-        menuGameState_->setMenu(mainMenu_);
+        //menuGameState_->setMenu(mainMenu_);
 
 
     } catch(...) {

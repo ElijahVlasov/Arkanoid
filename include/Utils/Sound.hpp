@@ -30,6 +30,8 @@ namespace Utils {
 
         private:
 
+			std::string binaryBuffer_;
+
             ALuint buffer_;
 
             ALenum format_;

@@ -45,7 +45,7 @@ namespace Engine {
 				void makeScreenshot();
 
 				Engine::Game*		game_;
-				Engine::Renderer*	renderer_;
+//				Engine::Renderer*	renderer_;
 
 				Utils::Lua*			lua_;
 

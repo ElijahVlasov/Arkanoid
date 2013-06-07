@@ -36,15 +36,15 @@ void Label::drawText() {
 
     float x       =  static_cast<float>(getX());
     float y       =  static_cast<float>(getY());
-    float width   =  static_cast<float>(getWidth());
+    /*float width   =  static_cast<float>(getWidth());
     float height  =  static_cast<float>(getHeight());
 
-    Texture text;
+    Texture text;*/
 
     // рендерим текст
     try {
 
-        text = getFont().renderText(getText());
+        /*text = */getFont().renderText(getText(), x, y);
 
     } catch(const invalid_argument&) {
 
@@ -52,7 +52,7 @@ void Label::drawText() {
 
     }
 
-    float textWidth   =  text.getWidth();
+    /*float textWidth   =  text.getWidth();
     float textHeight  =  text.getHeight();
 
     // если текст больше Label'а, то "обрезаем" его:
@@ -75,6 +75,6 @@ void Label::drawText() {
         textWidth,
         textHeight,
         text
-    );
+    );*/
 
 }

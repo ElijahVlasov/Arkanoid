@@ -138,7 +138,6 @@ set(LUA_API_HEADERS
 )
 
 set(TINY_XML_HEADERS
-  ${INCLUDE_DIR}/TinyXML/tinystr.h
   ${INCLUDE_DIR}/TinyXML/tinyxml.h
 )
 

@@ -23,7 +23,7 @@ Button::Button() throw(runtime_error):
     Component()
 {
 
-    setDrawEvent(bind(mem_fn(&Button::onDraw), this, _1));
+    setDrawEvent(boost::bind(boost::mem_fn(&Button::onDraw), this, _1));
 
 }
 
@@ -67,15 +67,11 @@ void Button::drawText() {
 
     float x       =  static_cast<float>(getX());
     float y       =  static_cast<float>(getY());
-    float width	  =  static_cast<float>(getWidth());
-    float height  =  static_cast<float>(getHeight());
-
-    Texture text;
 
     // рендерим текст
     try {
 
-        text = getFont().renderText(getText());
+        getFont().renderText(getText(), x, y);
 
     } catch(const invalid_argument&) {
 
@@ -84,7 +80,7 @@ void Button::drawText() {
     }
 
 
-    float textWidth   =  static_cast<float>(text.getWidth());
+    /*float textWidth   =  static_cast<float>(text.getWidth());
     float textHeight  =  static_cast<float>(text.getHeight());
 
     float textX, textY;
@@ -120,7 +116,7 @@ void Button::drawText() {
         textWidth,
         textHeight,
         text
-    );
+    );*/
 
 }
 

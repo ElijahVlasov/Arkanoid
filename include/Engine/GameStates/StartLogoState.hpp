@@ -13,6 +13,8 @@
 #include <Utils/Texture.hpp>
 #include <Utils/Singleton.hpp>
 
+#include <Utils/FreeType/Font.hpp>
+
 namespace Engine {
 
     namespace GameStates {
@@ -41,6 +43,10 @@ namespace Engine {
                 ~StartLogoState();
 
             private:
+
+                boost::shared_ptr<Utils::FreeType::Font> testFont_;
+
+                Utils::Texture testText_;
 
                 /*Engine::*/Game* game_; 
 

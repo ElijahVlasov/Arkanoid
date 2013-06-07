@@ -3,10 +3,13 @@
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
+#include <Engine.hpp>
 #include <Utils.hpp>
 
 #include <LuaAPI.hpp>
 #include <LuaAPI/LuaAPI.hpp>
+
+using namespace Engine;
 
 using namespace LuaAPI;
 
@@ -71,5 +74,56 @@ boost::shared_ptr<Texture> LuaAPI_::System_LoadTexture(const char* name)  {
     } catch(...) {}
 
     return boost::shared_ptr<Texture>();
+
+}
+
+
+
+void LuaAPI_::System_PlayAudio(const boost::shared_ptr<Sound>& sound) {
+
+    audio_->playSound(*sound);
+
+}
+
+
+
+void LuaAPI_::System_DrawTexture(float x, float y, const boost::shared_ptr<Texture>& texture, Direction direction) {
+
+    Graphics::CoordArray coordAr;
+
+    switch (direction)
+    {
+
+        case Engine::UP: {
+
+            coordAr = Graphics::UP_COORDS;
+
+        }
+        break;
+
+        case Engine::DOWN:{
+
+            coordAr = Graphics::DOWN_COORDS;
+
+        }
+        break;
+
+        case Engine::RIGHT:{
+
+            coordAr = Graphics::RIGHT_COORDS;
+
+        }
+        break;
+
+        case Engine::LEFT:{
+
+            coordAr = Graphics::LEFT_COORDS;
+
+        }
+        break;
+
+    }
+
+    Graphics::DrawTexture(x, y, texture->getWidth(), texture->getHeight(), coordAr, *texture);
 
 }

@@ -7,7 +7,7 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <lua/lua.hpp>
+#include <lua.hpp>
 #include <luabind/luabind.hpp>
 
 #include <TinyXML/tinyxml.h>

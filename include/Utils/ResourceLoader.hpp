@@ -24,14 +24,14 @@ namespace Utils {
 
             enum ResourceType {
 
-                TEXTURE,      /**< Текстура          */
-                SOUND,
-                SCRIPT,       /**< Скрипт            */
-                FONT,         /**< Шрифт             */
-                WORLD,        /**< Карта             */
-                CONFIG,       /**< Файл конфигурации */
-                PLAIN_TEXT,   /**< Текстовый файл    */
-                BINARY_FILE   /**< Двоичный файл     */
+                TEXTURE,      /**< Текстура(только PNG)     */
+                SOUND,        /**< Файл звуков(только OGG)  */
+                SCRIPT,       /**< Скрипт                   */
+                FONT,         /**< Шрифт                    */
+                WORLD,        /**< Карта                    */
+                CONFIG,       /**< Файл конфигурации        */
+                PLAIN_TEXT,   /**< Текстовый файл           */
+                BINARY_FILE   /**< Двоичный файл            */
 
             };
 
@@ -43,8 +43,8 @@ namespace Utils {
               *         ошибках загрузки ресурса.
             */
 
-            virtual boost::shared_ptr<Resource> loadResource(ResourceType resourceType, const char* resourceName)
-                                                        throw(std::invalid_argument, std::runtime_error) = 0;
+            boost::shared_ptr<Resource> loadResource(ResourceType resourceType, const char* resourceName)
+                                                        throw(std::invalid_argument, std::runtime_error);
 
             /** Загрузить ресурс.
               * @param resourceType Тип ресурса
@@ -55,6 +55,14 @@ namespace Utils {
 
             virtual boost::shared_ptr<Resource> loadResource(ResourceType resourceType, const std::string& resourceName)
                                                         throw(std::invalid_argument, std::runtime_error);
+
+        protected:
+
+            virtual boost::shared_ptr<Resource> loadSound(const char* fileName)      throw(std::runtime_error) = 0;
+            virtual boost::shared_ptr<Resource> loadTexture(const char* fileName)    throw(std::runtime_error) = 0;
+            virtual boost::shared_ptr<Resource> loadFont(const char* fileName)       throw(std::runtime_error) = 0;
+            virtual boost::shared_ptr<Resource> loadPlainText(const char* fileName)  throw(std::runtime_error) = 0;
+            virtual boost::shared_ptr<Resource> loadBinaryFile(const char* fileName) throw(std::runtime_error) = 0;
 
     };
 
