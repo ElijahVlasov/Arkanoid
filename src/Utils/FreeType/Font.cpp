@@ -316,7 +316,7 @@ string Font::getData() const {
 
 
 
-void Font::createSymbolVisual(unsigned char ch) {
+/*void Font::createSymbolVisual(unsigned char ch) {
 
     Texture* symTexture = new Texture();
 
@@ -349,9 +349,9 @@ void Font::createSymbolVisual(unsigned char ch) {
     // сиволы хранятся в формате RGBA.
     boost::int32_t* data = reinterpret_cast<boost::int32_t*>(const_cast<char*>(textureData.data()));
 
-    for(size_t i = 0; i < height; i++) {
+    for(size_t i = 0; i < static_cast<size_t>(height); i++) {
     
-        for(size_t j = 0; j < width; j++) {
+        for(size_t j = 0; j < static_cast<>width; j++) {
         
             size_t dataIndex = j + i * width;
 
@@ -414,11 +414,11 @@ void Font::createSymbolVisual(unsigned char ch) {
 
     symbols_[ch] = boost::shared_ptr<Texture>(symTexture);
 
-}
+}*/
 
 
 
-void Font::testDraw() {
+/*void Font::testDraw() {
 
    // for(unsigned char ch = 0; ch <= UCHAR_MAX; ch++) {
     
@@ -437,4 +437,4 @@ void Font::testDraw() {
 
     //}
 
-}
+}*/

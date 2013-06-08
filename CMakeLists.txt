@@ -99,12 +99,16 @@ set(PROTOCOLS
   ${PROTOCOLS_DIR}/World.proto
 )
 
-set(SOURCES 
+set(Salt2D_SOURCES 
   ${ENGINE_SOURCES}
   ${LUA_API_SOURCES}
   ${UTILS_SOURCES}
   ${SRC_DIR}/main.cpp 
   ${SRC_DIR}/Application.cpp
+)
+
+set(SERVER_SOURCES
+  ${SRC_DIR}/Server.cpp
 )
 
 set(ENGINE_GAME_STATES_HEADERS
@@ -180,7 +184,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/UI.hpp
 )
 
-set(HEADERS
+set(Salt2D_HEADERS
   ${ENGINE_HEADERS}
   ${LUA_API_HEADERS}
   ${TINY_XML_HEADERS}
@@ -192,12 +196,11 @@ set(HEADERS
   ${INCLUDE_DIR}/Utils.hpp
 )
 
-set(LIBS
-  ${Boost_DATE_TIME_LIBRARY}
-  ${Boost_FILESYSTEM_LIBRARY}
-  ${Boost_SERIALIZATION_LIBRARY}
-  ${Boost_SYSTEM_LIBRARY}
-  ${Boost_THREAD_LIBRARY}
+set(SERVER_HEADERS
+  ${INCLUDE_DIR}/Server.hpp
+)
+
+set(Salt2D_LIBS
   ${LUA_LIBRARIES}
   ${OPENAL_LIBRARY}
   ${OPENGL_LIBRARIES}
@@ -210,9 +213,16 @@ set(LIBS
   TinyXML
 )
 
+set(SERVER_LIBS
+  ${Boost_PROGRAM_OPTIONS_LIBRARY}
+  ${LUA_LIBRARIES}
+  ${LUABIND_LIBRARIES}
+  ${PROTOBUF_LITE_LIBRARIES}
+)
+
 if(NOT WIN32)
   include_directories(${GTK2_INCLUDE_DIRS})
-  set(LIBS ${LIBS} ${GTK2_LIBRARIES})
+  set(Salt2D_LIBS ${Salt2D_LIBS} ${GTK2_LIBRARIES})
 endif()
 
 protobuf_generate_cpp(PROTOCOLS_SOURCES PROTOCOLS_HEADERS ${PROTOCOLS})
@@ -224,6 +234,8 @@ configure_file(
 
 add_subdirectory(${SRC_DIR}/TinyXML)
 
-add_executable(Salt2D WIN32 ${HEADERS} ${SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
+add_executable(Salt2D WIN32 ${Salt2D_HEADERS} ${Salt2D_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
+target_link_libraries(Salt2D ${Salt2D_LIBS})
 
-target_link_libraries(Salt2D ${LIBS})
+add_executable(Salt2D_Server ${SERVER_HEADERS} ${SERVER_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
+target_link_libraries(Salt2D_Server ${SERVER_LIBS})

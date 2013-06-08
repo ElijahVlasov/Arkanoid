@@ -87,16 +87,16 @@ namespace Utils {
                 std::string getData() const;
                 void setData(const std::string& data);
 
-                void testDraw();
+                //void testDraw();
 
             private:
                 
-                inline void renderFace();
+                /*inline void renderFace();
 
                 // Возвращает следующую степень двойки, после val.
                 inline int next_p2(int val);
 
-                void createSymbolVisual(unsigned char ch) throw(std::runtime_error);
+                void createSymbolVisual(unsigned char ch) throw(std::runtime_error);*/
 
                 void setData_(const std::string& data);
 
@@ -123,7 +123,7 @@ namespace Utils {
 
 
 
-        int Font::next_p2(int val) {
+        /*int Font::next_p2(int val) {
         
             int result = 1;
 
@@ -149,7 +149,7 @@ namespace Utils {
 
             isRendered_ = true;
 
-        }
+        }*/
 
     }
 
