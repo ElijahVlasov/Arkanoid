@@ -117,6 +117,7 @@ set(ENGINE_GAME_STATES_HEADERS
 set(ENGINE_HEADERS
   ${ENGINE_GAME_STATES_HEADERS}
   ${INCLUDE_DIR}/Engine/Camera.hpp
+  ${INCLUDE_DIR}/Engine/Client.hpp
   ${INCLUDE_DIR}/Engine/Direction.hpp
   ${INCLUDE_DIR}/Engine/DynamicObject.hpp
   ${INCLUDE_DIR}/Engine/Game.hpp
@@ -127,6 +128,7 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/LocationLayer.hpp
   ${INCLUDE_DIR}/Engine/Object.hpp
   ${INCLUDE_DIR}/Engine/Player.hpp
+  ${INCLUDE_DIR}/Engine/PCClient.hpp
   ${INCLUDE_DIR}/Engine/Renderer.hpp
   ${INCLUDE_DIR}/Engine/SaltEngine.hpp
   ${INCLUDE_DIR}/Engine/StaticObject.hpp
