@@ -5,6 +5,7 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <Engine/Game.hpp>
 #include <Engine/Direction.hpp>
 
 #include <Utils.hpp>
@@ -17,16 +18,18 @@ namespace LuaAPI {
 
         public:
 
-            boost::shared_ptr<Utils::Sound> System_LoadAudio(const char* name);
-            void System_PlayAudio(const boost::shared_ptr<Utils::Sound>& sound);
+            static void System_LoadScript(const char* name);
 
-            boost::shared_ptr<Utils::Texture> System_LoadTexture(const char* name);
-            void System_DrawTexture(float x, float y, const boost::shared_ptr<Utils::Texture>& texture, Engine::Direction textureDirection);
+            static boost::shared_ptr<Utils::Sound> System_LoadSound(const char* name);
+            static void System_PlaySound(const boost::shared_ptr<Utils::Sound>& sound);
 
-            void System_ShowDialog(const char* name);
-            void System_ShowMenu(const char* name);
+            static boost::shared_ptr<Utils::Texture> System_LoadTexture(const char* name);
+            static void System_DrawTexture(float x, float y, const boost::shared_ptr<Utils::Texture>& texture, Engine::Direction textureDirection);
 
-            void System_Quit();
+            static void System_ShowDialog(const char* name);
+            static void System_ShowMenu(const char* name);
+
+            static void System_Quit();
 
         protected:
 
@@ -34,6 +37,8 @@ namespace LuaAPI {
             ~LuaAPI_();
 
         private:
+
+            Engine::Game* game_;
 
             Utils::Lua* lua_;
 
