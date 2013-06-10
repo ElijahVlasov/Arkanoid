@@ -36,6 +36,8 @@ StartLogoState::StartLogoState() throw(runtime_error):
 
         testFont_ = boost::dynamic_pointer_cast<FreeType::Font>(fontResource);
 
+        testFont_->setSize(20);
+
         /*testText_ = testFont_->renderText("Some Text!");*/
 
     } catch(const bad_cast&) {}
@@ -60,6 +62,8 @@ StartLogoState::~StartLogoState() {
 
 void StartLogoState::onRender() {
 
+    Graphics::ClearScreen();
+
     Graphics::DrawTexture(
         0.0f, 0.0f,
         game_->getScreenWidth(),
@@ -67,14 +71,12 @@ void StartLogoState::onRender() {
         *(logo_.get())
     );
 
-    Graphics::CoordArray coords = {
-
-        point_xy<float>(0.0f, 0.0f),
-        point_xy<float>(1.0f, 0.0f),
-        point_xy<float>(0.0f, 1.0f),
-        point_xy<float>(1.0f, 1.0f)
-
-    };
+   /* Graphics::DrawTexture(
+        0.0f, 0.0f,
+        100,
+        150,
+        *(logo_.get())
+    );*/
 
     //testFont_->testDraw();
 
@@ -86,7 +88,7 @@ void StartLogoState::onRender() {
         testText_
     );*/
 
-    testFont_->renderText("Some text!", 30.0f, 30.0f);
+    testFont_->renderText("Test!", 30.0f, 30.0f);
 
 }
 

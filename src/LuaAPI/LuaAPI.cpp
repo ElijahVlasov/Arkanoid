@@ -13,6 +13,8 @@
 #include <LuaAPI.hpp>
 #include <LuaAPI/LuaAPI.hpp>
 
+using namespace luabind;
+
 using namespace Engine;
 
 using namespace LuaAPI;
@@ -30,23 +32,24 @@ LuaAPI_::LuaAPI_():
 
     lua_State* L = lua_->getLuaState();
 
-    luabind::module(L, "system")
+    module(L, "system")
     [
 
-        enum_("direction")
-        [
+        class_<LuaAPI_>("direction")
+            .enum_("")
+                [
 
-            value("up",     Direction::UP),
-            value("down",   Direction::DOWN),
-            value("right",  Direction::RIGHT),
-            value("left"),  Direction::LEFT)
+                    value("up",     Direction::UP),
+                    value("down",   Direction::DOWN),
+                    value("right",  Direction::RIGHT),
+                    value("left",  Direction::LEFT)
 
-        ],
+                ],
 
         class_<Texture>("texture")
-            .property("name",   Texture::getName)
-            .property("width",  Texture::getWidth,  Texture::setWidth)
-            .property("height", Texture::getHeight, Texture::setHeight),
+            .property("name",   &Texture::getName)
+            .property("width",  &Texture::getWidth,  &Texture::setWidth)
+            .property("height", &Texture::getHeight, &Texture::setHeight),
 
         class_<Sound>("sound"),
 

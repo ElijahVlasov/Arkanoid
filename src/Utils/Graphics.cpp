@@ -137,3 +137,13 @@ void Graphics::setViewportSize(unsigned int width, unsigned int height) {
     gluOrtho2D(0, width, 0, height);
 
 }
+
+
+
+void Graphics::ClearScreen() {
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
+}

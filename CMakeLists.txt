@@ -30,6 +30,8 @@ if(WIN32)
     set(MS_WINDOWS ON)
 endif()
 
+include_directories(FTGL/src)
+
 include_directories(${Boost_INCLUDE_DIR})
 include_directories(${IL_INCLUDE_DIR})
 include_directories(${FREETYPE_INCLUDE_DIR_ft2build})
@@ -64,7 +66,6 @@ set(LUA_API_SOURCES
 
 set(UTILS_FREETYPE_SOURCES
   ${SRC_DIR}/Utils/FreeType/Font.cpp
-  ${SRC_DIR}/Utils/FreeType/Library.cpp
 )
 
 set(UTILS_UI_SOURCES
@@ -145,7 +146,6 @@ set(TINY_XML_HEADERS
 
 set(UTILS_FREETYPE_HEADERS
   ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
-  ${INCLUDE_DIR}/Utils/FreeType/Library.hpp
 )
 
 set(UTILS_UI_HEADERS
@@ -204,6 +204,7 @@ set(LIBS
   ${FREETYPE_LIBRARIES}
   ${LUABIND_LIBRARIES}
   ${PROTOBUF_LITE_LIBRARIES}
+  lib/ftgl
   TinyXML
 )
 

@@ -61,6 +61,8 @@ namespace Utils {
 
             static void DrawTexture(float x, float y, float width, float height, const CoordArray& texCoords, const Texture& texture);
 
+            static void ClearScreen();
+
             /** Установить размер окна просмотра
             */
 

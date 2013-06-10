@@ -43,6 +43,21 @@ namespace Utils {
 
     std::string readBinaryStream(std::ifstream& stream);
 
+    inline std::wstring stringToWString(const std::string& str, std::locale loc = std::locale());
+
+}
+
+std::wstring Utils::stringToWString( const std::string& in, std::locale loc) {
+
+    std::wstring                out( in.length(), 0 );
+    std::string::const_iterator i = in.begin(), ie = in.end();
+    std::wstring::iterator      j = out.begin();
+
+    for( ; i!=ie; ++i, ++j )
+        *j = std::use_facet< std::ctype< wchar_t > > ( loc ).widen( *i );
+
+    return out;
+
 }
 
 #endif
