@@ -12,7 +12,24 @@ using namespace boost::program_options;
 
 Server::Server(int argc, char* argv[]) {
 
-    
+    if(argc < 2) {
+
+        cerr << "Необходимы аргументы" << endl;
+
+        exit(EXIT_FAILURE);
+
+    }
+
+    options_description desc("Опции сервера");
+
+    desc.add_options()
+            ("help,h",      "Справка")
+            ("port,p",      "TCP-порт")
+            ("config,c"     "Конфигурационный файл")
+
+    variables_map vm;
+
+    store(parse_command_line(argc, argv, desc), vm);
 
 }
 

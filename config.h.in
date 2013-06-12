@@ -6,6 +6,8 @@
 
 #define RESOURCE_PATH "../resources"
 
+#define OGLFT_NO_QT
+
 #cmakedefine MS_WINDOWS
 
 #endif

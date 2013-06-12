@@ -9,16 +9,7 @@
 #include <string>
 #include <stdexcept>
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
-#include "config.h"
-
-#ifdef MS_WINDOWS
-#include <Windows.h>
-#endif
-
-#include <GL/gl.h>
+#include <FTGL/ftgl.h>
 
 #include <boost/array.hpp>
 #include <boost/shared_ptr.hpp>
@@ -26,8 +17,6 @@
 #include <Utils/Color.hpp>
 #include <Utils/Resource.hpp>
 #include <Utils/Texture.hpp>
-
-#include <Utils/FreeType/Library.hpp>
 
 namespace Utils {
 
@@ -48,6 +37,8 @@ namespace Utils {
 
                 Font& operator=(const Font& font);
 
+
+
                 /** Отрендерить текст.
                   * @param text Текст для рендеринга 
                   * @throws Генерирует std::invalid_argument, если text == NULL.
@@ -63,12 +54,12 @@ namespace Utils {
 
                 void renderText(const std::string& text, float x, float y) throw(std::runtime_error);
 
-                /** Кегль шрифта.
+                /** Размер шрифта.
                 */
 
                 unsigned int getSize() const;
 
-                /** Установить кегль шрифта.
+                /** Установить размер шрифта.
                   * @throw Генерирует std::invalid_argument, если size == 0.
                 */
 
@@ -87,6 +78,7 @@ namespace Utils {
                 std::string getData() const;
                 void setData(const std::string& data);
 
+<<<<<<< HEAD
                 //void testDraw();
 
             private:
@@ -97,30 +89,25 @@ namespace Utils {
                 inline int next_p2(int val);
 
                 void createSymbolVisual(unsigned char ch) throw(std::runtime_error);*/
+=======
+            private:
+>>>>>>> 16b3e3f4ae8cdcad4576442f8db5293f75b68d48
 
                 void setData_(const std::string& data);
 
                 mutable std::mutex synchroMutex_;
 
-                bool isRendered_;
+                Utils::Color color_;
 
-                GLuint listBase_;
+                FTFont* font_;
 
-                // Текстуры символов.
-                boost::array< boost::shared_ptr<Utils::Texture>, UCHAR_MAX + 1 > symbols_;
-
-                Library* lib_;
+                //OGLFT::Monochrome* monochromeFont_;
 
                 std::string fontBuffer_;
 
-                FT_Face face_;
-
-                unsigned int size_;
-
-                Utils::Color color_;
-
         };
 
+<<<<<<< HEAD
 
 
         /*int Font::next_p2(int val) {
@@ -151,6 +138,8 @@ namespace Utils {
 
         }*/
 
+=======
+>>>>>>> 16b3e3f4ae8cdcad4576442f8db5293f75b68d48
     }
 
 }

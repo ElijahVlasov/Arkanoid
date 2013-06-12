@@ -30,6 +30,8 @@ if(WIN32)
     set(MS_WINDOWS ON)
 endif()
 
+include_directories(FTGL/src)
+
 include_directories(${Boost_INCLUDE_DIR})
 include_directories(${IL_INCLUDE_DIR})
 include_directories(${FREETYPE_INCLUDE_DIR_ft2build})
@@ -64,7 +66,6 @@ set(LUA_API_SOURCES
 
 set(UTILS_FREETYPE_SOURCES
   ${SRC_DIR}/Utils/FreeType/Font.cpp
-  ${SRC_DIR}/Utils/FreeType/Library.cpp
 )
 
 set(UTILS_UI_SOURCES
@@ -121,6 +122,7 @@ set(ENGINE_GAME_STATES_HEADERS
 set(ENGINE_HEADERS
   ${ENGINE_GAME_STATES_HEADERS}
   ${INCLUDE_DIR}/Engine/Camera.hpp
+  ${INCLUDE_DIR}/Engine/Client.hpp
   ${INCLUDE_DIR}/Engine/Direction.hpp
   ${INCLUDE_DIR}/Engine/DynamicObject.hpp
   ${INCLUDE_DIR}/Engine/Game.hpp
@@ -131,6 +133,7 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/LocationLayer.hpp
   ${INCLUDE_DIR}/Engine/Object.hpp
   ${INCLUDE_DIR}/Engine/Player.hpp
+  ${INCLUDE_DIR}/Engine/PCClient.hpp
   ${INCLUDE_DIR}/Engine/Renderer.hpp
   ${INCLUDE_DIR}/Engine/SaltEngine.hpp
   ${INCLUDE_DIR}/Engine/StaticObject.hpp
@@ -147,7 +150,6 @@ set(TINY_XML_HEADERS
 
 set(UTILS_FREETYPE_HEADERS
   ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
-  ${INCLUDE_DIR}/Utils/FreeType/Library.hpp
 )
 
 set(UTILS_UI_HEADERS
@@ -196,11 +198,15 @@ set(Salt2D_HEADERS
   ${INCLUDE_DIR}/Utils.hpp
 )
 
+<<<<<<< HEAD
 set(SERVER_HEADERS
   ${INCLUDE_DIR}/Server.hpp
 )
 
 set(Salt2D_LIBS
+=======
+set(LIBS
+>>>>>>> 16b3e3f4ae8cdcad4576442f8db5293f75b68d48
   ${LUA_LIBRARIES}
   ${OPENAL_LIBRARY}
   ${OPENGL_LIBRARIES}
@@ -210,6 +216,7 @@ set(Salt2D_LIBS
   ${FREETYPE_LIBRARIES}
   ${LUABIND_LIBRARIES}
   ${PROTOBUF_LITE_LIBRARIES}
+  lib/ftgl
   TinyXML
 )
 
