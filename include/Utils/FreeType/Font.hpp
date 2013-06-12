@@ -1,9 +1,7 @@
 #ifndef _SALT2D_UTILS_FONT_HPP
 #define _SALT2D_UTILS_FONT_HPP
 
-#include <boost/cstdint.hpp>
-
-#include <climits>
+#include <cwchar>
 
 #include <mutex>
 #include <string>
@@ -39,7 +37,7 @@ namespace Utils {
 
 
 
-                /** Отрендерить текст.
+                /** Отрендерить UTF-8 текст.
                   * @param text Текст для рендеринга 
                   * @throws Генерирует std::invalid_argument, если text == NULL.
                   *         Генерирует std::runtime_error, при ошибке Freetype2
@@ -47,12 +45,28 @@ namespace Utils {
 
                 void renderText(const char* text, float x, float y)        throw(std::invalid_argument, std::runtime_error);
 
-                /** Отрендерить текст.
+                /** Отрендерить UTF-16 текст.
+                  * @param text Текст для рендеринга 
+                  * @throws Генерирует std::invalid_argument, если wText == NULL.
+                  *         Генерирует std::runtime_error, при ошибке Freetype2
+                */
+
+                void renderText(const wchar_t* wText, float x, float y)    throw(std::invalid_argument, std::runtime_error);
+
+                /** Отрендерить UTF-8 текст.
                   * @param text Текст для рендеринга 
                   * @throws Генерирует std::runtime_error, при ошибке Freetype2
                 */
 
                 void renderText(const std::string& text, float x, float y) throw(std::runtime_error);
+
+                /** Отрендерить UTF-16 текст.
+                  * @param text Текст для рендеринга 
+                  * @throws Генерирует std::runtime_error, при ошибке Freetype2
+                */
+
+                void renderText(const std::wstring& wText, float x, float y)
+                                                                           throw(std::runtime_error);
 
                 /** Размер шрифта.
                 */
@@ -78,20 +92,8 @@ namespace Utils {
                 std::string getData() const;
                 void setData(const std::string& data);
 
-<<<<<<< HEAD
-                //void testDraw();
-
             private:
-                
-                /*inline void renderFace();
 
-                // Возвращает следующую степень двойки, после val.
-                inline int next_p2(int val);
-
-                void createSymbolVisual(unsigned char ch) throw(std::runtime_error);*/
-=======
-            private:
->>>>>>> 16b3e3f4ae8cdcad4576442f8db5293f75b68d48
 
                 void setData_(const std::string& data);
 
@@ -101,45 +103,10 @@ namespace Utils {
 
                 FTFont* font_;
 
-                //OGLFT::Monochrome* monochromeFont_;
-
                 std::string fontBuffer_;
 
         };
 
-<<<<<<< HEAD
-
-
-        /*int Font::next_p2(int val) {
-        
-            int result = 1;
-
-            while(result < val) {
-                result <<= 1;
-            }
-
-            return result;
-
-        }
-
-
-
-        void Font::renderFace() {
-
-            FT_Set_Char_Size(face_, size_ << 6, size_ << 6, 96, 96);
-
-            for(unsigned char ch = 0; ch < UCHAR_MAX; ch++) {
-    
-                createSymbolVisual(ch);
-
-            }
-
-            isRendered_ = true;
-
-        }*/
-
-=======
->>>>>>> 16b3e3f4ae8cdcad4576442f8db5293f75b68d48
     }
 
 }

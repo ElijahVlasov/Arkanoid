@@ -6,6 +6,9 @@
 #ifndef _SALT2D_UTILS_HPP
 #define _SALT2D_UTILS_HPP
 
+#include <cstdlib>
+#include <cwchar>
+
 #include <fstream>
 #include <string>
 
@@ -50,11 +53,8 @@ namespace Utils {
 std::wstring Utils::stringToWString( const std::string& in, std::locale loc) {
 
     std::wstring                out( in.length(), 0 );
-    std::string::const_iterator i = in.begin(), ie = in.end();
-    std::wstring::iterator      j = out.begin();
 
-    for( ; i!=ie; ++i, ++j )
-        *j = std::use_facet< std::ctype< wchar_t > > ( loc ).widen( *i );
+    mbstowcs(const_cast<wchar_t*>(out.c_str()), in.c_str(), in.length());
 
     return out;
 

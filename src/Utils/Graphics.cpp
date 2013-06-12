@@ -105,6 +105,8 @@ void Graphics::DrawTexture(float x, float y, float width, float height, const Te
 
 void Graphics::DrawTexture(float x, float y, float width, float height, const CoordArray& texCoords, const Texture& texture) {
 
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
     // биндим текстуру
     glBindTexture(GL_TEXTURE_2D, texture.getName());
 
@@ -142,7 +144,7 @@ void Graphics::setViewportSize(unsigned int width, unsigned int height) {
 
 void Graphics::ClearScreen() {
 
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
     glClear(GL_COLOR_BUFFER_BIT);
 

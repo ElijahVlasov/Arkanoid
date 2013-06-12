@@ -44,11 +44,7 @@ namespace Engine {
 
             private:
 
-                boost::shared_ptr<Utils::FreeType::Font> testFont_;
-
-                Utils::Texture testText_;
-
-                /*Engine::*/Game* game_; 
+                Game* game_; 
 
                 Utils::ResourceManager* resourceManager_;
 

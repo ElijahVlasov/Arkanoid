@@ -6,7 +6,7 @@
 
 #define RESOURCE_PATH "../resources"
 
-#define OGLFT_NO_QT
+#define DEFAULT_FONT "fonts/arial.ttf"
 
 #cmakedefine MS_WINDOWS
 

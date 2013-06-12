@@ -10,6 +10,8 @@
 
 #include <Utils/UI/Component.hpp>
 
+#include "config.h"
+
 using namespace Utils::FreeType;
 
 using namespace Utils::UI;
@@ -28,7 +30,7 @@ Component::Component() throw(runtime_error):
 
     try {
 
-        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceLoader::ResourceType::FONT, "fonts/arial.ttf");
+        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceLoader::ResourceType::FONT, DEFAULT_FONT);
 
         font_ = *(boost::dynamic_pointer_cast<Font>(fontResource).get());
 

@@ -32,14 +32,6 @@ StartLogoState::StartLogoState() throw(runtime_error):
 
         logo_ = boost::dynamic_pointer_cast<Texture>(textureResource);
 
-        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceLoader::ResourceType::FONT, "fonts/arial.ttf");
-
-        testFont_ = boost::dynamic_pointer_cast<FreeType::Font>(fontResource);
-
-        testFont_->setSize(20);
-
-        /*testText_ = testFont_->renderText("Some Text!");*/
-
     } catch(const bad_cast&) {}
 
 }
@@ -70,25 +62,6 @@ void StartLogoState::onRender() {
         game_->getScreenHeight(),
         *(logo_.get())
     );
-
-   /* Graphics::DrawTexture(
-        0.0f, 0.0f,
-        100,
-        150,
-        *(logo_.get())
-    );*/
-
-    //testFont_->testDraw();
-
- /*   Graphics::DrawTexture(
-        0.0f, 0.0,
-        testText_.getWidth(),
-        testText_.getHeight(),
-        coords,
-        testText_
-    );*/
-
-    testFont_->renderText("Test!", 30.0f, 30.0f);
 
 }
 

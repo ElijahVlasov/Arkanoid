@@ -11,7 +11,10 @@
 #include <Engine/SaltEngine.hpp>
 #include <Engine/GameStates.hpp>
 
+#include <LuaAPI.hpp>
+
 #include <Utils/Graphics.hpp>
+#include <Utils/Lua.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
@@ -121,6 +124,10 @@ namespace Engine {
 
         private:
 
+            Utils::Lua*             lua_;
+
+            LuaAPI::LuaAPI_*        luaAPI_;
+
             Utils::ResourceManager* resourceManager_;
 
             Utils::UI::MenuFactory* menuFactory_;
@@ -130,15 +137,16 @@ namespace Engine {
 
             std::exception_ptr e_;
 
-            std::mutex   exceptionCheckMutex_;
+            mutable std::mutex   exceptionCheckMutex_;  // мьютекс защиты e_
+            mutable std::mutex   synchroMutex_;          // мьютекс защиты state_, scrWidth, scrHeight, isRunning
 
-            std::mutex   initMutex_; // нужен для синхронизации основного потока и потока загрузки
+            mutable std::mutex   initMutex_; // нужен для синхронизации основного потока и потока загрузки
             std::thread* initThread_;
 
             void setException(const std::exception_ptr& e);
             const std::exception_ptr& getException();
 
-            void loadResources() throw(std::runtime_error);
+            void loadResources();
 
             Utils::Graphics* graphics_;
 

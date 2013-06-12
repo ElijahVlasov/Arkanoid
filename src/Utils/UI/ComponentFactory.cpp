@@ -16,6 +16,8 @@
 
 #include <Utils/UI/ComponentFactory.hpp>
 
+#include "config.h"
+
 using namespace std;
 
 using namespace Utils::FreeType;
@@ -103,7 +105,7 @@ void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* 
     width           =   static_cast<unsigned int>(getXMLAttribute<int>(element, "width", 100));
     height          =   static_cast<unsigned int>(getXMLAttribute<int>(element, "height", 100));
 
-    fontName        =   getXMLAttribute<string>(element, "font", "arial.ttf");
+    fontName        =   getXMLAttribute<string>(element, "font", DEFAULT_FONT);
     componentName   =   getXMLAttribute<string>(element, "name");
 
     component->setRect(x, y, width, height);

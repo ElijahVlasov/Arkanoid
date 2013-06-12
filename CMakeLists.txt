@@ -198,15 +198,12 @@ set(Salt2D_HEADERS
   ${INCLUDE_DIR}/Utils.hpp
 )
 
-<<<<<<< HEAD
 set(SERVER_HEADERS
   ${INCLUDE_DIR}/Server.hpp
 )
 
 set(Salt2D_LIBS
-=======
-set(LIBS
->>>>>>> 16b3e3f4ae8cdcad4576442f8db5293f75b68d48
+  ${Boost_SYSTEM_LIBRARY}
   ${LUA_LIBRARIES}
   ${OPENAL_LIBRARY}
   ${OPENGL_LIBRARIES}
@@ -216,7 +213,7 @@ set(LIBS
   ${FREETYPE_LIBRARIES}
   ${LUABIND_LIBRARIES}
   ${PROTOBUF_LITE_LIBRARIES}
-  lib/ftgl
+  ftgl
   TinyXML
 )
 

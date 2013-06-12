@@ -28,7 +28,6 @@ namespace Utils {
                 SOUND,        /**< Файл звуков(только OGG)  */
                 SCRIPT,       /**< Скрипт                   */
                 FONT,         /**< Шрифт                    */
-                WORLD,        /**< Карта                    */
                 CONFIG,       /**< Файл конфигурации        */
                 PLAIN_TEXT,   /**< Текстовый файл           */
                 BINARY_FILE   /**< Двоичный файл            */
