@@ -86,6 +86,64 @@ Font& Font::operator=(const Font& font) {
 
 
 
+Font::FONT_RECT Font::measureText(const char* text) throw(invalid_argument, runtime_error) {
+
+    ASSERT(
+        (text != 0),
+        invalid_argument("text")
+    );
+
+    return measureText(string(text));
+
+}
+
+
+
+Font::FONT_RECT Font::measureText(const string& text) throw(runtime_error) {
+
+    return measureText(UTF8_to_UTF16(text));
+
+}
+
+
+
+Font::FONT_RECT Font::measureText(const wchar_t* wText) throw(invalid_argument, runtime_error) {
+
+    ASSERT(
+        (wText != 0),
+        invalid_argument("wText")
+    );
+
+    FTBBox bbox = font_->BBox(wText, -1);
+
+    FTPoint low = bbox.Lower();
+    FTPoint hi  = bbox.Upper();
+
+    Font::FONT_RECT rect;
+
+    rect.width  = hi.X() - low.X();
+    rect.height = hi.Y() - low.Y();
+
+    return rect;
+
+}
+
+
+
+Font::FONT_RECT Font::measureText(const wstring& wText) throw(runtime_error) {
+
+    try {
+
+        return measureText(wText.c_str());
+
+    } catch(const invalid_argument&){}
+
+    //return FTBBox();
+
+}
+
+
+
 void Font::renderText(const char* text, float x, float y) throw(invalid_argument, runtime_error) {
 
     ASSERT(
@@ -101,7 +159,7 @@ void Font::renderText(const char* text, float x, float y) throw(invalid_argument
 
 void Font::renderText(const string& text, float x, float y) throw(runtime_error) {
 
-    renderText(stringToWString(text), x, y);
+    renderText(UTF8_to_UTF16(text), x, y);
 
 }
 

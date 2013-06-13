@@ -235,14 +235,16 @@ void Game::setState(IGameState* state) {
 
 void Game::run() throw(runtime_error) {
 
+    isRunning_ = true;
+
     // Запускаем загрузку ресурсов
     initThread_ =  new std::thread(boost::mem_fn(&Game::loadResources), this);
 
     initThread_->detach();
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    /*std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    isRunning_ = true;
+    isRunning_ = true;*/
 
 }
 
@@ -297,16 +299,16 @@ void Game::loadResources() {
 
         std::lock_guard<std::mutex> guard(initMutex_);
 
-        boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceLoader::ResourceType::PLAIN_TEXT, "ui/main_menu.xml");
+        loadMainMenu();
 
-        mainMenu_ = boost::shared_ptr<Menu>(menuFactory_->createFromXML(menuResource->getData()));
+        //mainMenu_ = boost::shared_ptr<Menu>();
 
         menuGameState_    =  MenuState::getInstance();
         singleGameState_  =  SingleGameState::getInstance();
 
         menuGameState_->setMenu(mainMenu_);
 
-        lua_->loadScript("scripts/init.lua");
+        lua_->loadScript("init.lua");
 
         luabind::call_function<void>(lua_->getFunctionObject("init.load_resources"));
 
@@ -317,5 +319,19 @@ void Game::loadResources() {
         setException(current_exception());
 
     }
+
+}
+
+
+
+void Game::loadMainMenu() throw(runtime_error) {
+
+    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceLoader::ResourceType::PLAIN_TEXT, "ui/main_menu.xml");
+
+    string menuXML = menuResource->getData();
+
+    Menu* mainMenu = menuFactory_->createFromXML(menuXML);
+
+    mainMenu_ = boost::shared_ptr<Menu>(mainMenu);
 
 }

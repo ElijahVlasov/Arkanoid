@@ -147,6 +147,7 @@ namespace Engine {
             const std::exception_ptr& getException();
 
             void loadResources();
+            void loadMainMenu() throw(std::runtime_error);
 
             Utils::Graphics* graphics_;
 

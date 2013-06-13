@@ -28,6 +28,12 @@ namespace Utils {
 
             public:
 
+                typedef struct _FONT_RECT {
+
+                    float width, height;
+
+                } FONT_RECT;
+
                 Font();
                 Font(const Font& font);
 
@@ -35,6 +41,11 @@ namespace Utils {
 
                 Font& operator=(const Font& font);
 
+
+                FONT_RECT measureText(const char* text)                     throw(std::invalid_argument, std::runtime_error);
+                FONT_RECT measureText(const std::string& text)              throw(std::runtime_error);
+                FONT_RECT measureText(const wchar_t* wText)                 throw(std::invalid_argument, std::runtime_error);
+                FONT_RECT measureText(const std::wstring& wText)            throw(std::runtime_error);
 
 
                 /** Отрендерить UTF-8 текст.
@@ -77,7 +88,7 @@ namespace Utils {
                   * @throw Генерирует std::invalid_argument, если size == 0.
                 */
 
-                void setSize(unsigned int size)             throw(std::invalid_argument);
+                void setSize(unsigned int size)                            throw(std::invalid_argument);
 
                 /** Цвет шрифта.
                 */

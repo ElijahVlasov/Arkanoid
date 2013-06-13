@@ -76,7 +76,7 @@ void Lua::loadScript(const string& name) throw(runtime_error, invalid_argument) 
 
     string moduleName = createModuleName(name);
 
-    string script = resourceManager_->getResource(ResourceLoader::ResourceType::SCRIPT, name)->getData();
+    string script = resourceManager_->getResource(ResourceLoader::ResourceType::SCRIPT, "scripts/" + name)->getData();
 
     // Добавляем объявление скрипта, как модуля
     script = (boost::format("module(\"%1%\", package.seeall)\n%2%") % moduleName % script).str();

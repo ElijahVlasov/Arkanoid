@@ -7,6 +7,7 @@
 #include <boost/function.hpp>
 
 #include <Utils/MouseButton.hpp>
+#include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
 
 #include <Utils/UI/Event.hpp>
@@ -36,12 +37,14 @@ namespace Utils {
 
                 void onDraw(Event&);
 
-            private:
-
                 void drawTexture();
                 void drawText();
 
-                Texture curTexture_;
+            private:
+
+                ResourceManager* resourceManager_;
+
+                Texture& curTexture_;
 
                 Texture defTexture_;
 
