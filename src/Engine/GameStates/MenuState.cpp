@@ -23,17 +23,17 @@ using namespace Utils::UI;
 
 
 MenuState::MenuState() throw(runtime_error):
-	game_(Game::getInstance()),
-	menu_()
+    game_(Game::getInstance()),
+    menu_()
 {}
 
 
 
 MenuState::~MenuState() {
 
-	if(game_ != 0) {
-		game_->Free();
-	}
+    if(game_ != 0) {
+        game_->Free();
+    }
 
 }
 
@@ -41,16 +41,16 @@ MenuState::~MenuState() {
 
 void MenuState::setMenu(const boost::shared_ptr<Menu>& menu) throw(invalid_argument) {
 
-	menu_ = menu;
+    menu_ = menu;
 
 }
 
 
 
 const boost::shared_ptr<Menu>& 
-	MenuState::getMenu() const {
+    MenuState::getMenu() const {
 
-	return menu_;
+    return menu_;
 
 }
 
@@ -58,9 +58,9 @@ const boost::shared_ptr<Menu>&
 
 void MenuState::onRender() {
 
-	if(menu_ != 0) {
-		menu_->draw();
-	}
+    if(menu_ != 0) {
+        menu_->draw();
+    }
 
 }
 
@@ -68,9 +68,9 @@ void MenuState::onRender() {
 
 void MenuState::onResize(unsigned int width, unsigned int height) {
 
-	if(menu_ != 0) {
-		menu_->setRect(0, 0, width, height);
-	}
+    if(menu_ != 0) {
+        menu_->setRect(0, 0, width, height);
+    }
 
 }
 
@@ -78,9 +78,9 @@ void MenuState::onResize(unsigned int width, unsigned int height) {
 
 void MenuState::onKeyDown(int key) {
 
-	if(menu_ != 0) {
-		menu_->keyDown(key);
-	}
+    if(menu_ != 0) {
+        menu_->keyDown(key);
+    }
 
 }
 
@@ -88,9 +88,9 @@ void MenuState::onKeyDown(int key) {
 
 void MenuState::onKeyUp(int key) {
 
-	if(menu_ != 0) {
-		menu_->keyUp(key);
-	}
+    if(menu_ != 0) {
+        menu_->keyUp(key);
+    }
 
 }
 
@@ -98,9 +98,9 @@ void MenuState::onKeyUp(int key) {
 
 void MenuState::onMouseMotion(int x, int y) {
 
-	if(menu_ != 0) {
-		menu_->hoverMouse(x, y);
-	}
+    if(menu_ != 0) {
+        menu_->hoverMouse(x, y);
+    }
 
 }
 
@@ -108,9 +108,9 @@ void MenuState::onMouseMotion(int x, int y) {
 
 void MenuState::onMouseDown(int x, int y, Utils::MouseButton btn) {
 
-	if(menu_ != 0) {
-		menu_->mouseDown(x, y, btn);
-	}
+    if(menu_ != 0) {
+        menu_->mouseDown(x, y, btn);
+    }
 
 }
 
@@ -118,8 +118,8 @@ void MenuState::onMouseDown(int x, int y, Utils::MouseButton btn) {
 
 void MenuState::onMouseUp(int x, int y, Utils::MouseButton btn) {
 
-	if(menu_ != 0) {
-		menu_->mouseUp(x, y, btn);
-	}
+    if(menu_ != 0) {
+        menu_->mouseUp(x, y, btn);
+    }
 
 }

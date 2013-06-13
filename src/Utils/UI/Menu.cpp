@@ -1,3 +1,4 @@
+#include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -13,8 +14,12 @@ using namespace Utils::UI;
 
 
 Menu::Menu() throw(runtime_error):
-	Component()
-{}
+    Component()
+{
+
+    setDrawEvent(boost::bind(boost::mem_fn(&Menu::onDraw), this, _1));
+
+}
 
 
 
@@ -24,7 +29,7 @@ Menu::~Menu() {}
 
 void Menu::addComponent(const boost::shared_ptr<Component>& component) {
 
-	components_.push_back(component);
+    components_.push_back(component);
 
 }
 
@@ -32,7 +37,7 @@ void Menu::addComponent(const boost::shared_ptr<Component>& component) {
 
 const std::list<boost::shared_ptr<Component>>& Menu::getComponents() const {
 
-	return components_;
+    return components_;
 
 }
 
@@ -40,22 +45,22 @@ const std::list<boost::shared_ptr<Component>>& Menu::getComponents() const {
 
 void Menu::mouseDown(int x, int y, MouseButton btn) {
 
-	BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
-	
-		if(!component->isContains(x, y)) {
-			continue;
-		}
+    BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
 
-		// переводим в локальные координаты
-		// для компонента
-		int componentX = component->getX();
-		int componentY = component->getY();
+        if(!component->isContains(x, y)) {
+            continue;
+        }
 
-		component->mouseDown(componentX - x, componentY - y, btn);
+        // РїРµСЂРµРІРѕРґРёРј РІ Р»РѕРєР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
+        // РґР»СЏ РєРѕРјРїРѕРЅРµРЅС‚Р°
+        int componentX = component->getX();
+        int componentY = component->getY();
 
-	}
+        component->mouseDown(componentX - x, componentY - y, btn);
 
-	Component::mouseDown(x, y, btn);
+    }
+
+    Component::mouseDown(x, y, btn);
 
 }
 
@@ -63,22 +68,22 @@ void Menu::mouseDown(int x, int y, MouseButton btn) {
 
 void Menu::mouseUp(int x, int y, MouseButton btn) {
 
-	BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
-	
-		if(!component->isContains(x, y)) {
-			continue;
-		}
+    BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
 
-		// переводим в локальные координаты
-		// для компонента
-		int componentX = component->getX();
-		int componentY = component->getY();
+        if(!component->isContains(x, y)) {
+            continue;
+        }
 
-		component->mouseUp(componentX - x, componentY - y, btn);
+        // РїРµСЂРµРІРѕРґРёРј РІ Р»РѕРєР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
+        // РґР»СЏ РєРѕРјРїРѕРЅРµРЅС‚Р°
+        int componentX = component->getX();
+        int componentY = component->getY();
 
-	}
+        component->mouseUp(componentX - x, componentY - y, btn);
 
-	Component::mouseUp(x, y, btn);
+    }
+
+    Component::mouseUp(x, y, btn);
 
 }
 
@@ -86,22 +91,22 @@ void Menu::mouseUp(int x, int y, MouseButton btn) {
 
 void Menu::hoverMouse(int x, int y) {
 
-	BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
-	
-		if(!component->isContains(x, y)) {
-			continue;
-		}
+    BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
 
-		// переводим в локальные координаты
-		// для компонента
-		int componentX = component->getX();
-		int componentY = component->getY();
+        if(!component->isContains(x, y)) {
+            continue;
+        }
 
-		component->hoverMouse(componentX - x, componentY - y);
+        // РїРµСЂРµРІРѕРґРёРј РІ Р»РѕРєР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
+        // РґР»СЏ РєРѕРјРїРѕРЅРµРЅС‚Р°
+        int componentX = component->getX();
+        int componentY = component->getY();
 
-	}
+        component->hoverMouse(componentX - x, componentY - y);
 
-	Component::hoverMouse(x, y);
+    }
+
+    Component::hoverMouse(x, y);
 
 }
 
@@ -109,13 +114,11 @@ void Menu::hoverMouse(int x, int y) {
 
 void Menu::keyDown(int key) {
 
-	BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
+    BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
+        component->keyDown(key);
+    }
 
-		component->keyDown(key);
-
-	}
-
-	Component::keyDown(key);
+    Component::keyDown(key);
 
 }
 
@@ -123,27 +126,49 @@ void Menu::keyDown(int key) {
 
 void Menu::keyUp(int key) {
 
-	BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
+    BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
+        component->keyUp(key);
+    }
 
-		component->keyUp(key);
-
-	}
-
-	Component::keyUp(key);
+    Component::keyUp(key);
 
 }
 
 
 
-void Menu::draw() {
+void Menu::onDraw(Event&) {
 
-	BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
+    drawSelf();
+    drawComponents();
 
-		component->draw();
+}
 
-	}
 
-	Component::draw();
+
+void Menu::drawComponents() {
+
+    BOOST_FOREACH(boost::shared_ptr<Component> component, components_) {
+        component->draw();
+    }
+
+}
+
+
+
+void Menu::drawSelf() {
+
+    float x       =  static_cast<float>(getX());
+    float y       =  static_cast<float>(getY());
+    float width   =  static_cast<float>(getWidth());
+    float height  =  static_cast<float>(getHeight());
+
+    Graphics::DrawTexture(
+        x,
+        y,
+        width,
+        height,
+        background_
+    );
 
 }
 
@@ -151,7 +176,7 @@ void Menu::draw() {
 
 void Menu::setBackground(const Texture& background) {
 
-	background_ = background;
+    background_ = background;
 
 }
 
@@ -159,15 +184,15 @@ void Menu::setBackground(const Texture& background) {
 
 const Texture& Menu::getBackground() const {
 
-	return background_;
+    return background_;
 
 }
 
 
 
-void Menu::setBackgroundColor(const Utils::Color& color) {
+void Menu::setBackgroundColor(const Color& color) {
 
-	backgroundColor_ = color;
+    backgroundColor_ = color;
 
 }
 
@@ -175,6 +200,6 @@ void Menu::setBackgroundColor(const Utils::Color& color) {
 
 const Utils::Color& Menu::getBackgroundColor() const {
 
-	return backgroundColor_;
+    return backgroundColor_;
 
 }

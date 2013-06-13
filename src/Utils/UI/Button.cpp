@@ -27,9 +27,9 @@ Button::Button() throw(runtime_error):
 
     try {
 
-        boost::shared_ptr<Resource> defTextureResource     = resourceManager_->getResource(ResourceLoader::TEXTURE, "textures/ui/button.png");
-        boost::shared_ptr<Resource> clickedTextureResource = resourceManager_->getResource(ResourceLoader::TEXTURE, "textures/ui/button_clicked.png");
-        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager_->getResource(ResourceLoader::TEXTURE, "textures/ui/button_hovered.png");
+        boost::shared_ptr<Resource> defTextureResource     = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/ui/button.png");
+        boost::shared_ptr<Resource> clickedTextureResource = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/ui/button_clicked.png");
+        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/ui/button_hovered.png");
 
         defTexture_     = *boost::dynamic_pointer_cast<Texture>(defTextureResource);
         clickedTexture_ = *boost::dynamic_pointer_cast<Texture>(clickedTextureResource);
@@ -90,7 +90,7 @@ void Button::drawText() {
     float width   =  static_cast<float>(getWidth());
     float height  =  static_cast<float>(getHeight());
 
-    // рендерим текст
+    // СЂРµРЅРґРµСЂРёРј С‚РµРєСЃС‚
     try {
 
         Font font = getFont();

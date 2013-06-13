@@ -23,12 +23,17 @@ const std::string MenuFactory::MENU_ROOT_NODE_VALUE = "menu";
 
 
 MenuFactory::MenuFactory() throw(runtime_error):
+    resourceManager_(ResourceManager::getInstance()),
     componentFactory_(ComponentFactory::getInstance())
 {}
 
 
 
 MenuFactory::~MenuFactory() {
+
+    if(resourceManager_ != 0) {
+        resourceManager_->Free();
+    }
 
     if(componentFactory_ != 0) {
         componentFactory_->Free();
@@ -95,8 +100,18 @@ void MenuFactory::loadComponents(TiXmlDocument& document, Menu* menu) throw(runt
         )
     );
 
-    // ïðîõîäèì ïî âñåì node'àì, åñëè ýòî ýëåìåíòû,
-    // òî ñîçäàåì êîìïîíåíò
+    string backTexture;
+
+    if(rootElement->QueryStringAttribute("background", &backTexture) == TIXML_SUCCESS) {
+
+        boost::shared_ptr<Resource> backgroundRes = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, backTexture);
+
+        menu->setBackground(*boost::dynamic_pointer_cast<Texture>(backgroundRes));
+
+    }
+
+    // Ð¿Ñ€Ð¾Ñ…Ð¾Ð´Ð¸Ð¼ Ð¿Ð¾ Ð²ÑÐµÐ¼ node'Ð°Ð¼, ÐµÑÐ»Ð¸ ÑÑ‚Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹,
+    // Ñ‚Ð¾ ÑÐ¾Ð·Ð´Ð°ÐµÐ¼ ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚
     for(TiXmlNode* node = rootElement->FirstChild(); node != 0; node = node->NextSibling()) {
 
         TiXmlElement* uiElement = node->ToElement();

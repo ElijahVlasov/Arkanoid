@@ -13,15 +13,15 @@
 #include <Utils/UI/Component.hpp>
 
 namespace Utils {
-	
+
     namespace UI {
     
         /** Меню.
           * @author Elijah Vlasov 
         */
-	
+
         class Menu: public Component {
-		
+
             public:
 
                 Menu() throw(std::runtime_error);
@@ -39,43 +39,48 @@ namespace Utils {
                 
                 const std::list<boost::shared_ptr<Component>>& getComponents() const;
 
-                void mouseDown(int x, int y, Utils::MouseButton btn);
-                void mouseUp(int x, int y, Utils::MouseButton btn);
+                void mouseDown(int x, int y, MouseButton btn);
+                void mouseUp(int x, int y, MouseButton btn);
 
                 void hoverMouse(int x, int y);
 
                 void keyDown(int key);
                 void keyUp(int key);
 
-                void draw();
-                
                 /** Установить фоновую текстуру.
                 */
 
-                void setBackground(const Utils::Texture& background);
+                void setBackground(const Texture& background);
                 
                 /** Фоновая текстура.
                 */
                 
-                const Utils::Texture& getBackground() const;
+                const Texture& getBackground() const;
                 
                 /** Установить фоновый цвет.
                 */
 
-                void setBackgroundColor(const Utils::Color& color);
+                void setBackgroundColor(const Color& color);
                 
                 /** Фоновый цвет.
                 */
                 
-                const Utils::Color& getBackgroundColor() const;
+                const Color& getBackgroundColor() const;
+
+            protected:
+
+                void onDraw(Event&);
+
+                void drawComponents();
+                void drawSelf();
 
             private:
 
-                Utils::Color backgroundColor_;
+                Color backgroundColor_;
 
                 Texture background_;
 
-                std::list<boost::shared_ptr<Component>> components_;
+                std::list< boost::shared_ptr<Component> > components_;
 
         };
 

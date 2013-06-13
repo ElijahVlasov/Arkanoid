@@ -137,6 +137,8 @@ namespace Engine {
 
             std::exception_ptr e_;
 
+            mutable std::mutex   stateAccessMutex_;
+
             mutable std::mutex   exceptionCheckMutex_;  // мьютекс защиты e_
             mutable std::mutex   synchroMutex_;          // мьютекс защиты state_, scrWidth, scrHeight, isRunning
 

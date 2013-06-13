@@ -57,7 +57,7 @@ Component* ComponentFactory::createFromXMLElement(const TiXmlElement* element) t
 
     string elementType = element->ValueStr();
 
-    // Создаем нужный объект
+    // РЎРѕР·РґР°РµРј РЅСѓР¶РЅС‹Р№ РѕР±СЉРµРєС‚
     if(elementType == BUTTON_TYPE) {
 
         component = new Button();
@@ -75,7 +75,7 @@ Component* ComponentFactory::createFromXMLElement(const TiXmlElement* element) t
 
     }
 
-    // задаем свойства объекта
+    // Р·Р°РґР°РµРј СЃРІРѕР№СЃС‚РІР° РѕР±СЉРµРєС‚Р°
     setXMLAttributes(element, component);
 
     return component;
@@ -99,7 +99,7 @@ void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* 
     const char*     text    =   element->GetText();
     string          fontName,   componentName;
 
-    // загружаем свойства объекта
+    // Р·Р°РіСЂСѓР¶Р°РµРј СЃРІРѕР№СЃС‚РІР° РѕР±СЉРµРєС‚Р°
     x               =   getXMLAttribute<int>(element, "x", 0);
     y               =   getXMLAttribute<int>(element, "y", 0);
     width           =   static_cast<unsigned int>(getXMLAttribute<int>(element, "width", 100));
@@ -123,7 +123,7 @@ void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* 
     component->setName(componentName);
     component->setText(text);
 
-    // задаем луашные обработчики
+    // Р·Р°РґР°РµРј Р»СѓР°С€РЅС‹Рµ РѕР±СЂР°Р±РѕС‚С‡РёРєРё
     setLuaHandlers(element, component);
 
 }
@@ -144,9 +144,9 @@ void ComponentFactory::setLuaHandlers(const TiXmlElement* element, Component* co
     keyDownEvent    =   getXMLAttribute<string>(element, "onKeyDown");
     keyUpEvent      =   getXMLAttribute<string>(element, "onKeyUp");
 
-    // Устанавливаем обработчики. Имя функции-обработчика может быть
-    // неправильным, тогда генерируется invalid_argument, просто
-    // игнорируем это событие.
+    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РѕР±СЂР°Р±РѕС‚С‡РёРєРё. РРјСЏ С„СѓРЅРєС†РёРё-РѕР±СЂР°Р±РѕС‚С‡РёРєР° РјРѕР¶РµС‚ Р±С‹С‚СЊ
+    // РЅРµРїСЂР°РІРёР»СЊРЅС‹Рј, С‚РѕРіРґР° РіРµРЅРµСЂРёСЂСѓРµС‚СЃСЏ invalid_argument, РїСЂРѕСЃС‚Рѕ
+    // РёРіРЅРѕСЂРёСЂСѓРµРј СЌС‚Рѕ СЃРѕР±С‹С‚РёРµ.
     try {
 
         component->setClickedEvent      (ComponentEvent_wrapper<MouseEvent>(clickEvent));

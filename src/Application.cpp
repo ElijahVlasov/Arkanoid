@@ -62,11 +62,11 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
         runtime_error("Can't load SDL library!")
     );
     
-    // Задаем иконку и заголовок окна
+    // Р—Р°РґР°РµРј РёРєРѕРЅРєСѓ Рё Р·Р°РіРѕР»РѕРІРѕРє РѕРєРЅР°
     ::SDL_WM_SetCaption(name, 0);
 
 
-    // Задаем параметры OpenGL
+    // Р—Р°РґР°РµРј РїР°СЂР°РјРµС‚СЂС‹ OpenGL
     ::SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
     ::SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
     ::SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
@@ -76,7 +76,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
     ::SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
     ::SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);
  /**/
-    // под X11 не работает:
+    // РїРѕРґ X11 РЅРµ СЂР°Р±РѕС‚Р°РµС‚:
     // ::SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,    8);
     // ::SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,  8);
     // ::SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,   8);
@@ -94,7 +94,7 @@ void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(
 
     uint32_t flags = SDL_FLAGS;
 
-    if(surface_ != 0) { // удаляем предыдущий surface
+    if(surface_ != 0) { // СѓРґР°Р»СЏРµРј РїСЂРµРґС‹РґСѓС‰РёР№ surface
         ::SDL_FreeSurface(surface_);
     }
 
@@ -127,7 +127,7 @@ int Application::run() throw(runtime_error) {
 
     while(game_->isRunning()) { 
 
-        while(::SDL_PollEvent(&event)) { // неблокирующе, проверяем наличие событий 
+        while(::SDL_PollEvent(&event)) { // РЅРµР±Р»РѕРєРёСЂСѓСЋС‰Рµ, РїСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ СЃРѕР±С‹С‚РёР№ 
 
             OnEvent(&event);
 
@@ -158,14 +158,14 @@ void Application::OnRender() {
     unsigned int scrWidth, scrHeight;
 
 
-    // Проверяем, было ли изменено разрешение экрана
-    // в объекте Game
+    // РџСЂРѕРІРµСЂСЏРµРј, Р±С‹Р»Рѕ Р»Рё РёР·РјРµРЅРµРЅРѕ СЂР°Р·СЂРµС€РµРЅРёРµ СЌРєСЂР°РЅР°
+    // РІ РѕР±СЉРµРєС‚Рµ Game
 
     scrWidth  = game_->getScreenWidth();
     scrHeight = game_->getScreenHeight();
 
     if( (scrWidth != static_cast<unsigned int>(surface_->w) )
-        || (scrHeight != static_cast<unsigned int>(surface_->h)) ) { // если измененно, то меняем размер surface'а
+        || (scrHeight != static_cast<unsigned int>(surface_->h)) ) { // РµСЃР»Рё РёР·РјРµРЅРµРЅРЅРѕ, С‚Рѕ РјРµРЅСЏРµРј СЂР°Р·РјРµСЂ surface'Р°
 
         setSurfaceSize(scrWidth, scrHeight);
 
@@ -311,7 +311,7 @@ void Application::OnEvent(SDL_Event* event) {
 
     switch(event->type) {
 
-        case SDL_QUIT: { // по закрытию
+        case SDL_QUIT: { // РїРѕ Р·Р°РєСЂС‹С‚РёСЋ
 
             OnQuit();
 
@@ -324,12 +324,12 @@ void Application::OnEvent(SDL_Event* event) {
                 return;
             }
 
-            // если приложение развертывается
+            // РµСЃР»Рё РїСЂРёР»РѕР¶РµРЅРёРµ СЂР°Р·РІРµСЂС‚С‹РІР°РµС‚СЃСЏ
             if(event->active.gain) {
 
                 OnRestore();
 
-            } else { // если свертывается
+            } else { // РµСЃР»Рё СЃРІРµСЂС‚С‹РІР°РµС‚СЃСЏ
 
                 OnMinimize();
 
@@ -338,7 +338,7 @@ void Application::OnEvent(SDL_Event* event) {
         }
         break;
 
-        case SDL_KEYDOWN: { // по нажатию клавиши
+        case SDL_KEYDOWN: { // РїРѕ РЅР°Р¶Р°С‚РёСЋ РєР»Р°РІРёС€Рё
 
             OnKeyDown(event->key.keysym.sym, 
                         event->key.keysym.mod,
@@ -347,7 +347,7 @@ void Application::OnEvent(SDL_Event* event) {
         }
         break;
 
-        case SDL_KEYUP: { // по отпусканию клавиши
+        case SDL_KEYUP: { // РїРѕ РѕС‚РїСѓСЃРєР°РЅРёСЋ РєР»Р°РІРёС€Рё
 			
             OnKeyUp(event->key.keysym.sym, 
                         event->key.keysym.mod,

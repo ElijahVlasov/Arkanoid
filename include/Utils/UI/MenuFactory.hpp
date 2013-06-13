@@ -32,7 +32,7 @@ namespace Utils {
                   *        Генерирует std::runtime_error, если произошла ошибка парсинга.
                 */
             
-                Utils::UI::Menu* createFromXML(const char* xmlMenu)
+                Menu* createFromXML(const char* xmlMenu)
                                     throw(std::invalid_argument, std::runtime_error);
                                     
                 /** Создать меню из XML.
@@ -41,7 +41,7 @@ namespace Utils {
                   *        строка. Генерирует std::runtime_error, если произошла ошибка парсинга.
                 */
                                     
-                Utils::UI::Menu* createFromXML(const std::string& xmlMenu)
+                Menu* createFromXML(const std::string& xmlMenu)
                                     throw(std::invalid_argument, std::runtime_error);
 
 
@@ -52,12 +52,14 @@ namespace Utils {
 
             private:
 
+                ResourceManager* resourceManager_;
+
                 ComponentFactory* componentFactory_;
 
                 static const std::string MENU_ROOT_NODE_VALUE;
 
                 // Загрузить menu из TiXml document
-                void loadComponents(TiXmlDocument& document, Utils::UI::Menu* menu) throw(std::runtime_error);				
+                void loadComponents(TiXmlDocument& document, Utils::UI::Menu* menu) throw(std::runtime_error);
 
         };
 

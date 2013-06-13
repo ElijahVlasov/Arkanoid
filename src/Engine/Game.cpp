@@ -112,7 +112,7 @@ void Game::onLoop() throw(std::exception) {
 
 void Game::onRender() {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     if(state_ != 0) {
         state_->onRender();
@@ -124,7 +124,7 @@ void Game::onRender() {
 
 void Game::onKeyDown(int key) {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     if(state_ != 0) {
         state_->onKeyDown(key);
@@ -136,7 +136,7 @@ void Game::onKeyDown(int key) {
 
 void Game::onKeyUp(int key) {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     if(state_ != 0) {
         state_->onKeyUp(key);
@@ -148,7 +148,7 @@ void Game::onKeyUp(int key) {
 
 void Game::onMouseMotion(int x, int y) {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     if(state_ != 0) {
         state_->onMouseMotion(x, y);
@@ -160,7 +160,7 @@ void Game::onMouseMotion(int x, int y) {
 
 void Game::onMouseDown(int x, int y, MouseButton btn) {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     if(state_ != 0) {
         state_->onMouseDown(x, y, btn);
@@ -172,7 +172,7 @@ void Game::onMouseDown(int x, int y, MouseButton btn) {
 
 void Game::onMouseUp(int x, int y, MouseButton btn) {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     if(state_ != 0) {
         state_->onMouseUp(x, y, btn);
@@ -215,7 +215,7 @@ int Game::getScreenWidth() const {
 
 const IGameState* Game::getState() const {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     return state_;
 
@@ -225,7 +225,7 @@ const IGameState* Game::getState() const {
 
 void Game::setState(IGameState* state) {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     state_ = state;
 
