@@ -9,6 +9,7 @@
 #include <Engine/GameStates/MenuState.hpp>
 
 #include <Utils/assert.hpp>
+#include <Utils/Graphics.hpp>
 
 #include <Utils/UI.hpp>
 
@@ -18,6 +19,7 @@ using namespace Engine;
 
 using namespace Engine::GameStates;
 
+using namespace Utils;
 using namespace Utils::UI;
 
 
@@ -57,6 +59,8 @@ const boost::shared_ptr<Menu>&
 
 
 void MenuState::onRender() {
+
+    Graphics::ClearScreen();
 
     if(menu_ != 0) {
         menu_->draw();

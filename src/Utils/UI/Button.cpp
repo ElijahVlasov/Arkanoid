@@ -58,8 +58,6 @@ void Button::onDraw(Event&) {
     drawTexture();
     drawText();
 
-    Component::draw();
-
 }
 
 
