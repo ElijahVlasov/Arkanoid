@@ -9,12 +9,17 @@
 
 #include <boost/geometry/geometries/point_xy.hpp>
 
+#include <Utils/Color.hpp>
 #include <Utils/Graphics.hpp>
 #include <Utils/Texture.hpp>
 
 using namespace boost::geometry::model::d2;
 
 using namespace Utils;
+
+
+
+const Color Graphics::defaultClearColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
 
 
 
@@ -142,9 +147,9 @@ void Graphics::setViewportSize(unsigned int width, unsigned int height) {
 
 
 
-void Graphics::ClearScreen() {
+void Graphics::ClearScreen(const Color& clearColor) {
 
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+    glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 
     glClear(GL_COLOR_BUFFER_BIT);
 

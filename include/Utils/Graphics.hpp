@@ -5,6 +5,7 @@
 
 #include <boost/geometry/geometries/point_xy.hpp>
 
+#include <Utils/Color.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/Texture.hpp>
 
@@ -18,6 +19,10 @@ namespace Utils {
     class Graphics: public Singleton<Graphics> {
 
         SINGLETON(Graphics)
+
+        private:
+
+            static const Color defaultClearColor_;
 
         public:
 
@@ -61,7 +66,10 @@ namespace Utils {
 
             static void DrawTexture(float x, float y, float width, float height, const CoordArray& texCoords, const Texture& texture);
 
-            static void ClearScreen();
+            /** Очистка экрана заданным цветом.
+            */
+
+            static void ClearScreen(const Color& clearColor = defaultClearColor_);
 
             /** Установить размер окна просмотра
             */
