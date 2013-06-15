@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 2.6)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTFont)
+message(NOTE ${FTGL_SOURCES})
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGlyph)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTLayout)
+
 set(FTGL_SOURCES ${FTGL_SOURCES} 
 
   ${CMAKE_CURRENT_SOURCE_DIR}/FTBuffer.cpp
@@ -25,8 +31,3 @@ set(FTGL_SOURCES ${FTGL_SOURCES}
   ${CMAKE_CURRENT_SOURCE_DIR}/FTVectoriser.h
 
 PARENT_SCOPE)
-
-add_subdirectory(FTFont)
-add_subdirectory(FTGL)
-add_subdirectory(FTGlyph)
-add_subdirectory(FTLayout)

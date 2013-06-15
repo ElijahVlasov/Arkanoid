@@ -21,13 +21,16 @@ include(CheckLibs.cmake)
 set(PROTOBUF_IMPORT_DIRS ${PROTOCOLS_DIR})
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
-    set(CMAKE_CXX_FLAGS  "-Wall -std=gnu++0x -g")
+
+  set(CMAKE_CXX_FLAGS_RELEASE "-W0 -O2 -std=c++0x")
+  set(CMAKE_CXX_FLAGS_DEBUG  "-Wall -std=c++0x -g")
+
 endif(CMAKE_COMPILER_IS_GNUCXX )
 
 option(MS_WINDOWS OFF)
 
 if(WIN32)
-    set(MS_WINDOWS ON)
+  set(MS_WINDOWS ON)
 endif()
 
 include_directories(FTGL/src)
@@ -237,7 +240,7 @@ configure_file(
 )
 
 add_subdirectory(${SRC_DIR}/TinyXML)
-add_subdirectory({CMAKE_CURRENT_SOURCE_DIR}/FTGL)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
 
 add_executable(Salt2D WIN32 ${Salt2D_HEADERS} ${Salt2D_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
 target_link_libraries(Salt2D ${Salt2D_LIBS})
