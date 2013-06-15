@@ -1,6 +1,6 @@
 #include "config.h"
 
-#ifdef MS_WINDOWS
+#ifdef WINDOWS
 #include <Windows.h>
 #endif 
 

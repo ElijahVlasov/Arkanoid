@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-#include <TinyXML/tinyxml.h>
+#include <tinyxml.h>
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>

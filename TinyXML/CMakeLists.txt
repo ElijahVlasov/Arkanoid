@@ -1,8 +1,16 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(Salt2D)
+project(TinyXML)
 
-include_directories(${INCLUDE_DIR}/TinyXML)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
+add_definitions(-DTIXML_USE_STL)
+
+set(TINY_XML_HEADERS
+
+  tinyxml.h
+
+)
 
 set(TINY_XML_SOURCES 
   tinyxml.cpp

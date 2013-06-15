@@ -8,6 +8,4 @@
 
 #define DEFAULT_FONT "fonts/arial.ttf"
 
-#cmakedefine MS_WINDOWS
-
 #endif

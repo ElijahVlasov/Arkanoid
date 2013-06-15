@@ -10,7 +10,7 @@
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
-#include <TinyXML/tinyxml.h>
+#include <tinyxml.h>
 
 #include <Utils.hpp>
 

@@ -6,7 +6,7 @@
 #include <boost/format.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <TinyXML/tinyxml.h>
+#include <tinyxml.h>
 
 #include <Utils.hpp>
 

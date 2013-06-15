@@ -13,8 +13,10 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
 
-include_directories(${INCLUDE_DIR})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(
+  ${INCLUDE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 include(CheckLibs.cmake)
 
@@ -23,27 +25,27 @@ set(PROTOBUF_IMPORT_DIRS ${PROTOCOLS_DIR})
 if ( CMAKE_COMPILER_IS_GNUCXX )
 
   set(CMAKE_CXX_FLAGS_RELEASE "-W0 -O2 -std=c++0x")
-  set(CMAKE_CXX_FLAGS_DEBUG  "-Wall -std=c++0x -g")
+  set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++0x -g")
 
-endif(CMAKE_COMPILER_IS_GNUCXX )
-
-option(MS_WINDOWS OFF)
-
-if(WIN32)
-  set(MS_WINDOWS ON)
 endif()
 
-include_directories(FTGL/src)
+if(WIN32)
+  add_definitions(-DWINDOWS)
+endif()
 
-include_directories(${Boost_INCLUDE_DIR})
-include_directories(${IL_INCLUDE_DIR})
-include_directories(${FREETYPE_INCLUDE_DIR_ft2build})
-include_directories(${FREETYPE_INCLUDE_DIR_freetype2})
-include_directories(${LUA_INCLUDE_DIR})
-include_directories(${LUABIND_INCLUDE_DIR})
-include_directories(${OPENAL_INCLUDE_DIR})
-include_directories(${OPENGL_INCLUDE_DIR})
-include_directories(${PROTOBUF_INCLUDE_DIRS})
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTGL/src
+  ${CMAKE_CURRENT_SOURCE_DIR}/TinyXML
+  ${Boost_INCLUDE_DIR}
+  ${IL_INCLUDE_DIR}
+  ${FREETYPE_INCLUDE_DIR_ft2build}
+  ${FREETYPE_INCLUDE_DIR_freetype2}
+  ${LUA_INCLUDE_DIR}
+  ${LUABIND_INCLUDE_DIR}
+  ${OPENAL_INCLUDE_DIR}
+  ${OPENGL_INCLUDE_DIR}
+  ${PROTOBUF_INCLUDE_DIRS}
+)
 
 set(ENGINE_GAME_STATES_SOURCES
   ${SRC_DIR}/Engine/GameStates/MenuState.cpp
@@ -147,10 +149,6 @@ set(LUA_API_HEADERS
   ${INCLUDE_DIR}/LuaAPI/LuaAPI.hpp
 )
 
-set(TINY_XML_HEADERS
-  ${INCLUDE_DIR}/TinyXML/tinyxml.h
-)
-
 set(UTILS_FREETYPE_HEADERS
   ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
 )
@@ -235,11 +233,13 @@ endif()
 protobuf_generate_cpp(PROTOCOLS_SOURCES PROTOCOLS_HEADERS ${PROTOCOLS})
 
 configure_file(
-  "config.h.in"
-  "include/config.h"
+  ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+  ${INCLUDE_DIR}/config.h
 )
 
-add_subdirectory(${SRC_DIR}/TinyXML)
+add_definitions(-DTIXML_USE_STL)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/TinyXML)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
 
 add_executable(Salt2D WIN32 ${Salt2D_HEADERS} ${Salt2D_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})

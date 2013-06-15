@@ -6,7 +6,7 @@
 #include <string>
 #include <stdexcept>
 
-#ifdef MS_WINDOWS
+#ifdef WINDOWS
 #include <Windows.h>
 #endif
 

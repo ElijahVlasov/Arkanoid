@@ -7,7 +7,7 @@
 
 #include <boost/format.hpp>
 
-#ifdef MS_WINDOWS
+#ifdef WINDOWS
 #include <Windows.h>
 #endif
 

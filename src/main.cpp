@@ -4,7 +4,7 @@
 #include <memory>
 #include <stdexcept>
 
-#ifdef MS_WINDOWS
+#ifdef WINDOWS
 
 #include <Windows.h>
 
@@ -18,7 +18,7 @@
 
 using namespace std;
 
-#ifndef MS_WINDOWS
+#ifndef WINDOWS
 
 static void display_dialog(const char* caption, const char* text)
 {
@@ -47,8 +47,8 @@ static void MessageBox(const char* caption, const char* text)
 
 
 static void ProcessError(const runtime_error& err) {
-	
-    #ifdef MS_WINDOWS
+
+    #ifdef WINDOWS
 
     ::MessageBoxA(0, err.what(), "Runtime error", MB_OK | MB_ICONERROR);
 
@@ -96,7 +96,7 @@ static void SetSignals() {
 
 
 
-#ifdef MS_WINDOWS
+#ifdef WINDOWS
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 

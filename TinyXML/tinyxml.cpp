@@ -22,10 +22,6 @@ must not be misrepresented as being the original software.
 distribution.
 */
 
-//#include <cstdint>
-//#include <cerrno>
-//#i//nclude <cctype>
-
 #include <stdint.h>
 #include <stdio.h>
 #include <cstdlib>

@@ -4,14 +4,15 @@ project(FTGL)
 
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
+include(CheckLibs.cmake)
 
-include_directories(${FREETYPE_INCLUDE_DIR_ft2build})
-include_directories(${FREETYPE_INCLUDE_DIR_freetype2})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(
 
-configure_file(
-  "config.h.in"
-  "config.h"
+  ${FREETYPE_INCLUDE_DIR_ft2build}
+  ${FREETYPE_INCLUDE_DIR_freetype2}
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/src
+
 )
 
 set(FTGL_LIBS
