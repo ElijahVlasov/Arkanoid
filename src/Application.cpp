@@ -197,7 +197,7 @@ void Application::OnRestore() {
 
 void Application::OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode) {
 
-    if(key == SDLK_F7) {
+    if(key == SDLK_F11) {
         
         isFullscreen_ = !isFullscreen_;
         setSurfaceSize(surface_->w, surface_->h);  

@@ -1,6 +1,7 @@
 #ifndef _SALT2D_ENGINE_GAMESTATES_MENUSTATE_HPP
 #define _SALT2D_ENGINE_GAMESTATES_MENUSTATE_HPP
 
+#include <mutex>
 #include <stdexcept>
 
 #include <boost/shared_ptr.hpp>
@@ -15,14 +16,14 @@
 namespace Engine {
 
     namespace GameStates {
-	
+
         class MenuState: public Utils::Singleton<MenuState>, public IGameState {
 
             SINGLETON(MenuState)
-		
+
             public:
 
-                void setMenu(const boost::shared_ptr<Utils::UI::Menu>& menu) throw(std::invalid_argument);
+                void setMenu(const boost::shared_ptr<Utils::UI::Menu>& menu);
                 const boost::shared_ptr<Utils::UI::Menu>& getMenu() const;
 
                 void onRender();
@@ -43,6 +44,8 @@ namespace Engine {
                 ~MenuState();
 
             private:
+
+                mutable std::mutex synchroMutex_;
 
                 Engine::Game* game_;
 

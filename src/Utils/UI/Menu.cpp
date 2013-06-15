@@ -17,6 +17,10 @@ Menu::Menu() throw(runtime_error):
     Component()
 {
 
+    const Color defColor = {0.0f, 0.0f, 0.0f, 0.0f};
+
+    backgroundColor_ = defColor;
+
     setDrawEvent(boost::bind(boost::mem_fn(&Menu::onDraw), this, _1));
 
 }
@@ -156,6 +160,8 @@ void Menu::drawComponents() {
 
 
 void Menu::drawSelf() {
+
+    Graphics::ClearScreen(backgroundColor_);
 
     float x       =  static_cast<float>(getX());
     float y       =  static_cast<float>(getY());

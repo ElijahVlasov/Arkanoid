@@ -20,6 +20,7 @@ using namespace Engine;
 using namespace LuaAPI;
 
 using namespace Utils;
+using namespace UI;
 
 
 
@@ -34,6 +35,14 @@ LuaAPI_::LuaAPI_():
 
     module(L, "system")
     [
+
+        class_<Game>("game")
+            .def("free", &Game::Free())
+            .def("set_screen_rect", &Game::setScreenRect)
+            .property("width",  &Game::getScreenWidth)
+            .property("height", &Game::getScreenHeight),
+
+        def("game", &Game::getInstance),
 
         class_<LuaAPI_>("direction")
             .enum_("")

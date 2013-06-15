@@ -242,10 +242,6 @@ void Game::run() throw(runtime_error) {
 
     initThread_->detach();
 
-    /*std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    isRunning_ = true;*/
-
 }
 
 
