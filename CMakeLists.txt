@@ -213,7 +213,7 @@ set(Salt2D_LIBS
   ${FREETYPE_LIBRARIES}
   ${LUABIND_LIBRARIES}
   ${PROTOBUF_LITE_LIBRARIES}
-  ftgl
+  FTGL
   TinyXML
 )
 
@@ -237,6 +237,7 @@ configure_file(
 )
 
 add_subdirectory(${SRC_DIR}/TinyXML)
+add_subdirectory({CMAKE_CURRENT_SOURCE_DIR}/FTGL)
 
 add_executable(Salt2D WIN32 ${Salt2D_HEADERS} ${Salt2D_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
 target_link_libraries(Salt2D ${Salt2D_LIBS})

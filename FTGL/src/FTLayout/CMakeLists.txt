@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 2.6)
+
+set(FTGL_SOURCES ${FTGL_SOURCES} 
+
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTLayout.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTLayoutGlue.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTLayoutImpl.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTSimpleLayout.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTSimpleLayoutImpl.h
+
+PARENT_SCOPE)

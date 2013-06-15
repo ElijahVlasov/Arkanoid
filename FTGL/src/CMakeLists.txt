@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 2.6)
+
+set(FTGL_SOURCES ${FTGL_SOURCES} 
+
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTBuffer.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTCharmap.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTCharmap.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTCharToGlyphIndexMap.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTContour.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTContour.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTFace.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTFace.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTGlyphContainer.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTGlyphContainer.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTInternals.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTLibrary.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTLibrary.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTList.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTPoint.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTSize.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTSize.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTUnicode.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTVector.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTVectoriser.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/FTVectoriser.h
+
+PARENT_SCOPE)
+
+add_subdirectory(FTFont)
+add_subdirectory(FTGL)
+add_subdirectory(FTGlyph)
+add_subdirectory(FTLayout)
