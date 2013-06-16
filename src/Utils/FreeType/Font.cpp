@@ -1,4 +1,5 @@
 #include <climits>
+#include <cmath>
 #include <cstring>
 #include <cwchar>
 
@@ -144,28 +145,28 @@ Font::FONT_RECT Font::measureText(const wstring& wText) throw(runtime_error) {
 
 
 
-void Font::renderText(const char* text, float x, float y) throw(invalid_argument, runtime_error) {
+void Font::renderText(const char* text, float x, float y, float width, float height) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (text != 0),
         invalid_argument("text")
     );
 
-    renderText(string(text), x, y);
+    renderText(string(text), x, y, width, height);
 
 }
 
 
 
-void Font::renderText(const string& text, float x, float y) throw(runtime_error) {
+void Font::renderText(const string& text, float x, float y, float width, float height) throw(runtime_error) {
 
-    renderText(UTF8_to_UTF16(text), x, y);
+    renderText(UTF8_to_UTF16(text), x, y, width, height);
 
 }
 
 
 
-void Font::renderText(const wchar_t* wText, float x, float y) throw(invalid_argument, runtime_error) {
+void Font::renderText(const wchar_t* wText, float x, float y, float width, float height) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (wText != 0),
@@ -178,13 +179,33 @@ void Font::renderText(const wchar_t* wText, float x, float y) throw(invalid_argu
         throw(runtime_error("Can't render text! Font buffer empty.\n Check font file."));
     }
 
+    size_t textLen = wcslen(wText);
+
+    if(width >= 0.0f) {
+
+        Font::FONT_RECT rect = measureText(wText);
+
+        if(rect.width > width) {
+
+            float pixPerChar = rect.width / textLen;
+
+            float excess     = rext.width - width;
+
+            size_t charsForErase = static_cast<size_t>(lround(excess / pixPerChar));
+
+            textLen -= charsForErase;
+
+        }
+
+    }
+
     glPushMatrix();
     glPushAttrib(GL_COLOR_BUFFER_BIT);
 
     glColor3fv(color_.c_array());
 
     font_->Render(wText,
-                    -1,
+                    textLen,
                     FTPoint(static_cast<FTGL_FLOAT>(x), static_cast<FTGL_FLOAT>(y)),
                     FTPoint(),
                     FTGL::RENDER_ALL);    
@@ -196,11 +217,11 @@ void Font::renderText(const wchar_t* wText, float x, float y) throw(invalid_argu
 
 
 
-void Font::renderText(const wstring& wText, float x, float y) throw(runtime_error) {
+void Font::renderText(const wstring& wText, float x, float y, float width, float height) throw(runtime_error) {
 
     try {
 
-        renderText(wText.c_str(), x, y);
+        renderText(wText.c_str(), x, y, width, height);
 
     } catch(const invalid_argument&) {}
 

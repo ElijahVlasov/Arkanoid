@@ -1,4 +1,4 @@
-#ifndef _SALT2D_UTILS_FONT_HPP
+﻿#ifndef _SALT2D_UTILS_FONT_HPP
 #define _SALT2D_UTILS_FONT_HPP
 
 #include <cwchar>
@@ -47,14 +47,14 @@ namespace Utils {
                 FONT_RECT measureText(const wchar_t* wText)                 throw(std::invalid_argument, std::runtime_error);
                 FONT_RECT measureText(const std::wstring& wText)            throw(std::runtime_error);
 
-
                 /** Отрендерить UTF-8 текст.
                   * @param text Текст для рендеринга 
                   * @throws Генерирует std::invalid_argument, если text == NULL.
                   *         Генерирует std::runtime_error, при ошибке Freetype2
                 */
 
-                void renderText(const char* text, float x, float y)        throw(std::invalid_argument, std::runtime_error);
+                void renderText(const char* text, float x, float y, float width = -1.0f, float height = -1.0f)
+                                                                            throw(std::invalid_argument, std::runtime_error);
 
                 /** Отрендерить UTF-16 текст.
                   * @param text Текст для рендеринга 
@@ -62,21 +62,23 @@ namespace Utils {
                   *         Генерирует std::runtime_error, при ошибке Freetype2
                 */
 
-                void renderText(const wchar_t* wText, float x, float y)    throw(std::invalid_argument, std::runtime_error);
+                void renderText(const wchar_t* wText, float x, float y, float width = -1.0f, float height = -1.0f)
+                                                                            throw(std::invalid_argument, std::runtime_error);
 
                 /** Отрендерить UTF-8 текст.
                   * @param text Текст для рендеринга 
                   * @throws Генерирует std::runtime_error, при ошибке Freetype2
                 */
 
-                void renderText(const std::string& text, float x, float y) throw(std::runtime_error);
+                void renderText(const std::string& text, float x, float y, float width = -1.0f, float height = -1.0f)
+                                                                           throw(std::runtime_error);
 
                 /** Отрендерить UTF-16 текст.
                   * @param text Текст для рендеринга 
                   * @throws Генерирует std::runtime_error, при ошибке Freetype2
                 */
 
-                void renderText(const std::wstring& wText, float x, float y)
+                void renderText(const std::wstring& wText, float x, float y, float width = -1.0f, float height = -1.0f)
                                                                            throw(std::runtime_error);
 
                 /** Размер шрифта.

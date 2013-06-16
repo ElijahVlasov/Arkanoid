@@ -165,7 +165,15 @@ void Component::setFont(const Font& font) {
 
 
 
-Font Component::getFont() const {
+Font& Component::getFont() {
+
+    return font_;
+
+}
+
+
+
+const Font& Component::getFont() const {
 
     return font_;
 

@@ -1,4 +1,4 @@
-#ifndef _SALT2D_UTILS_UI_COMPONENT_HPP
+﻿#ifndef _SALT2D_UTILS_UI_COMPONENT_HPP
 #define _SALT2D_UTILS_UI_COMPONENT_HPP
 
 #include <stdexcept>
@@ -130,7 +130,8 @@ namespace Utils {
                 /** Шрифт компонента.
                 */
                 
-                Utils::FreeType::Font getFont() const;
+                Utils::FreeType::Font& getFont();
+                const Utils::FreeType::Font& getFont() const;
 
                 /** Принадлежит ли точка компоненту.
                   * @return true, если точка (x;y) содерржится

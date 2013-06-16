@@ -1,5 +1,7 @@
 #include <stdexcept>
 
+#include <boost/bind.hpp>
+
 #include <Utils.hpp>
 
 #include <Utils/UI/Label.hpp>
@@ -14,7 +16,11 @@ using namespace Utils::UI;
 
 Label::Label() throw(runtime_error):
     Component()
-{}
+{
+
+    setDrawEvent(boost::)
+
+}
 
 
 
@@ -25,8 +31,6 @@ Label::~Label() {}
 void Label::onDraw(Event&) {
 
     drawText();
-
-    Component::draw();
 
 }
 
