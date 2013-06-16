@@ -24,7 +24,7 @@ set(PROTOBUF_IMPORT_DIRS ${PROTOCOLS_DIR})
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
 
-  set(CMAKE_CXX_FLAGS_RELEASE "-W0 -O2 -std=c++0x")
+  set(CMAKE_CXX_FLAGS_RELEASE "-w -O2 -std=c++0x")
   set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++0x -g")
 
 endif()
