@@ -91,53 +91,19 @@ void Button::drawText() {
     // рендерим текст
     try {
 
-        Font font = getFont();
+        Font::FONT_RECT rect = font.measureText(getText());
 
-        string text = getText();
-
-        Font::FONT_RECT rect = font.measureText(text);
-
-        if(rect.width > width) {
-
-            float symWidth = rect.width / text.length();
-
-            unsigned int symsForErasing = static_cast<unsigned int>( (rect.width - width) / symWidth );
-
-            text.erase(text.length() - symsForErasing);
-
-        } else {
-
-            float freeSpace = width - rect.width;
-
-            float indent = freeSpace / 2;
-
-            x += indent;
-
+        if(rect.width <= width) {
+            width = -1.0f;
         }
 
-        if(rect.height > height) {
-
-            float excess = rect.height - height;
-
-            y -= excess;
-
-        } else {
-
-            float freeSpace = height - rect.height;
-
-            float indent = freeSpace / 2;
-
-            y += indent;
-
+        if(rect.height <= height) {
+            height = -1.0f;
         }
 
-        font.renderText(text, x, y);
+        font.renderText(getText(), x, y, width, height);
 
-    } catch(const invalid_argument&) {
-
-    } catch(const runtime_error&) {
-
-    }
+    } catch(const runtime_error&) {}
 
 }
 
