@@ -51,13 +51,9 @@ Font::Font():
 
 
 Font::Font(const Font& font):
+    color_(font.color_),
     font_(0)
 {
-    
-    color_[0] = 0.0f;
-    color_[1] = 0.0f;
-    color_[2] = 0.0f;
-    color_[3] = 0.0f;
 
     setData_(font.getData());
 
