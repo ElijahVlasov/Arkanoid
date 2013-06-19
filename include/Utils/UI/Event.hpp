@@ -1,15 +1,21 @@
 ﻿#ifndef _SALT2D_UTILS_UI_EVENT_HPP
 #define _SALT2D_UTILS_UI_EVENT_HPP
 
+#include <Utils/UI/Component.hpp>
+
 namespace Utils {
 
 	namespace UI {
-	
+
         /** Событие UI.
           * @author Elijah Vlasov
         */
-    
-		class Event {};
+
+		struct Event {
+
+            boost::shared_ptr<Component> sender;
+
+		};
 
 	}
 

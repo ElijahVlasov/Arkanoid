@@ -6,11 +6,15 @@ option optimize_for = LITE_RUNTIME;
 
 message StaticObject {
 
-    optional string type  = 1;
-    optional string class = 2;
+    //optional string type  = 1;
+    optional string class = 1;
+
+    required bool is_static_texture = 2;
 
     optional string texture_name = 3;
 
-    required Box box = 4;
+    optional string animation_name = 4;
+
+    required Box box = 5;
 
 }

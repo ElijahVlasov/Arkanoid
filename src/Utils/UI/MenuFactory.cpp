@@ -106,7 +106,7 @@ void MenuFactory::loadComponents(TiXmlDocument& document, Menu* menu) throw(runt
 
         boost::shared_ptr<Resource> backgroundRes = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, backTexture);
 
-        menu->setBackground(*boost::dynamic_pointer_cast<Texture>(backgroundRes));
+        menu->setBackground(boost::dynamic_pointer_cast<Texture>(backgroundRes));
 
     }
 

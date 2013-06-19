@@ -1,6 +1,6 @@
 #include <stdexcept>
 
-#include <SDL/SDL_keysym.h>
+//#include <SDL/SDL_keysym.h>
 
 #include <Engine/Game.hpp>
 
@@ -71,7 +71,7 @@ void SingleGameState::onResize(unsigned int width, unsigned int height) {
 
 void SingleGameState::onKeyDown(int key) {
 
-	switch(static_cast<SDLKey>(key)) {
+	/*switch(static_cast<SDLKey>(key)) {
 
 		case SDLK_ESCAPE: {
 			game_->setState(menuState_);
@@ -82,7 +82,7 @@ void SingleGameState::onKeyDown(int key) {
 			
 		}
 
-	}
+	}*/
 
 }
 
@@ -90,7 +90,7 @@ void SingleGameState::onKeyDown(int key) {
 
 void SingleGameState::onKeyUp(int key) {
 
-	switch(static_cast<SDLKey>(key)) {
+	/*switch(static_cast<SDLKey>(key)) {
 
 		case SDLK_ESCAPE: {
 			game_->setState(menuState_);
@@ -111,7 +111,7 @@ void SingleGameState::onKeyUp(int key) {
 			
 		}
 
-	}
+	}*/
 
 }
 

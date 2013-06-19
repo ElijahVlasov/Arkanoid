@@ -1,13 +1,19 @@
 #include <list>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 
+#include <lua.hpp>
+#include <luabind/luabind.hpp>
+
 #include <Engine/Object.hpp>
 #include <Engine/LocationLayer.hpp>
+
+#include <Utils/Lua.hpp>
 
 #include "Box.pb.h"
 #include "Point.pb.h"
@@ -21,13 +27,19 @@ using namespace boost::geometry::model::d2;
 
 using namespace Engine;
 
-
-
-LocationLayer::LocationLayer(){}
+using namespace Utils;
 
 
 
-LocationLayer::LocationLayer(const EngineData::Layer* layer) {
+LocationLayer::LocationLayer():
+    lua_(Lua::getInstance())
+{}
+
+
+
+LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_error):
+    lua_(Lua::getInstance())
+{
 
     const EngineData::Box& box = layer->box();
 
@@ -41,6 +53,46 @@ LocationLayer::LocationLayer(const EngineData::Layer* layer) {
     box_.max_corner() = max_corner;
 
     //TODO: добавить создание объектов
+
+    google::protobuf::RepeatedPtrField< EngineData::StaticObject > objects = layer->objects();
+
+    BOOST_FOREACH(EngineData::StaticObject& obj, objects) {
+
+        string className;
+
+        if(obj.has_class_()) {
+
+            className = obj.class_();
+
+        }
+
+        try {
+
+            luabind::object luaStaticObj = luabind::call_function<luabind::object>(lua_->getLuaState(), className.c_str());
+
+            //luabind::object []
+
+            //luabind::call_function<void>(luaStaticObj)
+
+        } catch(const luabind::error& err) {
+
+            throw(runtime_error(err.what()));
+
+        }
+
+
+
+    }
+
+}
+
+
+
+LocationLayer::~LocationLayer() {
+
+    if(lua_ != 0) {
+        lua_->Free();
+    }
 
 }
 

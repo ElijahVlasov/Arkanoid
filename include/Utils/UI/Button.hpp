@@ -5,6 +5,7 @@
 #include <string>
 
 #include <boost/function.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceManager.hpp>
@@ -44,13 +45,7 @@ namespace Utils {
 
                 ResourceManager* resourceManager_;
 
-                Texture& curTexture_;
-
-                Texture defTexture_;
-
-                Texture clickedTexture_;
-
-                Texture hoveredTexture_;
+                boost::shared_ptr<Texture> curTexture_, defTexture_, clickedTexture_, hoveredTexture_;
 
         };
 

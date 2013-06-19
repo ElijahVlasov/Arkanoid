@@ -74,7 +74,7 @@ Font::~Font() {
 Font& Font::operator=(const Font& font) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
-    
+
     setData_(font.getData());
 
     return *this;
@@ -183,9 +183,9 @@ void Font::renderText(const wchar_t* wText, float x, float y, float width, float
 
         if(rect.width > width) {
 
-            float pixPerChar = rect.width / textLen;
+            float pixPerChar     = rect.width / textLen;
 
-            float excess     = rext.width - width;
+            float excess         = rect.width - width;
 
             size_t charsForErase = static_cast<size_t>(lround(excess / pixPerChar));
 
@@ -204,7 +204,7 @@ void Font::renderText(const wchar_t* wText, float x, float y, float width, float
                     textLen,
                     FTPoint(static_cast<FTGL_FLOAT>(x), static_cast<FTGL_FLOAT>(y)),
                     FTPoint(),
-                    FTGL::RENDER_ALL);    
+                    FTGL::RENDER_ALL);
 
     glPopAttrib();
     glPopMatrix();

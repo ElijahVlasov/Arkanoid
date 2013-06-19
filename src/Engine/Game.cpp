@@ -330,4 +330,8 @@ void Game::loadMainMenu() throw(runtime_error) {
 
     mainMenu_ = boost::shared_ptr<Menu>(mainMenu);
 
+    Color menuColor = {0.5f, 0.5f, 0.5f, 0.0f};
+
+    mainMenu_->setBackgroundColor(menuColor);
+
 }

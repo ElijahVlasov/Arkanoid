@@ -3,6 +3,7 @@
 
 #include <list>
 #include <mutex>
+#include <stdexcept>
 
 #include <boost/foreach.hpp>
 
@@ -15,6 +16,8 @@
 
 #include <Engine/Object.hpp>
 
+#include <Utils/Lua.hpp>
+
 #include "World.pb.h"
 
 namespace Engine {
@@ -26,8 +29,10 @@ namespace Engine {
         public:
 
             LocationLayer();
-            LocationLayer(const EngineData::Layer* layer);
-            
+            LocationLayer(const EngineData::Layer* layer) throw(std::runtime_error);
+
+            ~LocationLayer();
+
             void addObject(const ObjectPtr& object);
             const std::list<ObjectPtr>& getObjects() const;
 
@@ -48,13 +53,15 @@ namespace Engine {
                 return objects;
 
             }
-            
+
             model::box< model::d2::point_xy<float> >& box();
-            
+
         private:
-        
+
             mutable std::mutex synchroMutex_;
-            
+
+            Utils::Lua* lua_;
+
             model::box< model::d2::point_xy<float> > box_;
 
             std::list<ObjectPtr> objects_;
@@ -64,15 +71,15 @@ namespace Engine {
     };
 
     typedef boost::shared_ptr<LocationLayer> LocationLayerPtr;
-    
+
 }
 
 #endif
 
 namespace Engine {
- 
+
     class WorldLayer;
-    
+
     typedef boost::shared_ptr<WorldLayer> WorldLayerPtr;
 
 }

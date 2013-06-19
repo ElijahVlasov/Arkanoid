@@ -19,16 +19,32 @@
 namespace Utils {
 
     namespace UI {
-    
+
         /** Класс-обертка над вызовом Lua-функции
           * обработчика события.
           * @author Elijah Vlasov
         */
 
         template<class EventType> class ComponentEvent_wrapper {
-	
+
             public:
-            
+
+                /** Создать обертку над объектом функции.
+                 *  @throws Генерирует std::invalid_argument, если function не функция.
+                 */
+
+
+                ComponentEvent_wrapper(const luabind::object& function) throw(std::invalid_argument) {
+
+                    ASSERT(
+                        (luabind::type(function) == LUA_TFUNCTION),
+                        std::invalid_argument("function")
+                    );
+
+                    functionObject_ = function;
+
+                }
+
                 /** Создать обертку над функцией.
                   * @param funcName имя функции
                   * @throws Генерирует std::invalid_argument, если
@@ -36,8 +52,8 @@ namespace Utils {
                   *         Генерирует std::runtime_error, если произошла ошибка
                   *         Lua.
                 */
-			
-                explicit ComponentEvent_wrapper(const char* funcName)		
+
+                explicit ComponentEvent_wrapper(const char* funcName)
                                     throw(std::invalid_argument, std::runtime_error):
                             lua_(Lua::getInstance()),
                             functionObject_()
@@ -63,7 +79,7 @@ namespace Utils {
                   *        произошла ошибка Lua.
                 */
 
-                explicit ComponentEvent_wrapper(const std::string& funcName)	
+                explicit ComponentEvent_wrapper(const std::string& funcName)
                                     throw(std::invalid_argument, std::runtime_error):
                             lua_(Lua::getInstance()),
                             functionObject_()
@@ -80,16 +96,16 @@ namespace Utils {
 
 
 
-                ComponentEvent_wrapper(const ComponentEvent_wrapper& wrapper)			
+                ComponentEvent_wrapper(const ComponentEvent_wrapper& wrapper)
                                     throw(std::runtime_error):
                             lua_(Lua::getInstance()),
-                            functionObject_(wrapper.functionObject_) 
+                            functionObject_(wrapper.functionObject_)
                 {}
 
 
 
                 ~ComponentEvent_wrapper() {
-				
+
                     if(lua_ != 0) {
                         lua_->Free();
                     }
@@ -97,9 +113,9 @@ namespace Utils {
                 }
 
 
-				
+
                 ComponentEvent_wrapper& operator= (const ComponentEvent_wrapper& wrapper) {
-					
+
                     functionObject_ = wrapper.functionObject_;
 
                     return *this;
@@ -110,9 +126,9 @@ namespace Utils {
                 */
 
                 void operator() (EventType& event) {
-				
+
                     try {
-		
+
                         luabind::call_function<void>(functionObject_, boost::ref(event));
 
                     } catch(const luabind::error&) {
@@ -124,7 +140,7 @@ namespace Utils {
             private:
 
                 Utils::Lua* lua_;
-				
+
                 luabind::object functionObject_;
 
         };

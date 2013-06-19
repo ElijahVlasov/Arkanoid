@@ -4,7 +4,7 @@ project(FTGL)
 
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
-include(CheckLibs.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CheckLibs.cmake)
 
 include_directories(
 
@@ -22,10 +22,12 @@ set(FTGL_LIBS
 
 )
 
+add_definitions(-DHAVE_GL_GL_H -DHAVE_GL_GLU_H -DHAVE_MEMORY_H -DHAVE_STDINT_H -DHAVE_STDLIB_H -DHAVE_STRING_H -DSTDC_HEADERS)
+
 set(FTGL_SOURCES config.h)
 
 add_subdirectory(src)
 
 add_library(FTGL ${FTGL_SOURCES})
 
-target_link_libraries(FTGL ${FTGL_LIBRARIES})
+target_link_libraries(FTGL ${FTGL_LIBS})

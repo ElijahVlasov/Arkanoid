@@ -27,7 +27,7 @@ using namespace boost::geometry::model::d2;
 
 
 Object::Object():
-    renderer_((IRenderer*)0)
+    renderer_(reinterpret_cast<IRenderer*>(0))
 {}
 
 
@@ -103,9 +103,9 @@ void Object::move(float xShift, float yShift) {
 
 
 void Object::setDirection(Direction dir) {
-    
+
     dir_ = dir;
-    
+
 }
 
 
@@ -121,7 +121,7 @@ Direction Object::getDirection() const {
 void Object::setParentLayer(const LocationLayerPtr& layer) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
-    
+
     parentLayer_ = layer;
 
 }

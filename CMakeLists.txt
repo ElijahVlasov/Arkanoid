@@ -45,6 +45,7 @@ include_directories(
   ${OPENAL_INCLUDE_DIR}
   ${OPENGL_INCLUDE_DIR}
   ${PROTOBUF_INCLUDE_DIRS}
+  ${SDL_INCLUDE_DIR}
 )
 
 set(ENGINE_GAME_STATES_SOURCES
@@ -77,6 +78,8 @@ set(UTILS_UI_SOURCES
   ${SRC_DIR}/Utils/UI/Button.cpp
   ${SRC_DIR}/Utils/UI/Component.cpp
   ${SRC_DIR}/Utils/UI/ComponentFactory.cpp
+  ${SRC_DIR}/Utils/UI/Container.cpp
+  ${SRC_DIR}/Utils/UI/Dialog.cpp
   ${SRC_DIR}/Utils/UI/Label.cpp
   ${SRC_DIR}/Utils/UI/Menu.cpp
   ${SRC_DIR}/Utils/UI/MenuFactory.cpp
@@ -87,14 +90,14 @@ set(UTILS_SOURCES
   ${UTILS_UI_SOURCES}
   ${SRC_DIR}/Utils/Audio.cpp
   ${SRC_DIR}/Utils/Graphics.cpp
-  ${SRC_DIR}/Utils/Lua.cpp 
+  ${SRC_DIR}/Utils/Lua.cpp
   ${SRC_DIR}/Utils/PCResourceLoader.cpp
   ${SRC_DIR}/Utils/Resource.cpp
   ${SRC_DIR}/Utils/ResourceFile.cpp
   ${SRC_DIR}/Utils/ResourceLoader.cpp
   ${SRC_DIR}/Utils/ResourceManager.cpp
   ${SRC_DIR}/Utils/Sound.cpp
-  ${SRC_DIR}/Utils/Texture.cpp 
+  ${SRC_DIR}/Utils/Texture.cpp
   ${SRC_DIR}/Utils/Utils.cc
 )
 
@@ -105,11 +108,11 @@ set(PROTOCOLS
   ${PROTOCOLS_DIR}/World.proto
 )
 
-set(Salt2D_SOURCES 
+set(Salt2D_SOURCES
   ${ENGINE_SOURCES}
   ${LUA_API_SOURCES}
   ${UTILS_SOURCES}
-  ${SRC_DIR}/main.cpp 
+  ${SRC_DIR}/main.cpp
   ${SRC_DIR}/Application.cpp
 )
 
@@ -158,6 +161,8 @@ set(UTILS_UI_HEADERS
   ${INCLUDE_DIR}/Utils/UI/Component.hpp
   ${INCLUDE_DIR}/Utils/UI/ComponentEvent_wrapper.hpp
   ${INCLUDE_DIR}/Utils/UI/ComponentFactory.hpp
+  ${INCLUDE_DIR}/Utils/UI/Container.hpp
+  ${INCLUDE_DIR}/Utils/UI/Dialog.hpp
   ${INCLUDE_DIR}/Utils/UI/Event.hpp
   ${INCLUDE_DIR}/Utils/UI/KeyEvent.hpp
   ${INCLUDE_DIR}/Utils/UI/Label.hpp

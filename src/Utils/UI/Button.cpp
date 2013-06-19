@@ -21,8 +21,7 @@ using namespace Utils::FreeType;
 
 Button::Button() throw(runtime_error):
     Component(),
-    resourceManager_(ResourceManager::getInstance()),
-    curTexture_(defTexture_)
+    resourceManager_(ResourceManager::getInstance())
 {
 
     try {
@@ -31,11 +30,13 @@ Button::Button() throw(runtime_error):
         boost::shared_ptr<Resource> clickedTextureResource = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/ui/button_clicked.png");
         boost::shared_ptr<Resource> hoveredTextureResource = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/ui/button_hovered.png");
 
-        defTexture_     = *boost::dynamic_pointer_cast<Texture>(defTextureResource);
-        clickedTexture_ = *boost::dynamic_pointer_cast<Texture>(clickedTextureResource);
-        hoveredTexture_ = *boost::dynamic_pointer_cast<Texture>(defTextureResource);
+        defTexture_     = boost::dynamic_pointer_cast<Texture>(defTextureResource);
+        clickedTexture_ = boost::dynamic_pointer_cast<Texture>(clickedTextureResource);
+        hoveredTexture_ = boost::dynamic_pointer_cast<Texture>(defTextureResource);
 
     } catch(const bad_alloc&) {}
+
+    curTexture_ = defTexture_;
 
     setDrawEvent(boost::bind(boost::mem_fn(&Button::onDraw), this, _1));
 
@@ -74,7 +75,7 @@ void Button::drawTexture() {
         y,
         width,
         height,
-        curTexture_
+        *curTexture_
     );
 
 }
@@ -91,17 +92,28 @@ void Button::drawText() {
     // рендерим текст
     try {
 
-        Font::FONT_RECT rect = font.measureText(getText());
+        Font::FONT_RECT rect = getFont().measureText(getText());
+
+        float xOffset = 0.0f;
+        float yOffset = 0.0f;
 
         if(rect.width <= width) {
+
+            xOffset = (width - rect.width) / 2;
+
             width = -1.0f;
+
         }
 
         if(rect.height <= height) {
+
+            yOffset = (height - rect.height) / 2;
+
             height = -1.0f;
+
         }
 
-        font.renderText(getText(), x, y, width, height);
+        getFont().renderText(getText(), x + xOffset, y + yOffset, width, height);
 
     } catch(const runtime_error&) {}
 

@@ -38,7 +38,23 @@ namespace LuaAPI {
 
         private:
 
+            class Lua_ComponentSetters {
+
+                public:
+
+                    static void setHoveredEvent(  boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setClickedEvent(  boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setMouseDownEvent(boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setMouseUpEvent(  boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setDrawEvent(     boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setKeyDownEvent(  boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setKeyUpEvent(    boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+
+            };
+
             Engine::Game* game_;
+
+            Engine::GameStates::MenuState* menuGameState_;
 
             Utils::Lua* lua_;
 
