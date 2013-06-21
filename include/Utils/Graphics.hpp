@@ -3,11 +3,11 @@
 
 #include <boost/array.hpp>
 
-#include <boost/geometry/geometries/point_xy.hpp>
-
 #include <Utils/Color.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/Texture.hpp>
+
+#include "geometry_defines.hpp"
 
 namespace Utils {
 
@@ -30,7 +30,7 @@ namespace Utils {
               * для задания координат наложения текстуры
             */
 
-            typedef boost::array<boost::geometry::model::d2::point_xy<float>, 4> CoordArray; 
+            typedef boost::array<Point, 4> CoordArray;
 
             static const CoordArray UP_COORDS;
             static const CoordArray DOWN_COORDS;
@@ -78,7 +78,7 @@ namespace Utils {
 
         protected:
 
-            Graphics();  
+            Graphics();
 
         private:
 

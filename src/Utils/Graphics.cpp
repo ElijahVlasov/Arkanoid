@@ -1,12 +1,10 @@
-#include <boost/geometry/geometries/point_xy.hpp>
-
 #include <Utils/Color.hpp>
 #include <Utils/Graphics.hpp>
 #include <Utils/Texture.hpp>
 
+#include "geometry_defines.hpp"
 #include "gl_includes.h"
 
-using namespace boost::geometry::model::d2;
 
 using namespace Utils;
 
@@ -18,10 +16,10 @@ const Color Graphics::defaultClearColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
 
 const Graphics::CoordArray Graphics::UP_COORDS = {
 
-    point_xy<float>(0.0f, 1.0f),
-    point_xy<float>(1.0f, 1.0f),
-    point_xy<float>(0.0f, 0.0f),
-    point_xy<float>(1.0f, 0.0f)
+    Point(0.0f, 1.0f),
+    Point(1.0f, 1.0f),
+    Point(0.0f, 0.0f),
+    Point(1.0f, 0.0f)
 
 };
 
@@ -29,10 +27,10 @@ const Graphics::CoordArray Graphics::UP_COORDS = {
 
 const Graphics::CoordArray Graphics::DOWN_COORDS = {
 
-    point_xy<float>(1.0f, 0.0f),
-    point_xy<float>(0.0f, 0.0f),
-    point_xy<float>(1.0f, 1.0f),
-    point_xy<float>(0.0f, 1.0f)
+    Point(1.0f, 0.0f),
+    Point(0.0f, 0.0f),
+    Point(1.0f, 1.0f),
+    Point(0.0f, 1.0f)
 
 };
 
@@ -40,10 +38,10 @@ const Graphics::CoordArray Graphics::DOWN_COORDS = {
 
 const Graphics::CoordArray Graphics::LEFT_COORDS = {
 
-    point_xy<float>(0.0f, 0.0f),
-    point_xy<float>(0.0f, 1.0f),
-    point_xy<float>(1.0f, 0.0f),
-    point_xy<float>(1.0f, 1.0f)
+    Point(0.0f, 0.0f),
+    Point(0.0f, 1.0f),
+    Point(1.0f, 0.0f),
+    Point(1.0f, 1.0f)
 
 };
 
@@ -51,10 +49,10 @@ const Graphics::CoordArray Graphics::LEFT_COORDS = {
 
 const Graphics::CoordArray Graphics::RIGHT_COORDS = {
 
-    point_xy<float>(0.0f, 1.0f),
-    point_xy<float>(0.0f, 0.0f),
-    point_xy<float>(1.0f, 1.0f),
-    point_xy<float>(1.0f, 0.0f)
+    Point(0.0f, 1.0f),
+    Point(0.0f, 0.0f),
+    Point(1.0f, 1.0f),
+    Point(1.0f, 0.0f)
 
 };
 

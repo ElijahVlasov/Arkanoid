@@ -3,10 +3,6 @@
 #include <stdexcept>
 #include <string>
 
-#include <boost/geometry.hpp>
-#include <boost/geometry/geometries/box.hpp>
-#include <boost/geometry/geometries/point_xy.hpp>
-
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
@@ -14,6 +10,8 @@
 #include <Engine/LocationLayer.hpp>
 
 #include <Utils/Lua.hpp>
+
+#include "geometry_defines.hpp"
 
 #include "Box.pb.h"
 #include "Point.pb.h"
@@ -118,7 +116,7 @@ const list<ObjectPtr>& LocationLayer::getObjects() const {
 
 
 
-box< point_xy<float> >& LocationLayer::box() {
+Box& LocationLayer::box() {
 
     return box_;
 
@@ -126,7 +124,7 @@ box< point_xy<float> >& LocationLayer::box() {
 
 
 
-box< point_xy<float> > LocationLayer::getObjectBox(const ObjectPtr& obj) const {
+Box LocationLayer::getObjectBox(const ObjectPtr& obj) const {
 
     return obj->box();
 

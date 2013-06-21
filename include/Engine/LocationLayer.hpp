@@ -6,17 +6,13 @@
 #include <stdexcept>
 
 #include <boost/foreach.hpp>
-
-
-#include <boost/geometry.hpp>
-#include <boost/geometry/geometries/box.hpp>
-#include <boost/geometry/geometries/point_xy.hpp>
-
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Object.hpp>
 
 #include <Utils/Lua.hpp>
+
+#include "geometry_defines.hpp"
 
 #include "World.pb.h"
 
@@ -54,7 +50,7 @@ namespace Engine {
 
             }
 
-            model::box< model::d2::point_xy<float> >& box();
+            Box& box();
 
         private:
 
@@ -62,11 +58,11 @@ namespace Engine {
 
             Utils::Lua* lua_;
 
-            model::box< model::d2::point_xy<float> > box_;
+            Box box_;
 
             std::list<ObjectPtr> objects_;
 
-            model::box< model::d2::point_xy<float> > getObjectBox(const ObjectPtr& obj) const;
+            Box getObjectBox(const ObjectPtr& obj) const;
 
     };
 

@@ -5,9 +5,6 @@
 #include <stdexcept>
 #include <string>
 
-#include <boost/geometry/geometries/box.hpp>
-#include <boost/geometry/geometries/point_xy.hpp>
-
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Direction.hpp>
@@ -17,9 +14,9 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
 
-namespace Engine {
+#include "geometry_defines.hpp"
 
-    using namespace boost::geometry;
+namespace Engine {
 
     /** Базовый объект игры.
       * @author Elijah Vlasov
@@ -38,7 +35,7 @@ namespace Engine {
             virtual void onCollision() = 0;
 
             /** Отрисовка объекта.
-            */ 
+            */
 
             virtual void onRender();
 
@@ -87,15 +84,15 @@ namespace Engine {
             /** Получить бокс объекта (потоко-небезопасный метод).
             */
 
-            model::box< model::d2::point_xy<float> >& box();
+            Box& box();
 
         private:
-        
+
             mutable std::mutex synchroMutex_;
-            
+
             LocationLayerPtr parentLayer_;
 
-            model::box< model::d2::point_xy<float> > box_;
+            Box box_;
 
             boost::shared_ptr<IRenderer> renderer_;
 
@@ -104,7 +101,7 @@ namespace Engine {
             int id_;
 
     };
-    
+
     typedef boost::shared_ptr<Object> ObjectPtr;
 
 }
@@ -114,7 +111,7 @@ namespace Engine {
 namespace Engine {
 
     class Object;
-    
+
     typedef boost::shared_ptr<Object> ObjectPtr;
-    
+
 }

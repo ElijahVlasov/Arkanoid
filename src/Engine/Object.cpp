@@ -3,10 +3,6 @@
 #include <stdexcept>
 #include <string>
 
-#include <boost/geometry/geometries/box.hpp>
-#include <boost/geometry/geometries/point_xy.hpp>
-#include <boost/geometry/geometries/polygon.hpp>
-
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Direction.hpp>
@@ -14,6 +10,8 @@
 #include <Engine/Renderer.hpp>
 
 #include <Utils/ResourceManager.hpp>
+
+#include "geometry_defines.hpp"
 
 using namespace std;
 
@@ -60,26 +58,26 @@ void Object::move(float xShift, float yShift) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    d2::point_xy<float>& min = box_.min_corner();
-    d2::point_xy<float>& max = box_.max_corner();
+    Point& min = box_.min_corner();
+    Point& max = box_.max_corner();
 
-    polygon< point_xy<float> > wayPolygon;
+    Polygon wayPolygon;
 
     // Составляем многоугольник для пути
-    polygon< point_xy<float> >::ring_type& wayOuter = wayPolygon.outer();
+    Polygon::ring_type& wayOuter = wayPolygon.outer();
 
     // верхняя левая точка объекта
-    wayOuter.push_back(point_xy<float>(min.x(),             max.y()         ));
+    wayOuter.push_back(Point(min.x(),             max.y()         ));
     // верхняя левая точка объекта в новом положении
-    wayOuter.push_back(point_xy<float>(min.x() + xShift,    max.y() + yShift));
+    wayOuter.push_back(Point(min.x() + xShift,    max.y() + yShift));
     // верхняя правая точка объекта в новом положении
-    wayOuter.push_back(point_xy<float>(max.x() + xShift,    max.y() + yShift));
+    wayOuter.push_back(Point(max.x() + xShift,    max.y() + yShift));
     // правая нижняя точка объекта в новом положении
-    wayOuter.push_back(point_xy<float>(max.x() + xShift,    min.y() + yShift));
+    wayOuter.push_back(Point(max.x() + xShift,    min.y() + yShift));
     // правая нижняя точка объекта
-    wayOuter.push_back(point_xy<float>(max.x(),             min.y()         ));
+    wayOuter.push_back(Point(max.x(),             min.y()         ));
     // правая верхняя точка объекта
-    wayOuter.push_back(point_xy<float>(max.x(),             max.y()         ));
+    wayOuter.push_back(Point(max.x(),             max.y()         ));
 
     list<ObjectPtr> objectsOnWay = parentLayer_->getObjectsInArea(wayPolygon);
 
@@ -148,7 +146,7 @@ void Object::setRenderer(const boost::shared_ptr<IRenderer>& renderer) {
 
 
 
-box< d2::point_xy<float> >& Object::box() {
+Box& Object::box() {
 
     return box_;
 
