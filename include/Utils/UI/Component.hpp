@@ -28,40 +28,41 @@ namespace Utils {
 
                 /** Делегат зажатия кнопки мыши.
                 */
-                
+
                 typedef boost::function<void (MouseEvent& event)> MouseDownEvent;
-                
+
                 /** Делегат отпускания кнопки мыши.
                 */
-                
+
                 typedef boost::function<void (MouseEvent& event)> MouseUpEvent;
-                
+
                 /** Делегат клика мышкой(Зажатие и отпускание по одной точке).
                 */
-                
+
                 typedef boost::function<void (MouseEvent& event)> MouseClickEvent;
-                
+
                 /** Делегат наведения курсора на компонент.
                 */
-                
+
                 typedef boost::function<void (MouseEvent& event)> MouseHoverEvent;
 
                 /** Делегат перерисовки компонента.
                 */
-                
+
                 typedef boost::function<void (Event&)> DrawEvent;
 
                 /** Делегат зажатия клавиши.
                 */
-                
+
                 typedef boost::function<void (KeyEvent)> KeyUpEvent;
-                
+
                 /** Делегат отпускания клавиши.
                 */
-                
+
                 typedef boost::function<void (KeyEvent)> KeyDownEvent;
 
                 Component() throw(std::runtime_error);
+
                 virtual ~Component() = 0;
 
                 /** Устанавить прямоугольник компонента.
@@ -70,66 +71,66 @@ namespace Utils {
 
                 /** X-координата.
                 */
-                
+
                 int getX() const;
-                
+
                 /** Y-координата
                 */
-                
+
                 int getY() const;
-                
+
                 /** Ширина компонента.
                 */
-                
+
                 unsigned int getWidth() const;
-                
+
                 /** Высота компонента.
                 */
-                
+
                 unsigned int getHeight() const;
 
                 /** Установить текст компонента.
                   * @param text текст. Если равен NULL, то текст устанавливается
                   *        пустой строкой
                 */
-                
+
                 void setText(const char* text);
-                
+
                 /** Установить текст.
                 */
-                
+
                 void setText(const std::string& text);
-                
+
                 /** Текст компонента.
-                */ 
-                
+                */
+
                 const std::string& getText() const;
 
                 /** Установить имя компонента.
                   * @param name Имя компонента. Если равно NULL, то текст устанавливается
-                  *             пустой строкой                  
+                  *             пустой строкой
                 */
-                
+
                 void setName(const char* name);
-                
+
                 /** Установить имя компонента.
                 */
-                
+
                 void setName(const std::string& name);
-                
+
                 /** Имя компонента.
-                */ 
-                
+                */
+
                 const std::string& getName() const;
 
                 /** Установить шрифт.
                 */
-                
+
                 void setFont(const Utils::FreeType::Font& font);
-                
+
                 /** Шрифт компонента.
                 */
-                
+
                 Utils::FreeType::Font& getFont();
                 const Utils::FreeType::Font& getFont() const;
 
@@ -141,74 +142,74 @@ namespace Utils {
 
                 /** Мышь зажата на компоненте.
                 */
-                
+
                 virtual void mouseDown(int x, int y, MouseButton btn);
-                
+
                 /** Мышь отпущена на компоненте.
                 */
-                
+
                 virtual void mouseUp(int x, int y, MouseButton btn);
 
                 /** Клик по компоненту.
                   * Автоматически вызывается, если были последовательно вызваны
                   * mouseDown и mouseUp с одинаковыми координатами и кнопкой BUTTON_LEFT
                 */
-                
+
                 virtual void click(int x, int y);
 
                 /** Наведение мыши на компонент.
                 */
-                
+
                 virtual void hoverMouse(int x, int y);
 
                 /** Клавиша зажата.
                 */
-                
+
                 virtual void keyDown(int key);
-                
-                /** Клавиша отпущена. 
+
+                /** Клавиша отпущена.
                 */
-                
+
                 virtual void keyUp(int key);
 
                 /** Прорисовка компонента.
                 */
-                
+
                 virtual void draw();
 
                 /** Установить MouseHoverEvent.
                 */
-                
+
                 void setHoveredEvent(const MouseHoverEvent& eventHandler);
-                
+
                 /** Установить MouseClickEvent.
                 */
-                
+
                 void setClickedEvent(const MouseClickEvent& eventHandler);
-                
+
                 /** Установить MouseDownEvent
                 */
-                
+
                 void setMouseDownEvent(const MouseDownEvent& eventHandler);
-                
+
                 /** Установить MouseUpEvent.
                 */
-                
+
                 void setMouseUpEvent(const MouseUpEvent& eventHandler);
 
                 /** Установить DrawEvent.
                 */
-                
+
                 void setDrawEvent(const DrawEvent& eventHandler);
 
                 /** Установить KeyDownEvent.
                 */
-                
+
                 void setKeyDownEvent(const KeyDownEvent& eventHandler);
-                
+
                 /** Установить KeyUpEvent.
                 */
-                
+
                 void setKeyUpEvent(const KeyUpEvent& eventHandler);
 
             private:

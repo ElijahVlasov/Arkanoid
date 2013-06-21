@@ -6,17 +6,13 @@
 #include <string>
 #include <stdexcept>
 
-#ifdef WINDOWS
-#include <Windows.h>
-#endif
-
-#include <GL/gl.h>
-
 #include <Utils/Resource.hpp>
+
+#include "gl_includes.h"
 
 namespace Utils {
 
-    /** Обертка для OpenGL-текстуры. Инкапсулирует 
+    /** Обертка для OpenGL-текстуры. Инкапсулирует
       * создание и удаление OpenGL-текстуры.
       * @author Elijah Vlasov
     */

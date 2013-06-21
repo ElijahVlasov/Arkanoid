@@ -36,7 +36,7 @@ namespace Engine {
         SINGLETON(Game)
 
         public:
-        
+
             /** Создать объект игры.
             */
 
@@ -51,71 +51,74 @@ namespace Engine {
             */
 
             void onRender();
-            
+
             /** Клавиша зажата.
             */
 
             void onKeyDown(int key);
-            
+
             /** Клавиша отпущена.
             */
-            
+
             void onKeyUp(int key);
-            
+
             /** Передвижение курсора.
             */
 
             void onMouseMotion(int x, int y);
-            
+
             /** Зажата кнопка мыши.
             */
-            
+
             void onMouseDown(int x, int y, Utils::MouseButton mouseButton);
-            
+
             /** Отпущена кнопка мыши.
             */
-            
+
             void onMouseUp(int x, int y, Utils::MouseButton mouseButton);
 
             /** Установить размер окна.
             */
-            
+
             void setScreenRect(unsigned int width, unsigned int height);
-            
+
             /** Ширина окна.
             */
 
             int getScreenWidth() const;
-            
+
             /** Высота окна.
             */
-            
+
             int getScreenHeight() const;
-            
+
             /** Состояние игры.
             */
 
             const GameStates::IGameState* getState() const;
-            
+
             /** Установить состояние игры.
             */
-            
+
             void setState(GameStates::IGameState* state);
 
             /** Запустить игру.
             */
-            
+
             void run() throw(std::runtime_error);
-            
+
             /** Завершить игру.
             */
-            
-            void quit();            
+
+            void quit();
 
             /** Запущено ли приложения.
             */
-            
+
             bool isRunning() const;
+
+            boost::shared_ptr<Utils::UI::Menu> getMainMenu() const;
+            boost::shared_ptr<Utils::UI::Menu> getPauseMenu() const;
 
         protected:
 
@@ -149,7 +152,8 @@ namespace Engine {
             const std::exception_ptr& getException();
 
             void loadResources();
-            void loadMainMenu() throw(std::runtime_error);
+            void loadMainMenu()  throw(std::runtime_error);
+            void loadPauseMenu() throw(std::runtime_error);
 
             Utils::Graphics* graphics_;
 

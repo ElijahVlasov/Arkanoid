@@ -51,7 +51,7 @@ Component::~Component() {
 
 
 void Component::setRect(int x, int y, unsigned int width, unsigned int height) {
-	
+
     x_       =  x;
     y_       =  y;
     width_   =  width;
@@ -78,7 +78,7 @@ int Component::getY() const {
 
 
 unsigned int Component::getWidth() const {
-	
+
     return width_;
 
 }
@@ -131,8 +131,8 @@ void Component::setName(const char* name) {
 
         name_ = "";
 
-    } else {	
-	
+    } else {
+
         name_ = name;
 
     }
@@ -200,24 +200,24 @@ bool Component::isContains(int x, int y) {
 
 
 
-// Обработка событий происходит так:
-// пытаемся вызвать нужный event.
-// если не удается, то не делаем 
-// ни чего.
+// ГЋГЎГ°Г ГЎГ®ГІГЄГ  Г±Г®ГЎГ»ГІГЁГ© ГЇГ°Г®ГЁГ±ГµГ®Г¤ГЁГІ ГІГ ГЄ:
+// ГЇГ»ГІГ ГҐГ¬Г±Гї ГўГ»Г§ГўГ ГІГј Г­ГіГ¦Г­Г»Г© event.
+// ГҐГ±Г«ГЁ Г­ГҐ ГіГ¤Г ГҐГІГ±Гї, ГІГ® Г­ГҐ Г¤ГҐГ«Г ГҐГ¬
+// Г­ГЁ Г·ГҐГЈГ®.
 
 void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
-    if(btn == Utils::BUTTON_LEFT) { // если, потенциально, происходит клик
-            // сохраняем координаты
+    if(btn == Utils::BUTTON_LEFT) { // ГҐГ±Г«ГЁ, ГЇГ®ГІГҐГ­Г¶ГЁГ Г«ГјГ­Г®, ГЇГ°Г®ГЁГ±ГµГ®Г¤ГЁГІ ГЄГ«ГЁГЄ
+            // Г±Г®ГµГ°Г Г­ГїГҐГ¬ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»
             mouseDownX_ = x;
             mouseDownY_ = y;
-	
+
     }
 
     try {
 
         MouseEvent event;
-		
+
         event.x            =  x;
         event.y            =  y;
         event.mouseButton  =  btn;
@@ -236,7 +236,7 @@ void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
     try {
 
         MouseEvent event;
-		
+
         event.x            =  x;
         event.y            =  y;
         event.mouseButton  =  btn;
@@ -246,15 +246,15 @@ void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
     } catch(const boost::bad_function_call&) {}
 
 
-    // если, потенциально, не произошел клик,
-    if(btn != Utils::BUTTON_LEFT) { // то выходим из метода
+    // ГҐГ±Г«ГЁ, ГЇГ®ГІГҐГ­Г¶ГЁГ Г«ГјГ­Г®, Г­ГҐ ГЇГ°Г®ГЁГ§Г®ГёГҐГ« ГЄГ«ГЁГЄ,
+    if(btn != Utils::BUTTON_LEFT) { // ГІГ® ГўГ»ГµГ®Г¤ГЁГ¬ ГЁГ§ Г¬ГҐГІГ®Г¤Г 
         return;
     }
 
-		
+
     if((mouseDownX_ == x)
-        || (mouseDownY_ == y)) { // иначе вызываем метод клика
-	
+        || (mouseDownY_ == y)) { // ГЁГ­Г Г·ГҐ ГўГ»Г§Г»ГўГ ГҐГ¬ Г¬ГҐГІГ®Г¤ ГЄГ«ГЁГЄГ 
+
             click(x, y);
 
     }
@@ -268,7 +268,7 @@ void Component::click(int x, int y) {
     try {
 
         MouseEvent event;
-		
+
         event.x            =  x;
         event.y            =  y;
         event.mouseButton  =  MouseButton::BUTTON_LEFT;
@@ -287,7 +287,7 @@ void Component::hoverMouse(int x, int y) {
     try {
 
         MouseEvent event;
-		
+
         event.x            =  x;
         event.y            =  y;
         event.mouseButton  =  MouseButton::BUTTON_NONE;

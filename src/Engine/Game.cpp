@@ -40,6 +40,7 @@ using namespace Utils::UI;
 
 Game::Game() throw(runtime_error):
     lua_(Lua::getInstance()),
+    luaAPI_(0),
     resourceManager_(ResourceManager::getInstance()),
     menuFactory_(MenuFactory::getInstance()),
     graphics_(Graphics::getInstance()),
@@ -82,8 +83,6 @@ Game::~Game() {
 Game* Game::Create(Utils::ResourceLoader* resourceLoader) throw(runtime_error) {
 
     Game* game = getInstance();
-
-    game->luaAPI_ = LuaAPI_::getInstance();
 
     game->resourceManager_->setResourceLoader(resourceLoader);
 
@@ -266,6 +265,22 @@ bool Game::isRunning() const {
 
 
 
+boost::shared_ptr<Menu> Game::getPauseMenu() const {
+
+    return mainMenu_;
+
+}
+
+boost::shared_ptr<Menu> Game::getMainMenu() const {
+
+    return pauseMenu_;
+
+}
+
+
+
+
+
 void Game::setException(const std::exception_ptr& e) {
 
     std::lock_guard<std::mutex> guard(exceptionCheckMutex_);
@@ -295,18 +310,19 @@ void Game::loadResources() {
 
         std::lock_guard<std::mutex> guard(initMutex_);
 
-        loadMainMenu();
-
-        //mainMenu_ = boost::shared_ptr<Menu>();
+        luaAPI_ = LuaAPI_::getInstance();
 
         menuGameState_    =  MenuState::getInstance();
         singleGameState_  =  SingleGameState::getInstance();
 
-        menuGameState_->setMenu(mainMenu_);
-
         lua_->loadScript("init.lua");
 
         luabind::call_function<void>(lua_->getFunctionObject("init.load_resources"));
+
+        loadMainMenu();
+        loadPauseMenu();
+
+        menuGameState_->setMenu(mainMenu_);
 
         setState(menuGameState_);
 
@@ -333,5 +349,23 @@ void Game::loadMainMenu() throw(runtime_error) {
     Color menuColor = {0.5f, 0.5f, 0.5f, 0.0f};
 
     mainMenu_->setBackgroundColor(menuColor);
+
+}
+
+
+
+void Game::loadPauseMenu() throw(runtime_error) {
+
+    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceLoader::ResourceType::PLAIN_TEXT, "ui/pause_menu.xml");
+
+    string menuXML = menuResource->getData();
+
+    Menu* pauseMenu = menuFactory_->createFromXML(menuXML);
+
+    pauseMenu_ = boost::shared_ptr<Menu>(pauseMenu);
+
+    Color menuColor = {0.5f, 0.5f, 0.5f, 0.0f};
+
+    pauseMenu_->setBackgroundColor(menuColor);
 
 }

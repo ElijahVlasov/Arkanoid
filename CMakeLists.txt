@@ -199,6 +199,7 @@ set(Salt2D_HEADERS
   ${UTILS_HEADERS}
   ${INCLUDE_DIR}/Application.hpp
   ${INCLUDE_DIR}/config.h
+  ${INCLUDE_DIR}/gl_includes.h
   ${INCLUDE_DIR}/Engine.hpp
   ${INCLUDE_DIR}/LuaAPI.hpp
   ${INCLUDE_DIR}/Utils.hpp
@@ -207,6 +208,10 @@ set(Salt2D_HEADERS
 set(SERVER_HEADERS
   ${INCLUDE_DIR}/Server.hpp
 )
+
+if(WIN32)
+  set(Salt2D_SOURCES ${Salt2D_SOURCES} ${SRC_DIR}/resource.rc)
+endif()
 
 set(Salt2D_LIBS
   ${Boost_SYSTEM_LIBRARY}

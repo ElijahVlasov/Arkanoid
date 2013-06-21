@@ -3,6 +3,7 @@
 #include <exception>
 #include <stdexcept>
 
+#include <boost/get_pointer.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <lua.hpp>
@@ -28,6 +29,22 @@ using namespace Utils::UI;
 
 
 
+namespace luabind
+{
+       template<class T>
+       T* get_pointer(boost::shared_ptr<T>& p) {
+               return p.get();
+}
+
+       template<class A>
+       boost::shared_ptr<const A> get_const_holder(boost::shared_ptr<A>& t)
+       {
+              return 0;
+       }
+}
+
+
+
 LuaAPI_::LuaAPI_():
     game_(Game::getInstance()),
     menuGameState_(GameStates::MenuState::getInstance()),
@@ -44,8 +61,10 @@ LuaAPI_::LuaAPI_():
         class_<Game>("game")
             .def("free", &Game::Free)
             .def("set_screen_rect", &Game::setScreenRect)
-            .property("width",  &Game::getScreenWidth)
-            .property("height", &Game::getScreenHeight),
+            .property("width",      &Game::getScreenWidth)
+            .property("height",     &Game::getScreenHeight)
+            .property("main_menu",  &Game::getMainMenu)
+            .property("pause_menu", &Game::getPauseMenu),
 
         def("game", &Game::getInstance),
 
@@ -69,11 +88,13 @@ LuaAPI_::LuaAPI_():
 
         class_<Font, boost::shared_ptr<Font> >("font"),
 
-        def("sound",        LuaAPI_::System_LoadSound),
-        def("texture",      LuaAPI_::System_LoadTexture),
-        def("play_sound",   LuaAPI_::System_PlaySound),
-        def("draw_texture", LuaAPI_::System_DrawTexture),
-        def("exit",         LuaAPI_::System_Quit),
+        def("sound",        &LuaAPI_::System_LoadSound),
+        def("texture",      &LuaAPI_::System_LoadTexture),
+        def("play_sound",   &LuaAPI_::System_PlaySound),
+        def("draw_texture", &LuaAPI_::System_DrawTexture),
+        def("exit",         &LuaAPI_::System_Quit),
+
+        def("load_script",  &LuaAPI_::System_LoadScript),
 
         class_<MouseButton>("mouse_btn")
             .enum_("") [
@@ -88,7 +109,7 @@ LuaAPI_::LuaAPI_():
         namespace_("ui") [
 
             class_<Event>("event")
-                .def_readonly("sender", &Event::sender),
+                .def_readwrite("sender", &Event::sender),
 
             class_<MouseEvent, Event>("mouse_event")
                 .enum_("mouse_button") [
@@ -143,8 +164,14 @@ LuaAPI_::LuaAPI_():
             class_<Dialog,    Container, boost::shared_ptr<Dialog> >("dialog")
                 .def(constructor<>())
 
-
         ]
+
+//        namespace_("engine") [
+//
+//            class_<Object, ObjectPtr >("object")
+//                .def("")
+//
+//        ]
 
     ];
 

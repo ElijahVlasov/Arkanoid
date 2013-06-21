@@ -26,7 +26,7 @@ using Engine::Game;
 Application::Application() throw(runtime_error):
     isFullscreen_(false),
     game_(0),
-    surface_(0)       
+    surface_(0)
 {
 
     initSDL(800, 600, "Shoter");
@@ -61,7 +61,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
         (::SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0),
         runtime_error("Can't load SDL library!")
     );
-    
+
     // Задаем иконку и заголовок окна
     ::SDL_WM_SetCaption(name, 0);
 
@@ -71,8 +71,8 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
     ::SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
     ::SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
     ::SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
- 
-    
+
+
     ::SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
     ::SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);
  /**/
@@ -81,7 +81,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
     // ::SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,  8);
     // ::SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,   8);
     // ::SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,  8);
- 
+
     //::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
     //::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
     setSurfaceSize(640, 480);
@@ -125,9 +125,9 @@ int Application::run() throw(runtime_error) {
 
     game_->run();
 
-    while(game_->isRunning()) { 
+    while(game_->isRunning()) {
 
-        while(::SDL_PollEvent(&event)) { // неблокирующе, проверяем наличие событий 
+        while(::SDL_PollEvent(&event)) { // неблокирующе, проверяем наличие событий
 
             OnEvent(&event);
 
@@ -198,10 +198,10 @@ void Application::OnRestore() {
 void Application::OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode) {
 
     if(key == SDLK_F11) {
-        
+
         isFullscreen_ = !isFullscreen_;
-        setSurfaceSize(surface_->w, surface_->h);  
-    
+        setSurfaceSize(surface_->w, surface_->h);
+
     } else {
 
         game_->onKeyUp(static_cast<int>(key));
@@ -226,7 +226,7 @@ void Application::OnMouseDown(int x, int y, uint8_t button) {
     MouseButton btn;
 
     switch(button) {
-	
+
         case SDL_BUTTON_LEFT:{
 
             btn = MouseButton::BUTTON_LEFT;
@@ -320,7 +320,7 @@ void Application::OnEvent(SDL_Event* event) {
 
         case SDL_ACTIVEEVENT: {
 
-            if(event->active.state != SDL_APPACTIVE) {	
+            if(event->active.state != SDL_APPACTIVE) {
                 return;
             }
 
@@ -340,7 +340,7 @@ void Application::OnEvent(SDL_Event* event) {
 
         case SDL_KEYDOWN: { // по нажатию клавиши
 
-            OnKeyDown(event->key.keysym.sym, 
+            OnKeyDown(event->key.keysym.sym,
                         event->key.keysym.mod,
                             event->key.keysym.unicode);
 
@@ -348,10 +348,31 @@ void Application::OnEvent(SDL_Event* event) {
         break;
 
         case SDL_KEYUP: { // по отпусканию клавиши
-			
-            OnKeyUp(event->key.keysym.sym, 
+
+            OnKeyUp(event->key.keysym.sym,
                         event->key.keysym.mod,
                             event->key.keysym.unicode);
+
+        }
+        break;
+
+        case SDL_MOUSEMOTION: {
+
+            OnMouseMotion(event->motion.x, event->motion.y);
+
+        }
+        break;
+
+        case SDL_MOUSEBUTTONDOWN: {
+
+            OnMouseDown(event->button.x, event->button.y, event->button.button);
+
+        }
+        break;
+
+        case SDL_MOUSEBUTTONUP: {
+
+            OnMouseUp(event->button.x, event->button.y, event->button.button);
 
         }
         break;

@@ -1,3 +1,3 @@
 function load_resources()
-    print("test")
+    system.load_script("main_menu.lua")
 end

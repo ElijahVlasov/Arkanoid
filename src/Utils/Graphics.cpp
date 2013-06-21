@@ -1,17 +1,10 @@
-#include "config.h"
-
-#ifdef WINDOWS
-#include <Windows.h>
-#endif 
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-
 #include <boost/geometry/geometries/point_xy.hpp>
 
 #include <Utils/Color.hpp>
 #include <Utils/Graphics.hpp>
 #include <Utils/Texture.hpp>
+
+#include "gl_includes.h"
 
 using namespace boost::geometry::model::d2;
 
@@ -118,7 +111,7 @@ void Graphics::DrawTexture(float x, float y, float width, float height, const Co
     // рисуем 2 треугольника
     glBegin(GL_TRIANGLE_STRIP);
 
-    glTexCoord2f(    texCoords[0].x(), texCoords[0].y()); 
+    glTexCoord2f(    texCoords[0].x(), texCoords[0].y());
     glVertex2f(x,            y);
 
     glTexCoord2f(    texCoords[1].x(), texCoords[1].y());

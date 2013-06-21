@@ -1,5 +1,3 @@
-#include "config.h"
-
 #include <cstdlib>
 
 #include <stdexcept>
@@ -7,16 +5,10 @@
 
 #include <boost/format.hpp>
 
-#ifdef WINDOWS
-#include <Windows.h>
-#endif
-
-#include <GL/gl.h>
-
-
 #include <Utils/assert.hpp>
-
 #include <Utils/Texture.hpp>
+
+#include "gl_includes.h"
 
 
 
