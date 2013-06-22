@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <csignal>
 
+#include <exception>
 #include <memory>
 #include <stdexcept>
 
@@ -37,22 +38,22 @@ static void MessageBox(const char* caption, const char* text)
 {
 
     gtk_init(0, 0);
-    
+
     display_dialog(caption, text);
-    
+
 }
 
 #endif
 
 
 
-static void ProcessError(const runtime_error& err) {
+static void ProcessError(const std::exception& err) {
 
     #ifdef WINDOWS
 
     ::MessageBoxA(0, err.what(), "Runtime error", MB_OK | MB_ICONERROR);
 
-    #else 
+    #else
 
     ::MessageBox("Runtime error", err.what());
 
@@ -70,7 +71,7 @@ static void SignalDispatcher(int sig) {
             ::ProcessError(runtime_error("Segmentation Fault!"));
             exit(EXIT_FAILURE);
         }
-        break;  
+        break;
 
         default: {
             ::ProcessError(runtime_error("Unknown error!"));
@@ -114,14 +115,14 @@ int main(int argc, char* argv[]) {
 
         return app->run();
 
-    } catch (const runtime_error& err) {
+    } catch (const std::exception& err) {
 
         ::ProcessError(err);
 
         return EXIT_FAILURE;
 
     }
-		 
+
     return EXIT_SUCCESS;
 
 }

@@ -8,6 +8,8 @@
 #include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include <boost/geometry/geometry.hpp>
+
 #include <Engine/Object.hpp>
 
 #include <Utils/Lua.hpp>
@@ -50,7 +52,7 @@ namespace Engine {
 
             }
 
-            Box& box();
+            GeometryDefines::Box& box();
 
         private:
 
@@ -58,11 +60,11 @@ namespace Engine {
 
             Utils::Lua* lua_;
 
-            Box box_;
+            GeometryDefines::Box box_;
 
             std::list<ObjectPtr> objects_;
 
-            Box getObjectBox(const ObjectPtr& obj) const;
+            GeometryDefines::Box getObjectBox(const ObjectPtr& obj) const;
 
     };
 

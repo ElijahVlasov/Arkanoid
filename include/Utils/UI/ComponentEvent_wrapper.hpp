@@ -12,9 +12,8 @@
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
-#include <Utils.hpp>
-
 #include <Utils/assert.hpp>
+#include <Utils/Lua.hpp>
 
 namespace Utils {
 
@@ -129,7 +128,7 @@ namespace Utils {
 
                     try {
 
-                        luabind::call_function<void>(functionObject_, boost::ref(event));
+                    luabind::call_function<void>(functionObject_, boost::ref(event));
 
                     } catch(const luabind::error&) {
                         return;

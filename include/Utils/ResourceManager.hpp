@@ -24,6 +24,8 @@ namespace Utils {
 
         public:
 
+            typedef ResourceLoader::ResourceType ResourceType;
+
             /** Получить ресурс.
               * @param resourceName имя ресурса
               * @throws Генерирует std::invalid_argument, если resourceName == NULL, или
@@ -31,7 +33,7 @@ namespace Utils {
               *         при ошибках загрузки ресурсов.
             */
 
-            boost::shared_ptr<Resource> getResource(ResourceLoader::ResourceType resourceType, const char* resourceName) 
+            boost::shared_ptr<Resource> getResource(ResourceLoader::ResourceType resourceType, const char* resourceName)
                                                     throw(std::invalid_argument, std::runtime_error);
 
             /** Получить ресурс.
@@ -45,7 +47,7 @@ namespace Utils {
                                                     throw(std::invalid_argument, std::runtime_error);
 
             /** Установить загрузчик ресурсов.
-              * 
+              *
             */
 
             void setResourceLoader(ResourceLoader* resourceLoader)

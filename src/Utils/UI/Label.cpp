@@ -2,14 +2,13 @@
 
 #include <boost/bind.hpp>
 
-#include <Utils.hpp>
-
+#include <Utils/UI/Component.hpp>
+#include <Utils/UI/Event.hpp>
 #include <Utils/UI/Label.hpp>
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::FreeType;
 using namespace Utils::UI;
 
 

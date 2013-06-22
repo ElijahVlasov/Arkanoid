@@ -7,7 +7,14 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <Utils.hpp>
+#include <Utils/FreeType.hpp>
+#include <Utils/Graphics.hpp>
+#include <Utils/MouseButton.hpp>
+#include <Utils/Resource.hpp>
+#include <Utils/ResourceManager.hpp>
+#include <Utils/Texture.hpp>
+
+#include <Utils/UI/Button.hpp>
 
 using namespace std;
 
@@ -26,9 +33,9 @@ Button::Button() throw(runtime_error):
 
     try {
 
-        boost::shared_ptr<Resource> defTextureResource     = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/ui/button.png");
-        boost::shared_ptr<Resource> clickedTextureResource = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/ui/button_clicked.png");
-        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/ui/button_hovered.png");
+        boost::shared_ptr<Resource> defTextureResource     = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button.png");
+        boost::shared_ptr<Resource> clickedTextureResource = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_clicked.png");
+        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_hovered.png");
 
         defTexture_     = boost::dynamic_pointer_cast<Texture>(defTextureResource);
         clickedTexture_ = boost::dynamic_pointer_cast<Texture>(clickedTextureResource);

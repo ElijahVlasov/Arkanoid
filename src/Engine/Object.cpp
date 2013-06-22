@@ -15,6 +15,8 @@
 
 using namespace std;
 
+using namespace GeometryDefines;
+
 using namespace Engine;
 
 using namespace Utils;
@@ -61,10 +63,10 @@ void Object::move(float xShift, float yShift) {
     Point& min = box_.min_corner();
     Point& max = box_.max_corner();
 
-    Polygon wayPolygon;
+    GeometryDefines::Polygon wayPolygon;
 
     // Составляем многоугольник для пути
-    Polygon::ring_type& wayOuter = wayPolygon.outer();
+    GeometryDefines::Polygon::ring_type& wayOuter = wayPolygon.outer();
 
     // верхняя левая точка объекта
     wayOuter.push_back(Point(min.x(),             max.y()         ));

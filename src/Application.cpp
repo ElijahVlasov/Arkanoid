@@ -1,5 +1,6 @@
 #include <boost/cstdint.hpp>
 
+#include <exception>
 #include <stdexcept>
 #include <string>
 
@@ -90,7 +91,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
 
 
 
-void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(runtime_error) {
+void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(std::runtime_error) {
 
     uint32_t flags = SDL_FLAGS;
 
@@ -113,7 +114,7 @@ void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(
 
 
 
-int Application::run() throw(runtime_error) {
+int Application::run() throw(std::exception) {
 
     SDL_Event event;
 
@@ -145,7 +146,7 @@ int Application::run() throw(runtime_error) {
 
 
 
-void Application::OnLoop() throw(runtime_error) {
+void Application::OnLoop() throw(std::exception) {
 
     game_->onLoop();
 

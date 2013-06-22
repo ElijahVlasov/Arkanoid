@@ -8,6 +8,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <lua.hpp>
+
 #include <Engine/SaltEngine.hpp>
 #include <Engine/GameStates.hpp>
 
@@ -154,6 +156,8 @@ namespace Engine {
             void loadResources();
             void loadMainMenu()  throw(std::runtime_error);
             void loadPauseMenu() throw(std::runtime_error);
+
+            static int luaErrorHandler(lua_State* L);
 
             Utils::Graphics* graphics_;
 

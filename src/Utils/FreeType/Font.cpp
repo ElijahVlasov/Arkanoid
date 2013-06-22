@@ -18,15 +18,8 @@
 
 #include <FTGL/ftgl.h>
 
-#include <Utils/assert.hpp>
-
-#include <Utils/Graphics.hpp>
-
-#include <Utils/Color.hpp>
-
-#include <Utils/Texture.hpp>
-
 #include <Utils.hpp>
+
 #include <Utils/FreeType/Font.hpp>
 
 using namespace std;

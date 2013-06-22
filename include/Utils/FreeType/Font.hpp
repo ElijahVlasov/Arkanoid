@@ -14,7 +14,6 @@
 
 #include <Utils/Color.hpp>
 #include <Utils/Resource.hpp>
-#include <Utils/Texture.hpp>
 
 namespace Utils {
 
@@ -48,7 +47,7 @@ namespace Utils {
                 FONT_RECT measureText(const std::wstring& wText)            throw(std::runtime_error);
 
                 /** Отрендерить UTF-8 текст.
-                  * @param text Текст для рендеринга 
+                  * @param text Текст для рендеринга
                   * @throws Генерирует std::invalid_argument, если text == NULL.
                   *         Генерирует std::runtime_error, при ошибке Freetype2
                 */
@@ -57,7 +56,7 @@ namespace Utils {
                                                                             throw(std::invalid_argument, std::runtime_error);
 
                 /** Отрендерить UTF-16 текст.
-                  * @param text Текст для рендеринга 
+                  * @param text Текст для рендеринга
                   * @throws Генерирует std::invalid_argument, если wText == NULL.
                   *         Генерирует std::runtime_error, при ошибке Freetype2
                 */
@@ -66,7 +65,7 @@ namespace Utils {
                                                                             throw(std::invalid_argument, std::runtime_error);
 
                 /** Отрендерить UTF-8 текст.
-                  * @param text Текст для рендеринга 
+                  * @param text Текст для рендеринга
                   * @throws Генерирует std::runtime_error, при ошибке Freetype2
                 */
 
@@ -74,7 +73,7 @@ namespace Utils {
                                                                            throw(std::runtime_error);
 
                 /** Отрендерить UTF-16 текст.
-                  * @param text Текст для рендеринга 
+                  * @param text Текст для рендеринга
                   * @throws Генерирует std::runtime_error, при ошибке Freetype2
                 */
 

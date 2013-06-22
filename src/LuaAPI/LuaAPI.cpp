@@ -108,8 +108,8 @@ LuaAPI_::LuaAPI_():
 
         namespace_("ui") [
 
-            class_<Event>("event")
-                .def_readwrite("sender", &Event::sender),
+            class_<Event>("event"),
+                //.def_readwrite("sender", &Event::sender),
 
             class_<MouseEvent, Event>("mouse_event")
                 .enum_("mouse_button") [

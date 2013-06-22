@@ -8,8 +8,9 @@
 
 #include <tinyxml.h>
 
-#include <Utils.hpp>
+#include <Utils/ResourceManager.hpp>
 
+#include <Utils/UI.hpp>
 #include <Utils/UI/MenuFactory.hpp>
 
 using namespace std;
@@ -104,7 +105,7 @@ void MenuFactory::loadComponents(TiXmlDocument& document, Menu* menu) throw(runt
 
     if(rootElement->QueryStringAttribute("background", &backTexture) == TIXML_SUCCESS) {
 
-        boost::shared_ptr<Resource> backgroundRes = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, backTexture);
+        boost::shared_ptr<Resource> backgroundRes = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, backTexture);
 
         menu->setBackground(boost::dynamic_pointer_cast<Texture>(backgroundRes));
 

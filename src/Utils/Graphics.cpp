@@ -5,6 +5,7 @@
 #include "geometry_defines.hpp"
 #include "gl_includes.h"
 
+using namespace GeometryDefines;
 
 using namespace Utils;
 

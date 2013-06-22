@@ -4,6 +4,7 @@
 #include <thread>
 
 #include <boost/bind.hpp>
+#include <boost/format.hpp>
 #include <boost/mem_fn.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -49,6 +50,8 @@ Game::Game() throw(runtime_error):
 {
 
     graphics_->setViewportSize(scrWidth_, scrHeight_);
+
+    luabind::set_pcall_callback(luaErrorHandler);
 
 }
 
@@ -367,5 +370,30 @@ void Game::loadPauseMenu() throw(runtime_error) {
     Color menuColor = {0.5f, 0.5f, 0.5f, 0.0f};
 
     pauseMenu_->setBackgroundColor(menuColor);
+
+}
+
+
+
+int Game::luaErrorHandler(lua_State* L) {
+
+    lua_Debug debug;
+
+    lua_getstack(L, 1, &debug);
+    lua_getinfo(L, "ln", &debug);
+
+    string err = lua_tostring(L, -1);
+
+    lua_pop(L, 1);
+
+    string errMsg = (boost::format("Error in Lua function: %1%:%2%:\n\"%3%\"")
+                        % debug.name
+                        % debug.currentline
+                        % err
+                     ).str();
+
+    lua_pushstring(L, errMsg.c_str());
+
+    return 1;
 
 }

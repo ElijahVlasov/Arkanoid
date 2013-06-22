@@ -19,9 +19,7 @@
 
 using namespace std;
 
-using namespace boost::geometry;
-using namespace boost::geometry::model;
-using namespace boost::geometry::model::d2;
+using namespace GeometryDefines;
 
 using namespace Engine;
 
@@ -44,8 +42,8 @@ LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_
     const EngineData::Point& e_min_corner = box.min_corner();
     const EngineData::Point& e_max_corner = box.max_corner();
 
-    point_xy<float> min_corner(e_min_corner.x(), e_min_corner.y());
-    point_xy<float> max_corner(e_max_corner.x(), e_max_corner.y());
+    Point min_corner(e_min_corner.x(), e_min_corner.y());
+    Point max_corner(e_max_corner.x(), e_max_corner.y());
 
     box_.min_corner() = min_corner;
     box_.max_corner() = max_corner;

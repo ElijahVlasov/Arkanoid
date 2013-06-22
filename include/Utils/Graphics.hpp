@@ -30,7 +30,7 @@ namespace Utils {
               * для задания координат наложения текстуры
             */
 
-            typedef boost::array<Point, 4> CoordArray;
+            typedef boost::array<GeometryDefines::Point, 4> CoordArray;
 
             static const CoordArray UP_COORDS;
             static const CoordArray DOWN_COORDS;

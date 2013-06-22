@@ -8,20 +8,15 @@
 #include <boost/format.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "config.h"
-
-#ifdef WINDOWS
-#include <Windows.h>
-#endif
-
-#include <GL/gl.h>
-
 #include <IL/il.h>
 #include <IL/ilu.h>
 
 #include <Utils.hpp>
 
 #include <Utils/PCResourceLoader.hpp>
+
+#include "config.h"
+#include "gl_includes.h"
 
 using namespace std;
 
@@ -96,7 +91,7 @@ boost::shared_ptr<Resource> PCResourceLoader::loadBinaryFile(const char* resourc
 
     resource->setData(data);
 
-    return boost::shared_ptr<Resource>(resource); 
+    return boost::shared_ptr<Resource>(resource);
 
 }
 

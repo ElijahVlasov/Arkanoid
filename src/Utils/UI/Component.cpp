@@ -6,9 +6,14 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <Utils.hpp>
+#include <Utils/FreeType.hpp>
+#include <Utils/MouseButton.hpp>
+#include <Utils/ResourceManager.hpp>
 
 #include <Utils/UI/Component.hpp>
+#include <Utils/UI/Event.hpp>
+#include <Utils/UI/KeyEvent.hpp>
+#include <Utils/UI/MouseEvent.hpp>
 
 #include "config.h"
 
@@ -30,9 +35,9 @@ Component::Component() throw(runtime_error):
 
     try {
 
-        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceLoader::ResourceType::FONT, DEFAULT_FONT);
+        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceManager::ResourceType::FONT, DEFAULT_FONT);
 
-        font_ = *(boost::dynamic_pointer_cast<Font>(fontResource).get());
+        font_ = *(boost::dynamic_pointer_cast<Font>(fontResource));
 
     } catch(const bad_cast&) {}
 

@@ -11,9 +11,10 @@
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
-#include <Utils.hpp>
+#include <Utils/assert.hpp>
+#include <Utils/Lua.hpp>
+#include <Utils/ResourceManager.hpp>
 
-#include "config.h"
 
 using namespace std;
 using namespace Utils;

@@ -12,7 +12,9 @@
 
 #include <tinyxml.h>
 
-#include <Utils.hpp>
+#include <Utils/FreeType.hpp>
+#include <Utils/ResourceManager.hpp>
+#include <Utils/UI.hpp>
 
 #include <Utils/UI/ComponentFactory.hpp>
 
@@ -113,7 +115,7 @@ void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* 
     try {
 
         boost::shared_ptr<Font> font = dynamic_pointer_cast<Font>(
-                                    resourceManager_->getResource(ResourceLoader::ResourceType::FONT, fontName));
+                                    resourceManager_->getResource(ResourceManager::ResourceType::FONT, fontName));
 
         component->setFont(*(font.get()));
 

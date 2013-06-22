@@ -84,7 +84,7 @@ namespace Engine {
             /** Получить бокс объекта (потоко-небезопасный метод).
             */
 
-            Box& box();
+            GeometryDefines::Box& box();
 
         private:
 
@@ -92,7 +92,7 @@ namespace Engine {
 
             LocationLayerPtr parentLayer_;
 
-            Box box_;
+            GeometryDefines::Box box_;
 
             boost::shared_ptr<IRenderer> renderer_;
 

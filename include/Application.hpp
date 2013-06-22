@@ -1,5 +1,5 @@
-/** Инициализационный класс приложения. Создает 
-  * окно приложения и обрабатывает сообщения системы. 
+/** Инициализационный класс приложения. Создает
+  * окно приложения и обрабатывает сообщения системы.
   * Использует SDL.
 */
 
@@ -8,6 +8,7 @@
 
 #include <boost/cstdint.hpp>
 
+#include <exception>
 #include <stdexcept>
 #include <string>
 
@@ -28,8 +29,8 @@ class Application: public boost::noncopyable {
         /** Инициализация окна приложения и графического режима.
           * @throw Генерирует std::runtime_error, если произошли ошибки
           * инициализации SDL.
-        */        
-       
+        */
+
         Application() throw(std::runtime_error);
         ~Application();
 
@@ -37,7 +38,7 @@ class Application: public boost::noncopyable {
           * @throw Генерирует std::runtime_error, если произошла внутриигровая ошибка
         */
 
-        int run() throw(std::runtime_error);
+        int run() throw(std::exception);
 
         /** Обработка SDL-события.
           *
@@ -48,7 +49,7 @@ class Application: public boost::noncopyable {
         /** Событие завершения итерации цикла.
         */
 
-        void OnLoop() throw(std::runtime_error);
+        void OnLoop() throw(std::exception);
 
         /** Событие отрисовки.
         */
