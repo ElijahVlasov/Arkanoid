@@ -7,6 +7,10 @@
 
 namespace GeometryDefines {
 
+    typedef boost::geometry::model::d2::point_xy<int>   PointI;
+    typedef boost::geometry::model::box<PointI>         BoxI;
+    typedef boost::geometry::model::polygon<PointI>     PolygonI;
+
     typedef boost::geometry::model::d2::point_xy<float> Point;
     typedef boost::geometry::model::box<Point>          Box;
     typedef boost::geometry::model::polygon<Point>      Polygon;

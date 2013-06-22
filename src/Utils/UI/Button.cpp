@@ -72,16 +72,8 @@ void Button::onDraw(Event&) {
 
 void Button::drawTexture() {
 
-    float x       =  static_cast<float>(getX());
-    float y       =  static_cast<float>(getY());
-    float width   =  static_cast<float>(getWidth());
-    float height  =  static_cast<float>(getHeight());
-
     Graphics::DrawTexture(
-        x,
-        y,
-        width,
-        height,
+        getBoxI(),
         *curTexture_
     );
 

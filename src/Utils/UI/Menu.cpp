@@ -46,10 +46,7 @@ void Menu::drawSelf() {
     }
 
     Graphics::DrawTexture(
-        static_cast<float>(getX()),
-        static_cast<float>(getY()),
-        static_cast<float>(getWidth()),
-        static_cast<float>(getHeight()),
+        getBoxI(),
         *background_
     );
 

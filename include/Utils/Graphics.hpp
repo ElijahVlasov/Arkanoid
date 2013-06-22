@@ -37,34 +37,11 @@ namespace Utils {
             static const CoordArray LEFT_COORDS;
             static const CoordArray RIGHT_COORDS;
 
-            /** Прорисовка текстуры в стандартном виде.
-              * @param x координата на экране для прорисовки
-              * @param y координата на экране для прорисовки
-              * @param texture текстура для прорисовки
-            */
+            static void DrawTexture(const GeometryDefines::Point& point, const Texture& texture,  const CoordArray& texCoords = UP_COORDS);
+            static void DrawTexture(const GeometryDefines::PointI& point, const Texture& texture, const CoordArray& texCoords = UP_COORDS);
 
-            static void DrawTexture(float x, float y, const Texture& texture);
-
-            /** Прорисовка текстуры в прямоугольнике width * height.
-              * @param x координата на экране для прорисовки
-              * @param y координата на экране для прорисовки
-              * @param widht ширина
-              * @param height высота
-              * @param texture текстура для прорисовки
-            */
-
-            static void DrawTexture(float x, float y, float width, float height, const Texture& texture);
-
-            /** Прорисовка текстуры в прямоугольнике width * height с координатами наложения.
-              * @param x координата на экране для прорисовки
-              * @param y координата на экране для прорисовки
-              * @param widht ширина
-              * @param height высота
-              * @param texCoords координаты наложения
-              * @param texture текстура для прорисовки
-            */
-
-            static void DrawTexture(float x, float y, float width, float height, const CoordArray& texCoords, const Texture& texture);
+            static void DrawTexture(const GeometryDefines::Box& box, const Texture& texture,  const CoordArray& texCoords = UP_COORDS);
+            static void DrawTexture(const GeometryDefines::BoxI& box, const Texture& texture, const CoordArray& texCoords = UP_COORDS);
 
             /** Очистка экрана заданным цветом.
             */

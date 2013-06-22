@@ -16,6 +16,9 @@
 #include <Utils/UI/MouseEvent.hpp>
 
 #include "config.h"
+#include "geometry_defines.hpp"
+
+using namespace GeometryDefines;
 
 using namespace Utils::FreeType;
 
@@ -27,10 +30,7 @@ using namespace std;
 
 Component::Component() throw(runtime_error):
     resourceManager_(ResourceManager::getInstance()),
-    x_(0),
-    y_(0),
-    width_(0),
-    height_(0)
+    box_(PointI(0, 0), PointI(0, 0))
 {
 
     try {
@@ -57,10 +57,11 @@ Component::~Component() {
 
 void Component::setRect(int x, int y, unsigned int width, unsigned int height) {
 
-    x_       =  x;
-    y_       =  y;
-    width_   =  width;
-    height_  =  height;
+    box_.min_corner.x(x);
+    box_.min_corner.y(y);
+
+    box_.max_corner.x(x + width);
+    box_.max_corner.y(y + height);
 
 }
 
@@ -68,7 +69,7 @@ void Component::setRect(int x, int y, unsigned int width, unsigned int height) {
 
 int Component::getX() const {
 
-    return x_;
+    return box_.min_corner().x();
 
 }
 
@@ -76,7 +77,7 @@ int Component::getX() const {
 
 int Component::getY() const {
 
-    return y_;
+    return box_.min_corner().y();
 
 }
 
@@ -84,7 +85,7 @@ int Component::getY() const {
 
 unsigned int Component::getWidth() const {
 
-    return width_;
+    return box_.max_corner().x() - box_.min_corner().x();
 
 }
 
@@ -92,7 +93,15 @@ unsigned int Component::getWidth() const {
 
 unsigned int Component::getHeight() const {
 
-    return height_;
+    return box_.max_corner().y() - box_.min_corner().y();
+
+}
+
+
+
+const BoxI& Component::getBoxI() const {
+
+    return box_;
 
 }
 

@@ -82,45 +82,71 @@ Graphics::Graphics() {
 
 
 
-void Graphics::DrawTexture(float x, float y, const Texture& texture) {
+void Graphics::DrawTexture(const Point& point, const Texture& texture, const Graphics::CoordArray& texCoords) {
 
-    DrawTexture(x, y, texture.getWidth(), texture.getHeight(), texture);
+    Box box(point, Point(point.x() + texture.getWidth(), point.y() + texture.getHeight()));
 
-}
-
-
-
-void Graphics::DrawTexture(float x, float y, float width, float height, const Texture& texture) {
-
-    static const Graphics::CoordArray texCoords = UP_COORDS;
-
-    DrawTexture(x, y, width, height, texCoords, texture);
+    DrawTexture(box, texture, texCoords);
 
 }
 
 
 
-void Graphics::DrawTexture(float x, float y, float width, float height, const CoordArray& texCoords, const Texture& texture) {
+void Graphics::DrawTexture(const PointI& point, const Texture& texture, const Graphics::CoordArray& texCoords) {
+
+    BoxI box(point, Point(point.x() + texture.getWidth(), point.y() + texture.getHeight()));
+
+    DrawTexture(box, texture, texCoords);
+
+}
+
+
+
+void Graphics::DrawTexture(const Box& box, const Texture& texture, const Graphics::CoordArray& texCoords) {
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-    // биндим текстуру
     glBindTexture(GL_TEXTURE_2D, texture.getName());
 
-    // рисуем 2 треугольника
     glBegin(GL_TRIANGLE_STRIP);
 
-    glTexCoord2f(    texCoords[0].x(), texCoords[0].y());
-    glVertex2f(x,            y);
+    glTexCoord2f(texCoords[0].x(), texCoords[0].y());
+    glVertex2f(box.min_corner().x(), box.min_corner().y());
 
-    glTexCoord2f(    texCoords[1].x(), texCoords[1].y());
-    glVertex2f(x + width,    y);
+    glTexCoord2f(texCoords[1].x(), texCoords[1].y());
+    glVertex2f(box.max_corner().x(), box.min_corner().y());
 
-    glTexCoord2f(    texCoords[2].x(), texCoords[2].y());
-    glVertex2f(x,            y + height);
+    glTexCoord2f(texCoords[2].x(), texCoords[2].y());
+    glVertex2f(box.min_corner().x(), box.max_corner().y());
 
-    glTexCoord2f(    texCoords[3].x(), texCoords[3].y());
-    glVertex2f(x + width,    y + height);
+    glTexCoord2f(texCoords[3].x(), texCoords[3].y());
+    glVertex2f(box.max_corner().x(), box.max_corner().y());
+
+    glEnd();
+
+}
+
+
+
+void Graphics::DrawTexture(const BoxI& box, const Texture& texture, const Graphics::CoordArray& texCoords) {
+
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+    glBindTexture(GL_TEXTURE_2D, texture.getName());
+
+    glBegin(GL_TRIANGLE_STRIP);
+
+    glTexCoord2f(texCoords[0].x(), texCoords[0].y());
+    glVertex2i(box.min_corner().x(), box.min_corner().y());
+
+    glTexCoord2f(texCoords[1].x(), texCoords[1].y());
+    glVertex2i(box.max_corner().x(), box.min_corner().y());
+
+    glTexCoord2f(texCoords[2].x(), texCoords[2].y());
+    glVertex2i(box.min_corner().x(), box.max_corner().y());
+
+    glTexCoord2f(texCoords[3].x(), texCoords[3].y());
+    glVertex2i(box.max_corner().x(), box.max_corner().y());
 
     glEnd();
 

@@ -14,6 +14,8 @@
 #include <Utils/UI/KeyEvent.hpp>
 #include <Utils/UI/MouseEvent.hpp>
 
+#include "geometry_defines.hpp"
+
 namespace Utils {
 
     namespace UI {
@@ -88,6 +90,8 @@ namespace Utils {
                 */
 
                 unsigned int getHeight() const;
+
+                const GeometryDefines::BoxI& getBoxI() const;
 
                 /** Установить текст компонента.
                   * @param text текст. Если равен NULL, то текст устанавливается
@@ -222,8 +226,7 @@ namespace Utils {
 
                 std::string name_;
 
-                int x_, y_;
-                unsigned int width_, height_;
+                BoxI box_;
 
                 MouseDownEvent    mouseDownEvent_;
                 MouseUpEvent      mouseUpEvent_;

@@ -13,8 +13,6 @@
 #include <Utils/Texture.hpp>
 #include <Utils/Singleton.hpp>
 
-#include <Utils/FreeType/Font.hpp>
-
 namespace Engine {
 
     namespace GameStates {
@@ -44,7 +42,7 @@ namespace Engine {
 
             private:
 
-                Game* game_; 
+                Game* game_;
 
                 Utils::ResourceManager* resourceManager_;
 
@@ -59,7 +57,7 @@ namespace Engine {
 #endif
 
 namespace Engine {
- 
+
     namespace GameState {
 
         class StartLogoState;
