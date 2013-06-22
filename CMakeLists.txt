@@ -56,13 +56,16 @@ set(ENGINE_GAME_STATES_SOURCES
 
 set(ENGINE_SOURCES
   ${ENGINE_GAME_STATES_SOURCES}
+  ${SRC_DIR}/Engine/AnimationSprite.cpp
   ${SRC_DIR}/Engine/DynamicObject.cpp
   ${SRC_DIR}/Engine/Game.cpp
+  ${SRC_DIR}/Engine/ISprite.cpp
   ${SRC_DIR}/Engine/LocationLayer.cpp
   ${SRC_DIR}/Engine/Object.cpp
   ${SRC_DIR}/Engine/Renderer.cpp
   ${SRC_DIR}/Engine/SaltEngine.cpp
   ${SRC_DIR}/Engine/StaticObject.cpp
+  ${SRC_DIR}/Engine/StaticSprite.cpp
   ${SRC_DIR}/Engine/World.cpp
 )
 
@@ -129,14 +132,16 @@ set(ENGINE_GAME_STATES_HEADERS
 
 set(ENGINE_HEADERS
   ${ENGINE_GAME_STATES_HEADERS}
+  ${INCLUDE_DIR}/Engine/AnimationSprite.hpp
   ${INCLUDE_DIR}/Engine/Camera.hpp
   ${INCLUDE_DIR}/Engine/Client.hpp
   ${INCLUDE_DIR}/Engine/Direction.hpp
+  ${INCLUDE_DIR}/Engine/DirectionToCoordsArray.h
   ${INCLUDE_DIR}/Engine/DynamicObject.hpp
   ${INCLUDE_DIR}/Engine/Game.hpp
   ${INCLUDE_DIR}/Engine/GameStates.hpp
   ${INCLUDE_DIR}/Engine/IController.hpp
-  ${INCLUDE_DIR}/Engine/IRenderer.hpp
+  ${INCLUDE_DIR}/Engine/ISprite.hpp
   ${INCLUDE_DIR}/Engine/IUpdatable.hpp
   ${INCLUDE_DIR}/Engine/LocationLayer.hpp
   ${INCLUDE_DIR}/Engine/Object.hpp
@@ -145,6 +150,7 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/Renderer.hpp
   ${INCLUDE_DIR}/Engine/SaltEngine.hpp
   ${INCLUDE_DIR}/Engine/StaticObject.hpp
+  ${INCLUDE_DIR}/Engine/StaticSprite.hpp
   ${INCLUDE_DIR}/Engine/World.hpp
 )
 
