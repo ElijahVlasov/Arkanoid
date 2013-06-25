@@ -226,7 +226,7 @@ namespace Utils {
 
                 std::string name_;
 
-                BoxI box_;
+                GeometryDefines::BoxI box_;
 
                 MouseDownEvent    mouseDownEvent_;
                 MouseUpEvent      mouseUpEvent_;

@@ -9,6 +9,7 @@
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 namespace Utils {
 
@@ -23,7 +24,7 @@ namespace Utils {
         public:
 
             /** Загрузить скрипт.
-              * @throw Генерирует std::runtime_error, если возникает ошибка 
+              * @throw Генерирует std::runtime_error, если возникает ошибка
               * выполнения скрипта или скрипт не найден
               * Если scriptName == NULL или scriptName - пустая строка,
               * то генерируется std::invalid_argument
@@ -32,7 +33,7 @@ namespace Utils {
             void loadScript(const char* scriptName)        throw(std::runtime_error, std::invalid_argument);
 
             /** Загрузить скрипт.
-              * @throw Генерирует std::runtime_error, если возникает ошибка 
+              * @throw Генерирует std::runtime_error, если возникает ошибка
               * выполнения скрипта или скрипт не найден
               * Если scriptName - пустая строка,
               * то генерируется std::invalid_argument
@@ -75,7 +76,7 @@ namespace Utils {
 
         private:
 
-            ResourceManager* resourceManager_;
+            Utils::SingletonPointer<ResourceManager> resourceManager_;
 
             lua_State* luaState_;
 

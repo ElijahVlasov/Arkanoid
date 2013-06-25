@@ -20,7 +20,10 @@ namespace Engine {
             StaticSprite();
             StaticSprite(const boost::shared_ptr<Utils::Texture>& texture);
 
+            ~StaticSprite();
+
             void onRender(const GeometryDefines::Point& drawPoint, Direction dir);
+            void onRender(const GeometryDefines::Box&   drawBox,   Direction dir);
 
             boost::shared_ptr<Utils::Texture> getTexture() const;
             void setTexture(const boost::shared_ptr<Utils::Texture>& texture);

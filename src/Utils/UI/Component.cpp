@@ -4,6 +4,7 @@
 #include <string>
 
 #include <boost/function.hpp>
+#include <boost/geometry.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/FreeType.hpp>
@@ -57,11 +58,11 @@ Component::~Component() {
 
 void Component::setRect(int x, int y, unsigned int width, unsigned int height) {
 
-    box_.min_corner.x(x);
-    box_.min_corner.y(y);
+    box_.min_corner().x(x);
+    box_.min_corner().y(y);
 
-    box_.max_corner.x(x + width);
-    box_.max_corner.y(y + height);
+    box_.max_corner().x(x + width);
+    box_.max_corner().y(y + height);
 
 }
 
@@ -197,17 +198,7 @@ const Font& Component::getFont() const {
 
 bool Component::isContains(int x, int y) {
 
-    if((x >= x_)
-        || (x <= x_ + static_cast<int>(width_))) {
-
-            if((y >= y_)
-                || (y <= y_ + static_cast<int>(height_))) {
-                    return true;
-            }
-
-    }
-
-    return false;
+    return false;/*boost::geometry::overlaps(PointI(x, y), box_)*/;
 
 }
 

@@ -12,6 +12,7 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 namespace Engine {
 
@@ -38,13 +39,12 @@ namespace Engine {
             protected:
 
                 StartLogoState() throw(std::runtime_error);
-                ~StartLogoState();
 
             private:
 
-                Game* game_;
+                Utils::SingletonPointer<Game> game_;
 
-                Utils::ResourceManager* resourceManager_;
+                Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
                 boost::shared_ptr<Utils::Texture> logo_;
 

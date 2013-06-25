@@ -27,15 +27,12 @@ using namespace Utils;
 
 
 
-LocationLayer::LocationLayer():
-    lua_(Lua::getInstance())
+LocationLayer::LocationLayer()
 {}
 
 
 
-LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_error):
-    lua_(Lua::getInstance())
-{
+LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_error) {
 
     const EngineData::Box& box = layer->box();
 
@@ -78,16 +75,6 @@ LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_
 
 
 
-    }
-
-}
-
-
-
-LocationLayer::~LocationLayer() {
-
-    if(lua_ != 0) {
-        lua_->Free();
     }
 
 }

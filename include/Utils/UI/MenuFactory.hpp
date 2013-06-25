@@ -11,6 +11,7 @@
 
 #include <Utils/UI/ComponentFactory.hpp>
 #include <Utils/UI/Menu.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 namespace Utils {
 
@@ -49,13 +50,12 @@ namespace Utils {
             protected:
 
                 MenuFactory() throw(std::runtime_error);
-                ~MenuFactory();
 
             private:
 
-                ResourceManager* resourceManager_;
+                Utils::SingletonPointer<ResourceManager>    resourceManager_;
 
-                ComponentFactory* componentFactory_;
+                Utils::SingletonPointer<ComponentFactory>   componentFactory_;
 
                 static const std::string MENU_ROOT_NODE_VALUE;
 

@@ -22,7 +22,6 @@ using namespace Utils;
 
 
 Lua::Lua():
-    resourceManager_(ResourceManager::getInstance()),
     luaState_(lua_open()) // Подготавливаем Lua VM
 {
 
@@ -40,10 +39,6 @@ Lua::Lua():
 
 
 Lua::~Lua() {
-
-    if(resourceManager_ != 0) {
-        resourceManager_->Free();
-    }
 
     // закрываем Lua VM
     lua_close(luaState_);

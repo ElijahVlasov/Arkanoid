@@ -21,13 +21,10 @@ using namespace Engine;
 
 using namespace Utils;
 
-using namespace boost::geometry::model;
-using namespace boost::geometry::model::d2;
-
 
 
 Object::Object():
-    renderer_(reinterpret_cast<IRenderer*>(0))
+    sprite_(reinterpret_cast<ISprite*>(0))
 {}
 
 
@@ -48,8 +45,8 @@ void Object::onRender() {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    if(renderer_ != 0) {
-        renderer_->onRender();
+    if(sprite_ != 0) {
+        sprite_->onRender(box_, dir_);
     }
 
 }
@@ -138,11 +135,11 @@ const LocationLayerPtr& Object::getParentLayer() const {
 
 
 
-void Object::setRenderer(const boost::shared_ptr<IRenderer>& renderer) {
+void Object::setSprite(const boost::shared_ptr<ISprite>& sprite) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    renderer_ = renderer;
+    sprite_ = sprite;
 
 }
 

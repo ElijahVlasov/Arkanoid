@@ -3,6 +3,7 @@
 
 #include <Engine/IController.hpp>
 #include <Engine/Direction.hpp>
+#include <Engine/DirectionToCoordsArray.h>
 #include <Engine/Object.hpp>
 #include <Engine/Player.hpp>
 #include <Engine/Renderer.hpp>

@@ -30,6 +30,7 @@
 #include <Utils/ResourceFile.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 #include <Utils/Sound.hpp>
 #include <Utils/Texture.hpp>
 #include <Utils/UI.hpp>

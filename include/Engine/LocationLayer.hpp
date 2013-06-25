@@ -13,6 +13,7 @@
 #include <Engine/Object.hpp>
 
 #include <Utils/Lua.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 #include "geometry_defines.hpp"
 
@@ -58,7 +59,7 @@ namespace Engine {
 
             mutable std::mutex synchroMutex_;
 
-            Utils::Lua* lua_;
+            Utils::SingletonPointer<Utils::Lua> lua_;
 
             GeometryDefines::Box box_;
 

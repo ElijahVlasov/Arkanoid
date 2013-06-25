@@ -5,13 +5,15 @@
 #include <stdexcept>
 
 #include <boost/shared_ptr.hpp>
-#include <boost/utility.hpp>
 
 #include <Engine/Game.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
 
-#include <Utils.hpp>
+#include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
+
+#include <Utils/UI/Menu.hpp>
 
 namespace Engine {
 
@@ -41,13 +43,11 @@ namespace Engine {
 
                 MenuState() throw(std::runtime_error);
 
-                ~MenuState();
-
             private:
 
                 mutable std::mutex synchroMutex_;
 
-                Engine::Game* game_;
+                Utils::SingletonPointer<Engine::Game> game_;
 
                 boost::shared_ptr<Utils::UI::Menu> menu_;
 

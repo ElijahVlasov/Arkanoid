@@ -32,19 +32,7 @@ const std::string ComponentFactory::LABEL_TYPE      =   "label";
 
 
 
-ComponentFactory::ComponentFactory():
-    resourceManager_(ResourceManager::getInstance())
-{}
-
-
-
-ComponentFactory::~ComponentFactory() {
-
-    if(resourceManager_ != 0) {
-        resourceManager_->Free();
-    }
-
-}
+ComponentFactory::ComponentFactory() {}
 
 
 

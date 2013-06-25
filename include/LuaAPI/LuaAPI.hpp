@@ -34,7 +34,6 @@ namespace LuaAPI {
         protected:
 
             LuaAPI_();
-            ~LuaAPI_();
 
         private:
 
@@ -52,15 +51,15 @@ namespace LuaAPI {
 
             };
 
-            Engine::Game* game_;
+            Utils::SingletonPointer<Engine::Game> game_;
 
-            Engine::GameStates::MenuState* menuGameState_;
+            Utils::SingletonPointer<Engine::GameStates::MenuState> menuGameState_;
 
-            Utils::Lua* lua_;
+            Utils::SingletonPointer<Utils::Lua> lua_;
 
-            Utils::ResourceManager* resourceManager_;
+            Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
-            Utils::Audio* audio_;
+            Utils::SingletonPointer<Utils::Audio> audio_;
 
     };
 

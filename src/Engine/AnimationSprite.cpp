@@ -1,15 +1,42 @@
 #include <Engine/AnimationSprite.hpp>
+#include <Engine/Direction.hpp>
 
-namespace Engine {
+#include <Utils/Texture.hpp>
+
+#include "geometry_defines.hpp"
+
+using namespace Engine;
+
+using namespace Utils;
+
+
 
 AnimationSprite::AnimationSprite()
-{
-    //ctor
+{}
+
+
+
+AnimationSprite::~AnimationSprite() {}
+
+
+
+void AnimationSprite::addFrame(int msDuration, const boost::shared_ptr<Texture>& frame) {
+
+    Frame newFrame = {msDuration, frame};
+
+    frames_.push_back(newFrame);
+
 }
 
-AnimationSprite::~AnimationSprite()
-{
-    //dtor
+
+
+void AnimationSprite::onRender(const GeometryDefines::Box& drawBox, Direction dir) {
+
+
+
 }
 
-} // namespace Engine
+
+
+void AnimationSprite::onRender(const GeometryDefines::Point& drawPoint, Direction dir) {
+}

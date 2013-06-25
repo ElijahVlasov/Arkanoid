@@ -40,46 +40,23 @@ using namespace Utils::UI;
 
 
 Game::Game() throw(runtime_error):
-    lua_(Lua::getInstance()),
     luaAPI_(0),
-    resourceManager_(ResourceManager::getInstance()),
-    menuFactory_(MenuFactory::getInstance()),
-    graphics_(Graphics::getInstance()),
+    startLogoState_(0),
+    menuGameState_(0),
+    singleGameState_(0),
     scrWidth_(640),
     scrHeight_(480)
 {
 
     graphics_->setViewportSize(scrWidth_, scrHeight_);
 
-    luabind::set_pcall_callback(luaErrorHandler);
+    //luabind::set_pcall_callback(luaErrorHandler);
 
 }
 
 
 
-Game::~Game() {
-
-    if(lua_ != 0) {
-        lua_->Free();
-    }
-
-    if(luaAPI_ != 0) {
-        luaAPI_->Free();
-    }
-
-    if(graphics_ != 0) {
-        graphics_->Free();
-    }
-
-    if(menuFactory_ != 0) {
-        menuFactory_->Free();
-    }
-
-    if(resourceManager_ != 0) {
-        resourceManager_->Free();
-    }
-
-}
+Game::~Game() {}
 
 
 
@@ -92,7 +69,7 @@ Game* Game::Create(Utils::ResourceLoader* resourceLoader) throw(runtime_error) {
     // Создаем состояние, которое будет показывать лого
     game->startLogoState_  =  StartLogoState::getInstance();
 
-    game->setState(game->startLogoState_);
+    game->setState(game->startLogoState_.get());
 
     return game;
 
@@ -327,7 +304,7 @@ void Game::loadResources() {
 
         menuGameState_->setMenu(mainMenu_);
 
-        setState(menuGameState_);
+        setState(menuGameState_.get());
 
     } catch(...) {
 
@@ -341,7 +318,7 @@ void Game::loadResources() {
 
 void Game::loadMainMenu() throw(runtime_error) {
 
-    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceLoader::ResourceType::PLAIN_TEXT, "ui/main_menu.xml");
+    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, "ui/main_menu.xml");
 
     string menuXML = menuResource->getData();
 
@@ -359,7 +336,7 @@ void Game::loadMainMenu() throw(runtime_error) {
 
 void Game::loadPauseMenu() throw(runtime_error) {
 
-    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceLoader::ResourceType::PLAIN_TEXT, "ui/pause_menu.xml");
+    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, "ui/pause_menu.xml");
 
     string menuXML = menuResource->getData();
 

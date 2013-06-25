@@ -21,6 +21,7 @@
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuFactory.hpp>
@@ -129,13 +130,13 @@ namespace Engine {
 
         private:
 
-            Utils::Lua*             lua_;
+            Utils::SingletonPointer<Utils::Lua>             lua_;
 
-            LuaAPI::LuaAPI_*        luaAPI_;
+            Utils::SingletonPointer<LuaAPI::LuaAPI_>        luaAPI_;
 
-            Utils::ResourceManager* resourceManager_;
+            Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
-            Utils::UI::MenuFactory* menuFactory_;
+            Utils::SingletonPointer<Utils::UI::MenuFactory> menuFactory_;
 
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;
@@ -159,11 +160,11 @@ namespace Engine {
 
             static int luaErrorHandler(lua_State* L);
 
-            Utils::Graphics* graphics_;
+            Utils::SingletonPointer<Utils::Graphics>             graphics_;
 
-            GameStates::StartLogoState*  startLogoState_;
-            GameStates::MenuState*       menuGameState_;
-            GameStates::SingleGameState* singleGameState_;
+            Utils::SingletonPointer<GameStates::StartLogoState>  startLogoState_;
+            Utils::SingletonPointer<GameStates::MenuState>       menuGameState_;
+            Utils::SingletonPointer<GameStates::SingleGameState> singleGameState_;
 
             bool isRunning_;
 

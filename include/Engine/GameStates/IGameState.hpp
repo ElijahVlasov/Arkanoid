@@ -7,31 +7,31 @@ namespace Engine {
 
     namespace GameStates {
 
-        /** Интерфейс состояния игры.
+        /** РРЅС‚РµСЂС„РµР№СЃ СЃРѕСЃС‚РѕСЏРЅРёСЏ РёРіСЂС‹.
         */
 
         class IGameState {
 
             public:
 
-                /** Перерисовка.
+                /** РџРµСЂРµСЂРёСЃРѕРІРєР°.
                 */
 
                 virtual void onRender() = 0;
 
-                /** Событие изменения рамера окна.
+                /** РЎРѕР±С‹С‚РёРµ РёР·РјРµРЅРµРЅРёСЏ СЂР°РјРµСЂР° РѕРєРЅР°.
                 */
 
                 virtual void onResize(unsigned int width, unsigned int height) = 0;
 
-                /** Событие нажатия клавиши.
-                  * @param key Код клавиши (все коды хранятся в SDL/SDL_keysym.h)
+                /** РЎРѕР±С‹С‚РёРµ РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€Рё.
+                  * @param key РљРѕРґ РєР»Р°РІРёС€Рё (РІСЃРµ РєРѕРґС‹ С…СЂР°РЅСЏС‚СЃСЏ РІ SDL/SDL_keysym.h)
                 */
 
                 virtual void onKeyDown(int key) = 0;
 
-                /** Событие отпускания клавиши.
-                  * @param key Код клавиши (все коды хранятся в SDL/SDL_keysym.h)
+                /** РЎРѕР±С‹С‚РёРµ РѕС‚РїСѓСЃРєР°РЅРёСЏ РєР»Р°РІРёС€Рё.
+                  * @param key РљРѕРґ РєР»Р°РІРёС€Рё (РІСЃРµ РєРѕРґС‹ С…СЂР°РЅСЏС‚СЃСЏ РІ SDL/SDL_keysym.h)
                 */
 
                 virtual void onKeyUp(int key) = 0;

@@ -1,18 +1,20 @@
 #include <stdexcept>
 
-#include <boost/geometry/geometries/point_xy.hpp>
-
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Game.hpp>
 
 #include <Engine/GameStates/StartLogoState.hpp>
 
-#include <Utils.hpp>
+#include <Utils/Graphics.hpp>
+#include <Utils/ResourceManager.hpp>
+#include <Utils/Texture.hpp>
+
+#include "geometry_defines.hpp"
 
 using namespace std;
 
-using namespace boost::geometry::model::d2;
+using namespace GeometryDefines;
 
 using namespace Engine;
 using namespace Engine::GameStates;
@@ -22,31 +24,17 @@ using namespace Utils;
 
 
 StartLogoState::StartLogoState() throw(runtime_error):
-    game_(Game::getInstance()),
-    resourceManager_(ResourceManager::getInstance())
+    game_(),
+    resourceManager_()
 {
 
     try {
 
-        boost::shared_ptr<Resource> textureResource = resourceManager_->getResource(ResourceLoader::ResourceType::TEXTURE, "textures/logo.png");
+        boost::shared_ptr<Resource> textureResource = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, "textures/logo.png");
 
         logo_ = boost::dynamic_pointer_cast<Texture>(textureResource);
 
     } catch(const bad_cast&) {}
-
-}
-
-
-
-StartLogoState::~StartLogoState() {
-
-    if(game_ != 0) {
-        game_->Free();
-    }
-
-    if(resourceManager_ != 0) {
-        resourceManager_->Free();
-    }
 
 }
 
@@ -57,10 +45,10 @@ void StartLogoState::onRender() {
     Graphics::ClearScreen();
 
     Graphics::DrawTexture(
-        0.0f, 0.0f,
-        game_->getScreenWidth(),
-        game_->getScreenHeight(),
-        *(logo_.get())
+        BoxI( PointI(0, 0),
+              PointI( game_->getScreenWidth(), game_->getScreenHeight() )
+        ),
+        *logo_
     );
 
 }

@@ -94,7 +94,7 @@ void Graphics::DrawTexture(const Point& point, const Texture& texture, const Gra
 
 void Graphics::DrawTexture(const PointI& point, const Texture& texture, const Graphics::CoordArray& texCoords) {
 
-    BoxI box(point, Point(point.x() + texture.getWidth(), point.y() + texture.getHeight()));
+    BoxI box(point, PointI(point.x() + texture.getWidth(), point.y() + texture.getHeight()));
 
     DrawTexture(box, texture, texCoords);
 

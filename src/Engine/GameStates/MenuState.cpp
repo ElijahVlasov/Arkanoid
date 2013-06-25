@@ -10,7 +10,6 @@
 #include <Engine/GameStates/MenuState.hpp>
 
 #include <Utils/assert.hpp>
-#include <Utils/Graphics.hpp>
 
 #include <Utils/UI.hpp>
 
@@ -26,19 +25,9 @@ using namespace Utils::UI;
 
 
 MenuState::MenuState() throw(runtime_error):
-    game_(Game::getInstance()),
+    game_(),
     menu_()
 {}
-
-
-
-MenuState::~MenuState() {
-
-    if(game_ != 0) {
-        game_->Free();
-    }
-
-}
 
 
 
@@ -54,7 +43,7 @@ void MenuState::setMenu(const boost::shared_ptr<Menu>& menu) {
 
 
 
-const boost::shared_ptr<Menu>& 
+const boost::shared_ptr<Menu>&
     MenuState::getMenu() const {
 
     return menu_;
@@ -66,8 +55,6 @@ const boost::shared_ptr<Menu>&
 void MenuState::onRender() {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    Graphics::ClearScreen();
 
     if(menu_ != 0) {
         menu_->draw();

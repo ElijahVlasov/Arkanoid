@@ -8,7 +8,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Direction.hpp>
-#include <Engine/IRenderer.hpp>
+#include <Engine/ISprite.hpp>
 #include <Engine/LocationLayer.hpp>
 
 #include <Utils/ResourceManager.hpp>
@@ -79,7 +79,7 @@ namespace Engine {
 
             /** Установить рендерер объекта.
             */
-            void setRenderer(const boost::shared_ptr<IRenderer>& renderer);
+            void setSprite(const boost::shared_ptr<ISprite>& sprite);
 
             /** Получить бокс объекта (потоко-небезопасный метод).
             */
@@ -94,7 +94,7 @@ namespace Engine {
 
             GeometryDefines::Box box_;
 
-            boost::shared_ptr<IRenderer> renderer_;
+            boost::shared_ptr<ISprite> sprite_;
 
             Direction dir_;
 
