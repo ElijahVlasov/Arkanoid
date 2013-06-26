@@ -7,6 +7,9 @@
 
 namespace Engine {
 
+    /** Преобразовать Direction в соответствующие координаты OpenGL.
+    */
+
     inline Utils::Graphics::CoordArray DirectionToCoordsArray(Direction dir);
 
 }

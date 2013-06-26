@@ -9,6 +9,10 @@
 
 namespace Utils {
 
+    /** Звук. Обертка над OpenAL-буфером.
+      *
+    */
+
     class Sound: public Resource {
 
         public:
@@ -21,11 +25,24 @@ namespace Utils {
             std::string getData() const;
             void setData(const std::string& data);
 
+            /** OpenAL-буфер.
+            */
+
             ALuint getBuffer() const;
+
+            /** Установить формат буфера.
+            */
 
             void setFormat(ALenum format);
 
+            /** Установить частоту.
+            */
+
             void setFrequency(ALsizei frequency);
+
+            /** Частота.
+            */
+
             ALsizei getFrequency() const;
 
         private:

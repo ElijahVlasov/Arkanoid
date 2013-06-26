@@ -11,7 +11,9 @@
 namespace Utils {
 
     /** Загрузчик ресурсов.
-      * Унифицирует доступ к ресурсам.
+      * Унифицирует доступ к ресурсам на разных ОС.
+      * Потомки должны определять load* методы, для загрузки
+      * каждого из типов ресурсов.
       * @author Elijah Vlasov
     */
 
@@ -26,9 +28,7 @@ namespace Utils {
 
                 TEXTURE,      /**< Текстура(только PNG)     */
                 SOUND,        /**< Файл звуков(только OGG)  */
-                SCRIPT,       /**< Скрипт                   */
                 FONT,         /**< Шрифт                    */
-                CONFIG,       /**< Файл конфигурации        */
                 PLAIN_TEXT,   /**< Текстовый файл           */
                 BINARY_FILE   /**< Двоичный файл            */
 
@@ -48,7 +48,7 @@ namespace Utils {
             /** Загрузить ресурс.
               * @param resourceType Тип ресурса
               * @param resourceName Имя ресурса
-              * @throws Генерирует std::invalid_argument, если resourceName - пустая строка. 
+              * @throws Генерирует std::invalid_argument, если resourceName - пустая строка.
               *         Генерирует std::runtime_error при ошибках загрузки ресурса.
             */
 

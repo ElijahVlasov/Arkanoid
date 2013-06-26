@@ -14,7 +14,6 @@ namespace Utils {
     namespace FreeType {
 
         class Font;
-        class Library;
 
 	}
 

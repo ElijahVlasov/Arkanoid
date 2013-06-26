@@ -38,16 +38,6 @@ LuaAPI_::LuaAPI_() {
     module(L, "system")
     [
 
-        class_<Game>("game")
-            .def("free", &Game::Free)
-            .def("set_screen_rect", &Game::setScreenRect)
-            .property("width",      &Game::getScreenWidth)
-            .property("height",     &Game::getScreenHeight)
-            .property("main_menu",  &Game::getMainMenu)
-            .property("pause_menu", &Game::getPauseMenu),
-
-        def("game", &Game::getInstance),
-
         class_<LuaAPI_>("direction")
             .enum_("")
                 [
@@ -144,14 +134,21 @@ LuaAPI_::LuaAPI_() {
             class_<Dialog,    Container, boost::shared_ptr<Dialog> >("dialog")
                 .def(constructor<>())
 
-        ]
+        ],
 
-//        namespace_("engine") [
-//
-//            class_<Object, ObjectPtr >("object")
-//                .def("")
-//
-//        ]
+        namespace_("engine") [
+
+            class_<Game>("game")
+                .def("free", &Game::Free)
+                .def("set_screen_rect", &Game::setScreenRect)
+                .property("width",      &Game::getScreenWidth)
+                .property("height",     &Game::getScreenHeight)
+                .property("main_menu",  &Game::getMainMenu)
+                .property("pause_menu", &Game::getPauseMenu),
+
+            def("game", &Game::getInstance)
+
+        ]
 
     ];
 

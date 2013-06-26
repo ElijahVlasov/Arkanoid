@@ -25,6 +25,7 @@
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuFactory.hpp>
 
+#include "config.h"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ using namespace LuaAPI;
 
 using namespace Utils;
 using namespace Utils::UI;
+
 
 
 Game::Game() throw(runtime_error):
@@ -293,7 +295,7 @@ void Game::loadResources() {
         luaAPI_ = LuaAPI_::getInstance();
 
         menuGameState_    =  MenuState::getInstance();
-        singleGameState_  =  SingleGameState::getInstance();
+        //singleGameState_  =  SingleGameState::getInstance();
 
         lua_->loadScript("init.lua");
 
@@ -305,6 +307,8 @@ void Game::loadResources() {
         menuGameState_->setMenu(mainMenu_);
 
         setState(menuGameState_.get());
+
+        startLogoState_ = 0;
 
     } catch(...) {
 
@@ -318,7 +322,7 @@ void Game::loadResources() {
 
 void Game::loadMainMenu() throw(runtime_error) {
 
-    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, "ui/main_menu.xml");
+    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, MAIN_MENU);
 
     string menuXML = menuResource->getData();
 
@@ -336,7 +340,7 @@ void Game::loadMainMenu() throw(runtime_error) {
 
 void Game::loadPauseMenu() throw(runtime_error) {
 
-    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, "ui/pause_menu.xml");
+    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, PAUSE_MENU);
 
     string menuXML = menuResource->getData();
 

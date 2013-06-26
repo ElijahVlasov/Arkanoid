@@ -3,9 +3,13 @@
 
 #define Salt2D_VERSION_MAJOR @Salt2D_VERSION_MAJOR@
 #define Salt2D_VERSION_MINOR @Salt2D_VERSION_MINOR@
+#define Salt2D_PROJECT_NAME  "@Salt2D_PROJECT_NAME@"
 
 #define RESOURCE_PATH "../resources"
 
 #define DEFAULT_FONT "fonts/arial.ttf"
+
+#define MAIN_MENU "ui/main_menu.xml"
+#define PAUSE_MENU "ui/pause_menu.xml"
 
 #endif

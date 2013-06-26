@@ -11,14 +11,15 @@
 
 #include <Utils/Lua.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 namespace Engine {
 
 	namespace GameStates {
-	
+
 		class SingleGameState: public Utils::Singleton<SingleGameState>,
 										public IGameState {
-		
+
 			SINGLETON(SingleGameState)
 
 			public:
@@ -37,19 +38,18 @@ namespace Engine {
 			protected:
 
 				SingleGameState() throw(std::runtime_error);
-				~SingleGameState();
-			
+
 			private:
 
 				void showDebugInfo();
 				void makeScreenshot();
 
-				Engine::Game*		game_;
+				Utils::SingletonPointer<Engine::Game>		game_;
 //				Engine::Renderer*	renderer_;
 
-				Utils::Lua*			lua_;
+				Utils::SingletonPointer<Utils::Lua>			lua_;
 
-				MenuState*			menuState_;
+				Utils::SingletonPointer<MenuState>			menuState_;
 
 		};
 

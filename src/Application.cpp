@@ -12,7 +12,9 @@
 
 #include <Engine/GameStates.hpp>
 
-#include <Utils.hpp>
+#include <Utils/MouseButton.hpp>
+
+#include "config.h"
 
 using namespace std;
 
@@ -30,7 +32,7 @@ Application::Application() throw(runtime_error):
     surface_(0)
 {
 
-    initSDL(800, 600, "Shoter");
+    initSDL(800, 600, Salt2D_PROJECT_NAME);
 
 }
 

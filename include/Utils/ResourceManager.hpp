@@ -33,7 +33,7 @@ namespace Utils {
               *         при ошибках загрузки ресурсов.
             */
 
-            boost::shared_ptr<Resource> getResource(ResourceLoader::ResourceType resourceType, const char* resourceName)
+            boost::shared_ptr<Resource> getResource(ResourceType resourceType, const char* resourceName)
                                                     throw(std::invalid_argument, std::runtime_error);
 
             /** Получить ресурс.
@@ -43,8 +43,15 @@ namespace Utils {
               *         при ошибках загрузки ресурсов.
             */
 
-            boost::shared_ptr<Resource> getResource(ResourceLoader::ResourceType resourceType, const std::string& resourceName)
+            boost::shared_ptr<Resource> getResource(ResourceType resourceType, const std::string& resourceName)
                                                     throw(std::invalid_argument, std::runtime_error);
+
+
+            /** Удалить ресурс. Когда не требуется хранить ресурс в памяти, следует вызвать этот метод,
+              * иначе возможны утечки памяти.
+            */
+
+            void deleteResource(const boost::shared_ptr<Resource>& resource);
 
             /** Установить загрузчик ресурсов.
               *
@@ -61,7 +68,7 @@ namespace Utils {
 
             ResourceLoader* resourceLoader_;
 
-            std::map<std::string, boost::shared_ptr<Resource>> resources_;
+            std::map< std::string, boost::shared_ptr<Resource> > resources_;
             std::mutex managerMutex_;
 
     };

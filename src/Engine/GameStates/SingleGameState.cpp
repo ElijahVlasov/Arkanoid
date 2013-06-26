@@ -1,6 +1,6 @@
 #include <stdexcept>
 
-//#include <SDL/SDL_keysym.h>
+#include <SDL/SDL_keysym.h>
 
 #include <Engine/Game.hpp>
 
@@ -19,29 +19,8 @@ using namespace Utils;
 
 
 
-SingleGameState::SingleGameState() throw(runtime_error):
-	game_(Game::getInstance()),
-	lua_(Lua::getInstance()),
-	menuState_(MenuState::getInstance())
+SingleGameState::SingleGameState() throw(runtime_error)
 {}
-
-
-
-SingleGameState::~SingleGameState() {
-
-	if(game_ != 0) {
-		game_->Free();
-	}
-
-	if(lua_ != 0) {
-		lua_->Free();
-	}
-
-	if(menuState_ != 0) {
-		menuState_->Free();
-	}
-
-}
 
 
 
@@ -71,18 +50,22 @@ void SingleGameState::onResize(unsigned int width, unsigned int height) {
 
 void SingleGameState::onKeyDown(int key) {
 
-	/*switch(static_cast<SDLKey>(key)) {
+	switch(key) {
 
 		case SDLK_ESCAPE: {
-			game_->setState(menuState_);
+
+            menuState_->setMenu(game_->getPauseMenu());
+
+			game_->setState(menuState_.get());
+
 		}
 		break;
 
 		default: {
-			
+
 		}
 
-	}*/
+	}
 
 }
 
@@ -90,12 +73,12 @@ void SingleGameState::onKeyDown(int key) {
 
 void SingleGameState::onKeyUp(int key) {
 
-	/*switch(static_cast<SDLKey>(key)) {
+	switch(key) {
 
-		case SDLK_ESCAPE: {
+		/*case SDLK_ESCAPE: {
 			game_->setState(menuState_);
 		}
-		break;
+		break;*/
 
 		case SDLK_F1: {
 			showDebugInfo();
@@ -108,10 +91,10 @@ void SingleGameState::onKeyUp(int key) {
 		break;
 
 		default: {
-			
+
 		}
 
-	}*/
+	}
 
 }
 

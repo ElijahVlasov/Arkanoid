@@ -27,6 +27,9 @@ namespace Utils {
 
             public:
 
+                /** Размер текста.
+                */
+
                 typedef struct _FONT_RECT {
 
                     float width, height;
@@ -40,40 +43,69 @@ namespace Utils {
 
                 Font& operator=(const Font& font);
 
+                /** Измерить UTF-8 текст.
+                  * @param text UTF-8 текст.
+                  * @throws Генерирует std::invalid_argument, если text == NULL.
+                  *         Генерирует std::runtime_error, при ошибке Freetype2 или если text не UTF-8.
+                */
 
                 FONT_RECT measureText(const char* text)                     throw(std::invalid_argument, std::runtime_error);
+
+                /** Измерить UTF-8 текст.
+                  * @param text UTF-8 текст.
+                  * @throws Генерирует std::runtime_error, при ошибке Freetype2 или если text не UTF-8.
+                */
+
                 FONT_RECT measureText(const std::string& text)              throw(std::runtime_error);
+
+                /** Измерить UTF-16 текст.
+                  * @param text UTF-16 текст.
+                  * @throws Генерирует std::invalid_argument, если wText == NULL.
+                  *         Генерирует std::runtime_error, при ошибке Freetype2.
+                */
+
                 FONT_RECT measureText(const wchar_t* wText)                 throw(std::invalid_argument, std::runtime_error);
+
+                /** Отрендерить UTF-16 текст.
+                  * @param text Текст для рендеринга
+                  * @throws Генерирует std::runtime_error, при ошибке Freetype2
+                */
+
                 FONT_RECT measureText(const std::wstring& wText)            throw(std::runtime_error);
 
                 /** Отрендерить UTF-8 текст.
                   * @param text Текст для рендеринга
+                  * @param width Длина текста. Если результирующая длина текста больше этой величины, то текст обрезается.
+                  * @param height Высота текста. Если результирующая высота текста больше этой величины, то текст обрезается.
                   * @throws Генерирует std::invalid_argument, если text == NULL.
-                  *         Генерирует std::runtime_error, при ошибке Freetype2
+                  *         Генерирует std::runtime_error, при ошибке Freetype2 или если text не UTF-8.
                 */
 
                 void renderText(const char* text, float x, float y, float width = -1.0f, float height = -1.0f)
                                                                             throw(std::invalid_argument, std::runtime_error);
 
                 /** Отрендерить UTF-16 текст.
-                  * @param text Текст для рендеринга
+                  * @param wText Текст для рендеринга.
+                  * @see renderText
                   * @throws Генерирует std::invalid_argument, если wText == NULL.
-                  *         Генерирует std::runtime_error, при ошибке Freetype2
+                  *         Генерирует std::runtime_error, при ошибке Freetype2.
                 */
 
                 void renderText(const wchar_t* wText, float x, float y, float width = -1.0f, float height = -1.0f)
                                                                             throw(std::invalid_argument, std::runtime_error);
 
                 /** Отрендерить UTF-8 текст.
-                  * @param text Текст для рендеринга
-                  * @throws Генерирует std::runtime_error, при ошибке Freetype2
+                  * @param text Текст для рендеринга.
+                  * @see renderText
+                  * @throws Генерирует std::runtime_error, при ошибке Freetype2 или если text не UTF-8.
                 */
 
                 void renderText(const std::string& text, float x, float y, float width = -1.0f, float height = -1.0f)
                                                                            throw(std::runtime_error);
 
                 /** Отрендерить UTF-16 текст.
-                  * @param text Текст для рендеринга
+                  * @param wText Текст для рендеринга
+                  * @see renderText
                   * @throws Генерирует std::runtime_error, при ошибке Freetype2
                 */
 

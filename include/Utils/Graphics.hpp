@@ -32,13 +32,19 @@ namespace Utils {
 
             typedef boost::array<GeometryDefines::Point, 4> CoordArray;
 
-            static const CoordArray UP_COORDS;
-            static const CoordArray DOWN_COORDS;
-            static const CoordArray LEFT_COORDS;
-            static const CoordArray RIGHT_COORDS;
+            static const CoordArray UP_COORDS;     /**< Координаты для наложения вверх (обычное наложение).       */
+            static const CoordArray DOWN_COORDS;   /**< Координаты для наложения вниз (перевернуто).              */
+            static const CoordArray LEFT_COORDS;   /**< Координаты для наложения влево (повернуто на 90 влево).   */
+            static const CoordArray RIGHT_COORDS;  /**< Координаты для наложения вправо (повернуто на 90 вправо). */
+
+            /** Отрисовать текстуру в точке.
+            */
 
             static void DrawTexture(const GeometryDefines::Point& point, const Texture& texture,  const CoordArray& texCoords = UP_COORDS);
             static void DrawTexture(const GeometryDefines::PointI& point, const Texture& texture, const CoordArray& texCoords = UP_COORDS);
+
+            /** Отрисовать текстуру в прямоугольнике.
+            */
 
             static void DrawTexture(const GeometryDefines::Box& box, const Texture& texture,  const CoordArray& texCoords = UP_COORDS);
             static void DrawTexture(const GeometryDefines::BoxI& box, const Texture& texture, const CoordArray& texCoords = UP_COORDS);

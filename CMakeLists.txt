@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8.8)
 
 project(Salt2D)
 
+set(Salt2D_PROJECT_NAME ${PROJECT_NAME})
+
 set(Salt2D_VERSION_MAJOR 0)
 set(Salt2D_VERSION_MINOR 1)
 

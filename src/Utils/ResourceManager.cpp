@@ -24,7 +24,7 @@ ResourceManager::ResourceManager(): resourceLoader_(0)
 
 
 
-boost::shared_ptr<Resource> ResourceManager::getResource(ResourceLoader::ResourceType resourceType, const char* resourceName) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Resource> ResourceManager::getResource(ResourceManager::ResourceType resourceType, const char* resourceName) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (resourceName != 0),
@@ -65,9 +65,17 @@ boost::shared_ptr<Resource> ResourceManager::getResource(ResourceLoader::Resourc
 
 
 
-boost::shared_ptr<Resource> ResourceManager::getResource(ResourceLoader::ResourceType resourceType, const string& resourceName) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Resource> ResourceManager::getResource(ResourceManager::ResourceType resourceType, const string& resourceName) throw(invalid_argument, runtime_error) {
 
     return getResource(resourceType, resourceName.c_str());
+
+}
+
+
+
+void ResourceManager::deleteResource(const boost::shared_ptr<Resource>& resource) {
+
+
 
 }
 
