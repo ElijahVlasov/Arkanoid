@@ -6,6 +6,7 @@
 #include <stdexcept>
 
 #include <boost/foreach.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <boost/geometry/geometry.hpp>
@@ -13,7 +14,6 @@
 #include <Engine/Object.hpp>
 
 #include <Utils/Lua.hpp>
-#include <Utils/SingletonPointer.hpp>
 
 #include "geometry_defines.hpp"
 
@@ -59,7 +59,7 @@ namespace Engine {
 
             mutable std::mutex synchroMutex_;
 
-            Utils::SingletonPointer<Utils::Lua> lua_;
+            boost::intrusive_ptr<Utils::Lua> lua_;
 
             GeometryDefines::Box box_;
 

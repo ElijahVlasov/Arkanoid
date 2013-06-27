@@ -4,12 +4,13 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/intrusive_ptr.hpp>
+
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
-#include <Utils/SingletonPointer.hpp>
 
 namespace Utils {
 
@@ -76,7 +77,7 @@ namespace Utils {
 
         private:
 
-            Utils::SingletonPointer<ResourceManager> resourceManager_;
+            boost::intrusive_ptr<ResourceManager> resourceManager_;
 
             lua_State* luaState_;
 

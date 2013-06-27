@@ -195,7 +195,6 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/ResourceLoader.hpp
   ${INCLUDE_DIR}/Utils/ResourceManager.hpp
   ${INCLUDE_DIR}/Utils/Singleton.hpp
-  ${INCLUDE_DIR}/Utils/SingletonPointer.hpp
   ${INCLUDE_DIR}/Utils/Sound.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp

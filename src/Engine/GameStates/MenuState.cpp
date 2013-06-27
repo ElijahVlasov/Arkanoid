@@ -25,8 +25,7 @@ using namespace Utils::UI;
 
 
 MenuState::MenuState() throw(runtime_error):
-    game_(),
-    menu_()
+    game_(Game::getInstance(), false)
 {}
 
 

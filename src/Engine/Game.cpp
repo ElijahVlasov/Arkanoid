@@ -42,10 +42,10 @@ using namespace Utils::UI;
 
 
 Game::Game() throw(runtime_error):
-    luaAPI_(0),
-    startLogoState_(0),
-    menuGameState_(0),
-    singleGameState_(0),
+    lua_(Lua::getInstance(), false),
+    resourceManager_(ResourceManager::getInstance(), false),
+    menuFactory_(MenuFactory::getInstance(), false),
+    graphics_(Graphics::getInstance(), false),
     scrWidth_(640),
     scrHeight_(480)
 {

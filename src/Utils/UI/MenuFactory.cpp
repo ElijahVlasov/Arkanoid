@@ -23,7 +23,9 @@ const std::string MenuFactory::MENU_ROOT_NODE_VALUE = "menu";
 
 
 
-MenuFactory::MenuFactory() throw(runtime_error)
+MenuFactory::MenuFactory() throw(runtime_error):
+    resourceManager_(ResourceManager::getInstance(), false),
+    componentFactory_(ComponentFactory::getInstance(), false)
 {}
 
 

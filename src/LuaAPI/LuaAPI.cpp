@@ -31,7 +31,13 @@ using namespace Utils::UI;
 
 
 
-LuaAPI_::LuaAPI_() {
+LuaAPI_::LuaAPI_():
+    game_(              Game::getInstance(),                        false),
+    menuGameState_(     GameStates::MenuState::getInstance(),       false),
+    lua_(               Lua::getInstance(),                         false),
+    resourceManager_(   ResourceManager::getInstance(),             false),
+    audio_(             Audio::getInstance(),                       false)
+{
 
     lua_State* L = lua_->getLuaState();
 
@@ -138,7 +144,7 @@ LuaAPI_::LuaAPI_() {
 
         namespace_("engine") [
 
-            class_<Game>("game")
+            class_<Game, boost::intrusive_ptr<Game> >("game")
                 .def("free", &Game::Free)
                 .def("set_screen_rect", &Game::setScreenRect)
                 .property("width",      &Game::getScreenWidth)
@@ -146,7 +152,7 @@ LuaAPI_::LuaAPI_() {
                 .property("main_menu",  &Game::getMainMenu)
                 .property("pause_menu", &Game::getPauseMenu),
 
-            def("game", &Game::getInstance)
+            def("get_game", &LuaAPI_::Engine_GetGame)
 
         ]
 
@@ -158,7 +164,12 @@ LuaAPI_::LuaAPI_() {
 
 void LuaAPI_::System_LoadScript(const char* name) {
 
-    instance_->lua_->loadScript(name);
+    try {
+
+        instance_->lua_->loadScript(name);
+
+    } catch(const runtime_error&) {}
+      catch(const invalid_argument) {}
 
 }
 
@@ -226,11 +237,19 @@ void LuaAPI_::System_ShowDialog(const char* name) {
 
 
 
+boost::intrusive_ptr<Game> LuaAPI_::Engine_GetGame() {
+
+    return instance_->game_;
+
+}
+
+
+
 void LuaAPI_::System_ShowMenu(const char* name) {
 
     try {
 
-        Utils::SingletonPointer<MenuFactory> menuFactory;
+        boost::intrusive_ptr<MenuFactory> menuFactory(MenuFactory::getInstance());
 
         boost::shared_ptr<Resource> menuResource = instance_->resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, name);
 

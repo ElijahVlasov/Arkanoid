@@ -22,6 +22,7 @@ using namespace Utils;
 
 
 Lua::Lua():
+    resourceManager_(ResourceManager::getInstance(), false),
     luaState_(lua_open()) // Подготавливаем Lua VM
 {
 
@@ -72,7 +73,7 @@ void Lua::loadScript(const string& name) throw(runtime_error, invalid_argument) 
 
     string moduleName = createModuleName(name);
 
-    string script = resourceManager_->getResource(ResourceLoader::ResourceType::SCRIPT, "scripts/" + name)->getData();
+    string script = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, "scripts/" + name)->getData();
 
     // Добавляем объявление скрипта, как модуля
     script = (boost::format("module(\"%1%\", package.seeall)\n%2%") % moduleName % script).str();

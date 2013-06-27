@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 
+#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Game.hpp>
@@ -31,11 +32,15 @@ namespace LuaAPI {
 
             static void System_Quit();
 
+            static boost::intrusive_ptr<Engine::Game> Engine_GetGame();
+
         protected:
 
             LuaAPI_();
 
         private:
+
+            
 
             class Lua_ComponentSetters {
 
@@ -51,15 +56,15 @@ namespace LuaAPI {
 
             };
 
-            Utils::SingletonPointer<Engine::Game> game_;
+            boost::intrusive_ptr<Engine::Game> game_;
 
-            Utils::SingletonPointer<Engine::GameStates::MenuState> menuGameState_;
+            boost::intrusive_ptr<Engine::GameStates::MenuState> menuGameState_;
 
-            Utils::SingletonPointer<Utils::Lua> lua_;
+            boost::intrusive_ptr<Utils::Lua> lua_;
 
-            Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
+            boost::intrusive_ptr<Utils::ResourceManager> resourceManager_;
 
-            Utils::SingletonPointer<Utils::Audio> audio_;
+            boost::intrusive_ptr<Utils::Audio> audio_;
 
     };
 

@@ -4,18 +4,18 @@
 #include <mutex>
 #include <stdexcept>
 
+#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
-
-#include <Engine/Game.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
 
 #include <Utils/Singleton.hpp>
-#include <Utils/SingletonPointer.hpp>
 
 #include <Utils/UI/Menu.hpp>
 
 namespace Engine {
+
+    class Game;
 
     namespace GameStates {
 
@@ -47,7 +47,7 @@ namespace Engine {
 
                 mutable std::mutex synchroMutex_;
 
-                Utils::SingletonPointer<Engine::Game> game_;
+                boost::intrusive_ptr<Engine::Game> game_;
 
                 boost::shared_ptr<Utils::UI::Menu> menu_;
 
@@ -58,13 +58,3 @@ namespace Engine {
 }
 
 #endif
-
-namespace Engine {
-
-    namespace GameStates {
-
-        class MenuState;
-
-    }
-
-}

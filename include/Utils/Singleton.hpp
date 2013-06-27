@@ -9,7 +9,9 @@
 
 #include <boost/utility.hpp>
 
-#define SINGLETON(CLASS_NAME) friend class Utils::Singleton<CLASS_NAME>;
+#define SINGLETON(CLASS_NAME)   friend class Utils::Singleton<CLASS_NAME>; \
+                                friend void boost::intrusive_ptr_add_ref<CLASS_NAME>(CLASS_NAME*); \
+                                friend void boost::intrusive_ptr_release<CLASS_NAME>(CLASS_NAME*);
 
 namespace Utils {
 
@@ -27,6 +29,7 @@ namespace Utils {
               * Создает синглтон или увеличивает счетчик ссылок.
               * @throw Конструктор дочернего класса может сгенерировать std::runtime_error
             */
+
             static T* getInstance() throw(std::runtime_error) {
 
                 std::lock_guard<std::mutex> guard(singletonMutex_);
@@ -43,9 +46,12 @@ namespace Utils {
 
             }
 
+
+
             /** Освободить синглтон.
               * Уменьшает счетчик ссылок или удаляет синглтон.
             */
+
             void Free() {
  
                 std::lock_guard<std::mutex> guard(singletonMutex_);
@@ -60,7 +66,7 @@ namespace Utils {
 
             }
 
-        protected:		
+        protected:
 
             Singleton() {}
 
@@ -69,8 +75,6 @@ namespace Utils {
             }
 
             static std::mutex singletonMutex_;
-
-        /*private:*/
 
             static T* instance_;
             // кол - во указателей на синглтон
@@ -83,5 +87,21 @@ namespace Utils {
     template <class T> std::mutex   Singleton<T>::singletonMutex_;
 
 }
+
+
+namespace boost {
+
+    template <class T> void intrusive_ptr_add_ref(T* singleton) {
+        singleton->refCount_ ++;
+    }
+
+
+
+    template <class T> void intrusive_ptr_release(T* singleton) {
+        singleton->Free();
+    }
+
+}
+
 
 #endif

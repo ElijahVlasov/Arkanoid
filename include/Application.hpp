@@ -20,6 +20,7 @@
 
 #include <Utils/PCResourceLoader.hpp>
 
+#include <boost/intrusive_ptr.hpp>
 #include <boost/utility.hpp>
 
 class Application: public boost::noncopyable {
@@ -120,9 +121,8 @@ class Application: public boost::noncopyable {
 
         bool isFullscreen_;
 
-        Utils::PCResourceLoader* resourceLoader_;
-
-        Engine::Game* game_;
+        boost::intrusive_ptr<Utils::PCResourceLoader> resourceLoader_;
+        boost::intrusive_ptr<Engine::Game>            game_;
 
         SDL_Surface* surface_;
 

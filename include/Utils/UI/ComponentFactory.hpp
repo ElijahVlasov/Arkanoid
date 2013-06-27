@@ -4,11 +4,12 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/intrusive_ptr.hpp>
+
 #include <tinyxml.h>
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
-#include <Utils/SingletonPointer.hpp>
 
 #include <Utils/UI/Component.hpp>
 
@@ -45,7 +46,7 @@ namespace Utils {
                 static const std::string BUTTON_TYPE;
                 static const std::string LABEL_TYPE;
 
-                SingletonPointer<ResourceManager> resourceManager_;
+                boost::intrusive_ptr<ResourceManager> resourceManager_;
 
                 void setXMLAttributes(const TiXmlElement* element, Component* component)
                                                     throw(std::runtime_error);

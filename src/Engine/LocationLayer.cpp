@@ -27,12 +27,15 @@ using namespace Utils;
 
 
 
-LocationLayer::LocationLayer()
+LocationLayer::LocationLayer():
+    lua_(Lua::getInstance(), false)
 {}
 
 
 
-LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_error) {
+LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_error):
+    lua_(Lua::getInstance(), false)
+{
 
     const EngineData::Box& box = layer->box();
 
@@ -47,9 +50,9 @@ LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_
 
     //TODO: добавить создание объектов
 
-    google::protobuf::RepeatedPtrField< EngineData::StaticObject > objects = layer->objects();
+    const google::protobuf::RepeatedPtrField< EngineData::StaticObject > &objects = layer->objects();
 
-    BOOST_FOREACH(EngineData::StaticObject& obj, objects) {
+    BOOST_FOREACH(const EngineData::StaticObject& obj, objects) {
 
         string className;
 

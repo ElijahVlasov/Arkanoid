@@ -7,7 +7,7 @@
 #include <Engine/GameStates/MenuState.hpp>
 #include <Engine/GameStates/SingleGameState.hpp>
 
-#include <Utils.hpp>
+#include <Utils/Lua.hpp>
 
 using namespace std;
 
@@ -19,7 +19,9 @@ using namespace Utils;
 
 
 
-SingleGameState::SingleGameState() throw(runtime_error)
+SingleGameState::SingleGameState() throw(runtime_error):
+    game_(Game::getInstance(), false),
+    lua_(Lua::getInstance(), false)
 {}
 
 

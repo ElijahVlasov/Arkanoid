@@ -30,7 +30,7 @@ using namespace std;
 
 
 Component::Component() throw(runtime_error):
-    resourceManager_(ResourceManager::getInstance()),
+    resourceManager_(ResourceManager::getInstance(), false),
     box_(PointI(0, 0), PointI(0, 0))
 {
 
@@ -46,13 +46,7 @@ Component::Component() throw(runtime_error):
 
 
 
-Component::~Component() {
-
-    if(resourceManager_ != 0) {
-        resourceManager_->Free();
-    }
-
-}
+Component::~Component() {}
 
 
 

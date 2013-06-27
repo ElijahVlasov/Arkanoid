@@ -28,7 +28,6 @@ using Engine::Game;
 
 Application::Application() throw(runtime_error):
     isFullscreen_(false),
-    game_(0),
     surface_(0)
 {
 
@@ -39,18 +38,6 @@ Application::Application() throw(runtime_error):
 
 
 Application::~Application() {
-
-    if(game_ != 0) {
-        game_->Free();
-    }
-
-    if(surface_ != 0) {
-        ::SDL_FreeSurface(surface_);
-    }
-
-    if(resourceLoader_ != 0) {
-        resourceLoader_->Free();
-    }
 
     ::SDL_Quit();
 
@@ -122,7 +109,7 @@ int Application::run() throw(std::exception) {
 
     resourceLoader_ = Utils::PCResourceLoader::getInstance();
 
-    game_ = Game::Create(resourceLoader_);
+    game_ = Game::Create(resourceLoader_.get());
 
     game_->setScreenRect(640, 480);
 

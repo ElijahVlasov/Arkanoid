@@ -3,18 +3,18 @@
 
 #include <stdexcept>
 
+#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
-
-#include <Engine/Game.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
 #include <Utils/Singleton.hpp>
-#include <Utils/SingletonPointer.hpp>
 
 namespace Engine {
+
+    class Game;
 
     namespace GameStates {
 
@@ -42,9 +42,9 @@ namespace Engine {
 
             private:
 
-                Utils::SingletonPointer<Game> game_;
+                boost::intrusive_ptr<Game> game_;
 
-                Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
+                boost::intrusive_ptr<Utils::ResourceManager> resourceManager_;
 
                 boost::shared_ptr<Utils::Texture> logo_;
 
@@ -55,13 +55,3 @@ namespace Engine {
 }
 
 #endif
-
-namespace Engine {
-
-    namespace GameState {
-
-        class StartLogoState;
-
-    }
-
-}

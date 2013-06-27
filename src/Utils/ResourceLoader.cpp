@@ -35,7 +35,7 @@ boost::shared_ptr<Resource> ResourceLoader::loadResource(ResourceLoader::Resourc
         }
         break;
 
-        case SCRIPT: case PLAIN_TEXT: {
+        case PLAIN_TEXT: {
             return loadPlainText(resourceName);
         }
         break;

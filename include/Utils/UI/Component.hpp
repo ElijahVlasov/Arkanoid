@@ -5,6 +5,7 @@
 #include <string>
 
 #include <boost/function.hpp>
+#include <boost/intrusive_ptr.hpp>
 
 #include <Utils/FreeType.hpp>
 #include <Utils/MouseButton.hpp>
@@ -218,7 +219,7 @@ namespace Utils {
 
             private:
 
-                Utils::ResourceManager* resourceManager_;
+                boost::intrusive_ptr<Utils::ResourceManager> resourceManager_;
 
                 Utils::FreeType::Font font_;
 

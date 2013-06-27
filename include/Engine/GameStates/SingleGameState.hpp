@@ -3,7 +3,8 @@
 
 #include <stdexcept>
 
-#include <Engine/Game.hpp>
+#include <boost/intrusive_ptr.hpp>
+
 #include <Engine/Renderer.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
@@ -11,49 +12,49 @@
 
 #include <Utils/Lua.hpp>
 #include <Utils/Singleton.hpp>
-#include <Utils/SingletonPointer.hpp>
 
 namespace Engine {
 
-	namespace GameStates {
+    class Game;
 
-		class SingleGameState: public Utils::Singleton<SingleGameState>,
-										public IGameState {
+    namespace GameStates {
 
-			SINGLETON(SingleGameState)
+        class SingleGameState: public Utils::Singleton<SingleGameState>,
+                                    public IGameState {
 
-			public:
+            SINGLETON(SingleGameState)
 
-				void onRender();
+            public:
 
-				void onResize(unsigned int width, unsigned int height);
+                void onRender();
 
-				void onKeyDown(int key);
-				void onKeyUp(int key);
+                void onResize(unsigned int width, unsigned int height);
 
-				void onMouseMotion(int x, int y);
-				void onMouseDown(int x, int y, Utils::MouseButton mouseButton);
-				void onMouseUp(int x, int y, Utils::MouseButton mouseButton);
+                void onKeyDown(int key);
+                void onKeyUp(int key);
 
-			protected:
+                void onMouseMotion(int x, int y);
+                void onMouseDown(int x, int y, Utils::MouseButton mouseButton);
+                void onMouseUp(int x, int y, Utils::MouseButton mouseButton);
 
-				SingleGameState() throw(std::runtime_error);
+            protected:
 
-			private:
+                SingleGameState() throw(std::runtime_error);
 
-				void showDebugInfo();
-				void makeScreenshot();
+            private:
 
-				Utils::SingletonPointer<Engine::Game>		game_;
-//				Engine::Renderer*	renderer_;
+                void showDebugInfo();
+                void makeScreenshot();
 
-				Utils::SingletonPointer<Utils::Lua>			lua_;
+                boost::intrusive_ptr<Engine::Game>       game_;
 
-				Utils::SingletonPointer<MenuState>			menuState_;
+                boost::intrusive_ptr<Utils::Lua>        lua_;
 
-		};
+                boost::intrusive_ptr<MenuState>          menuState_;
 
-	}
+        };
+
+    }
 
 }
 
