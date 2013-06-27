@@ -1,13 +1,18 @@
 #ifndef _SALT2D_ENGINE_ENGINE_HPP
 #define _SALT2D_ENGINE_ENGINE_HPP
 
+#include <list>
 #include <mutex>
 #include <thread>
 
-#include <Utils/Lua.hpp>
-#include <Utils/Singleton.hpp>
+#include <boost/intrusive_ptr.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <Engine/Game.hpp>
+#include <Engine/Object.hpp>
+
+#include <Utils/Lua.hpp>
+#include <Utils/Singleton.hpp>
 
 namespace Engine {
 
@@ -17,24 +22,24 @@ namespace Engine {
 
         public:
 
-            
-
             void run();
+
+            std::list<ObjectPtr> getActiveObjects();
 
         protected:
 
             SaltEngine();
-            virtual ~SaltEngine();
+            ~SaltEngine();
 
-            //friend boost::thread;
+            friend class std::thread;
 
         private:
 
-            std::thread   engineThread;
+            boost::shared_ptr<std::thread>   engineThread_;
 
-            void operator() ();
+            void engineLoop();
 
-            Utils::Lua*     lua_;
+            boost::intrusive_ptr<Utils::Lua>     lua_;
 
     };
 

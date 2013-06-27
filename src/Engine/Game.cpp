@@ -208,7 +208,15 @@ void Game::setState(IGameState* state) {
 
     std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
+    if(state_ != 0) {
+       state_->onRemove();
+    }
+
     state_ = state;
+
+    if(state_ != 0) {
+        state_->onActive();
+    }
 
 }
 
@@ -247,11 +255,37 @@ bool Game::isRunning() const {
 
 
 
+void Game::startGame() {
+
+    singleGameState_ = SingleGameState::getInstance();
+
+    setState(singleGameState_.get());
+
+}
+
+
+
+void Game::quitGame() {
+
+    if(singleGameState_ != 0) {
+
+        singleGameState_->quit();
+
+        singleGameState_ = 0;
+
+    }
+
+}
+
+
+
 boost::shared_ptr<Menu> Game::getPauseMenu() const {
 
     return mainMenu_;
 
 }
+
+
 
 boost::shared_ptr<Menu> Game::getMainMenu() const {
 

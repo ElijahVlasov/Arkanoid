@@ -11,8 +11,6 @@
 
 #include <boost/geometry/geometry.hpp>
 
-#include <Engine/Object.hpp>
-
 #include <Utils/Lua.hpp>
 
 #include "geometry_defines.hpp"
@@ -22,6 +20,9 @@
 namespace Engine {
 
     using namespace boost::geometry;
+
+    class Object;
+    typedef boost::shared_ptr<Object> ObjectPtr;
 
     class LocationLayer {
 
@@ -74,11 +75,3 @@ namespace Engine {
 }
 
 #endif
-
-namespace Engine {
-
-    class WorldLayer;
-
-    typedef boost::shared_ptr<WorldLayer> WorldLayerPtr;
-
-}

@@ -192,7 +192,7 @@ const Font& Component::getFont() const {
 
 bool Component::isContains(int x, int y) {
 
-    return false;/*boost::geometry::overlaps(PointI(x, y), box_)*/;
+    return boost::geometry::intersects(PointI(x, y), box_);
 
 }
 

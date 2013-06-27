@@ -40,6 +40,14 @@ StartLogoState::StartLogoState() throw(runtime_error):
 
 
 
+void StartLogoState::onActive() {}
+
+
+
+void StartLogoState::onRemove() {}
+
+
+
 void StartLogoState::onRender() {
 
     Graphics::ClearScreen();

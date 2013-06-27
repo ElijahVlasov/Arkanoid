@@ -28,6 +28,9 @@ namespace Engine {
                 void setMenu(const boost::shared_ptr<Utils::UI::Menu>& menu);
                 const boost::shared_ptr<Utils::UI::Menu>& getMenu() const;
 
+                void onActive();
+                void onRemove();
+
                 void onRender();
 
                 void onResize(unsigned int width, unsigned int height);

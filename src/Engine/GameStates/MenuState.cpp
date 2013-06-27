@@ -51,6 +51,14 @@ const boost::shared_ptr<Menu>&
 
 
 
+void MenuState::onActive() {}
+
+
+
+void MenuState::onRemove() {}
+
+
+
 void MenuState::onRender() {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);

@@ -107,11 +107,3 @@ namespace Engine {
 }
 
 #endif
-
-namespace Engine {
-
-    class Object;
-
-    typedef boost::shared_ptr<Object> ObjectPtr;
-
-}

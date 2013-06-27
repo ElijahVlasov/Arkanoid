@@ -14,6 +14,16 @@ namespace Engine {
 
             public:
 
+                /** Состояние стало активным.
+                */
+
+                virtual void onActive() = 0;
+
+                /** Состояние было заменено другим.
+                */
+
+                virtual void onRemove() = 0;
+
                 /** Перерисовка.
                 */
 

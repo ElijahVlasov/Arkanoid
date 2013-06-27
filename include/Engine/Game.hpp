@@ -120,6 +120,9 @@ namespace Engine {
 
             bool isRunning() const;
 
+            void startGame();
+            void quitGame();
+
             boost::shared_ptr<Utils::UI::Menu> getMainMenu() const;
             boost::shared_ptr<Utils::UI::Menu> getPauseMenu() const;
 
@@ -151,6 +154,7 @@ namespace Engine {
             mutable std::mutex   initMutex_; // нужен для синхронизации основного потока и потока загрузки
             std::thread* initThread_;
 
+            // Установить текущее исключение(потом в главном потоке оно генерируется)
             void setException(const std::exception_ptr& e);
             const std::exception_ptr& getException();
 

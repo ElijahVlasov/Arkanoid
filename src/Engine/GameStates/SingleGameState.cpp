@@ -26,6 +26,18 @@ SingleGameState::SingleGameState() throw(runtime_error):
 
 
 
+void SingleGameState::quit() {}
+
+
+
+void SingleGameState::onActive() {}
+
+
+
+void SingleGameState::onRemove() {}
+
+
+
 void SingleGameState::showDebugInfo() {}
 
 

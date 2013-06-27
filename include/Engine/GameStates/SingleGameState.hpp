@@ -26,6 +26,11 @@ namespace Engine {
 
             public:
 
+                void quit();
+
+                void onActive();
+                void onRemove();
+
                 void onRender();
 
                 void onResize(unsigned int width, unsigned int height);
