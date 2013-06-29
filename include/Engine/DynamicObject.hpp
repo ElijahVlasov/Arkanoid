@@ -19,7 +19,7 @@ namespace Engine {
             virtual void onStartMoving() = 0;
             virtual void onEndMoving()   = 0;
 
-            virtual void onCollision();
+            virtual void onCollision(const ObjectPtr& object);
             
             virtual void live();
             

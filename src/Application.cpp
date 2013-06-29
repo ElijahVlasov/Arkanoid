@@ -240,7 +240,7 @@ void Application::OnMouseDown(int x, int y, uint8_t button) {
 
     }
 
-    game_->onMouseDown(x, y, btn);
+    game_->onMouseDown(x, game_->getScreenHeight() - y, btn);
 
 }
 
@@ -275,7 +275,7 @@ void Application::OnMouseUp(int x, int y, uint8_t button) {
 
     }
 
-    game_->onMouseUp(x, y, btn);
+    game_->onMouseUp(x, game_->getScreenHeight() - y, btn);
 
 }
 
@@ -283,7 +283,7 @@ void Application::OnMouseUp(int x, int y, uint8_t button) {
 
 void Application::OnMouseMotion(int x, int y) {
 
-    game_->onMouseMotion(x, y);
+    game_->onMouseMotion(x, game_->getScreenHeight() - y);
 
 }
 

@@ -192,7 +192,21 @@ const Font& Component::getFont() const {
 
 bool Component::isContains(int x, int y) {
 
-    return boost::geometry::intersects(PointI(x, y), box_);
+	// TODO: Найти стандартные бустовские функции вместо этого.
+
+	if( ( x >= box_.min_corner().x() )
+			&& ( x <= box_.max_corner().x() ) ) {
+
+		if( ( y >= box_.min_corner().y() )
+				&& ( y <= box_.max_corner().y() ) ) {
+
+			return true;
+
+		}
+
+	}
+
+    return false;
 
 }
 

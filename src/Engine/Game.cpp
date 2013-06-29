@@ -47,7 +47,8 @@ Game::Game() throw(runtime_error):
     menuFactory_(MenuFactory::getInstance(), false),
     graphics_(Graphics::getInstance(), false),
     scrWidth_(640),
-    scrHeight_(480)
+    scrHeight_(480),
+    state_(0)
 {
 
     graphics_->setViewportSize(scrWidth_, scrHeight_);
@@ -341,8 +342,6 @@ void Game::loadResources() {
         menuGameState_->setMenu(mainMenu_);
 
         setState(menuGameState_.get());
-
-        startLogoState_ = 0;
 
     } catch(...) {
 

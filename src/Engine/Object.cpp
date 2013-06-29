@@ -150,3 +150,19 @@ Box& Object::box() {
     return box_;
 
 }
+
+
+
+GeometryDefines::Point Object::getCenter() const {
+
+	float minCornerX = box_.min_corner().x();
+	float maxCornerX = box_.max_corner().x();
+	float minCornerY = box_.min_corner().y();
+	float maxCornerY = box_.max_corner().y();
+
+	float centerX = (minCornerX + maxCornerX) / 2; // равносильно centerX = minCornerX + (maxCornerX - minCornerX) / 2;
+	float centerY = (minCornerY + maxCornerY) / 2;
+
+	return Point(centerX, centerY);
+
+}

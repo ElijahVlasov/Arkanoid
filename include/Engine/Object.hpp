@@ -18,6 +18,10 @@
 
 namespace Engine {
 
+	class Object;
+
+    typedef boost::shared_ptr<Object> ObjectPtr;
+
     /** Базовый объект игры.
       * @author Elijah Vlasov
     */
@@ -32,7 +36,7 @@ namespace Engine {
             /** Собитие столкновения с другим объектом.
             */
 
-            virtual void onCollision() = 0;
+            virtual void onCollision(const ObjectPtr& object) = 0;
 
             /** Отрисовка объекта.
             */
@@ -86,6 +90,8 @@ namespace Engine {
 
             GeometryDefines::Box& box();
 
+            virtual GeometryDefines::Point getCenter() const;
+
         private:
 
             mutable std::mutex synchroMutex_;
@@ -101,8 +107,6 @@ namespace Engine {
             int id_;
 
     };
-
-    typedef boost::shared_ptr<Object> ObjectPtr;
 
 }
 

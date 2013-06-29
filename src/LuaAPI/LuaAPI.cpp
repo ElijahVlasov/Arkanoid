@@ -223,6 +223,22 @@ void LuaAPI_::System_DrawTexture(float x, float y, const boost::shared_ptr<Textu
 
 
 
+void LuaAPI_::System_StartGame() {
+
+	instance_->game_->startGame();
+
+}
+
+
+
+void LuaAPI_::System_QuitGame() {
+
+	instance_->game_->quitGame();
+
+}
+
+
+
 void LuaAPI_::System_Quit() {
 
     instance_->game_->quit();

@@ -30,6 +30,9 @@ namespace LuaAPI {
             static void System_ShowDialog(const char* name);
             static void System_ShowMenu(const char* name);
 
+            static void System_StartGame();
+            static void System_QuitGame();
+
             static void System_Quit();
 
             static boost::intrusive_ptr<Engine::Game> Engine_GetGame();

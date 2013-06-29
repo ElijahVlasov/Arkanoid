@@ -30,7 +30,7 @@ void DynamicObject::setController(const boost::shared_ptr<IController>& controll
 
 
 
-void DynamicObject::onCollision() {
+void DynamicObject::onCollision(const ObjectPtr& object) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 

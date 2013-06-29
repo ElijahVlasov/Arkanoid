@@ -26,6 +26,8 @@ namespace Engine {
 
             std::list<ObjectPtr> getActiveObjects();
 
+            bool isCollision(const ObjectPtr& obj1, const ObjectPtr& obj2);
+
         protected:
 
             SaltEngine();
@@ -35,9 +37,13 @@ namespace Engine {
 
         private:
 
+            static const float COLLISION_RADIUS;
+
             boost::shared_ptr<std::thread>   engineThread_;
 
             void engineLoop();
+
+            std::list<ObjectPtr> getNearObjects(const ObjectPtr& obj);
 
             boost::intrusive_ptr<Utils::Lua>     lua_;
 
