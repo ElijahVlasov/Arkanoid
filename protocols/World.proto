@@ -1,14 +1,17 @@
 package EngineData;
 
 import "Box.proto";
+import "Resource.proto";
 import "StaticObject.proto";
 
 option optimize_for = LITE_RUNTIME;
 
 message World {
 
-    optional string   name     = 1;
-    repeated Location location = 2;
+	repeated Resource resources = 1;
+
+    optional string   name     = 2;
+    repeated Location location = 3;
 
 }
 

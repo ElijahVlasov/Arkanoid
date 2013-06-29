@@ -26,11 +26,11 @@ namespace Utils {
 
             enum ResourceType {
 
-                TEXTURE,      /**< Текстура(только PNG)     */
-                SOUND,        /**< Файл звуков(только OGG)  */
-                FONT,         /**< Шрифт                    */
-                PLAIN_TEXT,   /**< Текстовый файл           */
-                BINARY_FILE   /**< Двоичный файл            */
+                TEXTURE     = 0,        /**< Текстура(только PNG)     */
+                SOUND       = 1,        /**< Файл звуков(только OGG)  */
+                FONT        = 2,        /**< Шрифт                    */
+                PLAIN_TEXT  = 3,        /**< Текстовый файл           */
+                BINARY_FILE = 4         /**< Двоичный файл            */
 
             };
 
