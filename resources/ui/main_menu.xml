@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<menu>
+    <button x="250" y="400" height="50" width="150" on_click="main_menu.click">Начать</button>
+    <button x="250" y="300" height="50" width="150">Опции</button>
+    <button x="250" y="200" height="50" width="150">Авторы</button>
+</menu>
