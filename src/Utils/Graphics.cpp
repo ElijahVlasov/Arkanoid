@@ -19,8 +19,8 @@ const Graphics::CoordArray Graphics::UP_COORDS = {
 
     Point(0.0f, 1.0f),
     Point(1.0f, 1.0f),
-    Point(0.0f, 0.0f),
-    Point(1.0f, 0.0f)
+    Point(1.0f, 0.0f),
+    Point(0.0f, 0.0f)
 
 };
 
@@ -30,8 +30,8 @@ const Graphics::CoordArray Graphics::DOWN_COORDS = {
 
     Point(1.0f, 0.0f),
     Point(0.0f, 0.0f),
-    Point(1.0f, 1.0f),
-    Point(0.0f, 1.0f)
+    Point(0.0f, 1.0f),
+    Point(1.0f, 1.0f)
 
 };
 
@@ -41,8 +41,8 @@ const Graphics::CoordArray Graphics::LEFT_COORDS = {
 
     Point(0.0f, 0.0f),
     Point(0.0f, 1.0f),
-    Point(1.0f, 0.0f),
-    Point(1.0f, 1.0f)
+    Point(1.0f, 1.0f),
+    Point(1.0f, 0.0f)
 
 };
 
@@ -52,8 +52,8 @@ const Graphics::CoordArray Graphics::RIGHT_COORDS = {
 
     Point(0.0f, 1.0f),
     Point(0.0f, 0.0f),
-    Point(1.0f, 1.0f),
-    Point(1.0f, 0.0f)
+    Point(1.0f, 0.0f),
+    Point(1.0f, 1.0f)
 
 };
 
@@ -108,7 +108,7 @@ void Graphics::DrawTexture(const Box& box, const Texture& texture, const Graphic
 
     glBindTexture(GL_TEXTURE_2D, texture.getName());
 
-    glBegin(GL_TRIANGLE_STRIP);
+    glBegin(GL_QUADS);
 
     glTexCoord2f(texCoords[0].x(), texCoords[0].y());
     glVertex2f(box.min_corner().x(), box.min_corner().y());
@@ -117,10 +117,10 @@ void Graphics::DrawTexture(const Box& box, const Texture& texture, const Graphic
     glVertex2f(box.max_corner().x(), box.min_corner().y());
 
     glTexCoord2f(texCoords[2].x(), texCoords[2].y());
-    glVertex2f(box.min_corner().x(), box.max_corner().y());
+    glVertex2f(box.max_corner().x(), box.max_corner().y());
 
     glTexCoord2f(texCoords[3].x(), texCoords[3].y());
-    glVertex2f(box.max_corner().x(), box.max_corner().y());
+    glVertex2f(box.min_corner().x(), box.max_corner().y());
 
     glEnd();
 
@@ -134,7 +134,7 @@ void Graphics::DrawTexture(const BoxI& box, const Texture& texture, const Graphi
 
     glBindTexture(GL_TEXTURE_2D, texture.getName());
 
-    glBegin(GL_TRIANGLE_STRIP);
+    glBegin(GL_QUADS);
 
     glTexCoord2f(texCoords[0].x(), texCoords[0].y());
     glVertex2i(box.min_corner().x(), box.min_corner().y());
@@ -143,12 +143,54 @@ void Graphics::DrawTexture(const BoxI& box, const Texture& texture, const Graphi
     glVertex2i(box.max_corner().x(), box.min_corner().y());
 
     glTexCoord2f(texCoords[2].x(), texCoords[2].y());
-    glVertex2i(box.min_corner().x(), box.max_corner().y());
-
-    glTexCoord2f(texCoords[3].x(), texCoords[3].y());
     glVertex2i(box.max_corner().x(), box.max_corner().y());
 
+    glTexCoord2f(texCoords[3].x(), texCoords[3].y());
+    glVertex2i(box.min_corner().x(), box.max_corner().y());
+
     glEnd();
+
+}
+
+
+
+void Graphics::DrawTexture(const GeometryDefines::Polygon& polygon, const Texture& texture, const Graphics::CoordArray& texCoords) {
+
+	const GeometryDefines::Polygon::ring_type& polygonOuter = polygon.outer();
+
+	auto pointIter = polygonOuter.begin();
+
+	glBegin(GL_QUADS);
+
+	for(unsigned int i = 0; (i < 4) && (pointIter != polygonOuter.end()); i++, ++pointIter) {
+
+		glTexCoord2f(texCoords[i].x(), texCoords[i].y());
+		glVertex2f(pointIter->x(), pointIter->y());
+
+	}
+
+	glEnd();
+
+}
+
+
+
+void Graphics::DrawTexture(const GeometryDefines::PolygonI& polygon, const Texture& texture, const Graphics::CoordArray& texCoords) {
+
+	const GeometryDefines::PolygonI::ring_type& polygonOuter = polygon.outer();
+
+	auto pointIter = polygonOuter.begin();
+
+	glBegin(GL_QUADS);
+
+	for(unsigned int i = 0; (i < 4) && (pointIter != polygonOuter.end()); i++, ++pointIter) {
+
+		glTexCoord2f(texCoords[i].x(), texCoords[i].y());
+		glVertex2i(pointIter->x(), pointIter->y());
+
+	}
+
+	glEnd();
 
 }
 

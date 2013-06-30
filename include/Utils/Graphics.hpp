@@ -40,14 +40,17 @@ namespace Utils {
             /** Отрисовать текстуру в точке.
             */
 
-            static void DrawTexture(const GeometryDefines::Point& point, const Texture& texture,  const CoordArray& texCoords = UP_COORDS);
+            static void DrawTexture(const GeometryDefines::Point& point,  const Texture& texture, const CoordArray& texCoords = UP_COORDS);
             static void DrawTexture(const GeometryDefines::PointI& point, const Texture& texture, const CoordArray& texCoords = UP_COORDS);
 
             /** Отрисовать текстуру в прямоугольнике.
             */
 
-            static void DrawTexture(const GeometryDefines::Box& box, const Texture& texture,  const CoordArray& texCoords = UP_COORDS);
+            static void DrawTexture(const GeometryDefines::Box& box,  const Texture& texture, const CoordArray& texCoords = UP_COORDS);
             static void DrawTexture(const GeometryDefines::BoxI& box, const Texture& texture, const CoordArray& texCoords = UP_COORDS);
+
+            static void DrawTexture(const GeometryDefines::Polygon& polygon,  const Texture& texture, const CoordArray& texCoords = UP_COORDS);
+            static void DrawTexture(const GeometryDefines::PolygonI& polygon, const Texture& texture, const CoordArray& texCoords = UP_COORDS);
 
             /** Очистка экрана заданным цветом.
             */
