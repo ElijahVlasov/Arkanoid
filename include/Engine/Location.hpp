@@ -22,7 +22,7 @@ namespace Engine {
 		public:
 
 			Location();
-			Location(const EngineDate::Location& locationData) throw(std::runtime_error);
+			Location(const EngineData::Location& locationData) throw(std::runtime_error);
 
 			~Location();
 

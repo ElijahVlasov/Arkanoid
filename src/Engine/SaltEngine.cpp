@@ -89,13 +89,17 @@ bool SaltEngine::isCollision(const ObjectPtr& obj1, const ObjectPtr& obj2) {
 
 std::list<ObjectPtr> SaltEngine::getNearObjects(const ObjectPtr& obj) {
 
-	GeometryDefines::Point areaMinCorner(obj->box().min_corner().x() - COLLISION_RADIUS, obj->box().min_corner().y() - COLLISION_RADIUS);
+	/*
+
+	GeometryDefines::Point areaMinCorner(obj->getPolygon() - COLLISION_RADIUS, obj->box().min_corner().y() - COLLISION_RADIUS);
 	GeometryDefines::Point areaMaxCorner(obj->box().max_corner().x() + COLLISION_RADIUS, obj->box().max_corner().y() + COLLISION_RADIUS);
 
 	GeometryDefines::Box objectArea(areaMinCorner, areaMaxCorner);
 
-	LocationLayerPtr objectLayer = obj->getParentLayer();
+	LocationLayerPtr objectLayer = obj->getParentLayer();*/
 
-	return objectLayer->getObjectsInArea(objectArea);
+	//return objectLayer->getObjectsInArea(GeometryDefines::Polygon());
+
+	return std::list<ObjectPtr>();
 
 }

@@ -5,6 +5,8 @@
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
 
+#define PI 3.141592f
+
 namespace GeometryDefines {
 
     typedef boost::geometry::model::d2::point_xy<int>   PointI;

@@ -27,19 +27,20 @@ using namespace Utils::FreeType;
 
 
 Button::Button() throw(runtime_error):
-    Component(),
-    resourceManager_(ResourceManager::getInstance())
+    Component()
 {
 
     try {
 
-        boost::shared_ptr<Resource> defTextureResource     = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button.png");
-        boost::shared_ptr<Resource> clickedTextureResource = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_clicked.png");
-        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_hovered.png");
+    	boost::intrusive_ptr<ResourceManager> resourceManager(ResourceManager::getInstance(), false);
+
+        boost::shared_ptr<Resource> defTextureResource     = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button.png");
+        boost::shared_ptr<Resource> clickedTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_clicked.png");
+        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_hovered.png");
 
         defTexture_     = boost::dynamic_pointer_cast<Texture>(defTextureResource);
         clickedTexture_ = boost::dynamic_pointer_cast<Texture>(clickedTextureResource);
-        hoveredTexture_ = boost::dynamic_pointer_cast<Texture>(defTextureResource);
+        hoveredTexture_ = boost::dynamic_pointer_cast<Texture>(hoveredTextureResource);
 
     } catch(const bad_alloc&) {}
 
@@ -51,13 +52,7 @@ Button::Button() throw(runtime_error):
 
 
 
-Button::~Button() {
-
-    if(resourceManager_ != 0) {
-        resourceManager_->Free();
-    }
-
-}
+Button::~Button() {}
 
 
 

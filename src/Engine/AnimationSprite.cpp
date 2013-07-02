@@ -30,7 +30,7 @@ void AnimationSprite::addFrame(int msDuration, const boost::shared_ptr<Texture>&
 
 
 
-void AnimationSprite::onRender(const GeometryDefines::Box& drawBox, Direction dir) {
+void AnimationSprite::onRender(const GeometryDefines::Box& box) {
 
 
 
@@ -38,5 +38,11 @@ void AnimationSprite::onRender(const GeometryDefines::Box& drawBox, Direction di
 
 
 
-void AnimationSprite::onRender(const GeometryDefines::Point& drawPoint, Direction dir) {
+void AnimationSprite::onRender(const GeometryDefines::Point& point) {
+}
+
+
+
+void AnimationSprite::onRender(const GeometryDefines::Polygon& polygon) {
+
 }

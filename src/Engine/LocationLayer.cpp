@@ -112,8 +112,8 @@ Box& LocationLayer::box() {
 
 
 
-Box LocationLayer::getObjectBox(const ObjectPtr& obj) const {
+GeometryDefines::Polygon LocationLayer::getObjectsPolygon(const ObjectPtr& obj) const {
 
-    return obj->box();
+    return obj->getPolygon();
 
 }

@@ -1,9 +1,14 @@
+#include <cmath>
+
 #include <list>
 #include <mutex>
 #include <stdexcept>
 #include <string>
 
+#include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 
 #include <Engine/Direction.hpp>
 #include <Engine/Object.hpp>
@@ -15,8 +20,6 @@
 
 using namespace std;
 
-using namespace GeometryDefines;
-
 using namespace Engine;
 
 using namespace Utils;
@@ -24,7 +27,8 @@ using namespace Utils;
 
 
 Object::Object():
-    sprite_(reinterpret_cast<ISprite*>(0))
+    sprite_(reinterpret_cast<ISprite*>(0)),
+    id_(boost::uuids::random_generator()())
 {}
 
 
@@ -33,7 +37,7 @@ Object::~Object() {}
 
 
 
-int Object::getId() const {
+boost::uuids::uuid Object::getId() const {
 
     return id_;
 
@@ -46,70 +50,54 @@ void Object::onRender() {
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     if(sprite_ != 0) {
-        sprite_->onRender(box_, dir_);
+        sprite_->onRender(polygon_);
     }
 
 }
 
 
 
-void Object::move(float xShift, float yShift) {
+void Object::move(float step) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    Point& min = box_.min_corner();
-    Point& max = box_.max_corner();
+    GeometryDefines::Point movementVector(cos(direction_) * step, sin(direction_) * step);
 
-    GeometryDefines::Polygon wayPolygon;
+    GeometryDefines::Polygon::ring_type& polygonPoints = polygon_.outer();
 
-    // Составляем многоугольник для пути
-    GeometryDefines::Polygon::ring_type& wayOuter = wayPolygon.outer();
+    BOOST_FOREACH(GeometryDefines::Point& polygonPoint, polygonPoints) {
 
-    // верхняя левая точка объекта
-    wayOuter.push_back(Point(min.x(),             max.y()         ));
-    // верхняя левая точка объекта в новом положении
-    wayOuter.push_back(Point(min.x() + xShift,    max.y() + yShift));
-    // верхняя правая точка объекта в новом положении
-    wayOuter.push_back(Point(max.x() + xShift,    max.y() + yShift));
-    // правая нижняя точка объекта в новом положении
-    wayOuter.push_back(Point(max.x() + xShift,    min.y() + yShift));
-    // правая нижняя точка объекта
-    wayOuter.push_back(Point(max.x(),             min.y()         ));
-    // правая верхняя точка объекта
-    wayOuter.push_back(Point(max.x(),             max.y()         ));
+    	float newX = polygonPoint.x() + movementVector.x();
+    	float newY = polygonPoint.y() + movementVector.y();
 
-    list<ObjectPtr> objectsOnWay = parentLayer_->getObjectsInArea(wayPolygon);
-
-    if((objectsOnWay.empty())
-        || ( (objectsOnWay.size() == 1) && (*objectsOnWay.front() == *this) )) { // если путь пустой
-
-        min.x(min.x() + xShift);
-        max.x(max.x() + xShift);
-
-        min.y(min.y() + yShift);
-        max.y(max.y() + yShift);
-
-        return;
+    	polygonPoint.x(newX);
+    	polygonPoint.y(newY);
 
     }
 
-    // есть потенциальные объекты для столкновений
-
 }
 
 
 
-void Object::setDirection(Direction dir) {
+void Object::spin(float step) {
 
-    dir_ = dir;
+	std::lock_guard<std::mutex> guard(synchroMutex_);
 
-}
+	GeometryDefines::Polygon::ring_type& polygonPoints = polygon_.outer();
 
+	addToDirection(step);
 
+	BOOST_FOREACH(GeometryDefines::Point& polygonPoint, polygonPoints) {
 
-Direction Object::getDirection() const {
+		float angle = step * (2 * PI);
 
-    return dir_;
+		float newX = polygonPoint.x() * cos(angle) - polygonPoint.y() * sin(angle);
+		float newY = polygonPoint.x() * sin(angle) + polygonPoint.y() * cos(angle);
+
+		polygonPoint.x(newX);
+		polygonPoint.y(newY);
+
+	}
 
 }
 
@@ -145,9 +133,11 @@ void Object::setSprite(const boost::shared_ptr<ISprite>& sprite) {
 
 
 
-Box& Object::box() {
+GeometryDefines::Polygon Object::getPolygon() const {
 
-    return box_;
+	std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    return polygon_;
 
 }
 
@@ -155,14 +145,12 @@ Box& Object::box() {
 
 GeometryDefines::Point Object::getCenter() const {
 
-	float minCornerX = box_.min_corner().x();
-	float maxCornerX = box_.max_corner().x();
-	float minCornerY = box_.min_corner().y();
-	float maxCornerY = box_.max_corner().y();
+	std::lock_guard<std::mutex> guard(synchroMutex_);
 
-	float centerX = (minCornerX + maxCornerX) / 2; // равносильно centerX = minCornerX + (maxCornerX - minCornerX) / 2;
-	float centerY = (minCornerY + maxCornerY) / 2;
+	GeometryDefines::Point center;
 
-	return Point(centerX, centerY);
+	boost::geometry::centroid(polygon_, center);
+
+	return center;
 
 }

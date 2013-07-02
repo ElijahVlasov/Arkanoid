@@ -45,24 +45,33 @@ void StaticSprite::setTexture(const boost::shared_ptr<Texture>& texture) {
 
 
 
-void StaticSprite::onRender(const GeometryDefines::Point& drawPoint, Direction dir) {
+void StaticSprite::onRender(const GeometryDefines::Point& point) {
 
     Graphics::DrawTexture(
-        drawPoint,
-        *texture_,
-        DirectionToCoordsArray(dir)
+        point,
+        *texture_
     );
 
 }
 
 
 
-void StaticSprite::onRender(const GeometryDefines::Box& drawBox, Direction dir) {
+void StaticSprite::onRender(const GeometryDefines::Box& box) {
 
     Graphics::DrawTexture(
-        drawBox,
-        *texture_,
-        DirectionToCoordsArray(dir)
+        box,
+        *texture_
     );
+
+}
+
+
+
+void StaticSprite::onRender(const GeometryDefines::Polygon& polygon) {
+
+	Graphics::DrawTexture(
+		polygon,
+		*texture_
+	);
 
 }

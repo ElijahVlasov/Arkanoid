@@ -1,11 +1,16 @@
 ﻿#ifndef _ENGINE_OBJECT_HPP
 #define _ENGINE_OBJECT_HPP
 
+#include <cmath>
+
 #include <mutex>
 #include <stdexcept>
 #include <string>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/utility.hpp>
+
+#include <boost/uuid/uuid.hpp>
 
 #include <Engine/Direction.hpp>
 #include <Engine/ISprite.hpp>
@@ -26,7 +31,7 @@ namespace Engine {
       * @author Elijah Vlasov
     */
 
-    class Object {
+    class Object: public boost::noncopyable {
 
         public:
 
@@ -48,10 +53,16 @@ namespace Engine {
 
             virtual void live() = 0;
 
-            /** Передвинуть объект на xShift и yShift.
+            /** Передвинуть объект на step в текущем направлении.
             */
 
-            virtual void move(float xShift, float yShift);
+            virtual void move(float step);
+
+            /** Повернуть объект на step.
+              * @param step Единица измерения - 1 / (2 * pi).
+            */
+
+            virtual void spin(float step);
 
             /** Объекты равны если id'ы равны.
             */
@@ -62,9 +73,6 @@ namespace Engine {
             */
 
             inline bool operator != (const Object& object) { return !(*this == object); }
-
-            void setDirection(Direction dir);
-            Direction getDirection() const;
 
             /** Установить слой локации, в котором находится объект.
             */
@@ -79,16 +87,16 @@ namespace Engine {
             /** Идентификатор объекта.
             */
 
-            int getId() const;
+            boost::uuids::uuid getId() const;
 
             /** Установить рендерер объекта.
             */
             void setSprite(const boost::shared_ptr<ISprite>& sprite);
 
-            /** Получить бокс объекта (потоко-небезопасный метод).
+            /** Получить полигон объекта.
             */
 
-            GeometryDefines::Box& box();
+            GeometryDefines::Polygon getPolygon() const;
 
             virtual GeometryDefines::Point getCenter() const;
 
@@ -98,15 +106,46 @@ namespace Engine {
 
             LocationLayerPtr parentLayer_;
 
-            GeometryDefines::Box box_;
+            GeometryDefines::Polygon polygon_;
 
             boost::shared_ptr<ISprite> sprite_;
 
-            Direction dir_;
+            inline void addToDirection(float step);
 
-            int id_;
+            float direction_;
+
+            boost::uuids::uuid id_;
 
     };
+
+
+
+    void Object::addToDirection(float step) {
+
+    	direction_ += step;
+
+    	if( (direction_ > 1.0f)
+    			|| (direction_ < -1.0f)) {
+
+    		double fractPart, intPart;
+
+    		fractPart = modf(direction_, &intPart);
+
+    		fractPart = copysign(fractPart, intPart);
+
+    		direction_ = static_cast<float>(fractPart);
+
+    	}
+
+    	if(direction_ < 0.0f) {
+
+    		direction_ += 1.0f;
+
+    	}
+
+    }
+
+
 
 }
 

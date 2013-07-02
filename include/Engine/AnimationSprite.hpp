@@ -23,8 +23,9 @@ namespace Engine {
 
             void addFrame(int msDuration, const boost::shared_ptr<Utils::Texture>& frame);
 
-            void onRender(const GeometryDefines::Point& drawPoint, Direction dir);
-            void onRender(const GeometryDefines::Box& drawBox, Direction dir);
+            void onRender(const GeometryDefines::Point& point);
+            void onRender(const GeometryDefines::Box& box);
+            void onRender(const GeometryDefines::Polygon& polygon);
 
         private:
 

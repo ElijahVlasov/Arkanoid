@@ -5,6 +5,7 @@
 #include <string>
 
 #include <boost/function.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/MouseButton.hpp>
@@ -42,8 +43,6 @@ namespace Utils {
                 void drawText();
 
             private:
-
-                ResourceManager* resourceManager_;
 
                 boost::shared_ptr<Texture> curTexture_, defTexture_, clickedTexture_, hoveredTexture_;
 

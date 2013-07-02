@@ -44,7 +44,7 @@ namespace Engine {
 
                 BOOST_FOREACH(ObjectPtr obj, objects_) {
 
-                    if(intersects(getObjectBox(obj), area)) {
+                    if(intersects(getObjectsPolygon(obj), area)) {
                         objects.push_back(obj);
                     }
 
@@ -66,7 +66,7 @@ namespace Engine {
 
             std::list<ObjectPtr> objects_;
 
-            GeometryDefines::Box getObjectBox(const ObjectPtr& obj) const;
+            GeometryDefines::Polygon getObjectsPolygon(const ObjectPtr& obj) const;
 
     };
 

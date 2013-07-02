@@ -44,7 +44,7 @@ void DynamicObject::live() {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    float xMoving = 0.0f;
+    /*float xMoving = 0.0f;
     float yMoving = 0.0f;
 
     if(controller_->getUpState()) {
@@ -97,7 +97,7 @@ void DynamicObject::live() {
 
     }
 
-    move(xMoving, yMoving);
+    move(xMoving, yMoving);*/
 
 }
 

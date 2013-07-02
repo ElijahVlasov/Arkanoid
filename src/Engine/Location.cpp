@@ -26,7 +26,7 @@ Location::Location() {}
 
 
 
-Location::Location(const EngineData::Location& locationData):
+Location::Location(const EngineData::Location& locationData) throw(runtime_error):
 	width_(locationData.width()),
 	height_(locationData.height()),
 	name_(locationData.name())
@@ -74,7 +74,7 @@ void Location::addLayer(const LocationLayerPtr& layer) {
 
 
 
-void Location::setLayer(const list<LocationLayerPtr>& layers) {
+void Location::setLayers(const list<LocationLayerPtr>& layers) {
 
 	layers_ = layers;
 
