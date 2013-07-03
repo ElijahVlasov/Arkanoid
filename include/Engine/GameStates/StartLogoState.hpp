@@ -42,6 +42,7 @@ namespace Engine {
             protected:
 
                 StartLogoState() throw(std::runtime_error);
+                ~StartLogoState();
 
             private:
 
