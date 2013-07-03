@@ -1,14 +1,11 @@
 #include <cstring>
 
-#include <algorithm>
-#include <functional>
 #include <map>
 #include <mutex>
 #include <stdexcept>
 #include <string>
 
 #include <boost/format.hpp>
-#include <boost/local_function.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/assert.hpp>
@@ -43,7 +40,7 @@ boost::shared_ptr<Resource> ResourceManager::getResource(ResourceManager::Resour
 
     std::lock_guard<std::mutex> lockGuard(managerMutex_);
 
-    map< string, boost::shared_ptr<Resource> >::iterator res = resources_.find(strResName); // Находим нужный ресурс
+    map<string, boost::shared_ptr<Resource>>::iterator res = resources_.find(string(strResName)); // Находим нужный ресурс
 
     if(res != resources_.end()) { // ресурс найден
         return res->second;
@@ -78,25 +75,7 @@ boost::shared_ptr<Resource> ResourceManager::getResource(ResourceManager::Resour
 
 void ResourceManager::deleteResource(const boost::shared_ptr<Resource>& resource) {
 
-	typedef pair< string, boost::shared_ptr<Resource> > resources_pair;
 
-	bool BOOST_LOCAL_FUNCTION(const bind resource, const resources_pair& elem) {
-
-		return elem.second == resource;
-
-	} BOOST_LOCAL_FUNCTION_NAME(pred)
-
-	map< string, boost::shared_ptr<Resource> >::iterator res = find_if(
-																		resources_.begin(),
-																		resources_.end(),
-																		pred
-																	  );
-
-	if(res == resources_.end()) {
-		return;
-	}
-
-	resources_.erase(res, ++res);
 
 }
 

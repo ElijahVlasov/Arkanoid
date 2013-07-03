@@ -149,8 +149,6 @@ boost::shared_ptr<Resource> PCResourceLoader::loadTexture(const char* resourceNa
 
     ILImageToTexture(ilTexture, texture);
 
-    ilDeleteImages(1, &ilTexture);
-
     return boost::shared_ptr<Texture>(texture);
 
 }

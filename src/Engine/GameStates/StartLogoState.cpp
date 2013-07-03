@@ -40,14 +40,6 @@ StartLogoState::StartLogoState() throw(runtime_error):
 
 
 
-StartLogoState::~StartLogoState() {
-
-	resourceManager_->deleteResource(logo_);
-
-}
-
-
-
 void StartLogoState::onActive() {}
 
 
