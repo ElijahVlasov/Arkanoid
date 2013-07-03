@@ -96,6 +96,7 @@ set(UTILS_SOURCES
   ${UTILS_UI_SOURCES}
   ${SRC_DIR}/Utils/Audio.cpp
   ${SRC_DIR}/Utils/Graphics.cpp
+  ${SRC_DIR}/Utils/LocalizationManager.cpp
   ${SRC_DIR}/Utils/Lua.cpp
   ${SRC_DIR}/Utils/PCResourceLoader.cpp
   ${SRC_DIR}/Utils/Resource.cpp
@@ -190,6 +191,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Color.hpp
   ${INCLUDE_DIR}/Utils/FreeType.hpp
   ${INCLUDE_DIR}/Utils/Graphics.hpp
+  ${INCLUDE_DIR}/Utils/LocalizationManager.hpp
   ${INCLUDE_DIR}/Utils/Lua.hpp
   ${INCLUDE_DIR}/Utils/MouseButton.hpp
   ${INCLUDE_DIR}/Utils/PCResourceLoader.hpp
