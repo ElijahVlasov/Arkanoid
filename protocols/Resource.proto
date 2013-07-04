@@ -1,0 +1,21 @@
+package EngineData;
+
+option optimize_for = LITE_RUNTIME;
+
+message Resource {
+
+	enum Type {
+	
+		TEXTURE     = 0;
+        SOUND       = 1;
+        FONT        = 2;
+        PLAIN_TEXT  = 3;
+        BINARY_FILE = 4;
+        
+	}
+
+	required Type type = 1;
+	
+	required string resource_name = 2;
+
+}
