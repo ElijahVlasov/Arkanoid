@@ -9,6 +9,8 @@
 
 #include <tinyxml.h>
 
+#include <Utils/assert.hpp>
+
 #include <Utils/LocalizationManager.hpp>
 #include <Utils/ResourceManager.hpp>
 
@@ -23,23 +25,7 @@ const string LocalizationManager::LOCALIZATION_DOCUMENT_ELEMENT = "string";
 
 
 
-LocalizationManager::LocalizationManager(const char* localeName) throw(runtime_error) {
-
-	loadLocalization(localeName);
-
-}
-
-
-
-LocalizationManager::LocalizationManager(const string& localeName) throw(runtime_error) {
-
-	loadLocalization(localeName.c_str());
-
-}
-
-
-
-void LocalizationManager::loadLocalization(const char* localeName) throw(runtime_error) {
+void LocalizationManager::setLocale(const char* localeName) throw(runtime_error) {
 
 	if(localeName == 0) {
 		return;
@@ -49,13 +35,19 @@ void LocalizationManager::loadLocalization(const char* localeName) throw(runtime
 		return;
 	}
 
+	localization_.clear();
+
 	boost::intrusive_ptr<ResourceManager> resourceManager(ResourceManager::getInstance(), false);
 
 	string fileName = (boost::format("locale/%1%.xml")
 						  % localeName
 					  ).str();
 
-	string locText = resourceManager->getResource(ResourceManager::ResourceType::PLAIN_TEXT, fileName)->getData();
+	boost::shared_ptr<Resource> resourcePtr = resourceManager->getResource(ResourceManager::ResourceType::PLAIN_TEXT, fileName);
+
+	string locText = resourcePtr->getData();
+
+	resourceManager->deleteResource(resourcePtr);
 
 	TiXmlDocument doc;
 
@@ -107,7 +99,7 @@ void LocalizationManager::loadLocalization(const char* localeName) throw(runtime
 			continue;
 		}
 
-		for(TiXmlNode* textNode = localElement->FirstChild(); textNode != 0; node = node->NextSibling()) {
+		for(TiXmlNode* textNode = localElement->FirstChild(); textNode != 0; textNode = textNode->NextSibling()) {
 
 			TiXmlText* localText = textNode->ToText();
 
@@ -122,5 +114,13 @@ void LocalizationManager::loadLocalization(const char* localeName) throw(runtime
 		localization_[key] = text;
 
 	}
+
+}
+
+
+
+void LocalizationManager::setLocale(const string& localeName) throw(runtime_error) {
+
+	setLocale(localeName.c_str());
 
 }

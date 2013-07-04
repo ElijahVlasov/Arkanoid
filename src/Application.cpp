@@ -1,6 +1,7 @@
 #include <boost/cstdint.hpp>
 
 #include <exception>
+#include <locale>
 #include <stdexcept>
 #include <string>
 
@@ -12,7 +13,10 @@
 
 #include <Engine/GameStates.hpp>
 
+#include <Utils/LocalizationManager.hpp>
 #include <Utils/MouseButton.hpp>
+#include <Utils/PCResourceLoader.hpp>
+#include <Utils/ResourceManager.hpp>
 
 #include "config.h"
 
@@ -20,7 +24,7 @@ using namespace std;
 
 using namespace Engine::GameStates;
 
-using Utils::MouseButton;
+using namespace Utils;
 
 using Engine::Game;
 
@@ -28,8 +32,15 @@ using Engine::Game;
 
 Application::Application() throw(runtime_error):
     isFullscreen_(false),
+    localizationManager_(LocalizationManager::getInstance(), false),
+    resourceLoader_(PCResourceLoader::getInstance(), false),
+    resourceManager_(ResourceManager::getInstance(), false),
     surface_(0)
 {
+
+	resourceManager_->setResourceLoader(resourceLoader_.get());
+
+	setLocale();
 
     initSDL(800, 600, Salt2D_PROJECT_NAME);
 
@@ -103,13 +114,37 @@ void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(
 
 
 
+void Application::setLocale() throw(runtime_error) {
+
+	string localeName = locale("").name();
+
+	size_t point = localeName.find('.');
+
+	if(point == string::npos) {
+		localizationManager_->setLocale(localeName);
+	}
+
+	localeName.erase(point);
+
+	try {
+
+		localizationManager_->setLocale(localeName);
+
+	} catch(const runtime_error&) {
+
+		localizationManager_->setLocale("en_US");
+
+	}
+
+}
+
+
+
 int Application::run() throw(std::exception) {
 
     SDL_Event event;
 
-    resourceLoader_ = Utils::PCResourceLoader::getInstance();
-
-    game_ = Game::Create(resourceLoader_.get());
+    game_ = Game::Create();
 
     game_->setScreenRect(640, 480);
 

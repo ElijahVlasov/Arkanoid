@@ -5,21 +5,23 @@
 #include <stdexcept>
 #include <string>
 
+#include <Utils/Singleton.hpp>
+
 namespace Utils {
 
-	class LocalizationManager {
+	class LocalizationManager: public Singleton<LocalizationManager> {
+
+		SINGLETON(LocalizationManager)
 
 		public:
 
-			LocalizationManager(const char* localeName) 			throw(std::runtime_error);
-			LocalizationManager(const std::string& localeName) 		throw(std::runtime_error);
+			void setLocale(const char* localeName) 				throw(std::runtime_error);
+			void setLocale(const std::string& localeName) 		throw(std::runtime_error);
 
-			inline std::string getString(const char* key);
-			inline std::string getString(const std::string& key);
+			inline std::string getString(const char* key) const;
+			inline std::string getString(const std::string& key) const;
 
 		private:
-
-			void loadLocalization(const char* locale) 				throw(std::runtime_error);
 
 			static const std::string LOCALIZATION_DOCUMENT_ROOT_ELEMENT;
 			static const std::string LOCALIZATION_DOCUMENT_ELEMENT;
@@ -31,7 +33,7 @@ namespace Utils {
 
 
 
-	std::string LocalizationManager::getString(const char* key) {
+	std::string LocalizationManager::getString(const char* key) const {
 
 		if(key == 0) {
 			return std::string(key);
@@ -43,7 +45,7 @@ namespace Utils {
 
 
 
-	std::string LocalizationManager::getString(const std::string& key) {
+	std::string LocalizationManager::getString(const std::string& key) const {
 
 		auto strIter = localization_.find(key);
 

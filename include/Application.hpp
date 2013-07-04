@@ -18,6 +18,7 @@
 
 #include <Engine/GameStates.hpp>
 
+#include <Utils/LocalizationManager.hpp>
 #include <Utils/PCResourceLoader.hpp>
 
 #include <boost/intrusive_ptr.hpp>
@@ -117,12 +118,16 @@ class Application: public boost::noncopyable {
 
         void setSurfaceSize(unsigned int width, unsigned int height) throw(std::runtime_error);
 
+        void setLocale() throw(std::runtime_error);
+
         static const boost::uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL;
 
         bool isFullscreen_;
 
-        boost::intrusive_ptr<Utils::PCResourceLoader> resourceLoader_;
-        boost::intrusive_ptr<Engine::Game>            game_;
+		boost::intrusive_ptr<Utils::LocalizationManager>	localizationManager_;
+        boost::intrusive_ptr<Utils::PCResourceLoader> 		resourceLoader_;
+        boost::intrusive_ptr<Utils::ResourceManager>		resourceManager_;
+        boost::intrusive_ptr<Engine::Game>            		game_;
 
         SDL_Surface* surface_;
 

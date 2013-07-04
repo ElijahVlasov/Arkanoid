@@ -63,11 +63,9 @@ Game::~Game() {}
 
 
 
-Game* Game::Create(Utils::ResourceLoader* resourceLoader) throw(runtime_error) {
+Game* Game::Create() throw(runtime_error) {
 
     Game* game = getInstance();
-
-    game->resourceManager_->setResourceLoader(resourceLoader);
 
     // Создаем состояние, которое будет показывать лого
     game->startLogoState_  =  StartLogoState::getInstance();

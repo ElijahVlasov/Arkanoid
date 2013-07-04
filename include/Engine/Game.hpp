@@ -43,7 +43,7 @@ namespace Engine {
             /** Создать объект игры.
             */
 
-            static Game* Create(Utils::ResourceLoader* resourceLoader) throw(std::runtime_error);
+            static Game* Create() throw(std::runtime_error);
 
             /** Завершение итерации цикла обработки сообщений.
             */
