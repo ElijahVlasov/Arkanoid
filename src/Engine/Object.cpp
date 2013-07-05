@@ -133,6 +133,22 @@ void Object::setSprite(const boost::shared_ptr<ISprite>& sprite) {
 
 
 
+float Object::getDirection() const {
+
+    return direction_;
+
+}
+
+
+
+Object::DirectionVector Object::getDirectionVector() const {
+
+    return Object::DirectionVector(cos(direction_), sin(direction_));
+
+}
+
+
+
 GeometryDefines::Polygon Object::getPolygon() const {
 
 	std::lock_guard<std::mutex> guard(synchroMutex_);

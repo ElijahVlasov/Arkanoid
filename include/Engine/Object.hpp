@@ -27,6 +27,8 @@ namespace Engine {
 
     typedef boost::shared_ptr<Object> ObjectPtr;
 
+    class Collision;
+
     /** Базовый объект игры.
       * @author Elijah Vlasov
     */
@@ -35,13 +37,15 @@ namespace Engine {
 
         public:
 
+            typedef GeometryDefines::Point DirectionVector;
+
             Object();
             virtual ~Object();
 
             /** Собитие столкновения с другим объектом.
             */
 
-            virtual void onCollision(const ObjectPtr& object) = 0;
+            virtual void onCollision(const Collision& collision) = 0;
 
             /** Отрисовка объекта.
             */
@@ -88,6 +92,10 @@ namespace Engine {
             */
 
             boost::uuids::uuid getId() const;
+
+            float getDirection() const;
+
+            DirectionVector getDirectionVector() const;
 
             /** Установить рендерер объекта.
             */

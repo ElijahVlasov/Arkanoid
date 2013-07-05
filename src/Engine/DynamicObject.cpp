@@ -2,9 +2,12 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <Engine/Collision.hpp>
 #include <Engine/Direction.hpp>
 #include <Engine/IController.hpp>
 #include <Engine/DynamicObject.hpp>
+
+#include "geometry_defines.hpp"
 
 using namespace Engine;
 
@@ -30,9 +33,13 @@ void DynamicObject::setController(const boost::shared_ptr<IController>& controll
 
 
 
-void DynamicObject::onCollision(const ObjectPtr& object) {
+void DynamicObject::onCollision(const Collision& collision) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    if( isOnWay( collision.getSender() ) ) {
+        isMoving_ = false;
+    }
 
     isMoving_ = false;
 
@@ -101,3 +108,42 @@ void DynamicObject::live() {
 
 }
 
+
+
+bool DynamicObject::isOnWay(const ObjectPtr& object) const {
+
+    namespace gd = GeometryDefines;
+
+    typedef gd::Polygon::ring_type polygon_ring_type;
+
+    // Полигон, описывающий путь, по которому пройдет объект.
+    gd::Polygon wayPolygon;
+
+    polygon_ring_type& wayOuter = wayPolygon.outer();
+
+    auto objectPolygonIter = getPolygon().outer().rbegin();
+
+    gd::Point leftUpObjectPoint  = *objectPolygonIter++;
+    gd::Point rightUpObjectPoint = *objectPolygonIter;
+
+    // Путь начинается там, где кончается объект.
+
+    wayOuter.push_back(leftUpObjectPoint);
+    wayOuter.push_back(rightUpObjectPoint);
+
+    Object::DirectionVector direction = getDirectionVector();
+
+    direction.x(direction.x() * MIN_MOVE);
+    direction.y(direction.y() * MIN_MOVE);
+
+    // Перемещаем конец объекта на direction и получаем точки конца объекта.
+
+    gd::Point leftUpWayPoint(leftUpObjectPoint.x() + direction.x(), leftUpObjectPoint.y() + direction.y());
+    gd::Point rightUpWayPoint(rightUpObjectPoint.x() + direction.x(), rightUpObjectPoint.y() + direction.y());
+
+    wayOuter.push_back(rightUpWayPoint);
+    wayOuter.push_back(leftUpWayPoint);
+
+    return boost::geometry::intersects(wayPolygon, object->getPolygon());
+
+}
