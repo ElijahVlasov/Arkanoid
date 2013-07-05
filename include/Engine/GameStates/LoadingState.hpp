@@ -13,7 +13,7 @@
 #include <Utils/SingletonPointer.hpp>
 #include <Utils/Texture.hpp>
 
-#include "ui_defines.h"
+#include "salt_defines.h"
 
 namespace Engine {
 
@@ -69,7 +69,7 @@ namespace Engine {
                 loadingTexture_ = boost::dynamic_pointer_cast<Utils::Texture>(textureResource);
 
 
-            } catch (const bad_cast&) {}
+            } catch (const std::bad_cast&) {}
 
             loadingThread_.detach();
 

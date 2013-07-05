@@ -15,7 +15,7 @@
 
 #include <Utils/PCResourceLoader.hpp>
 
-#include "config.h"
+#include "salt_defines.h"
 #include "gl_includes.h"
 
 using namespace std;

@@ -22,12 +22,12 @@ void LoadingState::onRemove() {}
 
 void LoadingState::onRender() {
 
-    Graphics::DrawTexture(
-        BoxI(
+    Utils::Graphics::DrawTexture(
+        GeometryDefines::BoxI(
             GeometryDefines::PointI(0, 0),
             GeometryDefines::PointI(game_->getScreenWidth(), game_->getScreenHeight())
         ),
-        *loadingTexture
+        *loadingTexture_
     );
 
 }

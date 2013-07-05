@@ -218,6 +218,7 @@ set(Salt2D_HEADERS
   ${INCLUDE_DIR}/config.h
   ${INCLUDE_DIR}/geometry_defines.hpp
   ${INCLUDE_DIR}/gl_includes.h
+  ${INCLUDE_DIR}/salt_defines.h
   ${INCLUDE_DIR}/Engine.hpp
   ${INCLUDE_DIR}/LuaAPI.hpp
   ${INCLUDE_DIR}/Utils.hpp

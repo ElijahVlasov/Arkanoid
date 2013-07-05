@@ -25,7 +25,7 @@
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuFactory.hpp>
 
-#include "config.h"
+#include "salt_defines.h"
 
 using namespace std;
 
@@ -169,6 +169,12 @@ void Game::setScreenRect(unsigned int width, unsigned int height) {
     scrHeight_ =  height;
     scrWidth_  =  width;
 
+    std::lock_guard<std::mutex> stateGuard(stateAccessMutex_);
+
+    if(state_ != 0) {
+        state_->onResize(width, height);
+    }
+
 }
 
 
@@ -254,11 +260,19 @@ bool Game::isRunning() const {
 
 
 
-void Game::startGame() {
+void Game::startGame(const char* worldName) {
 
     singleGameState_ = SingleGameState::getInstance();
 
     setState(singleGameState_.get());
+
+}
+
+
+
+void Game::startGame(const string& worldName) {
+
+    startGame(worldName.c_str());
 
 }
 

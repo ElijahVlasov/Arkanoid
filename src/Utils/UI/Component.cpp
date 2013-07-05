@@ -17,7 +17,7 @@
 #include <Utils/UI/KeyEvent.hpp>
 #include <Utils/UI/MouseEvent.hpp>
 
-#include "config.h"
+#include "salt_defines.h"
 #include "geometry_defines.hpp"
 
 using namespace GeometryDefines;

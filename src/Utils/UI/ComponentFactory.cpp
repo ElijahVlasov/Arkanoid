@@ -18,7 +18,7 @@
 
 #include <Utils/UI/ComponentFactory.hpp>
 
-#include "config.h"
+#include "salt_defines.h"
 
 using namespace std;
 

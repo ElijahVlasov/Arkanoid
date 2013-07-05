@@ -120,7 +120,9 @@ namespace Engine {
 
             bool isRunning() const;
 
-            void startGame();
+            void startGame(const char* worldName);
+            void startGame(const std::string& worldName);
+
             void quitGame();
 
             boost::shared_ptr<Utils::UI::Menu> getMainMenu() const;
