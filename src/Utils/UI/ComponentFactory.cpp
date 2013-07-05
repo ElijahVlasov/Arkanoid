@@ -33,7 +33,8 @@ const std::string ComponentFactory::LABEL_TYPE      =   "label";
 
 
 ComponentFactory::ComponentFactory():
-    resourceManager_(ResourceManager::getInstance(), false)
+	localizationManager_(LocalizationManager::getInstance()),
+    resourceManager_(ResourceManager::getInstance())
 {}
 
 
@@ -88,7 +89,8 @@ void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* 
 
     int             x,          y;
     unsigned int    width,      height;
-    const char*     text    =   element->GetText();
+    const char*     textKey    	=   element->GetText();
+    string 			text		=	localizationManager_->getString(textKey);
     string          fontName,   componentName;
 
     // загружаем свойства объекта

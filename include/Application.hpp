@@ -20,6 +20,7 @@
 
 #include <Utils/LocalizationManager.hpp>
 #include <Utils/PCResourceLoader.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/utility.hpp>
@@ -124,10 +125,10 @@ class Application: public boost::noncopyable {
 
         bool isFullscreen_;
 
-		boost::intrusive_ptr<Utils::LocalizationManager>	localizationManager_;
-        boost::intrusive_ptr<Utils::PCResourceLoader> 		resourceLoader_;
-        boost::intrusive_ptr<Utils::ResourceManager>		resourceManager_;
-        boost::intrusive_ptr<Engine::Game>            		game_;
+		Utils::SingletonPointer<Utils::LocalizationManager>		localizationManager_;
+		Utils::SingletonPointer<Utils::PCResourceLoader> 		resourceLoader_;
+		Utils::SingletonPointer<Utils::ResourceManager>			resourceManager_;
+		Utils::SingletonPointer<Engine::Game>            		game_;
 
         SDL_Surface* surface_;
 

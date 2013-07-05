@@ -5,7 +5,6 @@
 #include <string>
 
 #include <boost/function.hpp>
-#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/MouseButton.hpp>

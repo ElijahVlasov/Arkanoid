@@ -13,6 +13,7 @@
 
 #include <Utils/Lua.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 namespace Engine {
 
@@ -45,7 +46,7 @@ namespace Engine {
 
             std::list<ObjectPtr> getNearObjects(const ObjectPtr& obj);
 
-            boost::intrusive_ptr<Utils::Lua>     lua_;
+            Utils::SingletonPointer<Utils::Lua>     lua_;
 
     };
 

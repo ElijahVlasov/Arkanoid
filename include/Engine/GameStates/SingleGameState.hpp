@@ -3,8 +3,6 @@
 
 #include <stdexcept>
 
-#include <boost/intrusive_ptr.hpp>
-
 #include <Engine/Renderer.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
@@ -12,6 +10,7 @@
 
 #include <Utils/Lua.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 namespace Engine {
 
@@ -51,11 +50,11 @@ namespace Engine {
                 void showDebugInfo();
                 void makeScreenshot();
 
-                boost::intrusive_ptr<Engine::Game>       game_;
+                Utils::SingletonPointer<Engine::Game>       game_;
 
-                boost::intrusive_ptr<Utils::Lua>        lua_;
+                Utils::SingletonPointer<Utils::Lua>        	lua_;
 
-                boost::intrusive_ptr<MenuState>          menuState_;
+                Utils::SingletonPointer<MenuState>          menuState_;
 
         };
 

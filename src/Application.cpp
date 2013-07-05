@@ -32,9 +32,9 @@ using Engine::Game;
 
 Application::Application() throw(runtime_error):
     isFullscreen_(false),
-    localizationManager_(LocalizationManager::getInstance(), false),
-    resourceLoader_(PCResourceLoader::getInstance(), false),
-    resourceManager_(ResourceManager::getInstance(), false),
+    localizationManager_(LocalizationManager::getInstance()),
+    resourceLoader_(PCResourceLoader::getInstance()),
+    resourceManager_(ResourceManager::getInstance()),
     surface_(0)
 {
 

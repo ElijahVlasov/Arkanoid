@@ -12,6 +12,7 @@
 #include <Utils/MouseButton.hpp>
 #include <Utils/Resource.hpp>
 #include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
 #include <Utils/Texture.hpp>
 
 #include <Utils/UI/Button.hpp>
@@ -32,7 +33,7 @@ Button::Button() throw(runtime_error):
 
     try {
 
-    	boost::intrusive_ptr<ResourceManager> resourceManager(ResourceManager::getInstance(), false);
+    	SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
         boost::shared_ptr<Resource> defTextureResource     = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/button.png");
         boost::shared_ptr<Resource> clickedTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/button_clicked.png");

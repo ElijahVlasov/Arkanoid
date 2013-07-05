@@ -3,7 +3,6 @@
 
 #include <stdexcept>
 
-#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
@@ -11,6 +10,7 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Texture.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 namespace Engine {
 
@@ -46,9 +46,9 @@ namespace Engine {
 
             private:
 
-                boost::intrusive_ptr<Game> game_;
+                Utils::SingletonPointer<Game> game_;
 
-                boost::intrusive_ptr<Utils::ResourceManager> resourceManager_;
+                Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
                 boost::shared_ptr<Utils::Texture> logo_;
 

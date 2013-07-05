@@ -26,7 +26,7 @@ const float SaltEngine::COLLISION_RADIUS = 5.0f;
 
 
 SaltEngine::SaltEngine():
-    lua_(Lua::getInstance(), false)
+    lua_(Lua::getInstance())
 {}
 
 

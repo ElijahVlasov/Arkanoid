@@ -50,7 +50,7 @@ namespace Engine {
 
                 mutable std::mutex synchroMutex_;
 
-                boost::intrusive_ptr<Engine::Game> game_;
+                Utils::SingletonPointer<Engine::Game> game_;
 
                 boost::shared_ptr<Utils::UI::Menu> menu_;
 

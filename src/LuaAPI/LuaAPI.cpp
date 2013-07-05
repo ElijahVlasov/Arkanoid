@@ -32,11 +32,11 @@ using namespace Utils::UI;
 
 
 LuaAPI_::LuaAPI_():
-    game_(              Game::getInstance(),                        false),
-    menuGameState_(     GameStates::MenuState::getInstance(),       false),
-    lua_(               Lua::getInstance(),                         false),
-    resourceManager_(   ResourceManager::getInstance(),             false),
-    audio_(             Audio::getInstance(),                       false)
+    game_(              Game::getInstance()					),
+    menuGameState_(     GameStates::MenuState::getInstance()),
+    lua_(               Lua::getInstance()					),
+    resourceManager_(   ResourceManager::getInstance()		),
+    audio_(             Audio::getInstance()				)
 {
 
     lua_State* L = lua_->getLuaState();
@@ -144,7 +144,7 @@ LuaAPI_::LuaAPI_():
 
         namespace_("engine") [
 
-            class_<Game, boost::intrusive_ptr<Game> >("game")
+            class_<Game, SingletonPointer<Game> >("game")
                 .def("free", &Game::Free)
                 .def("set_screen_rect", &Game::setScreenRect)
                 .property("width",      &Game::getScreenWidth)
@@ -253,7 +253,7 @@ void LuaAPI_::System_ShowDialog(const char* name) {
 
 
 
-boost::intrusive_ptr<Game> LuaAPI_::Engine_GetGame() {
+SingletonPointer<Game> LuaAPI_::Engine_GetGame() {
 
     return instance_->game_;
 
@@ -265,7 +265,7 @@ void LuaAPI_::System_ShowMenu(const char* name) {
 
     try {
 
-        boost::intrusive_ptr<MenuFactory> menuFactory(MenuFactory::getInstance());
+        SingletonPointer<MenuFactory> menuFactory = MenuFactory::getInstance();
 
         boost::shared_ptr<Resource> menuResource = instance_->resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, name);
 

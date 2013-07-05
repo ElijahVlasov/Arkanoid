@@ -9,9 +9,7 @@
 
 #include <boost/utility.hpp>
 
-#define SINGLETON(CLASS_NAME)   friend class Utils::Singleton<CLASS_NAME>; \
-                                friend void boost::intrusive_ptr_add_ref<CLASS_NAME>(CLASS_NAME*); \
-                                friend void boost::intrusive_ptr_release<CLASS_NAME>(CLASS_NAME*);
+#define SINGLETON(CLASS_NAME)   friend class Utils::Singleton<CLASS_NAME>;
 
 namespace Utils {
 
@@ -44,6 +42,12 @@ namespace Utils {
 
                 return instance_;
 
+            }
+
+
+
+            void addRef() {
+            	refCount_ ++;
             }
 
 
@@ -87,21 +91,5 @@ namespace Utils {
     template <class T> std::mutex   Singleton<T>::singletonMutex_;
 
 }
-
-
-namespace boost {
-
-    template <class T> void intrusive_ptr_add_ref(T* singleton) {
-        singleton->refCount_ ++;
-    }
-
-
-
-    template <class T> void intrusive_ptr_release(T* singleton) {
-        singleton->Free();
-    }
-
-}
-
 
 #endif
