@@ -140,6 +140,7 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/AnimationSprite.hpp
   ${INCLUDE_DIR}/Engine/Camera.hpp
   ${INCLUDE_DIR}/Engine/Client.hpp
+  ${INCLUDE_DIR}/Engine/Collision.hpp
   ${INCLUDE_DIR}/Engine/Direction.hpp
   ${INCLUDE_DIR}/Engine/DirectionToCoordsArray.h
   ${INCLUDE_DIR}/Engine/DynamicObject.hpp
