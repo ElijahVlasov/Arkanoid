@@ -5,11 +5,10 @@
 #include <stdexcept>
 #include <string>
 
-#include <boost/intrusive_ptr.hpp>
-
 #include <tinyxml.h>
 
 #include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 #include <Utils/UI/ComponentFactory.hpp>
 #include <Utils/UI/Menu.hpp>
@@ -54,9 +53,9 @@ namespace Utils {
 
             private:
 
-                boost::intrusive_ptr<ResourceManager>    resourceManager_;
+                Utils::SingletonPointer<ResourceManager>    resourceManager_;
 
-                boost::intrusive_ptr<ComponentFactory>   componentFactory_;
+                Utils::SingletonPointer<ComponentFactory>   componentFactory_;
 
                 static const std::string MENU_ROOT_NODE_VALUE;
 

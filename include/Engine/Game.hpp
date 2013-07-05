@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include <thread>
 
-#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <lua.hpp>
@@ -22,6 +21,7 @@
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuFactory.hpp>
@@ -133,13 +133,13 @@ namespace Engine {
 
         private:
 
-            boost::intrusive_ptr<Utils::Lua>             lua_;
+            Utils::SingletonPointer<Utils::Lua>             lua_;
 
-            boost::intrusive_ptr<LuaAPI::LuaAPI_>        luaAPI_;
+            Utils::SingletonPointer<LuaAPI::LuaAPI_>        luaAPI_;
 
-            boost::intrusive_ptr<Utils::ResourceManager> resourceManager_;
+            Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
-            boost::intrusive_ptr<Utils::UI::MenuFactory> menuFactory_;
+            Utils::SingletonPointer<Utils::UI::MenuFactory> menuFactory_;
 
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;
@@ -164,11 +164,11 @@ namespace Engine {
 
             static int luaErrorHandler(lua_State* L);
 
-            boost::intrusive_ptr<Utils::Graphics>             graphics_;
+            Utils::SingletonPointer<Utils::Graphics>             graphics_;
 
-            boost::intrusive_ptr<GameStates::StartLogoState>  startLogoState_;
-            boost::intrusive_ptr<GameStates::MenuState>       menuGameState_;
-            boost::intrusive_ptr<GameStates::SingleGameState> singleGameState_;
+            Utils::SingletonPointer<GameStates::StartLogoState>  startLogoState_;
+            Utils::SingletonPointer<GameStates::MenuState>       menuGameState_;
+            Utils::SingletonPointer<GameStates::SingleGameState> singleGameState_;
 
             bool isRunning_;
 

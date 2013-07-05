@@ -5,7 +5,6 @@
 #include <string>
 
 #include <boost/format.hpp>
-#include <boost/intrusive_ptr.hpp>
 
 #include <tinyxml.h>
 
@@ -13,6 +12,7 @@
 
 #include <Utils/LocalizationManager.hpp>
 #include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 using namespace std;
 
@@ -35,9 +35,9 @@ void LocalizationManager::setLocale(const char* localeName) throw(runtime_error)
 		return;
 	}
 
-	localization_.clear();
+	localization_.clear(); // localization_ может содержать предыдущую локализацию
 
-	boost::intrusive_ptr<ResourceManager> resourceManager(ResourceManager::getInstance(), false);
+	SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
 	string fileName = (boost::format("locale/%1%.xml")
 						  % localeName
@@ -65,7 +65,7 @@ void LocalizationManager::setLocale(const char* localeName) throw(runtime_error)
 	    runtime_error("Document hasn't root element")
 	);
 
-	ASSERT(
+	ASSERT( // провереяем корневой элемент
 		(rootElement->ValueStr() == LOCALIZATION_DOCUMENT_ROOT_ELEMENT),
 		runtime_error(
 				(boost::format("Root node of menu document must have \"%1%\" value")
@@ -82,7 +82,7 @@ void LocalizationManager::setLocale(const char* localeName) throw(runtime_error)
 			continue;
 		}
 
-		ASSERT(
+		ASSERT( // проверяем элемент, нет ли ошибки в записи элемента
 			(localElement->ValueStr() == LOCALIZATION_DOCUMENT_ELEMENT),
 			runtime_error(
 				(boost::format("Unknown element type: \"%1%\"")

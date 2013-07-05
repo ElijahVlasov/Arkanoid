@@ -24,8 +24,8 @@ using namespace Utils;
 
 
 StartLogoState::StartLogoState() throw(runtime_error):
-    game_(Game::getInstance(), false),
-    resourceManager_(ResourceManager::getInstance(), false)
+    game_(Game::getInstance()),
+    resourceManager_(ResourceManager::getInstance())
 {
 
     try {

@@ -10,6 +10,7 @@
 #include <Utils/FreeType.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 #include <Utils/UI/Component.hpp>
 #include <Utils/UI/Event.hpp>
@@ -30,13 +31,14 @@ using namespace std;
 
 
 Component::Component() throw(runtime_error):
-    resourceManager_(ResourceManager::getInstance(), false),
     box_(PointI(0, 0), PointI(0, 0))
 {
 
     try {
 
-        boost::shared_ptr<Resource> fontResource = resourceManager_->getResource(ResourceManager::ResourceType::FONT, DEFAULT_FONT);
+    	SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
+
+        boost::shared_ptr<Resource> fontResource = resourceManager->getResource(ResourceManager::ResourceType::FONT, DEFAULT_FONT);
 
         font_ = *(boost::dynamic_pointer_cast<Font>(fontResource));
 

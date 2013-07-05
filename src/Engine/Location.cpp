@@ -10,6 +10,7 @@
 
 #include <Utils/Resource.hpp>
 #include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
 #include <Utils/Texture.hpp>
 
 #include "World.pb.h"
@@ -34,7 +35,7 @@ Location::Location(const EngineData::Location& locationData) throw(runtime_error
 
 	try {
 
-		boost::intrusive_ptr<ResourceManager> resourceManager(ResourceManager::getInstance(), false);
+		SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
 		boost::shared_ptr<Resource> textureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, locationData.ground_texture());
 

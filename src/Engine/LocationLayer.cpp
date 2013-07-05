@@ -28,13 +28,13 @@ using namespace Utils;
 
 
 LocationLayer::LocationLayer():
-    lua_(Lua::getInstance(), false)
+    lua_(Lua::getInstance())
 {}
 
 
 
 LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_error):
-    lua_(Lua::getInstance(), false)
+    lua_(Lua::getInstance())
 {
 
     const EngineData::Box& box = layer->box();

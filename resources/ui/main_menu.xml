@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <menu background="textures/logo.png">
-    <button x="0" y="0" height="200" width="200" on_click="main_menu.click">Начать</button>
+    <button x="0" y="0" height="200" width="200" on_click="main_menu.click">new_game_button_text</button>
     <!-- <button x="250" y="210" height="100" width="150">Опции</button>
     <button x="250" y="50" height="100" width="150">Авторы</button> -->
 </menu>

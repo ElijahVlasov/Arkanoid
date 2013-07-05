@@ -20,8 +20,8 @@ using namespace Utils;
 
 
 SingleGameState::SingleGameState() throw(runtime_error):
-    game_(Game::getInstance(), false),
-    lua_(Lua::getInstance(), false)
+    game_(Game::getInstance()),
+    lua_(Lua::getInstance())
 {}
 
 

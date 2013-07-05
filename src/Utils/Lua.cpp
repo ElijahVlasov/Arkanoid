@@ -22,7 +22,7 @@ using namespace Utils;
 
 
 Lua::Lua():
-    resourceManager_(ResourceManager::getInstance(), false),
+    resourceManager_(ResourceManager::getInstance()),
     luaState_(lua_open()) // Подготавливаем Lua VM
 {
 

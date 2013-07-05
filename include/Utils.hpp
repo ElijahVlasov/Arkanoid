@@ -23,6 +23,7 @@
 #include <Utils/Color.hpp>
 #include <Utils/FreeType.hpp>
 #include <Utils/Graphics.hpp>
+#include <Utils/LocalizationManager.hpp>
 #include <Utils/Lua.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/PCResourceLoader.hpp>
@@ -30,6 +31,7 @@
 #include <Utils/ResourceFile.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 #include <Utils/Sound.hpp>
 #include <Utils/Texture.hpp>
 #include <Utils/UI.hpp>

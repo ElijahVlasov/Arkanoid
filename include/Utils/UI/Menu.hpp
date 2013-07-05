@@ -30,7 +30,7 @@ namespace Utils {
                 /** Фоновая текстура.
                 */
 
-                const boost::shared_ptr<Texture>&getBackground() const;
+                const boost::shared_ptr<Texture>& getBackground() const;
 
                 /** Установить фоновый цвет.
                 */
