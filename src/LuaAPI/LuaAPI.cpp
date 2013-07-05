@@ -145,7 +145,6 @@ LuaAPI_::LuaAPI_():
         namespace_("engine") [
 
             class_<Game, SingletonPointer<Game> >("game")
-                .def("free", &Game::Free)
                 .def("set_screen_rect", &Game::setScreenRect)
                 .property("width",      &Game::getScreenWidth)
                 .property("height",     &Game::getScreenHeight)
@@ -225,7 +224,7 @@ void LuaAPI_::System_DrawTexture(float x, float y, const boost::shared_ptr<Textu
 
 void LuaAPI_::System_StartGame() {
 
-	instance_->game_->startGame();
+//	instance_->game_->startGame();
 
 }
 
