@@ -118,23 +118,27 @@ void Application::setLocale() throw(runtime_error) {
 
 	string localeName = locale("").name();
 
-	size_t point = localeName.find('.');
+    try {
 
-	if(point == string::npos) {
-		localizationManager_->setLocale(localeName);
-	}
+        size_t point = localeName.find('.');
 
-	localeName.erase(point);
+        if(point == string::npos) {
 
-	try {
+            localizationManager_->setLocale(localeName);
 
-		localizationManager_->setLocale(localeName);
+            return;
 
-	} catch(const runtime_error&) {
+        }
 
-		localizationManager_->setLocale("en_US");
+        localeName.erase(point);
 
-	}
+        localizationManager_->setLocale(localeName);
+
+    } catch(const runtime_error&) {
+
+        localizationManager_->setLocale("en_US");
+
+    }
 
 }
 
