@@ -1,4 +1,11 @@
+#include <Engine/Game.hpp>
+
 #include <Engine/GameStates/LoadingState.hpp>
+
+#include <Utils/Graphics.hpp>
+#include <Utils/SingletonPointer.hpp>
+
+#include "geometry_defines.hpp"
 
 using namespace Engine;
 using namespace Engine::GameStates;
@@ -13,7 +20,17 @@ void LoadingState::onRemove() {}
 
 
 
-void LoadingState::onRender() {}
+void LoadingState::onRender() {
+
+    Graphics::DrawTexture(
+        BoxI(
+            GeometryDefines::PointI(0, 0),
+            GeometryDefines::PointI(game_->getScreenWidth(), game_->getScreenHeight())
+        ),
+        *loadingTexture
+    );
+
+}
 
 
 
@@ -38,3 +55,11 @@ void LoadingState::onMouseDown(int x, int y, Utils::MouseButton btn) {}
 
 
 void LoadingState::onMouseUp(int x, int y, Utils::MouseButton btn) {}
+
+
+
+Utils::SingletonPointer<Game> LoadingState::getGame() {
+
+    return Utils::SingletonPointer<Game>(Game::getInstance());
+
+}

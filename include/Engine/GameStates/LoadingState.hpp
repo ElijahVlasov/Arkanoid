@@ -1,11 +1,23 @@
 #ifndef _SALT2D_ENGINE_GAMESTATES_LOADINGSTATE_HPP
 #define _SALT2D_ENGINE_GAMESTATES_LOADINGSTATE_HPP
 
+#include <stdexcept>
 #include <thread>
+
+#include <boost/shared_ptr.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
 
+#include <Utils/Resource.hpp>
+#include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
+#include <Utils/Texture.hpp>
+
+#include "ui_defines.h"
+
 namespace Engine {
+
+    class Game;
 
     namespace GameStates {
 
@@ -13,7 +25,7 @@ namespace Engine {
 
             public:
 
-                template <class LoadingFunc> LoadingState(LoadingFunc loadingFunc);
+                template <class LoadingFunc> LoadingState(LoadingFunc loadingFunc) throw(std::runtime_error);
 
                 void onActive();
                 void onRemove();
@@ -31,20 +43,40 @@ namespace Engine {
 
             private:
 
+                Utils::SingletonPointer<Game> getGame();
+
+                Utils::SingletonPointer<Game> game_;
+
+                boost::shared_ptr <Utils::Texture> loadingTexture_;
+
                 std::thread loadingThread_;
 
         };
 
 
 
-        template <class LoadingFunc> LoadingState::LoadingState(LoadingFunc loadingFunc):
+        template <class LoadingFunc> LoadingState::LoadingState(LoadingFunc loadingFunc) throw(std::runtime_error):
+            game_(getGame()),
             loadingThread_(loadingFunc)
         {
+
+            try {
+
+                Utils::SingletonPointer <Utils::ResourceManager> resourceManager = Utils::ResourceManager::getInstance();
+
+                boost::shared_ptr<Utils::Resource> textureResource = resourceManager->getResource(Utils::ResourceManager::ResourceType::TEXTURE, LOADING_TEXTURE);
+
+                loadingTexture_ = boost::dynamic_pointer_cast<Utils::Texture>(textureResource);
+
+
+            } catch (const bad_cast&) {}
+
             loadingThread_.detach();
+
         }
 
     }
 
 }
 
-#endif // _SALT2D_ENGINE_GAMESTATES_LOADINGSTATE_HPP
+#endif
