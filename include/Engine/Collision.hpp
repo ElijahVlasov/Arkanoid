@@ -5,30 +5,45 @@
 
 namespace Engine {
 
+    /** Столкновение. Хранит все данные о столкновении.
+      * @author Elijah Vlasov
+    */
+
     class Collision {
 
         public:
 
-            inline Collision(const ObjectPtr& obj1, const ObjectPtr& obj2):
-                obj1_(obj1),
-                obj2_(obj2)
+            /** Конструктор.
+              * @param recipient Объект, которому посылается столкновение.
+              * @param sender Объект, столкнувшийся с первым.
+            */
+
+            inline Collision(const ObjectPtr& recipient, const ObjectPtr& sender):
+                recipient_(recipient),
+                sender_(sender)
             {}
 
 
 
-            inline const ObjectPtr& getFirst() const {
-                return obj1_;
+            /** Получить объект-получатель.
+            */
+
+            inline const ObjectPtr& getRecipient() const {
+                return recipient_;
             }
 
 
 
-            inline const ObjectPtr& getSecond() const {
-                return obj2_;
+            /** Получить объект-отправитель.
+            */
+
+            inline const ObjectPtr& getSender() const {
+                return sender_;
             }
 
         private:
 
-            ObjectPtr obj1_, obj2_;
+            ObjectPtr recipient_, sender_;
 
     };
 
