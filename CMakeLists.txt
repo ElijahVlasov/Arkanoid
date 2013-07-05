@@ -51,6 +51,7 @@ include_directories(
 )
 
 set(ENGINE_GAME_STATES_SOURCES
+  ${SRC_DIR}/Engine/GameStates/LoadingState.cpp
   ${SRC_DIR}/Engine/GameStates/MenuState.cpp
   ${SRC_DIR}/Engine/GameStates/SingleGameState.cpp
   ${SRC_DIR}/Engine/GameStates/StartLogoState.cpp
@@ -130,6 +131,7 @@ set(SERVER_SOURCES
 
 set(ENGINE_GAME_STATES_HEADERS
   ${INCLUDE_DIR}/Engine/GameStates/IGameState.hpp
+  ${INCLUDE_DIR}/Engine/GameStates/LoadingState.hpp
   ${INCLUDE_DIR}/Engine/GameStates/MenuState.hpp
   ${INCLUDE_DIR}/Engine/GameStates/SingleGameState.hpp
   ${INCLUDE_DIR}/Engine/GameStates/StartLogoState.hpp
