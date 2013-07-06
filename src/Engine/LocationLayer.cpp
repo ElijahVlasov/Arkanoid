@@ -84,6 +84,10 @@ LocationLayer::LocationLayer(const EngineData::Layer* layer) throw(std::runtime_
 
 
 
+LocationLayer::~LocationLayer() {}
+
+
+
 void LocationLayer::addObject(const ObjectPtr& object) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);

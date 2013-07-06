@@ -54,6 +54,8 @@ namespace Engine {
 
     };
 
+    typedef boost::shared_ptr<World> WorldPtr;
+
 }
 
 
