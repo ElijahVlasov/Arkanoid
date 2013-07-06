@@ -5,10 +5,14 @@
 #include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include <lua.hpp>
+#include <luabind/luabind.hpp>
+
 #include <Engine/Location.hpp>
 #include <Engine/World.hpp>
 
 #include <Utils/LocalizationManager.hpp>
+#include <Utils/Lua.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
 
@@ -40,6 +44,7 @@ World::World(const EngineData::World& worldData) throw(runtime_error):
 {
 
     SingletonPointer<LocalizationManager> localizationManager = LocalizationManager::getInstance();
+    SingletonPointer<Lua> lua = Lua::getInstance();
 
     name_ = localizationManager->getString(worldData.name());
     desc_ = localizationManager->getString(worldData.desc());
@@ -48,7 +53,25 @@ World::World(const EngineData::World& worldData) throw(runtime_error):
 
     BOOST_FOREACH(EngineData::Location locationData, locations) {
 
-        locations_.push_back(LocationPtr(new Location(locationData)));
+        LocationPtr newLocation(new Location(locationData));
+
+        if(locationData.has_on_create()) {
+
+            luabind::object onCreate = lua->getFunctionObject(locationData.on_create());
+
+            try {
+
+                luabind::call_function<void>(onCreate, newLocation);
+
+            } catch(const luabind::error& err) {
+
+                throw(runtime_error(err.what()));
+
+            }
+
+        }
+
+        locations_.push_back(newLocation);
 
     }
 
