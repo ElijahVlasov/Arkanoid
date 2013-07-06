@@ -9,8 +9,10 @@
 #include <Engine/World.hpp>
 
 #include <Utils/LocalizationManager.hpp>
+#include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
 
+#include "Resource.pb.h"
 #include "World.pb.h"
 
 using namespace std;
@@ -21,26 +23,52 @@ using namespace Utils;
 
 
 
-World::World() {}
-
-
-
-World::World(const EngineData::World& worldData) {
+World::World() {
 
     try {
 
-        SingletonPointer<LocalizationManager> localizationManager = LocalizationManager::getInstance();
+        resourceManager_ = ResourceManager::getInstance();
 
-        name_ = localizationManager->getString(worldData.name());
-        desc_ = localizationManager->getString(worldData.desc());
+    } catch (const runtime_error&) {}
 
-    } catch(const std::runtime_error&) {}
+}
+
+
+
+World::World(const EngineData::World& worldData) throw(runtime_error):
+    resourceManager_(ResourceManager::getInstance())
+{
+
+    SingletonPointer<LocalizationManager> localizationManager = LocalizationManager::getInstance();
+
+    name_ = localizationManager->getString(worldData.name());
+    desc_ = localizationManager->getString(worldData.desc());
 
     auto locations = worldData.location();
 
     BOOST_FOREACH(EngineData::Location locationData, locations) {
 
         locations_.push_back(LocationPtr(new Location(locationData)));
+
+    }
+
+    auto resources = worldData.resources();
+
+    BOOST_FOREACH(EngineData::Resource resource, resources) {
+
+        resources_.push_back( resourceManager_->getResource( static_cast<ResourceManager::ResourceType>(resource.type()), resource.resource_name() ) );
+
+    }
+
+}
+
+
+
+World::~World() {
+
+    BOOST_FOREACH(boost::shared_ptr<Resource> resource, resources_) {
+
+        resourceManager_->deleteResource(resource);
 
     }
 

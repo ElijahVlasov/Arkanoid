@@ -1,5 +1,5 @@
 #ifndef _SALT2D_ENGINE_WORLD_HPP
-#define _WORLD_HPP
+#define _SALT2D_ENGINE_WORLD_HPP
 
 #include <list>
 #include <mutex>
@@ -7,6 +7,10 @@
 #include <stdexcept>
 
 #include <boost/shared_ptr.hpp>
+
+#include <Utils/Resource.hpp>
+#include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 #include "World.pb.h"
 
@@ -20,7 +24,9 @@ namespace Engine {
         public:
 
             World();
-            World(const EngineData::World&);
+            World(const EngineData::World&) throw(std::runtime_error);
+
+            ~World();
 
             void setName(const char* name);
             void setName(const std::string& name);
@@ -41,6 +47,10 @@ namespace Engine {
             std::string desc_;
 
             std::list<LocationPtr> locations_;
+
+            Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
+
+            std::list< boost::shared_ptr<Utils::Resource> > resources_;
 
     };
 
