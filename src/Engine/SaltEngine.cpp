@@ -1,4 +1,5 @@
 #include <list>
+#include <mutex>
 #include <thread>
 
 #include <boost/foreach.hpp>
@@ -8,6 +9,7 @@
 
 #include <Engine/LocationLayer.hpp>
 #include <Engine/SaltEngine.hpp>
+#include <Engine/World.hpp>
 
 #include <Utils/Lua.hpp>
 
@@ -25,19 +27,42 @@ const float SaltEngine::COLLISION_RADIUS = 5.0f;
 
 
 
-SaltEngine::SaltEngine():
+SaltEngine::SaltEngine(const WorldPtr& world):
+    world_(world),
     lua_(Lua::getInstance())
 {}
 
 
 
-SaltEngine::~SaltEngine() {}
+SaltEngine::~SaltEngine() {
+
+    stop();
+
+}
 
 
 
 void SaltEngine::run() {
 
+    if(isRunning()) {
+        return;
+    }
+
+    isRunning_ = true;
+
     engineThread_ = boost::shared_ptr<std::thread>(new std::thread(boost::mem_fn(&SaltEngine::engineLoop), this) );
+
+    engineThread_->detach();
+
+}
+
+
+
+void SaltEngine::stop() {
+
+    std::lock_guard<std::mutex> guard(isRunningAccessMutex_);
+
+    isRunning_ = false;
 
 }
 
@@ -45,11 +70,15 @@ void SaltEngine::run() {
 
 void SaltEngine::engineLoop() {
 
-    list<ObjectPtr> objectsForUpdate = getActiveObjects();
+    while(isRunning()) {
 
-    BOOST_FOREACH(ObjectPtr obj, objectsForUpdate) {
+        list<ObjectPtr> objectsForUpdate = getActiveObjects();
 
-    	list<ObjectPtr> nearObjects;
+        BOOST_FOREACH(ObjectPtr obj, objectsForUpdate) {
+
+            list<ObjectPtr> nearObjects;
+
+        }
 
     }
 
