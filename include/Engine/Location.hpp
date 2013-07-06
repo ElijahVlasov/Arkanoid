@@ -55,6 +55,8 @@ namespace Engine {
 
 	};
 
+	typedef boost::shared_ptr<Location> LocationPtr;
+
 }
 
 #endif
