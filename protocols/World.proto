@@ -11,7 +11,9 @@ message World {
 	repeated Resource resources = 1;
 
     optional string   name     = 2;
-    repeated Location location = 3;
+    optional string   desc     = 3;
+
+    repeated Location location = 4;
 
 }
 
@@ -21,9 +23,10 @@ message Location {
 
     required string name   = 1;
     optional string ground_texture = 2 [default = "textures/test.png"];
-    repeated Layer  layer = 3;
-    required float  width  = 4;
-    required float  height = 5;
+    optional string on_create = 3;
+    repeated Layer  layer = 4;
+    required float  width  = 5;
+    required float  height = 6;
 
 }
 
