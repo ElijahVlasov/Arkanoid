@@ -1,88 +1,119 @@
-/*#include <algorithm>
+#include <list>
+#include <stdexcept>
 #include <string>
 
-#include <SDL\SDL.h>
+#include <boost/foreach.hpp>
+#include <boost/shared_ptr.hpp>
 
-#include <Engine\World.hpp>
+#include <Engine/Location.hpp>
+#include <Engine/World.hpp>
 
-#include <Utils\Texture.hpp>
+#include <Utils/LocalizationManager.hpp>
+#include <Utils/SingletonPointer.hpp>
 
-
+#include "World.pb.h"
 
 using namespace std;
 
+using namespace Engine;
 
-using Engine::World;
-
-
-using Utils::Texture;
+using namespace Utils;
 
 
-World::World(float x, float y, float width, float height, const string& textureName) {
 
-	// инициализация
-	setHeight(height);
-	setWidth(width);
-	setX(x);
-	setY(y);
+World::World() {}
 
-	// загружаем текстуру мира	
-	texture_ = new Texture(textureName);
 
-	// создаем surface мира
+
+World::World(const EngineData::World& worldData) {
+
+    try {
+
+        SingletonPointer<LocalizationManager> localizationManager = LocalizationManager::getInstance();
+
+        name_ = localizationManager->getString(worldData.name());
+        desc_ = localizationManager->getString(worldData.desc());
+
+    } catch(const std::runtime_error&) {}
+
+    auto locations = worldData.location();
+
+    BOOST_FOREACH(EngineData::Location locationData, locations) {
+
+        locations_.push_back(LocationPtr(new Location(locationData)));
+
+    }
+
+}
+
+
+
+void World::setName(const char* name) {
+
+    if(name == 0) {
+        name_ = "";
+    } else {
+        name_ = name;
+    }
 
 }
 
 
-World::~World() {}
 
+void World::setName(const string& name) {
 
-void World::addObject(World::ObjectPointer object) {
-	
-	auto objIter = find(objects.begin(), objects.end(), object); // ищем объект
-
-	if(objIter != objects.end()) { // если он уже добавлен в список, то выходим
-	
-		return;
-
-	}
-
-	objects.push_back(object);
+    name_ = name;
 
 }
 
-void World::removeObject(int id) {
-	
-	auto objI = find_if(objects.begin(), objects.end(), [id](ObjectPointer obj) -> bool {
-
-		if(obj->getId() == id) {
-			return true;
-		}
-
-	});
-
-	objects.remove(*objI);
-}
 
 
-void World::update() {
-	
-	for(auto iter = objects.begin(); iter != objects.end(); ++iter) {
-		
-		(*iter)->onUpdate();
+const string& World::getName() const {
 
-	}
+    return name_;
 
 }
 
-void World::draw() {
-	
-	for(auto iter = objects.begin(); iter != objects.end(); ++iter) {
-		
-		(*iter)->onRender();
 
-	}
 
-	SDL_GL_SwapBuffers();	
+void World::setDescription(const char* desc) {
 
-}*/
+    if(desc == 0) {
+        desc_ = "";
+    } else {
+        desc_ = desc;
+    }
+
+}
+
+
+
+void World::setDescription(const string& desc) {
+
+    desc_ = desc;
+
+}
+
+
+
+const string& World::getDescription() const {
+
+    return desc_;
+
+}
+
+
+
+void World::addLocation(const LocationPtr& location) {
+
+    locations_.push_back(location);
+
+}
+
+
+
+const list<LocationPtr>& World::getLocations() const {
+
+    return locations_;
+
+}
