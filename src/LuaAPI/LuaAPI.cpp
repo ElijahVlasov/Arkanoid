@@ -151,7 +151,19 @@ LuaAPI_::LuaAPI_():
                 .property("main_menu",  &Game::getMainMenu)
                 .property("pause_menu", &Game::getPauseMenu),
 
-            def("get_game", &LuaAPI_::Engine_GetGame)
+            def("get_game", &LuaAPI_::Engine_GetGame),
+
+            class_<LocationLayer, boost::shared_ptr<LocationLayer> >("location_layer")
+                .def(constructor<>())
+                .def("add_object", &LocationLayer::addObject),
+
+            class_<Location, boost::shared_ptr<Location> >("location")
+                .def(constructor<>())
+                .property("ground_texture", &Location::getGroundTexture, &Location::setGroundTexture)
+                .property("width", &Location::getWidth, &Location::setWidth)
+                .property("height", &Location::getHeight, &Location::setHeight)
+                .property("name", &Location::getName, (void (Location::*)(const char*))&Location::setName)
+
 
         ]
 
@@ -222,9 +234,9 @@ void LuaAPI_::System_DrawTexture(float x, float y, const boost::shared_ptr<Textu
 
 
 
-void LuaAPI_::System_StartGame() {
+void LuaAPI_::System_StartGame(const char* worldName) {
 
-//	instance_->game_->startGame();
+	instance_->game_->startGame(worldName);
 
 }
 
