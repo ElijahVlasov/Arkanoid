@@ -61,7 +61,9 @@ void Object::move(float step) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    GeometryDefines::Point movementVector(cos(direction_) * step, sin(direction_) * step);
+    float radianDirection = direction_ * 2 * PI;
+
+    GeometryDefines::Point movementVector(cos(radianDirection) * step, sin(radianDirection) * step);
 
     GeometryDefines::Polygon::ring_type& polygonPoints = polygon_.outer();
 
@@ -143,7 +145,9 @@ float Object::getDirection() const {
 
 Object::DirectionVector Object::getDirectionVector() const {
 
-    return Object::DirectionVector(cos(direction_), sin(direction_));
+    float radianDirection = direction_ * 2 * PI;
+
+    return Object::DirectionVector(cos(radianDirection), sin(radianDirection));
 
 }
 
