@@ -88,6 +88,7 @@ set(UTILS_UI_SOURCES
   ${SRC_DIR}/Utils/UI/Container.cpp
   ${SRC_DIR}/Utils/UI/Dialog.cpp
   ${SRC_DIR}/Utils/UI/Label.cpp
+  ${SRC_DIR}/Utils/UI/LoadingAnimation.cpp
   ${SRC_DIR}/Utils/UI/Menu.cpp
   ${SRC_DIR}/Utils/UI/MenuFactory.cpp
 )
@@ -181,6 +182,7 @@ set(UTILS_UI_HEADERS
   ${INCLUDE_DIR}/Utils/UI/Event.hpp
   ${INCLUDE_DIR}/Utils/UI/KeyEvent.hpp
   ${INCLUDE_DIR}/Utils/UI/Label.hpp
+  ${INCLUDE_DIR}/Utils/UI/LoadingAnimation.hpp
   ${INCLUDE_DIR}/Utils/UI/Menu.hpp
   ${INCLUDE_DIR}/Utils/UI/MenuFactory.hpp
   ${INCLUDE_DIR}/Utils/UI/MouseEvent.hpp

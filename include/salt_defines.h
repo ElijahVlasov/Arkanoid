@@ -8,6 +8,8 @@
 #define MAIN_MENU "ui/main_menu.xml"
 #define PAUSE_MENU "ui/pause_menu.xml"
 
-#define LOADING_TEXTURE "texture/ui/loading.png"
+#define LOADING_TEXTURE "textures/ui/loading.png"
+
+#define LOADING_ANIMATION_FRAME_PREFIX "textures/ui/loading_frame_"
 
 #endif
