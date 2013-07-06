@@ -8,8 +8,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Engine/Object.hpp>
-
 #include "World.pb.h"
 
 namespace Engine {
