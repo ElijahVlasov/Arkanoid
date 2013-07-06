@@ -76,6 +76,8 @@ void LoadingAnimation::onDraw(Event&) {
 
     }
 
+    lastTimePoint_ = now;
+
     Graphics::DrawTexture(
         getBoxI(),
         *frames_.front()
