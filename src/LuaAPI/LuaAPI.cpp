@@ -41,6 +41,8 @@ LuaAPI_::LuaAPI_():
 
     lua_State* L = lua_->getLuaState();
 
+    namespace gd = GeometryDefines;
+
     module(L, "system") [
 
         class_<LuaAPI_>("direction")
@@ -54,6 +56,8 @@ LuaAPI_::LuaAPI_():
 
                 ],
 
+        //////////////////////////////// Ресурсы: ///////////////////////////////////
+
         class_<Texture, boost::shared_ptr<Texture> >("texture")
             .property("name",   &Texture::getName)
             .property("width",  &Texture::getWidth,  &Texture::setWidth)
@@ -63,8 +67,13 @@ LuaAPI_::LuaAPI_():
 
         class_<Font, boost::shared_ptr<Font> >("font"),
 
+        ////////////////////////////////////////////////////////////////////////////
+
+        // Конструкторы для звуков и текстур
         def("sound",        &LuaAPI_::System_LoadSound),
         def("texture",      &LuaAPI_::System_LoadTexture),
+        /////////////////////////////////////
+
         def("play_sound",   &LuaAPI_::System_PlaySound),
         def("draw_texture", &LuaAPI_::System_DrawTexture),
         def("exit",         &LuaAPI_::System_Quit),
@@ -81,7 +90,49 @@ LuaAPI_::LuaAPI_():
 
             ],
 
-        namespace_("ui") [
+        namespace_("geometry") [
+
+            class_<gd::Point>("point")
+                .def(constructor<>())
+                .def(constructor<float, float>())
+                .property("x", (const float& (gd::Point::*)() const) &gd::Point::x,
+                            (void (gd::Point::*)(const float&)) &gd::Point::x )
+                .property("y", (const float& (gd::Point::*)() const) &gd::Point::y,
+                            (void (gd::Point::*)(const float&)) &gd::Point::y ),
+
+            class_<gd::PointI>("point_i")
+                .def(constructor<>())
+                .def(constructor<int, int>())
+                .property("x", (const int& (gd::PointI::*)() const) &gd::PointI::x,
+                            (void (gd::PointI::*)(const int&)) &gd::PointI::x )
+                .property("y", (const int& (gd::PointI::*)() const) &gd::PointI::y,
+                            (void (gd::PointI::*)(const int&)) &gd::PointI::y ),
+
+            class_<gd::Box>("box")
+                .def(constructor<>())
+                .def(constructor<gd::Point, gd::Point>())
+                .def("get_min_corner", (gd::Point& (gd::Box::*)())&gd::Box::min_corner)
+                .def("get_max_corner", (gd::Point& (gd::Box::*)())&gd::Box::max_corner),
+
+            class_<gd::Box>("box")
+                .def(constructor<>())
+                .def(constructor<gd::Point, gd::Point>())
+                .def("get_min_corner", (gd::Point& (gd::Box::*)())&gd::Box::min_corner)
+                .def("get_max_corner", (gd::Point& (gd::Box::*)())&gd::Box::max_corner),
+
+            class_<gd::BoxI>("box_i")
+                .def(constructor<>())
+                .def(constructor<gd::PointI, gd::PointI>())
+                .def("get_min_corner", (gd::PointI& (gd::BoxI::*)())&gd::BoxI::min_corner)
+                .def("get_max_corner", (gd::PointI& (gd::BoxI::*)())&gd::BoxI::max_corner)/*,
+
+            class_<gd::Polygon>("polygon")
+                .def(constructor<>())
+                .def()*/
+
+        ],
+
+        namespace_("ui") [ // эдементы управления:
 
             class_<Event>("event"),
                 //.def_readwrite("sender", &Event::sender),
@@ -153,6 +204,8 @@ LuaAPI_::LuaAPI_():
             .property("pause_menu", &Game::getPauseMenu),
 
         def("get_game", &LuaAPI_::Engine_GetGame),
+
+        class_<Object, Object_wrapper, ObjectPtr>("object"),
 
         class_<LocationLayer, LocationLayerPtr >("location_layer")
             .def(constructor<>())
