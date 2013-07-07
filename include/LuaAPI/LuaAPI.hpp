@@ -29,7 +29,7 @@ namespace LuaAPI {
             static void System_ShowDialog(const char* name);
             static void System_ShowMenu(const char* name);
 
-            static void System_StartGame();
+            static void System_StartGame(const char* worldName);
             static void System_QuitGame();
 
             static void System_Quit();
@@ -42,7 +42,7 @@ namespace LuaAPI {
 
         private:
 
-            
+
 
             class Lua_ComponentSetters {
 
