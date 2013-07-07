@@ -41,8 +41,7 @@ LuaAPI_::LuaAPI_():
 
     lua_State* L = lua_->getLuaState();
 
-    module(L, "system")
-    [
+    module(L, "system") [
 
         class_<LuaAPI_>("direction")
             .enum_("")
@@ -140,32 +139,32 @@ LuaAPI_::LuaAPI_():
             class_<Dialog,    Container, boost::shared_ptr<Dialog> >("dialog")
                 .def(constructor<>())
 
-        ],
-
-        namespace_("engine") [
-
-            class_<Game, SingletonPointer<Game> >("game")
-                .def("set_screen_rect", &Game::setScreenRect)
-                .property("width",      &Game::getScreenWidth)
-                .property("height",     &Game::getScreenHeight)
-                .property("main_menu",  &Game::getMainMenu)
-                .property("pause_menu", &Game::getPauseMenu),
-
-            def("get_game", &LuaAPI_::Engine_GetGame),
-
-            class_<LocationLayer, boost::shared_ptr<LocationLayer> >("location_layer")
-                .def(constructor<>())
-                .def("add_object", &LocationLayer::addObject),
-
-            class_<Location, boost::shared_ptr<Location> >("location")
-                .def(constructor<>())
-                .property("ground_texture", &Location::getGroundTexture, &Location::setGroundTexture)
-                .property("width", &Location::getWidth, &Location::setWidth)
-                .property("height", &Location::getHeight, &Location::setHeight)
-                .property("name", &Location::getName, (void (Location::*)(const char*))&Location::setName)
-
-
         ]
+
+    ];
+
+    module(L, "engine") [
+
+        class_<Game, SingletonPointer<Game> >("game")
+            .def("set_screen_rect", &Game::setScreenRect)
+            .property("width",      &Game::getScreenWidth)
+            .property("height",     &Game::getScreenHeight)
+            .property("main_menu",  &Game::getMainMenu)
+            .property("pause_menu", &Game::getPauseMenu),
+
+        def("get_game", &LuaAPI_::Engine_GetGame),
+
+        class_<LocationLayer, LocationLayerPtr >("location_layer")
+            .def(constructor<>())
+            .def("add_object", &LocationLayer::addObject),
+
+        class_<Location, LocationPtr >("location")
+            .def(constructor<>())
+            .property("ground_texture", &Location::getGroundTexture, &Location::setGroundTexture)
+            .property("width", &Location::getWidth, &Location::setWidth)
+            .property("height", &Location::getHeight, &Location::setHeight)
+            .property("name", &Location::getName, (void (Location::*)(const char*))&Location::setName)
+
 
     ];
 
