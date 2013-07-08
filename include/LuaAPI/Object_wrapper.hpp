@@ -11,7 +11,7 @@
 
 namespace LuaAPI {
 
-    class Object_wrapper: public Engine::Object, public luabind::wrap_base {
+    class Object_wrapper: public Engine::Object, luabind::wrap_base {
 
         public:
 
