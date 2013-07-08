@@ -35,9 +35,9 @@ Button::Button() throw(runtime_error):
 
     	SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
-        boost::shared_ptr<Resource> defTextureResource     = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/button.png");
-        boost::shared_ptr<Resource> clickedTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/button_clicked.png");
-        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/button_hovered.png");
+        boost::shared_ptr<Resource> defTextureResource     = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button.png");
+        boost::shared_ptr<Resource> clickedTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_clicked.png");
+        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_hovered.png");
 
         defTexture_     = boost::dynamic_pointer_cast<Texture>(defTextureResource);
         clickedTexture_ = boost::dynamic_pointer_cast<Texture>(clickedTextureResource);
