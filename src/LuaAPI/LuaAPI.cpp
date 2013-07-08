@@ -8,6 +8,7 @@
 
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
+#include <luabind/iterator_policy.hpp>
 
 #include <Engine.hpp>
 #include <Utils.hpp>
@@ -41,8 +42,9 @@ LuaAPI_::LuaAPI_():
 
     lua_State* L = lua_->getLuaState();
 
-    module(L, "system")
-    [
+    namespace gd = GeometryDefines;
+
+    module(L, "system") [
 
         class_<LuaAPI_>("direction")
             .enum_("")
@@ -55,6 +57,8 @@ LuaAPI_::LuaAPI_():
 
                 ],
 
+        //////////////////////////////// Ресурсы: ///////////////////////////////////
+
         class_<Texture, boost::shared_ptr<Texture> >("texture")
             .property("name",   &Texture::getName)
             .property("width",  &Texture::getWidth,  &Texture::setWidth)
@@ -64,8 +68,13 @@ LuaAPI_::LuaAPI_():
 
         class_<Font, boost::shared_ptr<Font> >("font"),
 
+        ////////////////////////////////////////////////////////////////////////////
+
+        // Конструкторы для звуков и текстур
         def("sound",        &LuaAPI_::System_LoadSound),
         def("texture",      &LuaAPI_::System_LoadTexture),
+        /////////////////////////////////////
+
         def("play_sound",   &LuaAPI_::System_PlaySound),
         def("draw_texture", &LuaAPI_::System_DrawTexture),
         def("exit",         &LuaAPI_::System_Quit),
@@ -82,7 +91,53 @@ LuaAPI_::LuaAPI_():
 
             ],
 
-        namespace_("ui") [
+        namespace_("geometry") [
+
+            class_<gd::Point>("point")
+                .def(constructor<>())
+                .def(constructor<float, float>())
+                .property("x", (const float& (gd::Point::*)() const) &gd::Point::x,
+                            (void (gd::Point::*)(const float&)) &gd::Point::x )
+                .property("y", (const float& (gd::Point::*)() const) &gd::Point::y,
+                            (void (gd::Point::*)(const float&)) &gd::Point::y ),
+
+            class_<gd::PointI>("point_i")
+                .def(constructor<>())
+                .def(constructor<int, int>())
+                .property("x", (const int& (gd::PointI::*)() const) &gd::PointI::x,
+                            (void (gd::PointI::*)(const int&)) &gd::PointI::x )
+                .property("y", (const int& (gd::PointI::*)() const) &gd::PointI::y,
+                            (void (gd::PointI::*)(const int&)) &gd::PointI::y ),
+
+            class_<gd::Box>("box")
+                .def(constructor<>())
+                .def(constructor<gd::Point, gd::Point>())
+                .property("min_corner", (const gd::Point& (gd::Box::*)() const)&gd::Box::min_corner,
+                          &LuaAPI_::Lua_BoxSetters::setMinCorner<gd::Box, gd::Point>)
+                .property("max_corner", (const gd::Point& (gd::Box::*)() const)&gd::Box::max_corner,
+                          &LuaAPI_::Lua_BoxSetters::setMaxCorner<gd::Box, gd::Point>),
+
+            class_<gd::BoxI>("box_i")
+                .def(constructor<>())
+                .def(constructor<gd::PointI, gd::PointI>())
+                .property("min_corner", (const gd::PointI& (gd::BoxI::*)() const)&gd::BoxI::min_corner,
+                          &LuaAPI_::Lua_BoxSetters::setMinCorner<gd::BoxI, gd::PointI>)
+                .property("max_corner", (const gd::PointI& (gd::BoxI::*)() const)&gd::BoxI::max_corner,
+                          &LuaAPI_::Lua_BoxSetters::setMaxCorner<gd::BoxI, gd::PointI>),
+
+            class_<gd::Polygon>("polygon")
+                .def(constructor<>())
+                .def("add_point", &LuaAPI_::Polygon_addPoint<gd::Polygon>)
+                .property("points", (const gd::Polygon::ring_type& (gd::Polygon::*)() const)&gd::Polygon::outer, return_stl_iterator),
+
+            class_<gd::PolygonI>("polygon")
+                .def(constructor<>())
+                .def("add_point", &LuaAPI_::Polygon_addPoint<gd::PolygonI>)
+                .property("points", (const gd::PolygonI::ring_type& (gd::PolygonI::*)() const)&gd::PolygonI::outer, return_stl_iterator)
+
+        ],
+
+        namespace_("ui") [ // эдементы управления:
 
             class_<Event>("event"),
                 //.def_readwrite("sender", &Event::sender),
@@ -140,32 +195,34 @@ LuaAPI_::LuaAPI_():
             class_<Dialog,    Container, boost::shared_ptr<Dialog> >("dialog")
                 .def(constructor<>())
 
-        ],
-
-        namespace_("engine") [
-
-            class_<Game, SingletonPointer<Game> >("game")
-                .def("set_screen_rect", &Game::setScreenRect)
-                .property("width",      &Game::getScreenWidth)
-                .property("height",     &Game::getScreenHeight)
-                .property("main_menu",  &Game::getMainMenu)
-                .property("pause_menu", &Game::getPauseMenu),
-
-            def("get_game", &LuaAPI_::Engine_GetGame),
-
-            class_<LocationLayer, boost::shared_ptr<LocationLayer> >("location_layer")
-                .def(constructor<>())
-                .def("add_object", &LocationLayer::addObject),
-
-            class_<Location, boost::shared_ptr<Location> >("location")
-                .def(constructor<>())
-                .property("ground_texture", &Location::getGroundTexture, &Location::setGroundTexture)
-                .property("width", &Location::getWidth, &Location::setWidth)
-                .property("height", &Location::getHeight, &Location::setHeight)
-                .property("name", &Location::getName, (void (Location::*)(const char*))&Location::setName)
-
-
         ]
+
+    ];
+
+    module(L, "engine") [
+
+        class_<Game, SingletonPointer<Game> >("game")
+            .def("set_screen_rect", &Game::setScreenRect)
+            .property("width",      &Game::getScreenWidth)
+            .property("height",     &Game::getScreenHeight)
+            .property("main_menu",  &Game::getMainMenu)
+            .property("pause_menu", &Game::getPauseMenu),
+
+        def("get_game", &LuaAPI_::Engine_GetGame),
+
+        class_<Object, Object_wrapper, ObjectPtr>("object"),
+
+        class_<LocationLayer, LocationLayerPtr >("location_layer")
+            .def(constructor<>())
+            .def("add_object", &LocationLayer::addObject),
+
+        class_<Location, LocationPtr >("location")
+            .def(constructor<>())
+            .property("ground_texture", &Location::getGroundTexture, &Location::setGroundTexture)
+            .property("width", &Location::getWidth, &Location::setWidth)
+            .property("height", &Location::getHeight, &Location::setHeight)
+            .property("name", &Location::getName, (void (Location::*)(const char*))&Location::setName)
+
 
     ];
 
