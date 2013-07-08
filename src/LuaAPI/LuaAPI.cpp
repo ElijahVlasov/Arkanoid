@@ -76,7 +76,6 @@ LuaAPI_::LuaAPI_():
         /////////////////////////////////////
 
         def("play_sound",   &LuaAPI_::System_PlaySound),
-        def("draw_texture", &LuaAPI_::System_DrawTexture),
         def("exit",         &LuaAPI_::System_Quit),
 
         def("load_script",  &LuaAPI_::System_LoadScript),
@@ -134,6 +133,17 @@ LuaAPI_::LuaAPI_():
                 .def(constructor<>())
                 .def("add_point", &LuaAPI_::Polygon_addPoint<gd::PolygonI>)
                 .property("points", (const gd::PolygonI::ring_type& (gd::PolygonI::*)() const)&gd::PolygonI::outer, return_stl_iterator)
+
+        ],
+
+        namespace_("graphics") [
+
+            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::Point>),
+            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::PointI>),
+            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::Box>),
+            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::BoxI>),
+            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::Polygon>),
+            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::PolygonI>)
 
         ],
 

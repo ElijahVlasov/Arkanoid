@@ -44,6 +44,14 @@ namespace LuaAPI {
 
         private:
 
+            template <class Geometry>
+            static void Graphics_DrawTexture(const Geometry& geometry, boost::shared_ptr<Utils::Texture> texture) {
+
+                Utils::Graphics::DrawTexture(geometry, *texture);
+
+            }
+
+
 
             template <class PolygonType>
             static void Polygon_addPoint(PolygonType& polygon, const typename PolygonType::point_type& point) {
@@ -51,6 +59,7 @@ namespace LuaAPI {
                 polygon.outer().push_back(point);
 
             }
+
 
 
             class Lua_BoxSetters {
