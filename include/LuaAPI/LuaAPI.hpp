@@ -26,10 +26,17 @@ namespace LuaAPI {
             static void System_PlaySound(const boost::shared_ptr<Utils::Sound>& sound);
 
             static boost::shared_ptr<Utils::Texture> System_LoadTexture(const char* name);
-            static void System_DrawTexture(float x, float y, const boost::shared_ptr<Utils::Texture>& texture, Engine::Direction textureDirection);
+            //static void System_DrawTexture(float x, float y, const boost::shared_ptr<Utils::Texture>& texture, Engine::Direction textureDirection);
 
             static void System_ShowDialog(const char* name);
             static void System_ShowMenu(const char* name);
+
+            static unsigned int System_GetScreenWidth();
+            static unsigned int System_GetScreenHeight();
+            static void System_SetScreenRect(unsigned int width, unsigned int height);
+
+            static boost::shared_ptr<Utils::UI::Menu> System_GetMainMenu();
+            static boost::shared_ptr<Utils::UI::Menu> System_GetPauseMenu();
 
             static void System_StartGame(const char* worldName);
             static void System_QuitGame();

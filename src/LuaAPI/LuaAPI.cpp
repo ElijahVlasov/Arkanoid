@@ -32,6 +32,23 @@ using namespace Utils::UI;
 
 
 
+//namespace luabind {
+
+    /*namespace detail {
+
+            namespace has_get_pointer_ {*/
+
+                template<class T>
+                T * get_pointer(SingletonPointer<T> const& p) { return p.get(); }
+
+       /*     }
+
+    }*/
+
+/*}*/
+
+
+
 LuaAPI_::LuaAPI_():
     game_(              Game::getInstance()					),
     menuGameState_(     GameStates::MenuState::getInstance()),
@@ -74,6 +91,13 @@ LuaAPI_::LuaAPI_():
         def("sound",        &LuaAPI_::System_LoadSound),
         def("texture",      &LuaAPI_::System_LoadTexture),
         /////////////////////////////////////
+
+        def("get_screen_width",  &LuaAPI_::System_GetScreenWidth),
+        def("get_screen_height", &LuaAPI_::System_GetScreenHeight),
+        def("set_screen_rect",   &LuaAPI_::System_SetScreenRect),
+
+        def("get_main_menu",  &LuaAPI_::System_GetMainMenu),
+        def("get_pause_menu", &LuaAPI_::System_GetPauseMenu),
 
         def("play_sound",   &LuaAPI_::System_PlaySound),
         def("exit",         &LuaAPI_::System_Quit),
@@ -191,7 +215,8 @@ LuaAPI_::LuaAPI_():
                 .property("text",   &Component::getText, (void (Component::*)(const char*))&Component::setText),
 
             class_<Button,    Component, boost::shared_ptr<Button> >("button")
-                .def(constructor<>()),
+                .def(constructor<>())
+                .def("set_rect", &Button::setRect),
 
             class_<Label,     Component, boost::shared_ptr<Label> >("label")
                 .def(constructor<>()),
@@ -210,15 +235,6 @@ LuaAPI_::LuaAPI_():
     ];
 
     module(L, "engine") [
-
-        class_<Game, SingletonPointer<Game> >("game")
-            .def("set_screen_rect", &Game::setScreenRect)
-            .property("width",      &Game::getScreenWidth)
-            .property("height",     &Game::getScreenHeight)
-            .property("main_menu",  &Game::getMainMenu)
-            .property("pause_menu", &Game::getPauseMenu),
-
-        def("get_game", &LuaAPI_::Engine_GetGame),
 
         class_<Object, Object_wrapper, ObjectPtr>("object"),
 
@@ -293,9 +309,41 @@ void LuaAPI_::System_PlaySound(const boost::shared_ptr<Sound>& sound) {
 
 
 
-void LuaAPI_::System_DrawTexture(float x, float y, const boost::shared_ptr<Texture>& texture, Direction direction) {
+unsigned int LuaAPI_::System_GetScreenWidth() {
 
-    Graphics::DrawTexture(GeometryDefines::Point(x, y), *texture, DirectionToCoordsArray(direction));
+    return instance_->game_->getScreenWidth();
+
+}
+
+
+
+unsigned int LuaAPI_::System_GetScreenHeight() {
+
+    return instance_->game_->getScreenHeight();
+
+}
+
+
+
+void LuaAPI_::System_SetScreenRect(unsigned int width, unsigned int height) {
+
+    instance_->game_->setScreenRect(width, height);
+
+}
+
+
+
+boost::shared_ptr<Menu> LuaAPI_::System_GetMainMenu() {
+
+    return instance_->game_->getMainMenu();
+
+}
+
+
+
+boost::shared_ptr<Menu> LuaAPI_::System_GetPauseMenu() {
+
+    return instance_->game_->getPauseMenu();
 
 }
 
