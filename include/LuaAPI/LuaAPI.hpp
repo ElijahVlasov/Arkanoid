@@ -10,6 +10,8 @@
 
 #include <Utils.hpp>
 
+#include "geometry_defines.hpp"
+
 namespace LuaAPI {
 
     class LuaAPI_: public Utils::Singleton<LuaAPI_> {
@@ -42,6 +44,36 @@ namespace LuaAPI {
 
         private:
 
+
+            template <class PolygonType>
+            static void Polygon_addPoint(PolygonType& polygon, const typename PolygonType::point_type& point) {
+
+                polygon.outer().push_back(point);
+
+            }
+
+
+            class Lua_BoxSetters {
+
+                public:
+
+                    template <class BoxType, class PointType>
+                    static void setMinCorner(BoxType& box, const PointType& point) {
+
+                            box.min_corner() = point;
+
+                    }
+
+
+
+                    template <class BoxType, class PointType>
+                    static void setMaxCorner(BoxType& box, const PointType& point) {
+
+                            box.max_corner() = point;
+
+                    }
+
+            };
 
 
             class Lua_ComponentSetters {

@@ -8,6 +8,7 @@
 
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
+#include <luabind/iterator_policy.hpp>
 
 #include <Engine.hpp>
 #include <Utils.hpp>
@@ -111,24 +112,28 @@ LuaAPI_::LuaAPI_():
             class_<gd::Box>("box")
                 .def(constructor<>())
                 .def(constructor<gd::Point, gd::Point>())
-                .def("get_min_corner", (gd::Point& (gd::Box::*)())&gd::Box::min_corner)
-                .def("get_max_corner", (gd::Point& (gd::Box::*)())&gd::Box::max_corner),
-
-            class_<gd::Box>("box")
-                .def(constructor<>())
-                .def(constructor<gd::Point, gd::Point>())
-                .def("get_min_corner", (gd::Point& (gd::Box::*)())&gd::Box::min_corner)
-                .def("get_max_corner", (gd::Point& (gd::Box::*)())&gd::Box::max_corner),
+                .property("min_corner", (const gd::Point& (gd::Box::*)() const)&gd::Box::min_corner,
+                          &LuaAPI_::Lua_BoxSetters::setMinCorner<gd::Box, gd::Point>)
+                .property("max_corner", (const gd::Point& (gd::Box::*)() const)&gd::Box::max_corner,
+                          &LuaAPI_::Lua_BoxSetters::setMaxCorner<gd::Box, gd::Point>),
 
             class_<gd::BoxI>("box_i")
                 .def(constructor<>())
                 .def(constructor<gd::PointI, gd::PointI>())
-                .def("get_min_corner", (gd::PointI& (gd::BoxI::*)())&gd::BoxI::min_corner)
-                .def("get_max_corner", (gd::PointI& (gd::BoxI::*)())&gd::BoxI::max_corner)/*,
+                .property("min_corner", (const gd::PointI& (gd::BoxI::*)() const)&gd::BoxI::min_corner,
+                          &LuaAPI_::Lua_BoxSetters::setMinCorner<gd::BoxI, gd::PointI>)
+                .property("max_corner", (const gd::PointI& (gd::BoxI::*)() const)&gd::BoxI::max_corner,
+                          &LuaAPI_::Lua_BoxSetters::setMaxCorner<gd::BoxI, gd::PointI>),
 
             class_<gd::Polygon>("polygon")
                 .def(constructor<>())
-                .def()*/
+                .def("add_point", &LuaAPI_::Polygon_addPoint<gd::Polygon>)
+                .property("points", (const gd::Polygon::ring_type& (gd::Polygon::*)() const)&gd::Polygon::outer, return_stl_iterator),
+
+            class_<gd::PolygonI>("polygon")
+                .def(constructor<>())
+                .def("add_point", &LuaAPI_::Polygon_addPoint<gd::PolygonI>)
+                .property("points", (const gd::PolygonI::ring_type& (gd::PolygonI::*)() const)&gd::PolygonI::outer, return_stl_iterator)
 
         ],
 
