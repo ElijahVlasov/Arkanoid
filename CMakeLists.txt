@@ -59,17 +59,14 @@ set(ENGINE_GAME_STATES_SOURCES
 
 set(ENGINE_SOURCES
   ${ENGINE_GAME_STATES_SOURCES}
-  ${SRC_DIR}/Engine/AnimationSprite.cpp
   ${SRC_DIR}/Engine/DynamicObject.cpp
   ${SRC_DIR}/Engine/Game.cpp
-  ${SRC_DIR}/Engine/ISprite.cpp
   ${SRC_DIR}/Engine/Location.cpp
   ${SRC_DIR}/Engine/LocationLayer.cpp
   ${SRC_DIR}/Engine/Object.cpp
   ${SRC_DIR}/Engine/Renderer.cpp
   ${SRC_DIR}/Engine/SaltEngine.cpp
   ${SRC_DIR}/Engine/StaticObject.cpp
-  ${SRC_DIR}/Engine/StaticSprite.cpp
   ${SRC_DIR}/Engine/World.cpp
 )
 
@@ -97,8 +94,10 @@ set(UTILS_UI_SOURCES
 set(UTILS_SOURCES
   ${UTILS_FREETYPE_SOURCES}
   ${UTILS_UI_SOURCES}
+  ${SRC_DIR}/Utils/AnimationSprite.cpp
   ${SRC_DIR}/Utils/Audio.cpp
   ${SRC_DIR}/Utils/Graphics.cpp
+  ${SRC_DIR}/Utils/ISprite.cpp
   ${SRC_DIR}/Utils/LocalizationManager.cpp
   ${SRC_DIR}/Utils/Lua.cpp
   ${SRC_DIR}/Utils/PCResourceLoader.cpp
@@ -107,6 +106,7 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/ResourceLoader.cpp
   ${SRC_DIR}/Utils/ResourceManager.cpp
   ${SRC_DIR}/Utils/Sound.cpp
+  ${SRC_DIR}/Utils/StaticSprite.cpp
   ${SRC_DIR}/Utils/Texture.cpp
   ${SRC_DIR}/Utils/Utils.cc
 )
@@ -141,7 +141,6 @@ set(ENGINE_GAME_STATES_HEADERS
 
 set(ENGINE_HEADERS
   ${ENGINE_GAME_STATES_HEADERS}
-  ${INCLUDE_DIR}/Engine/AnimationSprite.hpp
   ${INCLUDE_DIR}/Engine/Camera.hpp
   ${INCLUDE_DIR}/Engine/Client.hpp
   ${INCLUDE_DIR}/Engine/Collision.hpp
@@ -151,7 +150,6 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/Game.hpp
   ${INCLUDE_DIR}/Engine/GameStates.hpp
   ${INCLUDE_DIR}/Engine/IController.hpp
-  ${INCLUDE_DIR}/Engine/ISprite.hpp
   ${INCLUDE_DIR}/Engine/IUpdatable.hpp
   ${INCLUDE_DIR}/Engine/Location.hpp
   ${INCLUDE_DIR}/Engine/LocationLayer.hpp
@@ -161,7 +159,6 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/Renderer.hpp
   ${INCLUDE_DIR}/Engine/SaltEngine.hpp
   ${INCLUDE_DIR}/Engine/StaticObject.hpp
-  ${INCLUDE_DIR}/Engine/StaticSprite.hpp
   ${INCLUDE_DIR}/Engine/World.hpp
 )
 
@@ -194,10 +191,12 @@ set(UTILS_HEADERS
   ${UTILS_FREETYPE_HEADERS}
   ${UTILS_UI_HEADERS}
   ${INCLUDE_DIR}/Utils/assert.hpp
+  ${INCLUDE_DIR}/Utils/AnimationSprite.hpp
   ${INCLUDE_DIR}/Utils/Audio.hpp
   ${INCLUDE_DIR}/Utils/Color.hpp
   ${INCLUDE_DIR}/Utils/FreeType.hpp
   ${INCLUDE_DIR}/Utils/Graphics.hpp
+  ${INCLUDE_DIR}/Utils/ISprite.hpp
   ${INCLUDE_DIR}/Utils/LocalizationManager.hpp
   ${INCLUDE_DIR}/Utils/Lua.hpp
   ${INCLUDE_DIR}/Utils/MouseButton.hpp
@@ -209,6 +208,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Singleton.hpp
   ${INCLUDE_DIR}/Utils/SingletonPointer.hpp
   ${INCLUDE_DIR}/Utils/Sound.hpp
+  ${INCLUDE_DIR}/Utils/StaticSprite.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp
 )

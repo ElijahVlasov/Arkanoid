@@ -1,11 +1,9 @@
-#ifndef _SALT2D_ENGINE_ISPRITE_HPP
-#define _SALT2D_ENGINE_ISPRITE_HPP
-
-#include <Engine/Direction.hpp>
+#ifndef _SALT2D_UTILS_ISPRITE_HPP
+#define _SALT2D_UTILS_ISPRITE_HPP
 
 #include "geometry_defines.hpp"
 
-namespace Engine {
+namespace Utils {
 
     /** Интерфейс для отрисовки объектов.
     */
@@ -25,6 +23,9 @@ namespace Engine {
             */
 
             virtual void onRender(const GeometryDefines::Box& box) = 0;
+
+            /** Отрисовать многоугольник.
+            */
 
             virtual void onRender(const GeometryDefines::Polygon& polygon) = 0;
 

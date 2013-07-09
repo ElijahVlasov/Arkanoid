@@ -14,6 +14,7 @@
 #include <Engine/Object.hpp>
 #include <Engine/Renderer.hpp>
 
+#include <Utils/ISprite.hpp>
 #include <Utils/ResourceManager.hpp>
 
 #include "geometry_defines.hpp"

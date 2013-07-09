@@ -1,17 +1,15 @@
-#ifndef _SALT2D_ENGINE_STATICSPRITE_HPP
-#define _SALT2D_ENGINE_STATICSPRITE_HPP
+#ifndef _SALT2D_UTILS_STATICSPRITE_HPP
+#define _SALT2D_UTILS_STATICSPRITE_HPP
 
 #include <boost/shared_ptr.hpp>
 
-#include <Engine/Direction.hpp>
-#include <Engine/ISprite.hpp>
-
 #include <Utils/Graphics.hpp>
+#include <Utils/ISprite.hpp>
 #include <Utils/Texture.hpp>
 
 #include "geometry_defines.hpp"
 
-namespace Engine {
+namespace Utils {
 
     class StaticSprite: public ISprite {
 

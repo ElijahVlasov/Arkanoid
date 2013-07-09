@@ -13,10 +13,10 @@
 #include <boost/uuid/uuid.hpp>
 
 #include <Engine/Direction.hpp>
-#include <Engine/ISprite.hpp>
 #include <Engine/LocationLayer.hpp>
 
 #include <Utils/ResourceManager.hpp>
+#include <Utils/ISprite.hpp>
 #include <Utils/Texture.hpp>
 
 #include "geometry_defines.hpp"
@@ -99,7 +99,7 @@ namespace Engine {
 
             /** Установить рендерер объекта.
             */
-            void setSprite(const boost::shared_ptr<ISprite>& sprite);
+            void setSprite(const boost::shared_ptr<Utils::ISprite>& sprite);
 
             /** Получить полигон объекта.
             */
@@ -116,7 +116,7 @@ namespace Engine {
 
             GeometryDefines::Polygon polygon_;
 
-            boost::shared_ptr<ISprite> sprite_;
+            boost::shared_ptr<Utils::ISprite> sprite_;
 
             inline void addToDirection(float step);
 

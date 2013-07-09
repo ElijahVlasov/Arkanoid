@@ -1,18 +1,17 @@
-#ifndef _SALT2D_ENGINE_ANIMATIONSPRITE_HPP
-#define _SALT2D_ENGINE_ANIMATIONSPRITE_HPP
+#ifndef _SALT2D_UTILS_ANIMATIONSPRITE_HPP
+#define _SALT2D_UTILS_ANIMATIONSPRITE_HPP
 
+#include <chrono>
 #include <list>
 
 #include <boost/shared_ptr.hpp>
 
-#include <Engine/Direction.hpp>
-#include <Engine/ISprite.hpp>
-
+#include <Utils/ISprite.hpp>
 #include <Utils/Texture.hpp>
 
 #include "geometry_defines.hpp"
 
-namespace Engine {
+namespace Utils {
 
     class AnimationSprite: public ISprite {
 
@@ -21,7 +20,7 @@ namespace Engine {
             AnimationSprite();
             ~AnimationSprite();
 
-            void addFrame(int msDuration, const boost::shared_ptr<Utils::Texture>& frame);
+            void addFrame(std::chrono::milliseconds, const boost::shared_ptr<Utils::Texture>& frame);
 
             void onRender(const GeometryDefines::Point& point);
             void onRender(const GeometryDefines::Box& box);
@@ -31,7 +30,7 @@ namespace Engine {
 
             struct Frame {
 
-                int msDuration;
+                std::chrono::milliseconds msDuration;
                 boost::shared_ptr<Utils::Texture> texture;
 
             };
