@@ -97,7 +97,6 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/AnimationSprite.cpp
   ${SRC_DIR}/Utils/Audio.cpp
   ${SRC_DIR}/Utils/Graphics.cpp
-  ${SRC_DIR}/Utils/ISprite.cpp
   ${SRC_DIR}/Utils/LocalizationManager.cpp
   ${SRC_DIR}/Utils/Lua.cpp
   ${SRC_DIR}/Utils/PCResourceLoader.cpp
@@ -106,6 +105,7 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/ResourceLoader.cpp
   ${SRC_DIR}/Utils/ResourceManager.cpp
   ${SRC_DIR}/Utils/Sound.cpp
+  ${SRC_DIR}/Utils/Sprite.cpp
   ${SRC_DIR}/Utils/StaticSprite.cpp
   ${SRC_DIR}/Utils/Texture.cpp
   ${SRC_DIR}/Utils/Utils.cc
@@ -196,7 +196,6 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Color.hpp
   ${INCLUDE_DIR}/Utils/FreeType.hpp
   ${INCLUDE_DIR}/Utils/Graphics.hpp
-  ${INCLUDE_DIR}/Utils/ISprite.hpp
   ${INCLUDE_DIR}/Utils/LocalizationManager.hpp
   ${INCLUDE_DIR}/Utils/Lua.hpp
   ${INCLUDE_DIR}/Utils/MouseButton.hpp
@@ -208,6 +207,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Singleton.hpp
   ${INCLUDE_DIR}/Utils/SingletonPointer.hpp
   ${INCLUDE_DIR}/Utils/Sound.hpp
+  ${INCLUDE_DIR}/Utils/Sprite.hpp
   ${INCLUDE_DIR}/Utils/StaticSprite.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp

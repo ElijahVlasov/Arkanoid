@@ -14,8 +14,8 @@
 #include <Engine/Object.hpp>
 #include <Engine/Renderer.hpp>
 
-#include <Utils/ISprite.hpp>
 #include <Utils/ResourceManager.hpp>
+#include <Utils/Sprite.hpp>
 
 #include "geometry_defines.hpp"
 
@@ -28,7 +28,7 @@ using namespace Utils;
 
 
 Object::Object():
-    sprite_(reinterpret_cast<ISprite*>(0)),
+    sprite_(reinterpret_cast<Sprite*>(0)),
     id_(boost::uuids::random_generator()())
 {}
 
@@ -126,7 +126,7 @@ const LocationLayerPtr& Object::getParentLayer() const {
 
 
 
-void Object::setSprite(const boost::shared_ptr<ISprite>& sprite) {
+void Object::setSprite(const boost::shared_ptr<Sprite>& sprite) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 

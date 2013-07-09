@@ -7,14 +7,14 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/ISprite.hpp>
+#include <Utils/Sprite.hpp>
 #include <Utils/Texture.hpp>
 
 #include "geometry_defines.hpp"
 
 namespace Utils {
 
-    class AnimationSprite: public ISprite {
+    class AnimationSprite: public Sprite {
 
         public:
 
