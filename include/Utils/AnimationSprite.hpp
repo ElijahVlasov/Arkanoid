@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <list>
+#include <mutex>
 
 #include <boost/shared_ptr.hpp>
 
@@ -28,6 +29,8 @@ namespace Utils {
 
         private:
 
+            void render();
+
             struct Frame {
 
                 std::chrono::milliseconds msDuration;
@@ -35,11 +38,51 @@ namespace Utils {
 
             };
 
+            mutable std::mutex synchroMutex_;
+
             std::list<Frame> frames_;
 
+            std::chrono::system_clock::time_point lastTimePoint_;
+
+            mutable std::mutex isStartedAccessMutex_;
             bool isStarted_;
 
+            inline bool isStarted() const;
+
+            inline void start();
+            inline void stop();
+
     };
+
+
+
+    bool AnimationSprite::isStarted() const {
+
+        std::lock_guard<std::mutex> guard(isStartedAccessMutex_);
+
+        return isStarted_;
+
+    }
+
+
+
+    void AnimationSprite::start() {
+
+        std::lock_guard<std::mutex> guard(isStartedAccessMutex_);
+
+        isStarted_ = true;
+
+    }
+
+
+
+    void AnimationSprite::stop() {
+
+        std::lock_guard<std::mutex> guard(isStartedAccessMutex_);
+
+        isStarted_ = false;
+
+    }
 
 }
 
