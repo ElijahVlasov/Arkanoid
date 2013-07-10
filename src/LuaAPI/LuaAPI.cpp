@@ -2,6 +2,7 @@
 
 #include <exception>
 #include <stdexcept>
+#include <string>
 
 #include <boost/get_pointer.hpp>
 #include <boost/shared_ptr.hpp>
@@ -212,11 +213,10 @@ LuaAPI_::LuaAPI_():
                 .property("height", &Component::getHeight)
                 .property("font",   (Font& (Component::*)(void))&Component::getFont)
 
-                .property("text",   &Component::getText, (void (Component::*)(const char*))&Component::setText),
+                .property("text",   &Component::getText, (void (Component::*)(const std::string&))&Component::setText),
 
             class_<Button,    Component, boost::shared_ptr<Button> >("button")
-                .def(constructor<>())
-                .def("set_rect", &Button::setRect),
+                .def(constructor<>()),
 
             class_<Label,     Component, boost::shared_ptr<Label> >("label")
                 .def(constructor<>()),
