@@ -18,7 +18,7 @@ void Sprite::onRender(const GeometryDefines::PointI& point) {
 
 
 
-void Sprite::onRender(const GeometryDefines::BoxI box) {
+void Sprite::onRender(const GeometryDefines::BoxI& box) {
 
     onRender(GeometryDefines::BoxIToBox(box));
 
@@ -26,7 +26,7 @@ void Sprite::onRender(const GeometryDefines::BoxI box) {
 
 
 
-void Sprite::onRender(const GeometryDefines::PolygonI polygon) {
+void Sprite::onRender(const GeometryDefines::PolygonI& polygon) {
 
     onRender(GeometryDefines::PolygonIToPolygon(polygon));
 

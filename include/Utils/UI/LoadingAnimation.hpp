@@ -29,7 +29,7 @@ namespace Utils {
 
                 static const std::chrono::milliseconds FRAME_DURATION;
 
-                AnimationSprite sprite_;
+                boost::shared_ptr<Sprite> sprite_;
 
         };
 
