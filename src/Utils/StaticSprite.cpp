@@ -1,15 +1,10 @@
 #include <boost/shared_ptr.hpp>
 
-#include <Engine/Direction.hpp>
-#include <Engine/DirectionToCoordsArray.h>
-#include <Engine/StaticSprite.hpp>
-
 #include <Utils/Graphics.hpp>
+#include <Utils/StaticSprite.hpp>
 #include <Utils/Texture.hpp>
 
 #include "geometry_defines.hpp"
-
-using namespace Engine;
 
 using namespace Utils;
 

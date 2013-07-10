@@ -31,10 +31,13 @@ const std::chrono::milliseconds LoadingAnimation::FRAME_DURATION(500);
 
 
 LoadingAnimation::LoadingAnimation() throw(runtime_error):
-    Component()
+    Component(),
+    sprite_(new AnimationSprite())
 {
 
     SingletonPointer <ResourceManager> resourceManager = ResourceManager::getInstance();
+
+    boost::shared_ptr<AnimationSprite> animationSprite = boost::dynamic_pointer_cast<AnimationSprite>(sprite_);
 
     for(size_t i = 0; i < 4; i++) {
 
@@ -47,7 +50,7 @@ LoadingAnimation::LoadingAnimation() throw(runtime_error):
 
             boost::shared_ptr<Resource> frameResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, fileName);
 
-            frames_.push_back(boost::dynamic_pointer_cast<Texture>(frameResource));
+            animationSprite->addFrame(FRAME_DURATION, boost::dynamic_pointer_cast<Texture>(frameResource));
 
         } catch (const bad_alloc&) {}
 
@@ -65,22 +68,6 @@ LoadingAnimation::~LoadingAnimation() {}
 
 void LoadingAnimation::onDraw(Event&) {
 
-    using chrono::system_clock;
-
-    system_clock::time_point now = system_clock::now();
-
-    if( now - lastTimePoint_ >= FRAME_DURATION) {
-
-        frames_.push_back(frames_.front());
-        frames_.pop_front();
-
-    }
-
-    lastTimePoint_ = now;
-
-    Graphics::DrawTexture(
-        getBoxI(),
-        *frames_.front()
-    );
+    sprite_->onRender(getBoxI());
 
 }

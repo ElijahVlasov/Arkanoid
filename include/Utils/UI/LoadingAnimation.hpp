@@ -7,7 +7,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Texture.hpp>
+#include <Utils/AnimationSprite.hpp>
 
 #include <Utils/UI/Component.hpp>
 #include <Utils/UI/Event.hpp>
@@ -25,13 +25,11 @@ namespace Utils {
 
             private:
 
-                static const std::chrono::milliseconds FRAME_DURATION;
-
-                std::chrono::system_clock::time_point lastTimePoint_;
-
                 void onDraw(Event&);
 
-                std::list< boost::shared_ptr<Texture> > frames_;
+                static const std::chrono::milliseconds FRAME_DURATION;
+
+                boost::shared_ptr<Sprite> sprite_;
 
         };
 
