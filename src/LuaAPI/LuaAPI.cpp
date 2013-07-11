@@ -115,6 +115,17 @@ LuaAPI_::LuaAPI_():
 
             ],
 
+        class_<Sprite, Sprite_wrapper, boost::shared_ptr<Sprite> >("sprite")
+            .def("on_render_p", (void (Sprite::*)(const gd::Point&) ) &Sprite::onRender)
+            .def("on_render_pi", (void (Sprite::*)(const gd::PointI&) ) &Sprite::onRender,
+                 (void (*)(boost::shared_ptr<Sprite>, const gd::PointI&) ) &Sprite_wrapper::default_onRender)
+            .def("on_render_b", (void (Sprite::*)(const gd::Box&) ) &Sprite::onRender)
+            .def("on_render_bi", (void (Sprite::*)(const gd::BoxI&) ) &Sprite::onRender,
+                 (void (*)(boost::shared_ptr<Sprite>, const gd::BoxI&) ) &Sprite_wrapper::default_onRender)
+            .def("on_render_pol", (void (Sprite::*)(const gd::Polygon&) ) &Sprite::onRender)
+            .def("on_render_poli", (void (Sprite::*)(const gd::PolygonI&) ) &Sprite::onRender,
+                 (void (*)(boost::shared_ptr<Sprite>, const gd::PolygonI&) ) &Sprite_wrapper::default_onRender),
+
         namespace_("geometry") [
 
             class_<gd::Point>("point")
@@ -175,7 +186,6 @@ LuaAPI_::LuaAPI_():
         namespace_("ui") [ // эдементы управления:
 
             class_<Event>("event"),
-                //.def_readwrite("sender", &Event::sender),
 
             class_<MouseEvent, Event>("mouse_event")
                 .enum_("mouse_button") [
@@ -247,7 +257,7 @@ LuaAPI_::LuaAPI_():
             .property("ground_texture", &Location::getGroundTexture, &Location::setGroundTexture)
             .property("width", &Location::getWidth, &Location::setWidth)
             .property("height", &Location::getHeight, &Location::setHeight)
-            .property("name", &Location::getName, (void (Location::*)(const char*))&Location::setName)
+            .property("name", &Location::getName, (void (Location::*)(const string&))&Location::setName)
 
 
     ];

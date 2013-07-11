@@ -73,6 +73,7 @@ set(ENGINE_SOURCES
 set(LUA_API_SOURCES
   ${SRC_DIR}/LuaAPI/LuaAPI.cpp
   ${SRC_DIR}/LuaAPI/Object_wrapper.cpp
+  ${SRC_DIR}/LuaAPI/Sprite_wrapper.cpp
 )
 
 set(UTILS_FREETYPE_SOURCES
@@ -165,6 +166,7 @@ set(ENGINE_HEADERS
 set(LUA_API_HEADERS
   ${INCLUDE_DIR}/LuaAPI/LuaAPI.hpp
   ${INCLUDE_DIR}/LuaAPI/Object_wrapper.hpp
+  ${INCLUDE_DIR}/LuaAPI/Sprite_wrapper.hpp
 )
 
 set(UTILS_FREETYPE_HEADERS
