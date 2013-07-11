@@ -163,12 +163,12 @@ LuaAPI_::LuaAPI_():
 
         namespace_("graphics") [
 
-            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::Point>),
-            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::PointI>),
-            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::Box>),
-            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::BoxI>),
-            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::Polygon>),
-            def("draw_texture", &LuaAPI_::Graphics_DrawTexture<gd::PolygonI>)
+            def("draw_texture_p",    &LuaAPI_::Graphics_DrawTexture<gd::Point>),
+            def("draw_texture_pi",   &LuaAPI_::Graphics_DrawTexture<gd::PointI>),
+            def("draw_texture_b",    &LuaAPI_::Graphics_DrawTexture<gd::Box>),
+            def("draw_texture_bi",   &LuaAPI_::Graphics_DrawTexture<gd::BoxI>),
+            def("draw_texture_pol",  &LuaAPI_::Graphics_DrawTexture<gd::Polygon>),
+            def("draw_texture_poli", &LuaAPI_::Graphics_DrawTexture<gd::PolygonI>)
 
         ],
 
