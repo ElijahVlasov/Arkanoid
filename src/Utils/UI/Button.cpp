@@ -1,10 +1,9 @@
 #include <cmath>
 
+#include <functional>
 #include <stdexcept>
 #include <string>
 
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/FreeType.hpp>
@@ -47,7 +46,7 @@ Button::Button() throw(runtime_error):
 
     curTexture_ = defTexture_;
 
-    setDrawEvent(boost::bind(boost::mem_fn(&Button::onDraw), this, _1));
+    setDrawEvent( &Button::onDraw );
 
 }
 
@@ -57,10 +56,12 @@ Button::~Button() {}
 
 
 
-void Button::onDraw(Event&) {
+void Button::onDraw(Component* sender, Event&) {
 
-    drawTexture();
-    drawText();
+    auto b = dynamic_cast<Button*>(sender);
+
+    b->drawTexture();
+    b->drawText();
 
 }
 

@@ -9,12 +9,12 @@
 namespace Utils {
 
     namespace UI {
-    
+
         /** Класс метки.
           * Простой текст.
           * @author Elijah Vlasov
         */
-	
+
         class Label: public Component {
 
             public:
@@ -26,13 +26,13 @@ namespace Utils {
 
                 /** Перерисовка по-умолчанию.
                 */
-            
-                void onDraw(Event&);
+
+                static void onDraw(Component* sender, Event&);
 
             private:
 
                 void drawText();
-		
+
         };
 
     }

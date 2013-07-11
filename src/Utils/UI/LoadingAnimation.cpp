@@ -56,7 +56,7 @@ LoadingAnimation::LoadingAnimation() throw(runtime_error):
 
     }
 
-    setDrawEvent(boost::bind( boost::mem_fn( &LoadingAnimation::onDraw ), this, _1 ));
+    setDrawEvent( &LoadingAnimation::onDraw );
 
 }
 
@@ -66,8 +66,10 @@ LoadingAnimation::~LoadingAnimation() {}
 
 
 
-void LoadingAnimation::onDraw(Event&) {
+void LoadingAnimation::onDraw(Component* sender, Event&) {
 
-    sprite_->onRender(getBoxI());
+    auto loadingAnimationSender = dynamic_cast<LoadingAnimation*>(sender);
+
+    loadingAnimationSender->sprite_->onRender(loadingAnimationSender->getBoxI());
 
 }

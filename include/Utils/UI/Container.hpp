@@ -28,7 +28,7 @@ namespace Utils {
                 /** Добавить компонент.
                 */
 
-                void addComponent(const children_ptr& component);
+                void addComponent(children_ptr component);
 
                 /** Получить дочерние компоненты.
                 */
@@ -43,7 +43,7 @@ namespace Utils {
 
             protected:
 
-                void onDraw(Event&);
+                static void onDraw(Component* sender, Event&);
 
                 /** Отрисовка контейнера.
                   * Дочерние классы должны переопределять этот метод.

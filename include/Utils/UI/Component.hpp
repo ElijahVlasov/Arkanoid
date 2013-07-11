@@ -5,6 +5,7 @@
 #include <string>
 
 #include <boost/function.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <Utils/FreeType.hpp>
 #include <Utils/MouseButton.hpp>
@@ -20,6 +21,10 @@ namespace Utils {
 
     namespace UI {
 
+        class Component;
+
+        typedef boost::shared_ptr<Component> ComponentPtr;
+
         /** Базовый класс для всех компонентов GUI.
           * @author Elijah Vlasov
         */
@@ -31,37 +36,37 @@ namespace Utils {
                 /** Делегат зажатия кнопки мыши.
                 */
 
-                typedef boost::function<void (MouseEvent& event)> MouseDownEvent;
+                typedef boost::function<void (Component*, MouseEvent&)> MouseDownEvent;
 
                 /** Делегат отпускания кнопки мыши.
                 */
 
-                typedef boost::function<void (MouseEvent& event)> MouseUpEvent;
+                typedef boost::function<void (Component*, MouseEvent&)> MouseUpEvent;
 
                 /** Делегат клика мышкой(Зажатие и отпускание по одной точке).
                 */
 
-                typedef boost::function<void (MouseEvent& event)> MouseClickEvent;
+                typedef boost::function<void (Component*, MouseEvent&)> MouseClickEvent;
 
                 /** Делегат наведения курсора на компонент.
                 */
 
-                typedef boost::function<void (MouseEvent& event)> MouseHoverEvent;
+                typedef boost::function<void (Component*, MouseEvent&)> MouseHoverEvent;
 
                 /** Делегат перерисовки компонента.
                 */
 
-                typedef boost::function<void (Event&)> DrawEvent;
+                typedef boost::function<void (Component*, Event&)> DrawEvent;
 
                 /** Делегат зажатия клавиши.
                 */
 
-                typedef boost::function<void (KeyEvent)> KeyUpEvent;
+                typedef boost::function<void (Component*, KeyEvent&)> KeyUpEvent;
 
                 /** Делегат отпускания клавиши.
                 */
 
-                typedef boost::function<void (KeyEvent)> KeyDownEvent;
+                typedef boost::function<void (Component*, KeyEvent&)> KeyDownEvent;
 
                 Component() throw(std::runtime_error);
 

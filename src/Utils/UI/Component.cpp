@@ -214,16 +214,13 @@ bool Component::isContains(int x, int y) {
 
 
 
-
-// Îáðàáîòêà ñîáûòèé ïðîèñõîäèò òàê:
-// ïûòàåìñÿ âûçâàòü íóæíûé event.
-// åñëè íå óäàåòñÿ, òî íå äåëàåì
-// íè ÷åãî.
+// Все событийные методы преобразовывают аргументы в
+// Event структуры и вызывают обработчики.
 
 void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
-    if(btn == Utils::BUTTON_LEFT) { // åñëè, ïîòåíöèàëüíî, ïðîèñõîäèò êëèê
-            // ñîõðàíÿåì êîîðäèíàòû
+    if(btn == Utils::BUTTON_LEFT) { // сохраним координаты, на случай, если это был клик.
+
             mouseDownX_ = x;
             mouseDownY_ = y;
 
@@ -237,7 +234,7 @@ void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
         event.y            =  y;
         event.mouseButton  =  btn;
 
-        mouseDownEvent_(event);
+        mouseDownEvent_(this, event);
 
     } catch(const boost::bad_function_call&) {}
 
@@ -256,19 +253,17 @@ void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
         event.y            =  y;
         event.mouseButton  =  btn;
 
-        mouseUpEvent_(event);
+        mouseUpEvent_(this, event);
 
     } catch(const boost::bad_function_call&) {}
 
-
-    // åñëè, ïîòåíöèàëüíî, íå ïðîèçîøåë êëèê,
-    if(btn != Utils::BUTTON_LEFT) { // òî âûõîäèì èç ìåòîäà
+    if(btn != Utils::BUTTON_LEFT) {
         return;
     }
 
 
     if((mouseDownX_ == x)
-        || (mouseDownY_ == y)) { // èíà÷å âûçûâàåì ìåòîä êëèêà
+        || (mouseDownY_ == y)) { // если был клик.
 
             click(x, y);
 
@@ -288,7 +283,7 @@ void Component::click(int x, int y) {
         event.y            =  y;
         event.mouseButton  =  MouseButton::BUTTON_LEFT;
 
-        clickEvent_(event);
+        clickEvent_(this, event);
 
     } catch(const boost::bad_function_call&) {}
 
@@ -307,7 +302,7 @@ void Component::hoverMouse(int x, int y) {
         event.y            =  y;
         event.mouseButton  =  MouseButton::BUTTON_NONE;
 
-        hoverEvent_(event);
+        hoverEvent_(this, event);
 
     } catch(const boost::bad_function_call&) {}
 
@@ -322,7 +317,7 @@ void Component::draw() {
 
         Event event;
 
-        drawEvent_(event);
+        drawEvent_(this, event);
 
     } catch(const boost::bad_function_call&) {}
 
@@ -338,7 +333,7 @@ void Component::keyDown(int key) {
 
         event.key = key;
 
-        keyDownEvent_(event);
+        keyDownEvent_(this, event);
 
     } catch(const boost::bad_function_call&) {}
 
@@ -354,7 +349,7 @@ void Component::keyUp(int key) {
 
         event.key = key;
 
-        keyUpEvent_(event);
+        keyUpEvent_(this, event);
 
     } catch(const boost::bad_function_call&) {}
 

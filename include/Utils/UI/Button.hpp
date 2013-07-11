@@ -36,7 +36,7 @@ namespace Utils {
                 /** Прорисовка кнопки по-умолчанию.
                 */
 
-                void onDraw(Event&);
+                static void onDraw(Component* sender, Event&);
 
                 void drawTexture();
                 void drawText();

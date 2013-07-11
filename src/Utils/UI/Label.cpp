@@ -1,6 +1,6 @@
 #include <stdexcept>
 
-#include <boost/bind.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <Utils/UI/Component.hpp>
 #include <Utils/UI/Event.hpp>
@@ -17,7 +17,7 @@ Label::Label() throw(runtime_error):
     Component()
 {
 
-    setDrawEvent(boost::bind(boost::mem_fn(&Label::onDraw), this, _1));
+    setDrawEvent( &Label::onDraw );
 
 }
 
@@ -27,9 +27,11 @@ Label::~Label() {}
 
 
 
-void Label::onDraw(Event&) {
+void Label::onDraw(Component* sender, Event&) {
 
-    drawText();
+    auto l = dynamic_cast<Label*>(sender);
+
+    l->drawText();
 
 }
 

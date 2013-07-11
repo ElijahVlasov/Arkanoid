@@ -15,6 +15,8 @@
 #include <Utils/assert.hpp>
 #include <Utils/Lua.hpp>
 
+#include <Utils/UI/Component.hpp>
+
 namespace Utils {
 
     namespace UI {
@@ -54,8 +56,8 @@ namespace Utils {
 
                 explicit ComponentEvent_wrapper(const char* funcName)
                                     throw(std::invalid_argument, std::runtime_error):
-                            lua_(Lua::getInstance()),
-                            functionObject_()
+                    lua_(Lua::getInstance()),
+                    functionObject_()
                 {
                     ASSERT(
                         (funcName != 0),
@@ -80,8 +82,8 @@ namespace Utils {
 
                 explicit ComponentEvent_wrapper(const std::string& funcName)
                                     throw(std::invalid_argument, std::runtime_error):
-                            lua_(Lua::getInstance()),
-                            functionObject_()
+                    lua_(Lua::getInstance()),
+                    functionObject_()
                 {
 
                     ASSERT(
@@ -97,8 +99,8 @@ namespace Utils {
 
                 ComponentEvent_wrapper(const ComponentEvent_wrapper& wrapper)
                                     throw(std::runtime_error):
-                            lua_(Lua::getInstance()),
-                            functionObject_(wrapper.functionObject_)
+                    lua_(Lua::getInstance()),
+                    functionObject_(wrapper.functionObject_)
                 {}
 
 
@@ -124,11 +126,11 @@ namespace Utils {
                 /** Вызвать функцию.
                 */
 
-                void operator() (EventType& event) {
+                void operator() (Component* sender, EventType& event) {
 
                     try {
 
-                    luabind::call_function<void>(functionObject_, boost::ref(event));
+                        luabind::call_function<void>(functionObject_, sender, boost::ref(event));
 
                     } catch(const luabind::error&) {
                         return;

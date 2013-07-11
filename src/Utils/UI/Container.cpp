@@ -1,7 +1,6 @@
 #include <list>
 
-#include <boost/bind.hpp>
-#include <boost/foreach.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <Utils/UI/Component.hpp>
 #include <Utils/UI/Container.hpp>
@@ -17,7 +16,7 @@ Container::Container():
     Component()
 {
 
-    setDrawEvent(boost::bind(boost::mem_fn(&Container::onDraw), this, _1));
+    setDrawEvent( &Container::onDraw );
 
 }
 
@@ -29,7 +28,7 @@ const Container::children_list& Container::getComponents() const {
 
 }
 
-void Container::addComponent(const Container::children_ptr& component) {
+void Container::addComponent(Container::children_ptr component) {
 
     components_.push_back(component);
 
@@ -128,10 +127,12 @@ void Container::mouseDown(int x, int y, MouseButton btn) {
 
 
 
-void Container::onDraw(Event&) {
+void Container::onDraw(Component* sender, Event&) {
 
-    drawSelf();
-    drawChildren();
+    auto containerSender = dynamic_cast<Container*>(sender);
+
+    containerSender->drawSelf();
+    containerSender->drawChildren();
 
 }
 

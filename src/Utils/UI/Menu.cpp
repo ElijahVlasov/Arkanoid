@@ -27,8 +27,6 @@ Menu::Menu() throw(runtime_error):
 
     backgroundColor_ = defColor;
 
-    setDrawEvent(boost::bind(boost::mem_fn(&Menu::onDraw), this, _1));
-
 }
 
 

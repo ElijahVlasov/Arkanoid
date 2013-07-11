@@ -25,7 +25,7 @@ namespace Utils {
 
             private:
 
-                void onDraw(Event&);
+                static void onDraw(Component* sender, Event&);
 
                 static const std::chrono::milliseconds FRAME_DURATION;
 
