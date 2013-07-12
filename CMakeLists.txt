@@ -35,11 +35,12 @@ if(WIN32)
   add_definitions(-DWINDOWS)
 endif()
 
+add_definitions(${PNG_DEFINITIONS})
+
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/FTGL/src
   ${CMAKE_CURRENT_SOURCE_DIR}/TinyXML
   ${Boost_INCLUDE_DIR}
-  ${IL_INCLUDE_DIR}
   ${FREETYPE_INCLUDE_DIR_ft2build}
   ${FREETYPE_INCLUDE_DIR_freetype2}
   ${LUA_INCLUDE_DIR}
@@ -47,6 +48,7 @@ include_directories(
   ${OPENAL_INCLUDE_DIR}
   ${OPENGL_INCLUDE_DIR}
   ${PROTOBUF_INCLUDE_DIRS}
+  ${PNG_INCLUDE_DIRS}
   ${SDL_INCLUDE_DIR}
 )
 
@@ -108,6 +110,7 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/Sprite.cpp
   ${SRC_DIR}/Utils/StaticSprite.cpp
   ${SRC_DIR}/Utils/Texture.cpp
+  ${SRC_DIR}/Utils/TextureFactory.cpp
   ${SRC_DIR}/Utils/Utils.cc
 )
 
@@ -210,6 +213,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Sprite.hpp
   ${INCLUDE_DIR}/Utils/StaticSprite.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
+  ${INCLUDE_DIR}/Utils/TextureFactory.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp
 )
 
@@ -241,10 +245,8 @@ set(Salt2D_LIBS
   ${LUA_LIBRARIES}
   ${OPENAL_LIBRARY}
   ${OPENGL_LIBRARIES}
-  ${IL_LIBRARIES}
-  ${ILU_LIBRARIES}
+  ${PNG_LIBRARIES}
   ${SDL_LIBRARY}
-#  ${FREETYPE_LIBRARIES}
   ${LUABIND_LIBRARIES}
   ${PROTOBUF_LITE_LIBRARIES}
   FTGL
