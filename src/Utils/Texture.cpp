@@ -10,11 +10,9 @@
 
 #include "gl_includes.h"
 
-
-
-using Utils::Texture;
-
 using namespace std;
+
+using namespace Utils;
 
 
 
@@ -100,10 +98,13 @@ void Texture::setData(const std::string& data) {
 
     glBindTexture(GL_TEXTURE_2D, name_);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, format_, width_, height_, 0, format_, GL_UNSIGNED_BYTE, static_cast<const GLvoid*>(data.data()));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format_, width_, height_, 0, format_, GL_UNSIGNED_BYTE, static_cast<const GLvoid*>(data.data()));
 
 }
 
