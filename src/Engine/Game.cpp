@@ -232,7 +232,9 @@ void Game::run() throw(runtime_error) {
     isRunning_ = true;
 
     // Запускаем загрузку ресурсов
-    initThread_ =  new std::thread(boost::mem_fn(&Game::loadResources), this);
+    initThread_ =  boost::shared_ptr<std::thread>(new std::thread([this] () {
+        this->loadResources();
+    }));
 
     initThread_->detach();
 
