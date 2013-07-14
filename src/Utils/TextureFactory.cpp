@@ -1,9 +1,13 @@
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <thread>
 
+#include <boost/foreach.hpp>
 #include <boost/format.hpp>
 #include <boost/shared_array.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <png.h>
 
@@ -17,9 +21,15 @@ using namespace Utils;
 
 
 
-Texture* TextureFactory::createFromPNGBuffer(const string& buffer) throw(invalid_argument, runtime_error) {
+TextureFactory::TextureFactory():
+    mainThreadID_(std::this_thread::get_id())
+{}
 
-    Texture* texture = new Texture();
+
+
+boost::shared_ptr<Texture> TextureFactory::createFromPNGBuffer(const string& buffer) throw(invalid_argument, runtime_error) {
+
+    boost::shared_ptr<Texture> texture(new Texture());
 
     TextureFactory::PNGReadStruct readStruct;
 
@@ -47,7 +57,7 @@ Texture* TextureFactory::createFromPNGBuffer(const string& buffer) throw(invalid
 
 
 
-void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, Texture* texture) throw(runtime_error) {
+void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, boost::shared_ptr<Texture> texture) throw(runtime_error) {
 
     png_read_info(readStruct, infoStruct);
 
@@ -112,7 +122,39 @@ void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, 
 
     png_read_image(readStruct, rowPtrs.get());
 
-    texture->setData(textureData);
+    if(std::this_thread::get_id() == mainThreadID_) {
+
+        texture->setData(textureData);
+
+    } else {
+
+        std::lock_guard<std::mutex> guard(synchroMutex_);
+
+        TextureFactory::NotFinalizedTexture notFinalizedTexture = {texture, textureData};
+
+        notFinalizedTextures_.push_back(notFinalizedTexture);
+
+    }
+
+}
+
+
+
+void TextureFactory::finalizeLoadedTextures() {
+
+    std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    if(std::this_thread::get_id() != mainThreadID_) {
+        return;
+    }
+
+    BOOST_FOREACH(TextureFactory::NotFinalizedTexture& notFinalizedTexture, notFinalizedTextures_) {
+
+        notFinalizedTexture.texture->setData(notFinalizedTexture.data);
+
+    }
+
+    notFinalizedTextures_.clear();
 
 }
 

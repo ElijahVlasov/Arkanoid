@@ -2,8 +2,13 @@
 #define _SALT2D_UTILS_TEXTUREFACTORY_HPP
 
 #include <istream>
+#include <list>
+#include <mutex>
 #include <stdexcept>
 #include <string>
+#include <thread>
+
+#include <boost/shared_ptr.hpp>
 
 #include <png.h>
 
@@ -30,9 +35,34 @@ namespace Utils {
               *         runtime_error - при ошибках libPNG.
             */
 
-            Texture* createFromPNGBuffer(const std::string& buffer) throw(std::invalid_argument, std::runtime_error);
+            boost::shared_ptr<Texture> createFromPNGBuffer(const std::string& buffer) throw(std::invalid_argument, std::runtime_error);
+
+            /** Завершить загрузку текстур.
+              * Если текстура загружалась не в главном потоке, то
+              * требуется вызвать этот метод в главном потоке, чтобы
+              * текстуры были успешно перенесены в видео-память.
+            */
+
+            void finalizeLoadedTextures();
+
+        protected:
+
+            TextureFactory();
 
         private:
+
+            struct NotFinalizedTexture {
+
+                boost::shared_ptr<Texture> texture;
+                std::string data;
+
+            };
+
+            std::thread::id mainThreadID_;
+
+            mutable std::mutex synchroMutex_;
+
+            std::list<NotFinalizedTexture> notFinalizedTextures_;
 
             struct PNGReadStruct { // структура, для выделения и освобождения PNG read структуры
 
@@ -70,7 +100,7 @@ namespace Utils {
 
             inline static bool checkPNG(std::istream& pngStream);
 
-            static void PNGToTexture(png_structp readStruct, png_infop infoStruct, Texture* texture) throw(std::runtime_error);
+            void PNGToTexture(png_structp readStruct, png_infop infoStruct, boost::shared_ptr<Texture> texture) throw(std::runtime_error);
 
             static void PNGReadFunc(png_structp readStruct, png_bytep data, png_size_t length);
 

@@ -127,8 +127,8 @@ boost::shared_ptr<Resource> PCResourceLoader::loadTexture(const char* resourceNa
 
     boost::shared_ptr<Resource> textureResource = loadBinaryFile(resourceName);
 
-    Texture* texture = textureFactory_->createFromPNGBuffer(textureResource->getData());
+    boost::shared_ptr<Texture> texture = textureFactory_->createFromPNGBuffer(textureResource->getData());
 
-    return boost::shared_ptr<Texture>(texture);
+    return texture;
 
 }

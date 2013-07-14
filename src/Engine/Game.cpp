@@ -21,6 +21,7 @@
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
+#include <Utils/TextureFactory.hpp>
 
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuFactory.hpp>
@@ -45,6 +46,7 @@ Game::Game() throw(runtime_error):
     lua_(Lua::getInstance()),
     resourceManager_(ResourceManager::getInstance()),
     menuFactory_(MenuFactory::getInstance()),
+    textureFactory_(TextureFactory::getInstance()),
     graphics_(Graphics::getInstance()),
     scrWidth_(640),
     scrHeight_(480),
@@ -79,6 +81,8 @@ Game* Game::Create() throw(runtime_error) {
 
 
 void Game::onLoop() throw(std::exception) {
+
+    textureFactory_->finalizeLoadedTextures();
 
     exception_ptr e = getException();
 
