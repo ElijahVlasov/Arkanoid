@@ -35,7 +35,7 @@ TextureManager::~TextureManager() {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    updateTexturesForDelete();
+    updateTexturesForDelete(); // Удаляем текстуры для удаления.
 
     if(freeTextures_.empty()) {
         return;
@@ -89,7 +89,7 @@ GLuint TextureManager::createTexture() {
 
 void TextureManager::setTexture(GLuint texture, unsigned int width, unsigned int height, GLint format, const string& data) {
 
-    if(std::this_thread::get_id() == mainThreadID_) {
+    if(std::this_thread::get_id() == mainThreadID_) { // Если мы в главном потоке, можно создать текстуру.
 
         glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -117,6 +117,8 @@ void TextureManager::setTexture(GLuint texture, unsigned int width, unsigned int
 
     }
 
+    // Иначе создадим в главном потоке.
+
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     TextureManager::TextureStruct textureForCreate = {texture, width, height, format, data};
@@ -137,6 +139,8 @@ void TextureManager::deleteTexture(GLuint texture) {
         return;
 
     }
+
+    // Удалим позже, в главном потоке:
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 

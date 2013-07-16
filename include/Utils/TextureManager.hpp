@@ -14,19 +14,42 @@
 
 namespace Utils {
 
+    /** Менеджер текстур. Предназначен для создания, удаления,
+      * задания параметров OGL-текстур в неглавных потоках.
+      * Чтобы текстуры были успешно созданы, удалены и т.д.
+      * в главном потоке надо вызвать метод update().
+      * @author Elijah Vlasov
+    */
+
     class TextureManager: public Utils::Singleton<TextureManager> {
 
         SINGLETON(TextureManager)
 
         public:
 
+            /** Завершает создание, удаление и установку параметров
+              * текстур. Должен вызываться в главном потоке.
+            */
+
             void update();
+
+            /** Создать текстуру.
+            */
 
             GLuint createTexture();
 
+            /** Установить параметры текстуры.
+            */
+
             void setTexture(GLuint texture, unsigned int width, unsigned int height, GLint format, const std::string& textureData);
 
+            /** Удалить текстуру.
+            */
+
             void deleteTexture(GLuint texture);
+
+            /** Получить данные текстуры. Не работает в побочных потоках!
+            */
 
             std::string getTextureData(GLuint texture);
 

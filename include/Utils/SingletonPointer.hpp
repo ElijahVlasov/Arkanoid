@@ -3,6 +3,12 @@
 
 namespace Utils {
 
+    /** Умный указатель для синглтонов.
+      * При уничтожении вызывает Free() у синглтона.
+      * При копировании увеличивает количество ссылок у синглтона.
+      * @author Elijah Vlasov
+    */
+
 	template <class T> class SingletonPointer {
 
 		public:
@@ -22,7 +28,11 @@ namespace Utils {
 			SingletonPointer(const SingletonPointer<T>& pointer):
 				singleton_(pointer.singleton_)
 			{
-				singleton_->addRef();
+
+			    if(singleton_ != 0) {
+                    singleton_->addRef();
+			    }
+
 			}
 
 

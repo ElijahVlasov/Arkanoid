@@ -9,14 +9,27 @@
 
 namespace Utils {
 
+    /** Менеджер локализации.
+      * Хранит локализованный текст, для текущей локали.
+      * @author Elijah Vlasov
+    */
+
 	class LocalizationManager: public Singleton<LocalizationManager> {
 
 		SINGLETON(LocalizationManager)
 
 		public:
 
+		    /** Установить локаль. Менеджер будет загружать
+		      * XML-документ localeName.xml, если не удастся
+		      * загрузить сгенерирует исключение.
+		    */
+
 			void setLocale(const char* localeName) 				throw(std::runtime_error);
 			void setLocale(const std::string& localeName) 		throw(std::runtime_error);
+
+			/** Получить локализованную версию строкки.
+			*/
 
 			inline std::string getString(const char* key) const;
 			inline std::string getString(const std::string& key) const;

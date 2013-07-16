@@ -11,6 +11,10 @@
 
 namespace Utils {
 
+    /** Спрайт, отображающий только одну текстуру.
+      * @author Elijah Vlasov
+    */
+
     class StaticSprite: public Sprite {
 
         public:
@@ -24,7 +28,14 @@ namespace Utils {
             void onRender(const GeometryDefines::Box&   box);
             void onRender(const GeometryDefines::Polygon& polygon);
 
+            /** Получить текстуру.
+            */
+
             boost::shared_ptr<Utils::Texture> getTexture() const;
+
+            /** Установить текстуру.
+            */
+
             void setTexture(const boost::shared_ptr<Utils::Texture>& texture);
 
         private:
