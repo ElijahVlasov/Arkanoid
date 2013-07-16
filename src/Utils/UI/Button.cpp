@@ -118,6 +118,8 @@ void Button::drawText() {
 
 void Button::mouseDown(int x, int y, Utils::MouseButton btn) {
 
+    prevTexture_ = curTexture_;
+
     curTexture_ = clickedTexture_;
 
     Component::mouseDown(x, y, btn);
@@ -128,8 +130,28 @@ void Button::mouseDown(int x, int y, Utils::MouseButton btn) {
 
 void Button::mouseUp(int x, int y, Utils::MouseButton btn) {
 
-    curTexture_ = defTexture_;
+    curTexture_ = prevTexture_;
 
     Component::mouseUp(x, y, btn);
+
+}
+
+
+
+void Button::mouseHover(int x, int y) {
+
+    curTexture_ = hoveredTexture_;
+
+    Component::mouseHover(x, y);
+
+}
+
+
+
+void Button::mouseLeave(int x, int y) {
+
+    curTexture_ = defTexture_;
+
+    Component::mouseLeave(x, y);
 
 }
