@@ -65,8 +65,20 @@ namespace Utils {
 
 
 
+			const T* get() const {
+                return singleton_;
+			}
+
+
+
 			T* operator -> () {
 				return singleton_;
+			}
+
+
+
+			const T* operator -> () const {
+                return singleton_;
 			}
 
 		private:
