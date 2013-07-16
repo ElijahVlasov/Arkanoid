@@ -7,6 +7,7 @@
 
 #include <Utils/assert.hpp>
 #include <Utils/Texture.hpp>
+#include <Utils/TextureManager.hpp>
 
 #include "gl_includes.h"
 
@@ -17,17 +18,16 @@ using namespace Utils;
 
 
 Texture::Texture():
+    textureManager_(TextureManager::getInstance()),
     width_(0),
-    height_(0)
-{
-
-    glGenTextures(1, &name_);
-
-}
+    height_(0),
+    name_(textureManager_->createTexture())
+{}
 
 
 
 Texture::Texture(const Texture& texture):
+    textureManager_(TextureManager::getInstance()),
     width_(texture.width_),
     height_(texture.height_),
     format_(texture.format_)
@@ -41,7 +41,7 @@ Texture::Texture(const Texture& texture):
 
 Texture::~Texture() {
 
-    glDeleteTextures(1, &name_);
+    textureManager_->deleteTexture(name_);
 
 }
 
@@ -49,8 +49,8 @@ Texture::~Texture() {
 
 Texture& Texture::operator=(const Texture& texture) {
 
-    width_      =  texture.width_;
-    height_     =  texture.height_;
+    width_        =  texture.width_;
+    height_       =  texture.height_;
 
     format_       =  texture.format_;
 
@@ -64,31 +64,7 @@ Texture& Texture::operator=(const Texture& texture) {
 
 string Texture::getData() const {
 
-    unsigned int bpp;
-
-    switch(format_) {
-
-        case GL_RGB: {
-            bpp = 3;
-        }
-        break;
-
-        case GL_RGBA: {
-            bpp = 4;
-        }
-        break;
-
-    }
-
-    string data;
-
-    data.resize(width_ * height_ * bpp); // Размер данных равен количеству пикселей в текстуре * байт на пиксель
-
-    glBindTexture(GL_TEXTURE_2D, name_);
-
-    glGetTexImage(GL_TEXTURE_2D, 0, format_, GL_UNSIGNED_BYTE, reinterpret_cast<GLvoid*>(const_cast<char*>(data.data())));
-
-    return data;
+    return textureManager_->getTextureData(name_);
 
 }
 
@@ -96,15 +72,7 @@ string Texture::getData() const {
 
 void Texture::setData(const std::string& data) {
 
-    glBindTexture(GL_TEXTURE_2D, name_);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, format_, width_, height_, 0, format_, GL_UNSIGNED_BYTE, static_cast<const GLvoid*>(data.data()));
+    textureManager_->setTexture(name_, width_, height_, format_, data);
 
 }
 

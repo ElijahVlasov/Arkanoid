@@ -111,6 +111,7 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/StaticSprite.cpp
   ${SRC_DIR}/Utils/Texture.cpp
   ${SRC_DIR}/Utils/TextureFactory.cpp
+  ${SRC_DIR}/Utils/TextureManager.cpp
   ${SRC_DIR}/Utils/Utils.cc
 )
 
@@ -214,6 +215,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/StaticSprite.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
   ${INCLUDE_DIR}/Utils/TextureFactory.hpp
+  ${INCLUDE_DIR}/Utils/TextureManager.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp
 )
 

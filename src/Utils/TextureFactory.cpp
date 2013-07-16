@@ -21,9 +21,7 @@ using namespace Utils;
 
 
 
-TextureFactory::TextureFactory():
-    mainThreadID_(std::this_thread::get_id())
-{}
+TextureFactory::TextureFactory() {}
 
 
 
@@ -122,39 +120,7 @@ void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, 
 
     png_read_image(readStruct, rowPtrs.get());
 
-    if(std::this_thread::get_id() == mainThreadID_) {
-
-        texture->setData(textureData);
-
-    } else {
-
-        std::lock_guard<std::mutex> guard(synchroMutex_);
-
-        TextureFactory::NotFinalizedTexture notFinalizedTexture = {texture, textureData};
-
-        notFinalizedTextures_.push_back(notFinalizedTexture);
-
-    }
-
-}
-
-
-
-void TextureFactory::finalizeLoadedTextures() {
-
-    std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    if(std::this_thread::get_id() != mainThreadID_) {
-        return;
-    }
-
-    BOOST_FOREACH(TextureFactory::NotFinalizedTexture& notFinalizedTexture, notFinalizedTextures_) {
-
-        notFinalizedTexture.texture->setData(notFinalizedTexture.data);
-
-    }
-
-    notFinalizedTextures_.clear();
+    texture->setData(textureData);
 
 }
 

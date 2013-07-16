@@ -22,7 +22,7 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/TextureFactory.hpp>
+#include <Utils/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuFactory.hpp>
@@ -144,7 +144,7 @@ namespace Engine {
 
             Utils::SingletonPointer<Utils::UI::MenuFactory> menuFactory_;
 
-            Utils::SingletonPointer<Utils::TextureFactory>  textureFactory_;
+            Utils::SingletonPointer<Utils::TextureManager>  textureManager_;
 
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;

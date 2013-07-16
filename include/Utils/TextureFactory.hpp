@@ -37,32 +37,12 @@ namespace Utils {
 
             boost::shared_ptr<Texture> createFromPNGBuffer(const std::string& buffer) throw(std::invalid_argument, std::runtime_error);
 
-            /** Завершить загрузку текстур.
-              * Если текстура загружалась не в главном потоке, то
-              * требуется вызвать этот метод в главном потоке, чтобы
-              * текстуры были успешно перенесены в видео-память.
-            */
-
-            void finalizeLoadedTextures();
 
         protected:
 
             TextureFactory();
 
         private:
-
-            struct NotFinalizedTexture {
-
-                boost::shared_ptr<Texture> texture;
-                std::string data;
-
-            };
-
-            std::thread::id mainThreadID_;
-
-            mutable std::mutex synchroMutex_;
-
-            std::list<NotFinalizedTexture> notFinalizedTextures_;
 
             struct PNGReadStruct { // структура, для выделения и освобождения PNG read структуры
 
