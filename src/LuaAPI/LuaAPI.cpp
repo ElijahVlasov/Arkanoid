@@ -64,16 +64,6 @@ LuaAPI_::LuaAPI_():
 
     module(L, "system") [
 
-        class_<LuaAPI_>("direction")
-            .enum_("")
-                [
-
-                    value("up",     Direction::UP),
-                    value("down",   Direction::DOWN),
-                    value("right",  Direction::RIGHT),
-                    value("left",   Direction::LEFT)
-
-                ],
 
         //////////////////////////////// Ресурсы: ///////////////////////////////////
 
@@ -246,18 +236,27 @@ LuaAPI_::LuaAPI_():
 
     module(L, "engine") [
 
-        class_<Object, Object_wrapper, ObjectPtr>("object"),
-
         class_<LocationLayer, LocationLayerPtr >("location_layer")
             .def(constructor<>())
             .def("add_object", &LocationLayer::addObject),
 
+        class_<Object, Object_wrapper, ObjectPtr>("object")
+            .def("on_collision",        &Object::onCollision)
+            .def("on_render",           &Object::onRender,  &Object_wrapper::default_onRender)
+            .def("live",                &Object::live)
+            .def("move",                &Object::move,      &Object_wrapper::default_move)
+            .def("spin",                &Object::spin,      &Object_wrapper::default_spin)
+            .def("get_center"           &Object::getCenter, &Object_wrapper::default_getCenter)
+            .property("parent_layer",   &Object::getParentLayer, &Object::setParentLayer),
+
+
+
         class_<Location, LocationPtr >("location")
             .def(constructor<>())
             .property("ground_texture", &Location::getGroundTexture, &Location::setGroundTexture)
-            .property("width", &Location::getWidth, &Location::setWidth)
-            .property("height", &Location::getHeight, &Location::setHeight)
-            .property("name", &Location::getName, (void (Location::*)(const string&))&Location::setName)
+            .property("width",          &Location::getWidth,         &Location::setWidth)
+            .property("height",         &Location::getHeight,        &Location::setHeight)
+            .property("name",           &Location::getName,          (void (Location::*)(const string&))&Location::setName)
 
 
     ];
