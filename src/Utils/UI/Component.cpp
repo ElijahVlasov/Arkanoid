@@ -31,7 +31,10 @@ using namespace std;
 
 
 Component::Component() throw(runtime_error):
-    box_(PointI(0, 0), PointI(0, 0))
+    box_(PointI(0, 0), PointI(0, 0)),
+    mouseDownX_(-100),
+    mouseDownY_(-100),
+    isHovered_(false)
 {
 
     try {
@@ -214,15 +217,21 @@ bool Component::isContains(int x, int y) {
 
 
 
+
 // Все событийные методы преобразовывают аргументы в
 // Event структуры и вызывают обработчики.
 
 void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
+    if(!isContains(x, y)) {
+        return;
+    }
+
+
     if(btn == Utils::BUTTON_LEFT) { // сохраним координаты, на случай, если это был клик.
 
-            mouseDownX_ = x;
-            mouseDownY_ = y;
+        mouseDownX_ = x;
+        mouseDownY_ = y;
 
     }
 
@@ -230,8 +239,8 @@ void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
         MouseEvent event;
 
-        event.x            =  x;
-        event.y            =  y;
+        event.x            =  x - box_.min_corner().x();
+        event.y            =  y - box_.min_corner().y();
         event.mouseButton  =  btn;
 
         mouseDownEvent_(this, event);
@@ -245,12 +254,16 @@ void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
 void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
 
+    if(!isContains(x, y)) {
+        return;
+    }
+
     try {
 
         MouseEvent event;
 
-        event.x            =  x;
-        event.y            =  y;
+        event.x            =  x - box_.min_corner().x();
+        event.y            =  y - box_.min_corner().y();
         event.mouseButton  =  btn;
 
         mouseUpEvent_(this, event);
@@ -265,7 +278,7 @@ void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
     if((mouseDownX_ == x)
         || (mouseDownY_ == y)) { // если был клик.
 
-            click(x, y);
+            click(x - box_.min_corner().x(), y - box_.min_corner().y());
 
     }
 
@@ -275,12 +288,16 @@ void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
 
 void Component::click(int x, int y) {
 
+    if(!isContains(x, y)) {
+        return;
+    }
+
     try {
 
         MouseEvent event;
 
-        event.x            =  x;
-        event.y            =  y;
+        event.x            =  x - box_.min_corner().x();
+        event.y            =  y - box_.min_corner().y();
         event.mouseButton  =  MouseButton::BUTTON_LEFT;
 
         clickEvent_(this, event);
@@ -292,20 +309,64 @@ void Component::click(int x, int y) {
 
 
 
-void Component::hoverMouse(int x, int y) {
+void Component::mouseMotion(int x, int y) {
+
+    if(!isContains(x, y)) {
+
+        if(isHovered_) {
+
+            isHovered_ = false;
+
+            mouseLeave(x, y);
+
+        }
+
+        return;
+
+    }
+
+    isHovered_ = true;
+
+    mouseHover(x, y);
+
+
+}
+
+
+
+void Component::mouseHover(int x, int y) {
 
     try {
 
         MouseEvent event;
 
-        event.x            =  x;
-        event.y            =  y;
+        event.x            =  x - box_.min_corner().x();
+        event.y            =  y - box_.min_corner().y();
         event.mouseButton  =  MouseButton::BUTTON_NONE;
 
         hoverEvent_(this, event);
 
     } catch(const boost::bad_function_call&) {}
 
+}
+
+
+
+void Component::mouseLeave(int x, int y) {
+
+    try {
+
+        MouseEvent event;
+
+        event.x             =   x;
+        event.y             =   y;
+        event.mouseButton   =   MouseButton::BUTTON_NONE;
+
+        isHovered_ = false;
+
+        leaveEvent_(event);
+
+    } catch (const boost::bad_function_call&){}
 
 }
 
@@ -360,6 +421,14 @@ void Component::keyUp(int key) {
 void Component::setHoveredEvent(const Component::MouseHoverEvent& eventHandler) {
 
     hoverEvent_ = eventHandler;
+
+}
+
+
+
+void Component::setMouseLeavedEvent(const Component::MouseLeaveEvent& eventHandler) {
+
+    leaveEvent_ = eventHandler;
 
 }
 

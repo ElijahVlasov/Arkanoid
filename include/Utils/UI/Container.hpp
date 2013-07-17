@@ -37,7 +37,7 @@ namespace Utils {
 
                 void mouseDown(int x, int y, MouseButton btn);
                 void mouseUp(int x, int y, MouseButton btn);
-                void hoverMouse(int x, int y);
+                void mouseMotion(int x, int y);
                 void keyDown(int key);
                 void keyUp(int key);
 

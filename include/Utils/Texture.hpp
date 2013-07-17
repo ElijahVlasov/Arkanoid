@@ -7,6 +7,8 @@
 #include <stdexcept>
 
 #include <Utils/Resource.hpp>
+#include <Utils/SingletonPointer.hpp>
+#include <Utils/TextureManager.hpp>
 
 #include "gl_includes.h"
 
@@ -74,6 +76,8 @@ namespace Utils {
             unsigned int getHeight() const;
 
         private:
+
+            mutable SingletonPointer<TextureManager> textureManager_;
 
             unsigned int width_, height_;
 

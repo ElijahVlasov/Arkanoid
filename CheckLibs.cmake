@@ -21,10 +21,10 @@ if(NOT OPENGL_FOUND)
     return()
 endif()
 
-find_package(DevIL REQUIRED)
+find_package(PNG REQUIRED)
 
-if(NOT IL_FOUND)
-    message(FATAL_ERROR "Can't find DevIL!")
+if(NOT PNG_FOUND)
+    message(FATAL_ERROR "Can't find libPNG!")
     return()
 endif()
 

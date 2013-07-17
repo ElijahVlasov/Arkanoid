@@ -1,17 +1,20 @@
 #ifndef _SALT2D_UTILS_PCRESOURCELOADER_HPP
 #define _SALT2D_UTILS_PCRESOURCELOADER_HPP
 
+#include <istream>
 #include <stdexcept>
 #include <string>
 
 #include <boost/shared_ptr.hpp>
 
-#include <IL/il.h>
+#include <png.h>
 
 #include <Utils/Resource.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/SingletonPointer.hpp>
 #include <Utils/Texture.hpp>
+#include <Utils/TextureFactory.hpp>
 
 namespace Utils {
 
@@ -36,7 +39,8 @@ namespace Utils {
 
         private:
 
-            void ILImageToTexture(ILuint ilTex, Texture* texture);
+            SingletonPointer<TextureFactory> textureFactory_;
+
 
     };
 

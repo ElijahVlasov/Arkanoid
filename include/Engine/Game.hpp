@@ -22,6 +22,7 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
+#include <Utils/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuFactory.hpp>
@@ -143,6 +144,8 @@ namespace Engine {
 
             Utils::SingletonPointer<Utils::UI::MenuFactory> menuFactory_;
 
+            Utils::SingletonPointer<Utils::TextureManager>  textureManager_;
+
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;
 
@@ -154,7 +157,7 @@ namespace Engine {
             mutable std::mutex   synchroMutex_;          // мьютекс защиты state_, scrWidth, scrHeight, isRunning
 
             mutable std::mutex   initMutex_; // нужен для синхронизации основного потока и потока загрузки
-            std::thread* initThread_;
+            boost::shared_ptr<std::thread> initThread_;
 
             // Установить текущее исключение(потом в главном потоке оно генерируется)
             void setException(const std::exception_ptr& e);

@@ -112,7 +112,7 @@ void MenuState::onMouseMotion(int x, int y) {
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     if(menu_ != 0) {
-        menu_->hoverMouse(x, y);
+        menu_->mouseMotion(x, y);
     }
 
 }

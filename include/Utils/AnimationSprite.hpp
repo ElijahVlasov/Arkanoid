@@ -14,6 +14,11 @@
 
 namespace Utils {
 
+    /** Спрайт, отображаующий последовательность
+      * кадров.
+      * @author Elijah Vlasov
+    */
+
     class AnimationSprite: public Sprite {
 
         public:

@@ -53,6 +53,11 @@ namespace Utils {
 
                 typedef boost::function<void (Component*, MouseEvent&)> MouseHoverEvent;
 
+                /** Делегат покидания курсором компонента.
+                */
+
+                typedef boost::function<void (MouseEvent& event)> MouseLeaveEvent;
+
                 /** Делегат перерисовки компонента.
                 */
 
@@ -169,7 +174,10 @@ namespace Utils {
                 /** Наведение мыши на компонент.
                 */
 
-                virtual void hoverMouse(int x, int y);
+                virtual void mouseMotion(int x, int y);
+
+                virtual void mouseHover(int x, int y);
+                virtual void mouseLeave(int x, int y);
 
                 /** Клавиша зажата.
                 */
@@ -190,6 +198,8 @@ namespace Utils {
                 */
 
                 void setHoveredEvent(const MouseHoverEvent& eventHandler);
+
+                void setMouseLeavedEvent(const MouseLeaveEvent& eventHandler);
 
                 /** Установить MouseClickEvent.
                 */
@@ -234,6 +244,7 @@ namespace Utils {
                 MouseDownEvent    mouseDownEvent_;
                 MouseUpEvent      mouseUpEvent_;
                 MouseHoverEvent   hoverEvent_;
+                MouseLeaveEvent   leaveEvent_;
                 MouseClickEvent   clickEvent_;
 
                 DrawEvent         drawEvent_;
@@ -242,6 +253,8 @@ namespace Utils {
                 KeyUpEvent        keyUpEvent_;
 
                 int mouseDownX_, mouseDownY_;
+
+                bool isHovered_;
 
         };
 

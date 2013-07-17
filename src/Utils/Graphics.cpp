@@ -17,10 +17,10 @@ const Color Graphics::defaultClearColor_ = {1.0f, 1.0f, 1.0f, 0.0f};
 
 const Graphics::CoordArray Graphics::UP_COORDS = {
 
-    Point(0.0f, 1.0f),
-    Point(1.0f, 1.0f),
+    Point(0.0f, 0.0f),
     Point(1.0f, 0.0f),
-    Point(0.0f, 0.0f)
+    Point(1.0f, 1.0f),
+    Point(0.0f, 1.0f)
 
 };
 

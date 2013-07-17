@@ -2,18 +2,21 @@
 
 #include <ios>
 #include <fstream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
 #include <boost/format.hpp>
+#include <boost/shared_array.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <IL/il.h>
-#include <IL/ilu.h>
+#include <png.h>
+#include <pngconf.h>
 
 #include <Utils.hpp>
 
 #include <Utils/PCResourceLoader.hpp>
+#include <Utils/TextureFactory.hpp>
 
 #include "salt_defines.h"
 #include "gl_includes.h"
@@ -26,12 +29,9 @@ using namespace Utils::FreeType;
 
 
 
-PCResourceLoader::PCResourceLoader() {
-
-    ilInit();
-    iluInit();
-
-}
+PCResourceLoader::PCResourceLoader():
+    textureFactory_(TextureFactory::getInstance())
+{}
 
 
 
@@ -125,77 +125,10 @@ boost::shared_ptr<Resource> PCResourceLoader::loadSound(const char* fileName) th
 
 boost::shared_ptr<Resource> PCResourceLoader::loadTexture(const char* resourceName) throw(runtime_error) {
 
-    boost::shared_ptr<Resource> resource = loadBinaryFile(resourceName);
+    boost::shared_ptr<Resource> textureResource = loadBinaryFile(resourceName);
 
-    Texture* texture = new Texture();
+    boost::shared_ptr<Texture> texture = textureFactory_->createFromPNGBuffer(textureResource->getData());
 
-    string textureData = resource->getData();
-
-    ILuint ilTexture;
-
-    ilGenImages(1, &ilTexture);
-
-    ilBindImage(ilTexture);
-
-    ASSERT(
-        ilLoadL(IL_PNG, textureData.data(), textureData.size()),
-        runtime_error(
-            (boost::format("Can't load \"%1%\":\n%2%")
-                % resourceName
-                % iluErrorString(ilGetError())
-            ).str()
-        )
-    );
-
-    ILImageToTexture(ilTexture, texture);
-
-    ilDeleteImages(1, &ilTexture);
-
-    return boost::shared_ptr<Texture>(texture);
-
-}
-
-
-
-void PCResourceLoader::ILImageToTexture(ILuint ilTex, Texture* texture) {
-
-    unsigned int width, height, bpp;
-
-    ilBindImage(ilTex);
-
-    width   =  ilGetInteger(IL_IMAGE_WIDTH);
-    height  =  ilGetInteger(IL_IMAGE_HEIGHT);
-
-    texture->setWidth(width);
-    texture->setHeight(height);
-
-    ILint format = ilGetInteger(IL_IMAGE_FORMAT);
-
-    switch(format) {
-
-        case IL_RGB: {
-            texture->setFormat(GL_RGB);
-            bpp = 3;
-        }
-        break;
-
-        case IL_RGBA: {
-            texture->setFormat(GL_RGBA);
-            bpp = 4;
-        }
-        break;
-
-    }
-
-    string textureData;
-
-    textureData.resize(width * height * bpp);
-
-    ilCopyPixels(0, 0, 0,
-                 width, height, 1,
-                 format, IL_UNSIGNED_BYTE, reinterpret_cast<void*>(const_cast<char*>(textureData.data()))
-                );
-
-    texture->setData(textureData);
+    return texture;
 
 }
