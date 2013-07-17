@@ -26,12 +26,20 @@ Lua::Lua():
     luaState_(lua_open()) // Подготавливаем Lua VM
 {
 
-    luaL_openlibs(luaState_);
-    /*luaopen_base(luaState_);
-    luaopen_table(luaState_);
-    luaopen_io(luaState_);
-    luaopen_string(luaState_);
-    luaopen_math(luaState_);*/
+    lua_pushcfunction(luaState_, luaopen_base);
+    lua_call(luaState_, 0, 0);
+
+    lua_pushcfunction(luaState_, luaopen_package);
+    lua_call(luaState_, 0, 0);
+
+    lua_pushcfunction(luaState_, luaopen_table);
+    lua_call(luaState_, 0, 0);
+
+    lua_pushcfunction(luaState_, luaopen_string);
+    lua_call(luaState_, 0, 0);
+
+    lua_pushcfunction(luaState_, luaopen_math);
+    lua_call(luaState_, 0, 0);
 
     luabind::open(luaState_); // подключаем luabind
 
@@ -75,8 +83,12 @@ void Lua::loadScript(const string& name) throw(runtime_error, invalid_argument) 
 
     string script = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, "scripts/" + name)->getData();
 
-    // Добавляем объявление скрипта, как модуля
-    script = (boost::format("module(\"%1%\", package.seeall)\n%2%") % moduleName % script).str();
+    if(!checkClass(script)) {
+
+        // Добавляем объявление скрипта, как модуля
+        script = (boost::format("module(\"%1%\", package.seeall)\n%2%") % moduleName % script).str();
+
+    }
 
     int result = luaL_dostring(luaState_, script.c_str());
 
@@ -167,5 +179,50 @@ luabind::object Lua::getFunctionObject(const char* funcName) throw(runtime_error
 luabind::object Lua::getFunctionObject(const string& funcName) throw(runtime_error, invalid_argument) {
 
     return getFunctionObject(funcName.c_str());
+
+}
+
+
+
+bool Lua::checkClass(const string& script) {
+
+    std::size_t classIndex = script.find("class");
+
+    if(classIndex == string::npos) {
+        return false;
+    }
+
+    if(classIndex != 0) {
+
+        char ch = script[classIndex - 1];
+
+        if( (ch != ' ')
+            || (ch != '\n') ) {
+
+            return false;
+
+        }
+
+    }
+
+    for(std::size_t i = classIndex; i > 0; i--) {
+
+        if(script[i] == '-') {
+
+            if(i != 0) {
+
+                if(script[i - 1] == '-') {
+
+                    return false;
+
+                }
+
+            }
+
+        }
+
+    }
+
+    return true;
 
 }

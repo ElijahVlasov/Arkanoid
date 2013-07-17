@@ -76,6 +76,8 @@ namespace Utils {
 
         private:
 
+            bool checkClass(const std::string& script);
+
             SingletonPointer<ResourceManager> resourceManager_;
 
             lua_State* luaState_;
