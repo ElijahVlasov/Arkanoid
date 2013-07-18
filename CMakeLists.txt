@@ -64,7 +64,6 @@ set(ENGINE_SOURCES
   ${SRC_DIR}/Engine/DynamicObject.cpp
   ${SRC_DIR}/Engine/Game.cpp
   ${SRC_DIR}/Engine/Location.cpp
-  ${SRC_DIR}/Engine/LocationLayer.cpp
   ${SRC_DIR}/Engine/Object.cpp
   ${SRC_DIR}/Engine/Renderer.cpp
   ${SRC_DIR}/Engine/SaltEngine.cpp
@@ -157,7 +156,6 @@ set(ENGINE_HEADERS
   ${INCLUDE_DIR}/Engine/IController.hpp
   ${INCLUDE_DIR}/Engine/IUpdatable.hpp
   ${INCLUDE_DIR}/Engine/Location.hpp
-  ${INCLUDE_DIR}/Engine/LocationLayer.hpp
   ${INCLUDE_DIR}/Engine/Object.hpp
   ${INCLUDE_DIR}/Engine/Player.hpp
   ${INCLUDE_DIR}/Engine/PCClient.hpp

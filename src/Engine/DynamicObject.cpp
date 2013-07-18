@@ -1,5 +1,6 @@
 #include <mutex>
 
+#include <boost/geometry.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Collision.hpp>

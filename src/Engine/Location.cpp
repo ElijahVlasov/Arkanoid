@@ -2,11 +2,11 @@
 #include <string>
 #include <stdexcept>
 
-#include <boost/intrusive_ptr.hpp>
+#include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Location.hpp>
-#include <Engine/LocationLayer.hpp>
+#include <Engine/Object.hpp>
 
 #include <Utils/Resource.hpp>
 #include <Utils/ResourceManager.hpp>
@@ -67,25 +67,44 @@ boost::shared_ptr<Texture> Location::getGroundTexture() const {
 
 
 
-void Location::addLayer(const LocationLayerPtr& layer) {
+void Location::addObject(const ObjectPtr& object) {
 
-	layers_.push_back(layer);
-
-}
-
-
-
-void Location::setLayers(const list<LocationLayerPtr>& layers) {
-
-	layers_ = layers;
+	objects_.push_back(object);
 
 }
 
 
 
-const list<LocationLayerPtr>& Location::getLayers() const {
+void Location::deleteObject(const Object& object) {
 
-	return layers_;
+    auto iter = objects_.begin();
+
+    for(; iter != objects_.end(); ++iter) {
+
+        ObjectPtr obj = *iter;
+
+        if(*obj == object) {
+            break;
+        }
+
+    }
+
+    if(iter == objects_.end()) {
+        return;
+    }
+
+    auto nextAfterObject = iter;
+    ++ nextAfterObject;
+
+    objects_.erase(iter, nextAfterObject);
+
+}
+
+
+
+void Location::deleteObject(const ObjectPtr& object) {
+
+    deleteObject(*object);
 
 }
 

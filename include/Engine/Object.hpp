@@ -12,8 +12,7 @@
 
 #include <boost/uuid/uuid.hpp>
 
-#include <Engine/Direction.hpp>
-#include <Engine/LocationLayer.hpp>
+#include <Engine/Location.hpp>
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Sprite.hpp>
@@ -60,7 +59,7 @@ namespace Engine {
             /** Передвинуть объект на step в текущем направлении.
             */
 
-            virtual void move(float step);
+            virtual void move(float step) = 0;
 
             /** Повернуть объект на step.
               * @param step Единица измерения - 1 / (2 * pi).
@@ -68,25 +67,15 @@ namespace Engine {
 
             virtual void spin(float step);
 
-            /** Объекты равны если id'ы равны.
+            /** Установить локацию, в которой находится объект.
             */
 
-            inline bool operator == (const Object& object) { return id_ == object.id_; }
+            void setLocation(const LocationPtr& location);
 
-            /** Объекты не равны если id'ы не равны.
+            /** Локация, в которой находится объект.
             */
 
-            inline bool operator != (const Object& object) { return !(*this == object); }
-
-            /** Установить слой локации, в котором находится объект.
-            */
-
-            void setParentLayer(const LocationLayerPtr& layer);
-
-            /** Слой локации, в котором находится объект.
-            */
-
-            const LocationLayerPtr& getParentLayer() const;
+            const LocationPtr& getLocation() const;
 
             /** Идентификатор объекта.
             */
@@ -112,7 +101,7 @@ namespace Engine {
 
             mutable std::mutex synchroMutex_;
 
-            LocationLayerPtr parentLayer_;
+            LocationPtr location_;
 
             GeometryDefines::Polygon polygon_;
 
@@ -153,7 +142,8 @@ namespace Engine {
 
     }
 
-
+    inline bool operator == (const Object& obj1, const Object& obj2) { return obj1.getId() == obj2.getId(); }
+    inline bool operator != (const Object& obj1, const Object& obj2) { return obj1.getId() != obj2.getId(); }
 
 }
 

@@ -7,7 +7,6 @@
 #include <boost/mem_fn.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <Engine/LocationLayer.hpp>
 #include <Engine/SaltEngine.hpp>
 #include <Engine/World.hpp>
 

@@ -236,18 +236,14 @@ LuaAPI_::LuaAPI_():
 
     module(L, "engine") [
 
-        class_<LocationLayer, LocationLayerPtr >("location_layer")
-            .def(constructor<>())
-            .def("add_object", &LocationLayer::addObject),
-
         class_<Object, Object_wrapper, ObjectPtr>("object")
             .def("on_collision",        &Object::onCollision)
-            .def("on_render",           &Object::onRender,  &Object_wrapper::default_onRender)
+            .def("on_render",           &Object::onRender,    &Object_wrapper::default_onRender)
             .def("live",                &Object::live)
-            .def("move",                &Object::move,      &Object_wrapper::default_move)
-            .def("spin",                &Object::spin,      &Object_wrapper::default_spin)
-            .def("get_center"           &Object::getCenter, &Object_wrapper::default_getCenter)
-            .property("parent_layer",   &Object::getParentLayer, &Object::setParentLayer),
+            .def("move",                &Object::move,        &Object_wrapper::default_move)
+            .def("spin",                &Object::spin,        &Object_wrapper::default_spin)
+//            .def("get_center"           &Object::getCenter, &Object_wrapper::default_getCenter)
+            .property("location",       &Object::getLocation, &Object::setLocation),
 
 
 

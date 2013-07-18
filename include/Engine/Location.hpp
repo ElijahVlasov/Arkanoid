@@ -13,9 +13,9 @@
 
 namespace Engine {
 
-	class LocationLayer;
+	class Object;
 
-	typedef boost::shared_ptr<LocationLayer> LocationLayerPtr;
+	typedef boost::shared_ptr<Object> ObjectPtr;
 
 	class Location {
 
@@ -29,9 +29,10 @@ namespace Engine {
 			void setGroundTexture(const boost::shared_ptr<Utils::Texture>& groundTexture);
 			boost::shared_ptr<Utils::Texture> getGroundTexture() const;
 
-			void addLayer(const LocationLayerPtr& layer);
-			void setLayers(const std::list<LocationLayerPtr>& layers);
-			const std::list<LocationLayerPtr>& getLayers() const;
+			void addObject(const ObjectPtr& object);
+
+			void deleteObject(const ObjectPtr& object);
+			void deleteObject(const Object& object);
 
 			void setWidth(float width);
 			float getWidth() const;
@@ -51,7 +52,7 @@ namespace Engine {
 
 			boost::shared_ptr<Utils::Texture> groundTexture_;
 
-			std::list<LocationLayerPtr> layers_;
+			std::list<ObjectPtr> objects_;
 
 	};
 

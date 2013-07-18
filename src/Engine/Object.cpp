@@ -6,11 +6,12 @@
 #include <string>
 
 #include <boost/foreach.hpp>
+#include <boost/geometry.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 
-#include <Engine/Direction.hpp>
+#include <Engine/Location.hpp>
 #include <Engine/Object.hpp>
 #include <Engine/Renderer.hpp>
 
@@ -106,21 +107,21 @@ void Object::spin(float step) {
 
 
 
-void Object::setParentLayer(const LocationLayerPtr& layer) {
+void Object::setLocation(const LocationPtr& location) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    parentLayer_ = layer;
+    location_ = location;
 
 }
 
 
 
-const LocationLayerPtr& Object::getParentLayer() const {
+const LocationPtr& Object::getLocation() const {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    return parentLayer_;
+    return location_;
 
 }
 
