@@ -59,54 +59,6 @@ void Object::onRender() {
 
 
 
-void Object::move(float step) {
-
-    std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    float radianDirection = direction_ * 2 * PI;
-
-    GeometryDefines::Point movementVector(cos(radianDirection) * step, sin(radianDirection) * step);
-
-    GeometryDefines::Polygon::ring_type& polygonPoints = polygon_.outer();
-
-    BOOST_FOREACH(GeometryDefines::Point& polygonPoint, polygonPoints) {
-
-    	float newX = polygonPoint.x() + movementVector.x();
-    	float newY = polygonPoint.y() + movementVector.y();
-
-    	polygonPoint.x(newX);
-    	polygonPoint.y(newY);
-
-    }
-
-}
-
-
-
-void Object::spin(float step) {
-
-	std::lock_guard<std::mutex> guard(synchroMutex_);
-
-	GeometryDefines::Polygon::ring_type& polygonPoints = polygon_.outer();
-
-	addToDirection(step);
-
-	BOOST_FOREACH(GeometryDefines::Point& polygonPoint, polygonPoints) {
-
-		float angle = step * (2 * PI);
-
-		float newX = polygonPoint.x() * cos(angle) - polygonPoint.y() * sin(angle);
-		float newY = polygonPoint.x() * sin(angle) + polygonPoint.y() * cos(angle);
-
-		polygonPoint.x(newX);
-		polygonPoint.y(newY);
-
-	}
-
-}
-
-
-
 void Object::setLocation(const LocationPtr& location) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
@@ -158,6 +110,14 @@ Object::DirectionVector Object::getDirectionVector() const {
 GeometryDefines::Polygon Object::getPolygon() const {
 
 	std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    return polygon_;
+
+}
+
+
+
+GeometryDefines::Polygon& Object::polygon() {
 
     return polygon_;
 

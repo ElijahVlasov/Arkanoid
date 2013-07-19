@@ -9,7 +9,8 @@ namespace Engine {
 
         public:
 
-            void live();
+            void move(float step);
+            void spin(float step);
 
     };
 

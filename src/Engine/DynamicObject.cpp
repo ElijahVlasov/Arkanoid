@@ -52,60 +52,47 @@ void DynamicObject::live() {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    /*float xMoving = 0.0f;
-    float yMoving = 0.0f;
+}
 
-    if(controller_->getUpState()) {
 
-        if(!controller_->getDownState()) {
 
-            yMoving = MIN_MOVE;
+void DynamicObject::move(float step) {
 
-        }
+    Object::DirectionVector movementVector = getDirectionVector();
 
-    } else if(controller_->getDownState()) {
+    GeometryDefines::Polygon::ring_type& polygonPoints = polygon().outer();
 
-        yMoving = -MIN_MOVE;
+    BOOST_FOREACH(GeometryDefines::Point& polygonPoint, polygonPoints) {
 
-    }
+    	float newX = polygonPoint.x() + movementVector.x();
+    	float newY = polygonPoint.y() + movementVector.y();
 
-    if(controller_->getLeftState()) {
-
-        if(!controller_->getRightState()) {
-
-            xMoving = -MIN_MOVE;
-
-        }
-
-    } else if(controller_->getRightState()) {
-
-        xMoving = MIN_MOVE;
+    	polygonPoint.x(newX);
+    	polygonPoint.y(newY);
 
     }
 
-    if((xMoving != 0.0f) && (yMoving != 0.0f)) {
+}
 
-        if(isMoving_) {
 
-            isMoving_ = false;
 
-            this->onEndMoving();
+void DynamicObject::spin(float step) {
 
-            return;
+    GeometryDefines::Polygon::ring_type& polygonPoints = polygon().outer();
 
-        }
+	addToDirection(step);
 
-    }
+	BOOST_FOREACH(GeometryDefines::Point& polygonPoint, polygonPoints) {
 
-    if(!isMoving_) {
+		float angle = step * (2 * PI);
 
-        isMoving_ = true;
+		float newX = polygonPoint.x() * cos(angle) - polygonPoint.y() * sin(angle);
+		float newY = polygonPoint.x() * sin(angle) + polygonPoint.y() * cos(angle);
 
-        this->onStartMoving();
+		polygonPoint.x(newX);
+		polygonPoint.y(newY);
 
-    }
-
-    move(xMoving, yMoving);*/
+	}
 
 }
 

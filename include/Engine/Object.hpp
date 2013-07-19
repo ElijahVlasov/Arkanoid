@@ -65,7 +65,7 @@ namespace Engine {
               * @param step Единица измерения - 1 / (2 * pi).
             */
 
-            virtual void spin(float step);
+            virtual void spin(float step) = 0;
 
             /** Установить локацию, в которой находится объект.
             */
@@ -82,6 +82,9 @@ namespace Engine {
 
             boost::uuids::uuid getId() const;
 
+            inline void addToDirection(float step);
+            void setDirection(float direction);
+
             float getDirection() const;
 
             DirectionVector getDirectionVector() const;
@@ -95,6 +98,8 @@ namespace Engine {
 
             GeometryDefines::Polygon getPolygon() const;
 
+            GeometryDefines::Polygon& polygon();
+
             virtual GeometryDefines::Point getCenter() const;
 
         private:
@@ -106,8 +111,6 @@ namespace Engine {
             GeometryDefines::Polygon polygon_;
 
             boost::shared_ptr<Utils::Sprite> sprite_;
-
-            inline void addToDirection(float step);
 
             float direction_;
 

@@ -1,7 +1,8 @@
-﻿#include <Engine/StaticObject.hpp>
+#include <Engine/StaticObject.hpp>
 
 using namespace Engine;
 
 
 
-void StaticObject::live() {/* ни чего не делать */}
+void StaticObject::move(float step) {}
+void StaticObject::spin(float step) {}

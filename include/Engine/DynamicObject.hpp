@@ -24,6 +24,9 @@ namespace Engine {
 
             virtual void live();
 
+            void move(float step);
+            void spin(float step);
+
             void setController(const boost::shared_ptr<IController>& controller);
 
         private:
