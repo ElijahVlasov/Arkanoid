@@ -10,9 +10,11 @@
 #include <Utils/UI/Event.hpp>
 #include <Utils/UI/KeyEvent.hpp>
 #include <Utils/UI/Label.hpp>
+#include <Utils/UI/LoadingAnimation.hpp>
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuBuilder.hpp>
 #include <Utils/UI/MouseEvent.hpp>
+#include <Utils/UI/Picture.hpp>
 
 #endif
 
@@ -25,17 +27,6 @@ namespace Utils {
     */
 
     namespace UI {
-
-        class Button;
-        class Component;
-        template<class EventType> class ComponentEvent_wrapper;
-        class ComponentFactory;
-        class Event;
-        struct KeyEvent;
-        class Label;
-        class Menu;
-        class MenuFactory;
-        struct MouseEvent;
 
     }
 

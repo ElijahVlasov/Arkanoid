@@ -47,6 +47,7 @@ namespace Utils {
 
                 static const std::string BUTTON_TYPE;
                 static const std::string LABEL_TYPE;
+                static const std::string PICTURE_TYPE;
 
                 Utils::SingletonPointer<LocalizationManager>	localizationManager_;
                 Utils::SingletonPointer<ResourceManager> 		resourceManager_;

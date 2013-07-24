@@ -91,6 +91,7 @@ set(UTILS_UI_SOURCES
   ${SRC_DIR}/Utils/UI/LoadingAnimation.cpp
   ${SRC_DIR}/Utils/UI/Menu.cpp
   ${SRC_DIR}/Utils/UI/MenuBuilder.cpp
+  ${SRC_DIR}/Utils/UI/Picture.cpp
 )
 
 set(UTILS_SOURCES
@@ -182,6 +183,7 @@ set(UTILS_UI_HEADERS
   ${INCLUDE_DIR}/Utils/UI/Menu.hpp
   ${INCLUDE_DIR}/Utils/UI/MenuBuilder.hpp
   ${INCLUDE_DIR}/Utils/UI/MouseEvent.hpp
+  ${INCLUDE_DIR}/Utils/UI/Picture.hpp
 )
 
 set(UTILS_HEADERS

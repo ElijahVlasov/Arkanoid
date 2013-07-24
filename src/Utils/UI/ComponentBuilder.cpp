@@ -29,6 +29,7 @@ using namespace Utils::UI;
 
 const std::string ComponentBuilder::BUTTON_TYPE     =   "button";
 const std::string ComponentBuilder::LABEL_TYPE      =   "label";
+const std::string ComponentBuilder::PICTURE_TYPE    =   "picture";
 
 
 
@@ -50,14 +51,23 @@ Component* ComponentBuilder::createComponent(const TiXmlElement* element) throw(
 
     string elementType = element->ValueStr();
 
+    const char*     textKey    	=   element->GetText();
+    string 			text		=	localizationManager_->getString(textKey);
+
     // Создаем нужный объект
     if(elementType == BUTTON_TYPE) {
 
         component = new Button();
+        component->setText(text);
 
     } else if(elementType == LABEL_TYPE) {
 
         component = new Label();
+        component->setText(text);
+
+    } else if(elementType == PICTURE_TYPE) {
+
+        component = new Picture(text);
 
     } else {
 
@@ -89,8 +99,6 @@ void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* 
 
     int             x,          y;
     unsigned int    width,      height;
-    const char*     textKey    	=   element->GetText();
-    string 			text		=	localizationManager_->getString(textKey);
     string          fontName,   componentName;
 
     // загружаем свойства объекта
@@ -114,7 +122,6 @@ void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* 
       catch(const bad_cast&) {}
 
     component->setName(componentName);
-    component->setText(text);
 
     // задаем луашные обработчики
     setLuaHandlers(element, component);

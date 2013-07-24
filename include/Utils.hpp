@@ -28,8 +28,7 @@
 #include <Utils/Lua.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/PCResourceLoader.hpp>
-#include <Utils/Resource.hpp>
-#include <Utils/ResourceFile.hpp>
+#include <Utils/PNGTextureBuilder.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
@@ -37,6 +36,7 @@
 #include <Utils/Sprite.hpp>
 #include <Utils/StaticSprite.hpp>
 #include <Utils/Texture.hpp>
+#include <Utils/TextureManager.hpp>
 #include <Utils/UI.hpp>
 
 namespace Utils {
