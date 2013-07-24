@@ -21,6 +21,8 @@ namespace Utils {
 
     namespace UI {
 
+        class Container;
+
         class Component;
 
         typedef boost::shared_ptr<Component> ComponentPtr;
@@ -174,8 +176,6 @@ namespace Utils {
                 /** Наведение мыши на компонент.
                 */
 
-                virtual void mouseMotion(int x, int y);
-
                 virtual void mouseHover(int x, int y);
                 virtual void mouseLeave(int x, int y);
 
@@ -230,6 +230,24 @@ namespace Utils {
                 */
 
                 void setKeyUpEvent(const KeyUpEvent& eventHandler);
+
+            protected:
+
+                friend class Container;
+
+                inline void setHovered(bool isHovered) {
+
+                    isHovered_ = isHovered;
+
+                }
+
+
+
+                inline bool isHovered() const {
+
+                    return isHovered_;
+
+                }
 
             private:
 

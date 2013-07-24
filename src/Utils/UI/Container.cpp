@@ -64,15 +64,31 @@ void Container::keyDown(int key) {
 
 
 
-void Container::mouseMotion(int x, int y) {
+void Container::mouseHover(int x, int y) {
 
     BOOST_FOREACH(Container::children_ptr child, components_) {
 
-        child->mouseMotion(x, y);
+        if(child->isContains(x, y)) {
+
+            child->setHovered(true);
+
+            child->mouseHover(x, y);
+
+        } else {
+
+            if(child->isHovered()) {
+
+                child->setHovered(false);
+
+                child->mouseLeave(x, y);
+
+            }
+
+        }
 
     }
 
-    Component::mouseMotion(x, y);
+    Component::mouseHover(x, y);
 
 }
 
@@ -82,7 +98,14 @@ void Container::mouseUp(int x, int y, MouseButton btn) {
 
     BOOST_FOREACH(Container::children_ptr child, components_) {
 
-        child->mouseUp(x, y, btn);
+        if(!child->isContains(x, y)) {
+            continue;
+        }
+
+        int relX = x - child->getX();
+        int relY = y - child->getY();
+
+        child->mouseUp(relX, relY, btn);
 
     }
 
@@ -96,7 +119,14 @@ void Container::mouseDown(int x, int y, MouseButton btn) {
 
     BOOST_FOREACH(Container::children_ptr child, components_) {
 
-        child->mouseDown(x, y, btn);
+        if(!child->isContains(x, y)) {
+            continue;
+        }
+
+        int relX = x - child->getX();
+        int relY = y - child->getY();
+
+        child->mouseDown(relX, relY, btn);
 
     }
 
