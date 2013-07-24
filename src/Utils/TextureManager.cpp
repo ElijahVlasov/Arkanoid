@@ -6,7 +6,7 @@
 #include <boost/foreach.hpp>
 #include <boost/shared_array.hpp>
 
-#include <Utils/TextureFactory.hpp>
+#include <Utils/TextureManager.hpp>
 
 #include "gl_includes.h"
 
@@ -68,6 +68,7 @@ void TextureManager::update() {
     updateFreeTextures();
     updateTexturesForDelete();
     updateTexturesForCreate();
+    updateTexturesForCopy();
 
 }
 
@@ -82,6 +83,24 @@ GLuint TextureManager::createTexture() {
     freeTextures_.pop_front();
 
     return texture;
+
+}
+
+
+
+void TextureManager::copyTexture(GLuint dst, GLuint src) {
+
+    if(std::this_thread::get_id() == mainThreadID_) {
+
+        copy(dst, src);
+
+        return;
+
+    }
+
+    std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    texturesForCopy_[dst] = src;
 
 }
 
@@ -150,49 +169,6 @@ void TextureManager::deleteTexture(GLuint texture) {
 
 
 
-string TextureManager::getTextureData(GLuint texture) {
-
-    string data;
-
-    GLint width, height, format;
-
-    unsigned int bpp;
-
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
-
-    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &format);
-
-    switch(format) {
-
-        case GL_RGB: {
-
-            bpp = 3;
-
-        }
-        break;
-
-        case GL_RGBA: {
-
-            bpp = 4;
-
-        }
-        break;
-
-    }
-
-    data.resize(width * height * bpp);
-
-    glGetTexImage(GL_TEXTURE_2D, 0, format, GL_UNSIGNED_BYTE, static_cast<GLvoid*>(const_cast<char*>(data.data())));
-
-    return data;
-
-}
-
-
-
 void TextureManager::updateFreeTextures() {
 
     std::size_t freeNumber = freeTextures_.size();
@@ -207,7 +183,7 @@ void TextureManager::updateFreeTextures() {
 
     glGenTextures(needTexturesNumber, newTextures.get());
 
-    copy(newTextures.get(), newTextures.get() + needTexturesNumber, back_inserter(freeTextures_));
+    std::copy(newTextures.get(), newTextures.get() + needTexturesNumber, back_inserter(freeTextures_));
 
 }
 
@@ -266,5 +242,62 @@ void TextureManager::updateTexturesForCreate() {
         );
 
     }
+
+}
+
+
+
+void TextureManager::updateTexturesForCopy() {
+
+    typedef pair< GLuint, GLuint > TexturesForCopy;
+
+    BOOST_FOREACH(TexturesForCopy texturesForCopy, texturesForCopy_) {
+
+        copy(texturesForCopy.first, texturesForCopy.second);
+
+    }
+
+}
+
+
+
+void TextureManager::copy(GLuint dst, GLuint src) {
+
+    string data;
+
+    GLint width, height, format;
+
+    unsigned int bpp;
+
+    glBindTexture(GL_TEXTURE_2D, src);
+
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
+
+    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &format);
+
+    switch(format) {
+
+        case GL_RGB: {
+
+            bpp = 3;
+
+        }
+        break;
+
+        case GL_RGBA: {
+
+            bpp = 4;
+
+        }
+        break;
+
+    }
+
+    data.resize(width * height * bpp);
+
+    glGetTexImage(GL_TEXTURE_2D, 0, format, GL_UNSIGNED_BYTE, static_cast<GLvoid*>(const_cast<char*>(data.data())));
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, static_cast<const GLvoid*>(data.data()));
 
 }

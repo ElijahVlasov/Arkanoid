@@ -5,40 +5,25 @@
 
 #include <string>
 
-#include <Utils/Resource.hpp>
-
 namespace Utils {
 
     /** Звук. Обертка над OpenAL-буфером.
       *
     */
 
-    class Sound: public Resource {
+    class Sound {
 
         public:
 
-            Sound();
+            Sound(ALenum format, ALsizei frequency, const std::string& data);
             Sound(const Sound&);
 
             ~Sound();
-
-            std::string getData() const;
-            void setData(const std::string& data);
 
             /** OpenAL-буфер.
             */
 
             ALuint getBuffer() const;
-
-            /** Установить формат буфера.
-            */
-
-            void setFormat(ALenum format);
-
-            /** Установить частоту.
-            */
-
-            void setFrequency(ALsizei frequency);
 
             /** Частота.
             */
@@ -46,8 +31,6 @@ namespace Utils {
             ALsizei getFrequency() const;
 
         private:
-
-			std::string binaryBuffer_;
 
             ALuint buffer_;
 

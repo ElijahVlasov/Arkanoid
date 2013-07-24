@@ -30,19 +30,12 @@ Button::Button() throw(runtime_error):
     Component()
 {
 
-    try {
+    SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
-    	SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
+    defTexture_     = resourceManager->getResource<Texture>("textures/ui/button.png");
+    clickedTexture_ = resourceManager->getResource<Texture>("textures/ui/button_clicked.png");
+    hoveredTexture_ = resourceManager->getResource<Texture>("textures/ui/button_hovered.png");
 
-        boost::shared_ptr<Resource> defTextureResource     = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button.png");
-        boost::shared_ptr<Resource> clickedTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_clicked.png");
-        boost::shared_ptr<Resource> hoveredTextureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, "textures/ui/button_hovered.png");
-
-        defTexture_     = boost::dynamic_pointer_cast<Texture>(defTextureResource);
-        clickedTexture_ = boost::dynamic_pointer_cast<Texture>(clickedTextureResource);
-        hoveredTexture_ = boost::dynamic_pointer_cast<Texture>(hoveredTextureResource);
-
-    } catch(const bad_alloc&) {}
 
     curTexture_ = defTexture_;
 

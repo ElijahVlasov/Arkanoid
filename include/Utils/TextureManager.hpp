@@ -2,6 +2,7 @@
 #define UTILS_TEXTUREMANAGER_HPP
 
 #include <list>
+#include <map>
 #include <mutex>
 #include <string>
 #include <thread>
@@ -38,6 +39,8 @@ namespace Utils {
 
             GLuint createTexture();
 
+            void copyTexture(GLuint dst, GLuint src);
+
             /** Установить параметры текстуры.
             */
 
@@ -47,11 +50,6 @@ namespace Utils {
             */
 
             void deleteTexture(GLuint texture);
-
-            /** Получить данные текстуры. Не работает в побочных потоках!
-            */
-
-            std::string getTextureData(GLuint texture);
 
         protected:
 
@@ -80,9 +78,14 @@ namespace Utils {
 
             std::list< TextureStruct > texturesForCreate_;
 
+            std::map <GLuint, GLuint> texturesForCopy_;
+
             void updateFreeTextures();
             void updateTexturesForDelete();
             void updateTexturesForCreate();
+            void updateTexturesForCopy();
+
+            void copy(GLuint dst, GLuint src);
 
             const std::thread::id mainThreadID_;
 

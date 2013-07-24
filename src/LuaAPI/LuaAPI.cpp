@@ -33,23 +33,6 @@ using namespace Utils::UI;
 
 
 
-//namespace luabind {
-
-    /*namespace detail {
-
-            namespace has_get_pointer_ {*/
-
-                template<class T>
-                T * get_pointer(SingletonPointer<T> const& p) { return p.get(); }
-
-       /*     }
-
-    }*/
-
-/*}*/
-
-
-
 LuaAPI_::LuaAPI_():
     game_(              Game::getInstance()					),
     menuGameState_(     GameStates::MenuState::getInstance()),
@@ -69,8 +52,8 @@ LuaAPI_::LuaAPI_():
 
         class_<Texture, boost::shared_ptr<Texture> >("texture")
             .property("name",   &Texture::getName)
-            .property("width",  &Texture::getWidth,  &Texture::setWidth)
-            .property("height", &Texture::getHeight, &Texture::setHeight),
+            .property("width",  &Texture::getWidth)
+            .property("height", &Texture::getHeight),
 
         class_<Sound, boost::shared_ptr<Sound> >("sound"),
 
@@ -278,9 +261,7 @@ boost::shared_ptr<Sound> LuaAPI_::System_LoadSound(const char* name) {
 
     try {
 
-        boost::shared_ptr<Resource> soundResource = instance_->resourceManager_->getResource(ResourceManager::ResourceType::SOUND, name);
-
-        return boost::dynamic_pointer_cast<Sound>(soundResource);
+        return instance_->resourceManager_->getResource<Sound>(name);
 
     } catch(const std::exception&) {}
 
@@ -294,9 +275,7 @@ boost::shared_ptr<Texture> LuaAPI_::System_LoadTexture(const char* name)  {
 
     try {
 
-        boost::shared_ptr<Resource> textureResource = instance_->resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, name);
-
-        return boost::dynamic_pointer_cast<Texture>(textureResource);
+        return instance_->resourceManager_->getResource<Texture>(name);
 
     } catch(const std::exception&) {}
 
@@ -396,11 +375,9 @@ void LuaAPI_::System_ShowMenu(const char* name) {
 
     try {
 
-        SingletonPointer<MenuFactory> menuFactory = MenuFactory::getInstance();
+        SingletonPointer<MenuBuilder> menuBuilder = MenuBuilder::getInstance();
 
-        boost::shared_ptr<Resource> menuResource = instance_->resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, name);
-
-        Menu* menu = menuFactory->createFromXML(menuResource->getData());
+        Menu* menu = menuBuilder->createMenu(instance_->resourceManager_->getFileData(name));
 
         boost::shared_ptr<Menu> menuPtr(menu);
 

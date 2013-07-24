@@ -17,23 +17,29 @@ using namespace Utils;
 
 
 
-Texture::Texture():
+Texture::Texture(unsigned int width, unsigned int height, Format format, const std::string& textureData):
     textureManager_(TextureManager::getInstance()),
-    width_(0),
-    height_(0),
+    width_(width),
+    height_(height),
+    format_(format),
     name_(textureManager_->createTexture())
-{}
+{
+
+    textureManager_->setTexture(name_, width_, height_, static_cast<GLint>(format_), textureData);
+
+}
 
 
 
 Texture::Texture(const Texture& texture):
-    textureManager_(TextureManager::getInstance()),
+    textureManager_(texture.textureManager_),
     width_(texture.width_),
     height_(texture.height_),
-    format_(texture.format_)
+    format_(texture.format_),
+    name_(textureManager_->createTexture())
 {
 
-    setData(texture.getData());
+    textureManager_->copyTexture(name_, texture.name_);
 
 }
 
@@ -54,25 +60,9 @@ Texture& Texture::operator=(const Texture& texture) {
 
     format_       =  texture.format_;
 
-    setData(texture.getData());
+    textureManager_->copyTexture(name_, texture.name_);
 
     return *this;
-
-}
-
-
-
-string Texture::getData() const {
-
-    return textureManager_->getTextureData(name_);
-
-}
-
-
-
-void Texture::setData(const std::string& data) {
-
-    textureManager_->setTexture(name_, width_, height_, format_, data);
 
 }
 
@@ -86,33 +76,9 @@ unsigned int Texture::getName() const {
 
 
 
-void Texture::setFormat(GLint format) {
-
-    format_ = format;
-
-}
-
-
-
-GLint Texture::getFormat() const {
+Texture::Format Texture::getFormat() const {
 
     return format_;
-
-}
-
-
-
-void Texture::setWidth(unsigned int width) {
-
-    width_ = width;
-
-}
-
-
-
-void Texture::setHeight(unsigned int height) {
-
-    height_ = height;
 
 }
 

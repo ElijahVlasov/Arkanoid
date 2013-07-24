@@ -15,6 +15,9 @@
 #include <Utils/Lua.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
+#include <Utils/Sound.hpp>
+
+#include <Utils/FreeType/Font.hpp>
 
 #include "Resource.pb.h"
 #include "World.pb.h"
@@ -79,7 +82,30 @@ World::World(const EngineData::World& worldData) throw(runtime_error):
 
     BOOST_FOREACH(EngineData::Resource resource, resources) {
 
-        resources_.push_back( resourceManager_->getResource( static_cast<ResourceManager::ResourceType>(resource.type()), resource.resource_name() ) );
+        switch(resource.type()) {
+
+            case EngineData::Resource_Type::Resource_Type_FONT: {
+
+                fonts_.push_back( resourceManager_->getResource<FreeType::Font>(resource.resource_name()));
+
+            }
+            break;
+
+            case EngineData::Resource_Type::Resource_Type_TEXTURE: {
+
+                textures_.push_back( resourceManager_->getResource<Texture>(resource.resource_name()));
+
+            }
+            break;
+
+            case EngineData::Resource_Type::Resource_Type_SOUND: {
+
+                sounds_.push_back( resourceManager_->getResource<Sound>(resource.resource_name()));
+
+            }
+            break;
+
+        }
 
     }
 
@@ -89,9 +115,21 @@ World::World(const EngineData::World& worldData) throw(runtime_error):
 
 World::~World() {
 
-    BOOST_FOREACH(boost::shared_ptr<Resource> resource, resources_) {
+    BOOST_FOREACH(boost::shared_ptr<Texture> texture, textures_) {
 
-        resourceManager_->deleteResource(resource);
+        resourceManager_->deleteResource<Texture>(texture);
+
+    }
+
+    BOOST_FOREACH(boost::shared_ptr<FreeType::Font> font, fonts_) {
+
+        resourceManager_->deleteResource<FreeType::Font>(font);
+
+    }
+
+    BOOST_FOREACH(boost::shared_ptr<Sound> sound, sounds_) {
+
+        resourceManager_->deleteResource<Sound>(sound);
 
     }
 

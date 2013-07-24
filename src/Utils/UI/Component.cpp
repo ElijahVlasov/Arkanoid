@@ -37,15 +37,11 @@ Component::Component() throw(runtime_error):
     isHovered_(false)
 {
 
-    try {
+    SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
-    	SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
+    boost::shared_ptr<Font> fontResource = resourceManager->getResource<Font>(DEFAULT_FONT);
 
-        boost::shared_ptr<Resource> fontResource = resourceManager->getResource(ResourceManager::ResourceType::FONT, DEFAULT_FONT);
-
-        font_ = *(boost::dynamic_pointer_cast<Font>(fontResource));
-
-    } catch(const bad_cast&) {}
+    font_ = *fontResource;
 
 }
 

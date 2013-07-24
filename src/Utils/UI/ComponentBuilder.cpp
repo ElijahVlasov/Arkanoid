@@ -16,7 +16,7 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/UI.hpp>
 
-#include <Utils/UI/ComponentFactory.hpp>
+#include <Utils/UI/ComponentBuilder.hpp>
 
 #include "salt_defines.h"
 
@@ -27,19 +27,19 @@ using namespace Utils::UI;
 
 
 
-const std::string ComponentFactory::BUTTON_TYPE     =   "button";
-const std::string ComponentFactory::LABEL_TYPE      =   "label";
+const std::string ComponentBuilder::BUTTON_TYPE     =   "button";
+const std::string ComponentBuilder::LABEL_TYPE      =   "label";
 
 
 
-ComponentFactory::ComponentFactory():
+ComponentBuilder::ComponentBuilder():
 	localizationManager_(LocalizationManager::getInstance()),
     resourceManager_(ResourceManager::getInstance())
 {}
 
 
 
-Component* ComponentFactory::createFromXMLElement(const TiXmlElement* element) throw(invalid_argument, runtime_error) {
+Component* ComponentBuilder::createComponent(const TiXmlElement* element) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (element != 0),
@@ -77,7 +77,7 @@ Component* ComponentFactory::createFromXMLElement(const TiXmlElement* element) t
 
 
 
-void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* component) throw(runtime_error) {
+void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* component) throw(runtime_error) {
 
     if(component == 0) {
         return;
@@ -106,10 +106,9 @@ void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* 
 
     try {
 
-        boost::shared_ptr<Font> font = dynamic_pointer_cast<Font>(
-                                    resourceManager_->getResource(ResourceManager::ResourceType::FONT, fontName));
+        boost::shared_ptr<Font> font = resourceManager_->getResource<Font>(fontName);
 
-        component->setFont(*(font.get()));
+        component->setFont(*font);
 
     } catch(const invalid_argument&) {}
       catch(const bad_cast&) {}
@@ -124,7 +123,7 @@ void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* 
 
 
 
-void ComponentFactory::setLuaHandlers(const TiXmlElement* element, Component* component) throw(runtime_error) {
+void ComponentBuilder::setLuaHandlers(const TiXmlElement* element, Component* component) throw(runtime_error) {
 
     string          clickEvent, hoverEvent, mouseDownEvent, mouseUpEvent, drawEvent, keyDownEvent, keyUpEvent;
 
@@ -187,7 +186,7 @@ void ComponentFactory::setLuaHandlers(const TiXmlElement* element, Component* co
 
 
 
-template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const char* attrName) throw(runtime_error) {
+template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* element, const char* attrName) throw(runtime_error) {
 
     return getXMLAttribute<T>(element, string(attrName));
 
@@ -195,7 +194,7 @@ template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* ele
 
 
 
-template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const char* attrName, const T& defValue) throw(runtime_error) {
+template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* element, const char* attrName, const T& defValue) throw(runtime_error) {
 
     return getXMLAttribute<T>(element, string(attrName), defValue);
 
@@ -203,7 +202,7 @@ template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* ele
 
 
 
-template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const string& attrName) throw(runtime_error) {
+template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* element, const string& attrName) throw(runtime_error) {
 
     return getXMLAttribute<T>(element, attrName, T());
 
@@ -211,7 +210,7 @@ template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* ele
 
 
 
-template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const string& attrName, const T& defValue) throw(runtime_error) {
+template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* element, const string& attrName, const T& defValue) throw(runtime_error) {
 
     T attr;
 

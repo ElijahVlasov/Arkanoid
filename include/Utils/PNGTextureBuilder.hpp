@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_TEXTUREFACTORY_HPP
-#define _SALT2D_UTILS_TEXTUREFACTORY_HPP
+#ifndef _SALT2D_UTILS_PNGTEXTUREBUILDER_HPP
+#define _SALT2D_UTILS_PNGTEXTUREBUILDER_HPP
 
 #include <istream>
 #include <list>
@@ -24,9 +24,9 @@ namespace Utils {
       * @author Elijah Vlasov
     */
 
-    class TextureFactory: public Singleton<TextureFactory> {
+    class PNGTextureBuilder: public Singleton<PNGTextureBuilder> {
 
-        SINGLETON(TextureFactory)
+        SINGLETON(PNGTextureBuilder)
 
         public:
 
@@ -35,12 +35,7 @@ namespace Utils {
               *         runtime_error - при ошибках libPNG.
             */
 
-            boost::shared_ptr<Texture> createFromPNGBuffer(const std::string& buffer) throw(std::invalid_argument, std::runtime_error);
-
-
-        protected:
-
-            TextureFactory();
+            boost::shared_ptr<Texture> createTexture(const std::string& buffer) throw(std::invalid_argument, std::runtime_error);
 
         private:
 
@@ -80,7 +75,7 @@ namespace Utils {
 
             inline static bool checkPNG(std::istream& pngStream);
 
-            void PNGToTexture(png_structp readStruct, png_infop infoStruct, boost::shared_ptr<Texture> texture) throw(std::runtime_error);
+            boost::shared_ptr<Texture> PNGToTexture(png_structp readStruct, png_infop infoStruct) throw(std::runtime_error);
 
             static void PNGReadFunc(png_structp readStruct, png_bytep data, png_size_t length);
 
@@ -89,7 +84,7 @@ namespace Utils {
     };
 
     // Проверить сигнатуру PNG.
-    bool TextureFactory::checkPNG(std::istream& pngStream) {
+    bool PNGTextureBuilder::checkPNG(std::istream& pngStream) {
 
         png_byte pngSig[PNG_SIG_SIZE];
 

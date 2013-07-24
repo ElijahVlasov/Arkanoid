@@ -25,7 +25,7 @@
 #include <Utils/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
-#include <Utils/UI/MenuFactory.hpp>
+#include <Utils/UI/MenuBuilder.hpp>
 
 namespace Engine {
 
@@ -142,7 +142,7 @@ namespace Engine {
 
             Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
-            Utils::SingletonPointer<Utils::UI::MenuFactory> menuFactory_;
+            Utils::SingletonPointer<Utils::UI::MenuBuilder> menuBuilder_;
 
             Utils::SingletonPointer<Utils::TextureManager>  textureManager_;
 

@@ -41,20 +41,6 @@
 
 namespace Utils {
 
-    /** Чтение потока до символа EOF в std::string.
-      * @param stream Поток для чтения
-    */
-
-    std::string readStreamToString(std::ifstream& stream);
-
-    /** Полное чтение двоичного потока.
-      * @param stream Поток для чтения
-    */
-
-    std::string readBinaryStream(std::ifstream& stream);
-
-    //inline std::wstring stringToWString(const std::string& str, std::locale loc = std::locale());
-
     inline std::wstring UTF8_to_UTF16(const std::string utf8) throw(std::runtime_error);
 
 }

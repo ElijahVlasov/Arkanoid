@@ -11,7 +11,7 @@
 #include <Utils/ResourceManager.hpp>
 
 #include <Utils/UI.hpp>
-#include <Utils/UI/MenuFactory.hpp>
+#include <Utils/UI/MenuBuilder.hpp>
 
 using namespace std;
 using namespace boost;
@@ -19,18 +19,18 @@ using namespace Utils::UI;
 
 
 
-const std::string MenuFactory::MENU_ROOT_NODE_VALUE = "menu";
+const std::string MenuBuilder::MENU_ROOT_NODE_VALUE = "menu";
 
 
 
-MenuFactory::MenuFactory() throw(runtime_error):
+MenuBuilder::MenuBuilder() throw(runtime_error):
     resourceManager_(ResourceManager::getInstance()),
-    componentFactory_(ComponentFactory::getInstance())
+    componentBuilder_(ComponentBuilder::getInstance())
 {}
 
 
 
-Menu* MenuFactory::createFromXML(const char* xmlMenu) throw(invalid_argument, runtime_error) {
+Menu* MenuBuilder::createMenu(const char* xmlMenu) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (xmlMenu != 0),
@@ -61,15 +61,15 @@ Menu* MenuFactory::createFromXML(const char* xmlMenu) throw(invalid_argument, ru
 
 
 
-Menu* MenuFactory::createFromXML(const string& xmlMenu) throw(invalid_argument, runtime_error) {
+Menu* MenuBuilder::createMenu(const string& xmlMenu) throw(invalid_argument, runtime_error) {
 
-    return createFromXML(xmlMenu.c_str());
+    return createMenu(xmlMenu.c_str());
 
 }
 
 
 
-void MenuFactory::loadComponents(TiXmlDocument& document, Menu* menu) throw(runtime_error) {
+void MenuBuilder::loadComponents(TiXmlDocument& document, Menu* menu) throw(runtime_error) {
 
     TiXmlElement* rootElement = document.RootElement();
 
@@ -91,9 +91,7 @@ void MenuFactory::loadComponents(TiXmlDocument& document, Menu* menu) throw(runt
 
     if(rootElement->QueryStringAttribute("background", &backTexture) == TIXML_SUCCESS) {
 
-        boost::shared_ptr<Resource> backgroundRes = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, backTexture);
-
-        menu->setBackground(boost::dynamic_pointer_cast<Texture>(backgroundRes));
+        menu->setBackground(resourceManager_->getResource<Texture>(backTexture));
 
     }
 
@@ -111,7 +109,7 @@ void MenuFactory::loadComponents(TiXmlDocument& document, Menu* menu) throw(runt
 
         try {
 
-            component = componentFactory_->createFromXMLElement(uiElement);
+            component = componentBuilder_->createComponent(uiElement);
 
         } catch(const invalid_argument&) {}
 

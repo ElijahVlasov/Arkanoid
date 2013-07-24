@@ -13,7 +13,7 @@
 
 #include <Utils/assert.hpp>
 #include <Utils/Texture.hpp>
-#include <Utils/TextureFactory.hpp>
+#include <Utils/PNGTextureBuilder.hpp>
 
 using namespace std;
 
@@ -21,15 +21,9 @@ using namespace Utils;
 
 
 
-TextureFactory::TextureFactory() {}
+boost::shared_ptr<Texture> PNGTextureBuilder::createTexture(const string& buffer) throw(invalid_argument, runtime_error) {
 
-
-
-boost::shared_ptr<Texture> TextureFactory::createFromPNGBuffer(const string& buffer) throw(invalid_argument, runtime_error) {
-
-    boost::shared_ptr<Texture> texture(new Texture());
-
-    TextureFactory::PNGReadStruct readStruct;
+    PNGTextureBuilder::PNGReadStruct readStruct;
 
     istringstream is(buffer);
 
@@ -43,19 +37,17 @@ boost::shared_ptr<Texture> TextureFactory::createFromPNGBuffer(const string& buf
         runtime_error("Unknown data format")
     );
 
-    png_set_read_fn(readStruct.readStruct, reinterpret_cast<png_voidp>(&is), TextureFactory::PNGReadFunc);
+    png_set_read_fn(readStruct.readStruct, reinterpret_cast<png_voidp>(&is), PNGTextureBuilder::PNGReadFunc);
 
     png_set_sig_bytes(readStruct.readStruct, PNG_SIG_SIZE);
 
-    PNGToTexture(readStruct.readStruct, readStruct.infoStruct, texture);
-
-    return texture;
+    return PNGToTexture(readStruct.readStruct, readStruct.infoStruct);
 
 }
 
 
 
-void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, boost::shared_ptr<Texture> texture) throw(runtime_error) {
+boost::shared_ptr<Texture> PNGTextureBuilder::PNGToTexture(png_structp readStruct, png_infop infoStruct) throw(runtime_error) {
 
     png_read_info(readStruct, infoStruct);
 
@@ -67,8 +59,7 @@ void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, 
 
     png_uint_32 color_type  =   png_get_color_type(readStruct, infoStruct);
 
-    texture->setWidth(width);
-    texture->setHeight(height);
+    Texture::Format format;
 
     switch(color_type) {
 
@@ -77,7 +68,7 @@ void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, 
             channels = 3;
             bitdepth = 8;
 
-            texture->setFormat(GL_RGB);
+            format = Texture::Format::RGB;
 
         }
         break;
@@ -87,7 +78,7 @@ void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, 
             channels = 4;
             bitdepth = 8;
 
-            texture->setFormat(GL_RGBA);
+            format = Texture::Format::RGBA;
 
         }
         break;
@@ -120,13 +111,13 @@ void TextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct, 
 
     png_read_image(readStruct, rowPtrs.get());
 
-    texture->setData(textureData);
+    return boost::shared_ptr<Texture>(new Texture(width, height, format, textureData));
 
 }
 
 
 
-void TextureFactory::PNGReadFunc(png_structp readStruct, png_bytep data, png_size_t length) {
+void PNGTextureBuilder::PNGReadFunc(png_structp readStruct, png_bytep data, png_size_t length) {
 
     png_voidp s = png_get_io_ptr(readStruct);
 
@@ -138,7 +129,7 @@ void TextureFactory::PNGReadFunc(png_structp readStruct, png_bytep data, png_siz
 
 
 
-void TextureFactory::PNGErrFunc(png_structp readStruct, const char* errString) {
+void PNGTextureBuilder::PNGErrFunc(png_structp readStruct, const char* errString) {
 
     throw(runtime_error(
             (boost::format("PNG error: %1%")

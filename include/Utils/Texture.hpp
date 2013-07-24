@@ -6,7 +6,6 @@
 #include <string>
 #include <stdexcept>
 
-#include <Utils/Resource.hpp>
 #include <Utils/SingletonPointer.hpp>
 #include <Utils/TextureManager.hpp>
 
@@ -19,14 +18,18 @@ namespace Utils {
       * @author Elijah Vlasov
     */
 
-    class Texture: public Resource {
+    class Texture {
 
         public:
 
-            /** Создается непригодная для прорисовки текстура.
-            */
+            enum Format {
 
-            Texture();
+                RGB  = GL_RGB,
+                RGBA = GL_RGBA
+
+            };
+
+            Texture(unsigned int width, unsigned int height, Format format, const std::string& textureData);
 
             /** Полное копирование.
             */
@@ -37,33 +40,15 @@ namespace Utils {
 
             Texture& operator = (const Texture& texture);
 
-            std::string getData() const;
-            void setData(const std::string& data);
-
-            /** Установить формат текстуры.
-            */
-
-            void setFormat(GLint format);
-
             /** Формат текстуры.
             */
 
-            GLint getFormat() const;
+            Format getFormat() const;
 
             /** OpenGL-идентификатор текстуры
             */
 
             GLuint getName()const;
-
-            /** Установить ширину.
-            */
-
-            void setWidth(unsigned int width);
-
-            /** Установить длину текстуры
-            */
-
-            void setHeight(unsigned int height);
 
             /** Ширина текстуры
             */
@@ -81,7 +66,7 @@ namespace Utils {
 
             unsigned int width_, height_;
 
-            GLint format_;
+            Format format_;
 
             GLuint name_;
 

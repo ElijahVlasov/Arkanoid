@@ -60,16 +60,10 @@ namespace Engine {
             loadingThread_(loadingFunc)
         {
 
-            try {
+            Utils::SingletonPointer <Utils::ResourceManager> resourceManager = Utils::ResourceManager::getInstance();
 
-                Utils::SingletonPointer <Utils::ResourceManager> resourceManager = Utils::ResourceManager::getInstance();
+            loadingTexture_ = resourceManager->getResource<Utils::Texture>(LOADING_TEXTURE);
 
-                boost::shared_ptr<Utils::Resource> textureResource = resourceManager->getResource(Utils::ResourceManager::ResourceType::TEXTURE, LOADING_TEXTURE);
-
-                loadingTexture_ = boost::dynamic_pointer_cast<Utils::Texture>(textureResource);
-
-
-            } catch (const std::bad_cast&) {}
 
             loadingThread_.detach();
 

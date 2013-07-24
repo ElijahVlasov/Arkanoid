@@ -81,7 +81,7 @@ void Lua::loadScript(const string& name) throw(runtime_error, invalid_argument) 
 
     string moduleName = createModuleName(name);
 
-    string script = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, "scripts/" + name)->getData();
+    string script = resourceManager_->getFileData("scripts/" + name);
 
     if(!checkClass(script)) {
 

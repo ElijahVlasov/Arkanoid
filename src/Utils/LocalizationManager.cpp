@@ -43,11 +43,8 @@ void LocalizationManager::setLocale(const char* localeName) throw(runtime_error)
 						  % localeName
 					  ).str();
 
-	boost::shared_ptr<Resource> resourcePtr = resourceManager->getResource(ResourceManager::ResourceType::PLAIN_TEXT, fileName);
 
-	string locText = resourcePtr->getData();
-
-	resourceManager->deleteResource(resourcePtr);
+	string locText = resourceManager->getFileData(fileName);
 
 	TiXmlDocument doc;
 

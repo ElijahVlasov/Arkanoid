@@ -32,12 +32,28 @@ using namespace Utils::FreeType;
 
 Font::Font():
     font_(0)
+{}
+
+
+
+Font::Font(const string& fontData) throw(std::runtime_error):
+    font_(new FTTextureFont((const unsigned char*)fontData.data(), fontData.size())),
+    fontBuffer_(fontData)
 {
 
     color_[0] = 0.0f;
-    color_[1] = 1.0f;
+    color_[1] = 0.5f;
     color_[2] = 0.0f;
     color_[3] = 0.0f;
+
+    font_->FaceSize(12);
+
+    ASSERT(
+        !font_->Error(),
+        runtime_error("Can't create font")
+    );
+
+    font_->CharMap(ft_encoding_unicode);
 
 }
 
@@ -45,19 +61,18 @@ Font::Font():
 
 Font::Font(const Font& font):
     color_(font.color_),
-    font_(0)
+    font_(0),
+    fontBuffer_(font.fontBuffer_)
 {
 
-    setData_(font.getData());
+    if(font.font_ != 0) {
 
-}
+        font_ = boost::shared_ptr<FTTextureFont>( new FTTextureFont((const unsigned char*)fontBuffer_.data(), fontBuffer_.size()) );
 
+        font_->FaceSize(font.font_->FaceSize());
 
+        font_->CharMap(ft_encoding_unicode);
 
-Font::~Font() {
-
-    if(font_ != 0) {
-        delete font_;
     }
 
 }
@@ -68,7 +83,22 @@ Font& Font::operator=(const Font& font) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    setData_(font.getData());
+    color_ = font.color_;
+
+    font_ = boost::shared_ptr<FTTextureFont>();
+    fontBuffer_.clear();
+
+    if(font.font_ != 0) {
+
+        fontBuffer_ = font.fontBuffer_;
+
+        font_  = boost::shared_ptr<FTTextureFont>( new FTTextureFont((const unsigned char*)fontBuffer_.data(), fontBuffer_.size()) );
+
+        font_->FaceSize(font.font_->FaceSize());
+
+        font_->CharMap(ft_encoding_unicode);
+
+    }
 
     return *this;
 
@@ -103,6 +133,10 @@ Font::FONT_RECT Font::measureText(const wchar_t* wText) throw(invalid_argument, 
         (wText != 0),
         invalid_argument("wText")
     );
+
+    if(font_ == 0) {
+        return Font::FONT_RECT();
+    }
 
     FTBBox bbox = font_->BBox(wText, -1);
 
@@ -164,8 +198,8 @@ void Font::renderText(const wchar_t* wText, float x, float y, float width, float
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    if(fontBuffer_.size() == 0) {
-        throw(runtime_error("Can't render text! Font buffer empty.\n Check font file."));
+    if(font_ == 0) {
+        return;
     }
 
     size_t textLen = wcslen(wText);
@@ -266,50 +300,5 @@ void Font::setColor(const Color& color) {
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     color_ = color;
-
-}
-
-
-
-void Font::setData_(const string& data) {
-
-    if(font_ != 0) {
-
-        delete font_;
-        font_ = 0;
-
-    }
-
-    fontBuffer_ = data;
-
-    font_ = new FTTextureFont((const unsigned char*)fontBuffer_.data(), fontBuffer_.size());
-
-    font_->FaceSize(12);
-
-    if(font_->Error()) {
-        fontBuffer_.clear();
-    }
-
-    font_->CharMap(ft_encoding_unicode);
-
-}
-
-
-
-void Font::setData(const string& data) {
-
-    std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    setData_(data);
-
-}
-
-
-
-string Font::getData() const {
-
-    std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    return fontBuffer_;
 
 }

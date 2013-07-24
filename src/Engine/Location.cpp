@@ -33,15 +33,10 @@ Location::Location(const EngineData::Location& locationData) throw(runtime_error
 	name_(locationData.name())
 {
 
-	try {
+    SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
-		SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
+    groundTexture_ = resourceManager->getResource<Texture>(locationData.name());
 
-		boost::shared_ptr<Resource> textureResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, locationData.ground_texture());
-
-		groundTexture_ = boost::dynamic_pointer_cast<Texture>(textureResource);
-
-	} catch (const bad_cast&) {}
 
 }
 

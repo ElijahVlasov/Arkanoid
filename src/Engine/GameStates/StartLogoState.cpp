@@ -28,13 +28,7 @@ StartLogoState::StartLogoState() throw(runtime_error):
     resourceManager_(ResourceManager::getInstance())
 {
 
-    try {
-
-        boost::shared_ptr<Resource> textureResource = resourceManager_->getResource(ResourceManager::ResourceType::TEXTURE, "textures/logo.png");
-
-        logo_ = boost::dynamic_pointer_cast<Texture>(textureResource);
-
-    } catch(const bad_cast&) {}
+    logo_ = resourceManager_->getResource<Texture>("textures/logo.png");
 
 }
 
@@ -42,7 +36,7 @@ StartLogoState::StartLogoState() throw(runtime_error):
 
 StartLogoState::~StartLogoState() {
 
-	resourceManager_->deleteResource(logo_);
+	resourceManager_->deleteResource<Texture>(logo_);
 
 }
 

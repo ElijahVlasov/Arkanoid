@@ -24,7 +24,7 @@
 #include <Utils/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
-#include <Utils/UI/MenuFactory.hpp>
+#include <Utils/UI/MenuBuilder.hpp>
 
 #include "salt_defines.h"
 
@@ -45,7 +45,7 @@ using namespace Utils::UI;
 Game::Game() throw(runtime_error):
     lua_(Lua::getInstance()),
     resourceManager_(ResourceManager::getInstance()),
-    menuFactory_(MenuFactory::getInstance()),
+    menuBuilder_(MenuBuilder::getInstance()),
     textureManager_(TextureManager::getInstance()),
     graphics_(Graphics::getInstance()),
     scrWidth_(640),
@@ -373,11 +373,9 @@ void Game::loadResources() {
 
 void Game::loadMainMenu() throw(runtime_error) {
 
-    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, MAIN_MENU);
+    string menuXML = resourceManager_->getFileData(MAIN_MENU);
 
-    string menuXML = menuResource->getData();
-
-    Menu* mainMenu = menuFactory_->createFromXML(menuXML);
+    Menu* mainMenu = menuBuilder_->createMenu(menuXML);
 
     mainMenu_ = boost::shared_ptr<Menu>(mainMenu);
 
@@ -391,11 +389,9 @@ void Game::loadMainMenu() throw(runtime_error) {
 
 void Game::loadPauseMenu() throw(runtime_error) {
 
-    boost::shared_ptr<Resource> menuResource = resourceManager_->getResource(ResourceManager::ResourceType::PLAIN_TEXT, PAUSE_MENU);
+    string menuXML = resourceManager_->getFileData(PAUSE_MENU);
 
-    string menuXML = menuResource->getData();
-
-    Menu* pauseMenu = menuFactory_->createFromXML(menuXML);
+    Menu* pauseMenu = menuBuilder_->createMenu(menuXML);
 
     pauseMenu_ = boost::shared_ptr<Menu>(pauseMenu);
 

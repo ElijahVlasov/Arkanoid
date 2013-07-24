@@ -1,16 +1,22 @@
 #ifndef _SALT2D_UTILS_RESOURCEMANAGER_HPP
 #define _SALT2D_UTILS_RESOURCEMANAGER_HPP
 
+#include <algorithm>
 #include <map>
 #include <mutex>
 #include <stdexcept>
 #include <string>
 
+#include <boost/format.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Resource.hpp>
+#include <Utils/assert.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
+#include <Utils/Sound.hpp>
+#include <Utils/Texture.hpp>
+
+#include <Utils/FreeType/Font.hpp>
 
 namespace Utils {
 
@@ -24,34 +30,89 @@ namespace Utils {
 
         public:
 
-            typedef ResourceLoader::ResourceType ResourceType;
+            template <class ResourceType>
+            boost::shared_ptr<ResourceType> getResource(const char* fileName)
+                                            throw(std::invalid_argument, std::runtime_error)
+            {
 
-            /** Получить ресурс.
-              * @param resourceName имя ресурса
-              * @throws Генерирует std::invalid_argument, если resourceName == NULL, или
-              *         resourceName - пустая строка. Генерирует std::runtime_error
-              *         при ошибках загрузки ресурсов.
-            */
+                ASSERT(
+                    (fileName != 0),
+                    std::invalid_argument("fileName")
+                );
 
-            boost::shared_ptr<Resource> getResource(ResourceType resourceType, const char* resourceName)
+                return getResource<ResourceType>(std::string(fileName));
+
+            }
+
+            template <class ResourceType>
+            boost::shared_ptr<ResourceType> getResource(const std::string& fileName)
+                                            throw(std::invalid_argument, std::runtime_error)
+            {
+
+                ASSERT(
+                    (!fileName.empty()),
+                    std::invalid_argument("fileName")
+                );
+
+                typedef std::map< std::string, boost::shared_ptr<ResourceType> > MapType;
+
+                MapType& resourcesMap = getResourcesMap<ResourceType>();
+
+                std::lock_guard<std::mutex> guard(getResourcesAccessMutex<ResourceType>());
+
+                auto resourceIter = resourcesMap.find(fileName);
+
+                if(resourceIter != resourcesMap.end()) {
+                    return resourceIter->second;
+                }
+
+                std::lock_guard<std::mutex> resourceLoaderGuard(resourceLoaderAccess_);
+
+                ASSERT(
+                    (resourceLoader_ != 0),
+                    std::runtime_error(
+                        (boost::format("Can't load resource \"%1%\"")
+                            % fileName
+                        ).str()
+                    )
+                );
+
+                auto newResource = loadResource<ResourceType>(fileName);
+
+                resourcesMap[fileName] = newResource;
+
+                return newResource;
+
+            }
+
+
+
+            template <class ResourceType>
+            void deleteResource(const boost::shared_ptr<ResourceType>& resource) {
+
+                std::lock_guard<std::mutex> guard(getResourcesAccessMutex<ResourceType>());
+
+                typedef std::map<  std::string, boost::shared_ptr<ResourceType> > MapType;
+                typedef std::pair< std::string, boost::shared_ptr<ResourceType> > PairType;
+
+                MapType& resourcesMap = getResourcesMap<ResourceType>();
+
+                auto resourceIter = std::find_if(resourcesMap.begin(), resourcesMap.end(), [=] (const PairType& elem) -> bool {
+                                                                        return elem.second == resource;
+                                                                    }
+                );
+
+                resourcesMap.erase(resourceIter->first);
+
+
+            }
+
+            inline std::string getFileData(const char* fileName)
                                                     throw(std::invalid_argument, std::runtime_error);
 
-            /** Получить ресурс.
-              * @param resourceName имя ресурса
-              * @throws Генерирует std::invalid_argument, если resourceName -
-              *         пустая строка. Генерирует std::runtime_error
-              *         при ошибках загрузки ресурсов.
-            */
-
-            boost::shared_ptr<Resource> getResource(ResourceType resourceType, const std::string& resourceName)
+            std::string getFileData(const std::string& fileName)
                                                     throw(std::invalid_argument, std::runtime_error);
 
-
-            /** Удалить ресурс. Когда не требуется хранить ресурс в памяти, следует вызвать этот метод,
-              * иначе возможны утечки памяти.
-            */
-
-            void deleteResource(const boost::shared_ptr<Resource>& resource);
 
             /** Установить загрузчик ресурсов.
               *
@@ -66,12 +127,39 @@ namespace Utils {
 
         private:
 
+            template <class ResourceType>
+            std::map< std::string, boost::shared_ptr<ResourceType> >& getResourcesMap();
+
+            template <class ResourceType>
+            boost::shared_ptr<ResourceType> loadResource(const std::string& name) throw(std::invalid_argument, std::runtime_error);
+
+            template <class ResourceType>
+            std::mutex& getResourcesAccessMutex();
+
+            std::mutex resourceLoaderAccess_;
             ResourceLoader* resourceLoader_;
 
-            std::map< std::string, boost::shared_ptr<Resource> > resources_;
-            std::mutex managerMutex_;
+            std::mutex fontsAccess_;
+            std::map< std::string, boost::shared_ptr<FreeType::Font> >  fonts_;
+
+            std::mutex texturesAccess_;
+            std::map< std::string, boost::shared_ptr<Texture> >         textures_;
+
+            std::mutex soundsAccess_;
+            std::map< std::string, boost::shared_ptr<Sound> >           sounds_;
 
     };
+
+    std::string ResourceManager::getFileData(const char* fileName) throw(std::invalid_argument, std::runtime_error) {
+
+        ASSERT(
+            (fileName != 0),
+            std::invalid_argument("fileName")
+        );
+
+        return getFileData(std::string(fileName));
+
+    }
 
 }
 

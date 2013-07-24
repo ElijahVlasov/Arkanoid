@@ -6,9 +6,14 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Resource.hpp>
+#include <Utils/Sound.hpp>
+#include <Utils/Texture.hpp>
+
+#include <Utils/FreeType/Font.hpp>
 
 namespace Utils {
+
+    using namespace FreeType;
 
     /** Загрузчик ресурсов.
       * Унифицирует доступ к ресурсам на разных ОС.
@@ -21,49 +26,56 @@ namespace Utils {
 
         public:
 
-            /** Тип ресурса.
-            */
+            virtual std::string readFile(const char* fileName)
+                                        throw(std::invalid_argument, std::runtime_error) = 0;
 
-            enum ResourceType {
+            inline  std::string readFile(const std::string& fileName)
+                                        throw(std::invalid_argument, std::runtime_error);
 
-                TEXTURE     = 0,        /**< Текстура(только PNG)     */
-                SOUND       = 1,        /**< Файл звуков(только OGG)  */
-                FONT        = 2,        /**< Шрифт                    */
-                PLAIN_TEXT  = 3,        /**< Текстовый файл           */
-                BINARY_FILE = 4         /**< Двоичный файл            */
 
-            };
+            virtual boost::shared_ptr<Texture> loadTexture(const char* fileName)
+                                        throw(std::invalid_argument, std::runtime_error);
 
-            /** Загрузить ресурс.
-              * @param resourceType Тип ресурса
-              * @param resourceName Имя ресурса
-              * @throws Генерирует std::invalid_argument, если resourceName == NULL или
-              *         resourceName - пустая строка. Генерирует std::runtime_error при
-              *         ошибках загрузки ресурса.
-            */
+            inline  boost::shared_ptr<Texture> loadTexture(const std::string& fileName)
+                                        throw(std::invalid_argument, std::runtime_error);
 
-            boost::shared_ptr<Resource> loadResource(ResourceType resourceType, const char* resourceName)
-                                                        throw(std::invalid_argument, std::runtime_error);
+            virtual boost::shared_ptr<Sound>   loadSound(const char* fileName)
+                                        throw(std::invalid_argument, std::runtime_error);
 
-            /** Загрузить ресурс.
-              * @param resourceType Тип ресурса
-              * @param resourceName Имя ресурса
-              * @throws Генерирует std::invalid_argument, если resourceName - пустая строка.
-              *         Генерирует std::runtime_error при ошибках загрузки ресурса.
-            */
+            inline  boost::shared_ptr<Sound>   loadSound(const std::string& fileName)
+                                        throw(std::invalid_argument, std::runtime_error);
 
-            virtual boost::shared_ptr<Resource> loadResource(ResourceType resourceType, const std::string& resourceName)
-                                                        throw(std::invalid_argument, std::runtime_error);
+            virtual boost::shared_ptr<Font>    loadFont(const char* fileName)
+                                        throw(std::invalid_argument, std::runtime_error);
 
-        protected:
-
-            virtual boost::shared_ptr<Resource> loadSound(const char* fileName)      throw(std::runtime_error) = 0;
-            virtual boost::shared_ptr<Resource> loadTexture(const char* fileName)    throw(std::runtime_error) = 0;
-            virtual boost::shared_ptr<Resource> loadFont(const char* fileName)       throw(std::runtime_error) = 0;
-            virtual boost::shared_ptr<Resource> loadPlainText(const char* fileName)  throw(std::runtime_error) = 0;
-            virtual boost::shared_ptr<Resource> loadBinaryFile(const char* fileName) throw(std::runtime_error) = 0;
+            inline  boost::shared_ptr<Font>    loadFont(const std::string& fileName)
+                                        throw(std::invalid_argument, std::runtime_error);
 
     };
+
+    std::string ResourceLoader::readFile(const std::string& fileName) throw(std::invalid_argument, std::runtime_error) {
+
+        return readFile(fileName.c_str());
+
+    }
+
+    boost::shared_ptr<Texture> ResourceLoader::loadTexture(const std::string& fileName) throw(std::invalid_argument, std::runtime_error) {
+
+        return loadTexture(fileName.c_str());
+
+    }
+
+    boost::shared_ptr<Sound> ResourceLoader::loadSound(const std::string& fileName) throw(std::invalid_argument, std::runtime_error) {
+
+        return loadSound(fileName.c_str());
+
+    }
+
+    boost::shared_ptr<Font> ResourceLoader::loadFont(const std::string& fileName) throw(std::invalid_argument, std::runtime_error) {
+
+        return loadFont(fileName.c_str());
+
+    }
 
 }
 

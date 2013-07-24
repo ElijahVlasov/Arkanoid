@@ -8,9 +8,12 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Resource.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
+#include <Utils/Sound.hpp>
+#include <Utils/Texture.hpp>
+
+#include <Utils/FreeType/Font.hpp>
 
 #include "World.pb.h"
 
@@ -50,7 +53,9 @@ namespace Engine {
 
             Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
-            std::list< boost::shared_ptr<Utils::Resource> > resources_;
+            std::list< boost::shared_ptr<Utils::FreeType::Font> >   fonts_;
+            std::list< boost::shared_ptr<Utils::Sound> >            sounds_;
+            std::list< boost::shared_ptr<Utils::Texture> >          textures_;
 
     };
 

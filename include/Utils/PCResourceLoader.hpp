@@ -7,14 +7,8 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <png.h>
-
-#include <Utils/Resource.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
-#include <Utils/SingletonPointer.hpp>
-#include <Utils/Texture.hpp>
-#include <Utils/TextureFactory.hpp>
 
 namespace Utils {
 
@@ -27,19 +21,9 @@ namespace Utils {
 
         SINGLETON(PCResourceLoader)
 
-        protected:
+        public:
 
-            PCResourceLoader();
-
-            boost::shared_ptr<Resource> loadSound(const char* fileName)      throw(std::runtime_error);
-            boost::shared_ptr<Resource> loadTexture(const char* fileName)    throw(std::runtime_error);
-            boost::shared_ptr<Resource> loadFont(const char* fileName)       throw(std::runtime_error);
-            boost::shared_ptr<Resource> loadPlainText(const char* fileName)  throw(std::runtime_error);
-            boost::shared_ptr<Resource> loadBinaryFile(const char* fileName) throw(std::runtime_error);
-
-        private:
-
-            SingletonPointer<TextureFactory> textureFactory_;
+            std::string readFile(const char* fileName) throw(std::invalid_argument, std::runtime_error);
 
 
     };

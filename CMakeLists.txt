@@ -84,13 +84,13 @@ set(UTILS_FREETYPE_SOURCES
 set(UTILS_UI_SOURCES
   ${SRC_DIR}/Utils/UI/Button.cpp
   ${SRC_DIR}/Utils/UI/Component.cpp
-  ${SRC_DIR}/Utils/UI/ComponentFactory.cpp
+  ${SRC_DIR}/Utils/UI/ComponentBuilder.cpp
   ${SRC_DIR}/Utils/UI/Container.cpp
   ${SRC_DIR}/Utils/UI/Dialog.cpp
   ${SRC_DIR}/Utils/UI/Label.cpp
   ${SRC_DIR}/Utils/UI/LoadingAnimation.cpp
   ${SRC_DIR}/Utils/UI/Menu.cpp
-  ${SRC_DIR}/Utils/UI/MenuFactory.cpp
+  ${SRC_DIR}/Utils/UI/MenuBuilder.cpp
 )
 
 set(UTILS_SOURCES
@@ -102,17 +102,14 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/LocalizationManager.cpp
   ${SRC_DIR}/Utils/Lua.cpp
   ${SRC_DIR}/Utils/PCResourceLoader.cpp
-  ${SRC_DIR}/Utils/Resource.cpp
-  ${SRC_DIR}/Utils/ResourceFile.cpp
+  ${SRC_DIR}/Utils/PNGTextureBuilder.cpp
   ${SRC_DIR}/Utils/ResourceLoader.cpp
   ${SRC_DIR}/Utils/ResourceManager.cpp
   ${SRC_DIR}/Utils/Sound.cpp
   ${SRC_DIR}/Utils/Sprite.cpp
   ${SRC_DIR}/Utils/StaticSprite.cpp
   ${SRC_DIR}/Utils/Texture.cpp
-  ${SRC_DIR}/Utils/TextureFactory.cpp
   ${SRC_DIR}/Utils/TextureManager.cpp
-  ${SRC_DIR}/Utils/Utils.cc
 )
 
 set(PROTOCOLS
@@ -129,10 +126,6 @@ set(Salt2D_SOURCES
   ${UTILS_SOURCES}
   ${SRC_DIR}/main.cpp
   ${SRC_DIR}/Application.cpp
-)
-
-set(SERVER_SOURCES
-  ${SRC_DIR}/Server.cpp
 )
 
 set(ENGINE_GAME_STATES_HEADERS
@@ -178,8 +171,8 @@ set(UTILS_FREETYPE_HEADERS
 set(UTILS_UI_HEADERS
   ${INCLUDE_DIR}/Utils/UI/Button.hpp
   ${INCLUDE_DIR}/Utils/UI/Component.hpp
+  ${INCLUDE_DIR}/Utils/UI/ComponentBuilder.hpp
   ${INCLUDE_DIR}/Utils/UI/ComponentEvent_wrapper.hpp
-  ${INCLUDE_DIR}/Utils/UI/ComponentFactory.hpp
   ${INCLUDE_DIR}/Utils/UI/Container.hpp
   ${INCLUDE_DIR}/Utils/UI/Dialog.hpp
   ${INCLUDE_DIR}/Utils/UI/Event.hpp
@@ -187,7 +180,7 @@ set(UTILS_UI_HEADERS
   ${INCLUDE_DIR}/Utils/UI/Label.hpp
   ${INCLUDE_DIR}/Utils/UI/LoadingAnimation.hpp
   ${INCLUDE_DIR}/Utils/UI/Menu.hpp
-  ${INCLUDE_DIR}/Utils/UI/MenuFactory.hpp
+  ${INCLUDE_DIR}/Utils/UI/MenuBuilder.hpp
   ${INCLUDE_DIR}/Utils/UI/MouseEvent.hpp
 )
 
@@ -204,8 +197,7 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Lua.hpp
   ${INCLUDE_DIR}/Utils/MouseButton.hpp
   ${INCLUDE_DIR}/Utils/PCResourceLoader.hpp
-  ${INCLUDE_DIR}/Utils/Resource.hpp
-  ${INCLUDE_DIR}/Utils/ResourceFile.hpp
+  ${INCLUDE_DIR}/Utils/PNGTextureBuilder.hpp
   ${INCLUDE_DIR}/Utils/ResourceLoader.hpp
   ${INCLUDE_DIR}/Utils/ResourceManager.hpp
   ${INCLUDE_DIR}/Utils/Singleton.hpp
@@ -214,7 +206,6 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/Sprite.hpp
   ${INCLUDE_DIR}/Utils/StaticSprite.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
-  ${INCLUDE_DIR}/Utils/TextureFactory.hpp
   ${INCLUDE_DIR}/Utils/TextureManager.hpp
   ${INCLUDE_DIR}/Utils/UI.hpp
 )
@@ -234,10 +225,6 @@ set(Salt2D_HEADERS
   ${INCLUDE_DIR}/Utils.hpp
 )
 
-set(SERVER_HEADERS
-  ${INCLUDE_DIR}/Server.hpp
-)
-
 if(WIN32)
   set(Salt2D_SOURCES ${Salt2D_SOURCES} ${SRC_DIR}/resource.rc)
 endif()
@@ -253,13 +240,6 @@ set(Salt2D_LIBS
   ${PROTOBUF_LITE_LIBRARIES}
   FTGL
   TinyXML
-)
-
-set(SERVER_LIBS
-  ${Boost_PROGRAM_OPTIONS_LIBRARY}
-  ${LUA_LIBRARIES}
-  ${LUABIND_LIBRARIES}
-  ${PROTOBUF_LITE_LIBRARIES}
 )
 
 if(NOT WIN32)
@@ -281,6 +261,3 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
 
 add_executable(Salt2D WIN32 ${Salt2D_HEADERS} ${Salt2D_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
 target_link_libraries(Salt2D ${Salt2D_LIBS})
-
-add_executable(Salt2D_Server ${SERVER_HEADERS} ${SERVER_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
-target_link_libraries(Salt2D_Server ${SERVER_LIBS})

@@ -12,91 +12,38 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/assert.hpp>
-#include <Utils/Resource.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
+
+#include <Utils/FreeType/Font.hpp>
 
 using namespace std;
 
 using namespace Utils;
+using namespace FreeType;
 
 
 
-ResourceManager::ResourceManager(): resourceLoader_(0)
+ResourceManager::ResourceManager():
+    resourceLoader_(0)
 {}
 
 
 
-boost::shared_ptr<Resource> ResourceManager::getResource(ResourceManager::ResourceType resourceType, const char* resourceName) throw(invalid_argument, runtime_error) {
+string ResourceManager::getFileData(const string& fileName) throw(invalid_argument, runtime_error) {
 
-    ASSERT(
-        (resourceName != 0),
-        invalid_argument("resourceName")
-    );
-
-    ASSERT(
-        (strlen(resourceName) != 0),
-        invalid_argument("resourceName")
-    );
-
-    string strResName = resourceName;
-
-    std::lock_guard<std::mutex> lockGuard(managerMutex_);
-
-    map< string, boost::shared_ptr<Resource> >::iterator res = resources_.find(strResName); // Находим нужный ресурс
-
-    if(res != resources_.end()) { // ресурс найден
-        return res->second;
-    }
+    std::lock_guard<std::mutex> guard(resourceLoaderAccess_);
 
     ASSERT( // если нет загрузчика ресурсов
         (resourceLoader_ != 0),
         runtime_error(
             (boost::format("Can't load resource \"%1%\"")
-                % resourceName
+                % fileName
             ).str()
         )
     );
 
-    boost::shared_ptr<Resource> newRes = resourceLoader_->loadResource(resourceType, resourceName); // загружаем ресурс
-
-    resources_[strResName] = newRes;
-
-    return newRes;
-
-}
-
-
-
-boost::shared_ptr<Resource> ResourceManager::getResource(ResourceManager::ResourceType resourceType, const string& resourceName) throw(invalid_argument, runtime_error) {
-
-    return getResource(resourceType, resourceName.c_str());
-
-}
-
-
-
-void ResourceManager::deleteResource(const boost::shared_ptr<Resource>& resource) {
-
-	typedef pair< string, boost::shared_ptr<Resource> > resources_pair;
-
-	bool BOOST_LOCAL_FUNCTION(const bind resource, const resources_pair& elem) {
-
-		return elem.second == resource;
-
-	} BOOST_LOCAL_FUNCTION_NAME(pred)
-
-	map< string, boost::shared_ptr<Resource> >::iterator res = find_if(
-																		resources_.begin(),
-																		resources_.end(),
-																		pred
-																	  );
-
-	if(res == resources_.end()) {
-		return;
-	}
-
-	resources_.erase(res, ++res);
+    return resourceLoader_->readFile(fileName);
 
 }
 
@@ -109,8 +56,94 @@ void ResourceManager::setResourceLoader(ResourceLoader* resourceLoader) throw(in
         invalid_argument("resourceLoader")
     );
 
-    std::lock_guard<std::mutex> lockGuard(managerMutex_);
+    std::lock_guard<std::mutex> lockGuard(resourceLoaderAccess_);
 
     resourceLoader_ = resourceLoader;
+
+}
+
+
+
+namespace Utils {
+
+template<> std::map< std::string, boost::shared_ptr<Font> >&
+ResourceManager::getResourcesMap<Font>() {
+
+    return fonts_;
+
+}
+
+
+
+template<> std::map< std::string, boost::shared_ptr<Texture> >&
+ResourceManager::getResourcesMap<Texture>() {
+
+    return textures_;
+
+}
+
+
+
+template<> std::map< std::string, boost::shared_ptr<Sound>  >&
+ResourceManager::getResourcesMap<Sound>() {
+
+    return sounds_;
+
+}
+
+
+
+template<>
+boost::shared_ptr<Font> ResourceManager::loadResource<Font>(const std::string& name) throw(std::invalid_argument, std::runtime_error) {
+
+    return resourceLoader_->loadFont(name);
+
+}
+
+
+
+template<>
+boost::shared_ptr<Texture> ResourceManager::loadResource<Texture>(const std::string& name) throw(std::invalid_argument, std::runtime_error) {
+
+    return resourceLoader_->loadTexture(name);
+
+}
+
+
+
+template<>
+boost::shared_ptr<Sound> ResourceManager::loadResource<Sound>(const std::string& name) throw(std::invalid_argument, std::runtime_error) {
+
+    return resourceLoader_->loadSound(name);
+
+}
+
+
+
+template<>
+std::mutex& ResourceManager::getResourcesAccessMutex<Font>() {
+
+    return fontsAccess_;
+
+}
+
+
+
+template<>
+std::mutex& ResourceManager::getResourcesAccessMutex<Texture>() {
+
+    return texturesAccess_;
+
+}
+
+
+
+template<>
+std::mutex& ResourceManager::getResourcesAccessMutex<Sound>() {
+
+    return soundsAccess_;
+
+}
+
 
 }

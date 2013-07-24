@@ -1,5 +1,3 @@
-#include <cstring>
-
 #include <stdexcept>
 #include <string>
 
@@ -7,64 +5,44 @@
 
 #include <Utils/assert.hpp>
 
-#include <Utils/Resource.hpp>
+#include <Utils/PNGTextureBuilder.hpp>
 #include <Utils/ResourceLoader.hpp>
+#include <Utils/SingletonPointer.hpp>
+#include <Utils/Sound.hpp>
+
+#include <Utils/FreeType/Font.hpp>
 
 using namespace std;
 
 using namespace Utils;
+using namespace Utils::FreeType;
 
 
 
-boost::shared_ptr<Resource> ResourceLoader::loadResource(ResourceLoader::ResourceType resourceType, const char* resourceName) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Texture> ResourceLoader::loadTexture(const char* fileName) throw(invalid_argument, runtime_error) {
 
-    ASSERT(
-        (resourceName != 0),
-        invalid_argument("resourceName")
-    );
+    Utils::SingletonPointer<PNGTextureBuilder> textureBuilder = PNGTextureBuilder::getInstance();
 
-    ASSERT(
-        (strlen(resourceName) != 0),
-        invalid_argument("resourceName")
-    );
+    std::string data = readFile(fileName);
 
-    switch(resourceType) {
-
-        case BINARY_FILE: {
-            return loadBinaryFile(resourceName);
-        }
-        break;
-
-        case PLAIN_TEXT: {
-            return loadPlainText(resourceName);
-        }
-        break;
-
-        case TEXTURE: {
-            return loadTexture(resourceName);
-        }
-        break;
-
-        case FONT: {
-            return loadFont(resourceName);
-        }
-        break;
-
-        case SOUND: {
-            return loadSound(resourceName);
-        }
-        break;
-
-    }
-
-    return boost::shared_ptr<Resource>((Resource*)0);
+    return textureBuilder->createTexture(data);
 
 }
 
 
 
-boost::shared_ptr<Resource> ResourceLoader::loadResource(ResourceLoader::ResourceType resourceType, const std::string& resourceName) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Sound> ResourceLoader::loadSound(const char* fileName) throw(invalid_argument, runtime_error) {
 
-    return loadResource(resourceType, resourceName.c_str());
+
+
+}
+
+
+
+boost::shared_ptr<Font> ResourceLoader::loadFont(const char* fileName) throw(invalid_argument, runtime_error) {
+
+    std::string data = readFile(fileName);
+
+    return boost::shared_ptr<Font>(new Font(data));
 
 }

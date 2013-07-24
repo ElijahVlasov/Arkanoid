@@ -7,13 +7,14 @@
 #include <string>
 #include <stdexcept>
 
+#include <boost/shared_ptr.hpp>
+
 #include <FTGL/ftgl.h>
 
 #include <boost/array.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/Color.hpp>
-#include <Utils/Resource.hpp>
 
 namespace Utils {
 
@@ -23,7 +24,7 @@ namespace Utils {
           * @author Elijah Vlasov
         */
 
-        class Font: public Resource {
+        class Font {
 
             public:
 
@@ -37,9 +38,8 @@ namespace Utils {
                 } FONT_RECT;
 
                 Font();
+                Font(const std::string& fontData) throw(std::runtime_error);
                 Font(const Font& font);
-
-                ~Font();
 
                 Font& operator=(const Font& font);
 
@@ -133,19 +133,13 @@ namespace Utils {
 
                 void setColor(const Utils::Color& color);
 
-                std::string getData() const;
-                void setData(const std::string& data);
-
             private:
-
-
-                void setData_(const std::string& data);
 
                 mutable std::mutex synchroMutex_;
 
                 Utils::Color color_;
 
-                FTFont* font_;
+                boost::shared_ptr<FTTextureFont> font_;
 
                 std::string fontBuffer_;
 

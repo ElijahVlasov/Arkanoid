@@ -8,7 +8,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/Graphics.hpp>
-#include <Utils/Resource.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
 #include <Utils/Texture.hpp>
@@ -41,18 +40,13 @@ LoadingAnimation::LoadingAnimation() throw(runtime_error):
 
     for(size_t i = 0; i < 4; i++) {
 
-        try {
 
-            string fileName = (boost::format("%1%%2%")
+        string fileName = (boost::format("%1%%2%")
                                     % LOADING_ANIMATION_FRAME_PREFIX
                                     % i
                               ).str();
 
-            boost::shared_ptr<Resource> frameResource = resourceManager->getResource(ResourceManager::ResourceType::TEXTURE, fileName);
-
-            animationSprite->addFrame(FRAME_DURATION, boost::dynamic_pointer_cast<Texture>(frameResource));
-
-        } catch (const bad_alloc&) {}
+        animationSprite->addFrame(FRAME_DURATION, resourceManager->getResource<Texture>(fileName));
 
     }
 
