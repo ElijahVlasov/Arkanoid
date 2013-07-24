@@ -32,7 +32,7 @@ MenuState::MenuState() throw(runtime_error):
 
 void MenuState::setMenu(const boost::shared_ptr<Menu>& menu) {
 
-    std::lock_guard<std::mutex> guard(synchroMutex_);
+    //std::lock_guard<std::mutex> guard(synchroMutex_);
 
     menu_ = menu;
 

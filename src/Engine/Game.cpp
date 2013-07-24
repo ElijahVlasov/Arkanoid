@@ -215,6 +215,10 @@ const IGameState* Game::getState() const {
 
 void Game::setState(IGameState* state) {
 
+    if(state == state_) {
+        return;
+    }
+
     std::lock_guard<std::mutex> guard(stateAccessMutex_);
 
     if(state_ != 0) {

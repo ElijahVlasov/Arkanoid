@@ -23,7 +23,7 @@ Menu::Menu() throw(runtime_error):
     Container()
 {
 
-    const Color defColor = {0.0f, 0.0f, 0.0f, 0.0f};
+    const Color defColor = {1.0f, 1.0f, 1.0f, 0.0f};
 
     backgroundColor_ = defColor;
 

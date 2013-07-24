@@ -78,6 +78,9 @@ LuaAPI_::LuaAPI_():
 
         def("load_script",  &LuaAPI_::System_LoadScript),
 
+        def("show_dialog",  &LuaAPI_::System_ShowDialog),
+        def("show_menu",    &LuaAPI_::System_ShowMenu),
+
         class_<MouseButton>("mouse_btn")
             .enum_("") [
 

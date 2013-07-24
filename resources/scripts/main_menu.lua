@@ -1,4 +1,11 @@
+function option_click(event)
+    --system.exit()
+    system.show_menu("ui/pause_menu.xml")
+end
+
 function click(event)
+
+    system.exit()
 
 	--menu = system.get_main_menu()
 
