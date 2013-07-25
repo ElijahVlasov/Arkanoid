@@ -1,11 +1,13 @@
 #include <algorithm>
 #include <list>
 #include <mutex>
+#include <stdexcept>
 #include <thread>
 
 #include <boost/foreach.hpp>
 #include <boost/shared_array.hpp>
 
+#include <Utils/assert.hpp>
 #include <Utils/TextureManager.hpp>
 
 #include "gl_includes.h"
@@ -57,7 +59,7 @@ TextureManager::~TextureManager() {
 
 
 
-void TextureManager::update() {
+void TextureManager::update() throw(runtime_error) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
@@ -106,31 +108,11 @@ void TextureManager::copyTexture(GLuint dst, GLuint src) {
 
 
 
-void TextureManager::setTexture(GLuint texture, unsigned int width, unsigned int height, GLint format, const string& data) {
+void TextureManager::setTexture(GLuint texture, unsigned int width, unsigned int height, GLint format, const string& data) throw(std::runtime_error) {
 
     if(std::this_thread::get_id() == mainThreadID_) { // Если мы в главном потоке, можно создать текстуру.
 
-        glBindTexture(GL_TEXTURE_2D, texture);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        glTexImage2D(
-
-            GL_TEXTURE_2D,
-            0,
-            format,
-            width,
-            height,
-            0,
-            format,
-            GL_UNSIGNED_BYTE,
-            static_cast<const GLvoid*>(data.data())
-
-        );
+        setTextureAttribs(texture, width, height, format, data);
 
         return;
 
@@ -177,7 +159,9 @@ void TextureManager::updateFreeTextures() {
         return;
     }
 
-    std::size_t needTexturesNumber = MAX_TEXTURES_NUMBER - freeNumber;
+    std::size_t needTexturesNumber = MAX_TEXTURES_NUMBER - freeNumber; // Столько текстур не хватает до максимума.
+
+    // Сгенерируем столько текстур.
 
     boost::shared_array< GLuint > newTextures(new GLuint[needTexturesNumber]);
 
@@ -197,6 +181,8 @@ void TextureManager::updateTexturesForDelete() {
 
     boost::shared_array< GLuint > textures(new GLuint[texturesForDelete_.size()]);
 
+    // Перенесем текстуры из списка в массив.
+
     auto iter = texturesForDelete_.begin();
 
     for(std::size_t i = 0; iter != texturesForDelete_.end(); ++iter, ++i) {
@@ -211,7 +197,7 @@ void TextureManager::updateTexturesForDelete() {
 
 
 
-void TextureManager::updateTexturesForCreate() {
+void TextureManager::updateTexturesForCreate() throw(runtime_error) {
 
     if(texturesForCreate_.empty()){
         return;
@@ -219,29 +205,11 @@ void TextureManager::updateTexturesForCreate() {
 
     BOOST_FOREACH(TextureManager::TextureStruct& textureForCreate, texturesForCreate_) {
 
-        glBindTexture(GL_TEXTURE_2D, textureForCreate.id);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        glTexImage2D(
-
-            GL_TEXTURE_2D,
-            0,
-            textureForCreate.format,
-            textureForCreate.width,
-            textureForCreate.height,
-            0,
-            textureForCreate.format,
-            GL_UNSIGNED_BYTE,
-            static_cast<const GLvoid*>(textureForCreate.data.data())
-
-        );
+        setTextureAttribs(textureForCreate.id, textureForCreate.width, textureForCreate.height, textureForCreate.format, textureForCreate.data);
 
     }
+
+    texturesForCreate_.clear();
 
 }
 
@@ -261,13 +229,51 @@ void TextureManager::updateTexturesForCopy() {
 
 
 
+void TextureManager::setTextureAttribs(GLuint texture, unsigned int width, unsigned int height, GLint format, const string& textureData) throw(runtime_error) {
+
+    unsigned newWidth   =   nextPowerOf2(width);
+    unsigned newHeight  =   nextPowerOf2(height);
+
+    string newData = resize(textureData, width, height, format, newWidth, newHeight);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage2D(
+
+        GL_TEXTURE_2D,
+        0,
+        format,
+        newWidth,
+        newHeight,
+        0,
+        format,
+        GL_UNSIGNED_BYTE,
+        static_cast<const GLvoid*>(newData.data())
+
+    );
+
+    int err = glGetError();
+
+    ASSERT(
+        (err == GL_NO_ERROR),
+        runtime_error(reinterpret_cast<const char*>(gluErrorString(err)))
+    );
+
+}
+
+
+
 void TextureManager::copy(GLuint dst, GLuint src) {
 
     string data;
 
     GLint width, height, format;
-
-    unsigned int bpp;
 
     glBindTexture(GL_TEXTURE_2D, src);
 
@@ -276,28 +282,48 @@ void TextureManager::copy(GLuint dst, GLuint src) {
 
     glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &format);
 
-    switch(format) {
-
-        case GL_RGB: {
-
-            bpp = 3;
-
-        }
-        break;
-
-        case GL_RGBA: {
-
-            bpp = 4;
-
-        }
-        break;
-
-    }
+    unsigned int bpp = formatToBPP(format);
 
     data.resize(width * height * bpp);
 
     glGetTexImage(GL_TEXTURE_2D, 0, format, GL_UNSIGNED_BYTE, static_cast<GLvoid*>(const_cast<char*>(data.data())));
 
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, static_cast<const GLvoid*>(data.data()));
+
+}
+
+
+
+string TextureManager::resize(const string& textureData, unsigned int width, unsigned int height, GLint format, unsigned int newWidth, unsigned newHeight) throw(runtime_error) {
+
+    string newData;
+
+    unsigned int bpp = formatToBPP(format);
+
+    ASSERT(
+        (bpp != 0),
+        runtime_error("Texture has unknown format")
+    );
+
+    newData.resize(newWidth * newHeight * bpp);
+
+    int err = gluScaleImage(
+                format,
+                width,
+                height,
+                GL_UNSIGNED_BYTE,
+                reinterpret_cast<const GLvoid*>(textureData.data()),
+                newWidth,
+                newHeight,
+                GL_UNSIGNED_BYTE,
+                reinterpret_cast<GLvoid*>(const_cast<char*>(newData.data()))
+              );
+
+    ASSERT(
+        (err == 0),
+        runtime_error(reinterpret_cast<const char*>(gluErrorString(err)))
+    );
+
+    return newData;
 
 }

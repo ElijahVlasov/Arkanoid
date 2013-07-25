@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 #include <thread>
 
@@ -32,7 +33,7 @@ namespace Utils {
               * текстур. Должен вызываться в главном потоке.
             */
 
-            void update();
+            void update() throw(std::runtime_error);
 
             /** Создать текстуру.
             */
@@ -44,7 +45,7 @@ namespace Utils {
             /** Установить параметры текстуры.
             */
 
-            void setTexture(GLuint texture, unsigned int width, unsigned int height, GLint format, const std::string& textureData);
+            void setTexture(GLuint texture, unsigned int width, unsigned int height, GLint format, const std::string& textureData) throw(std::runtime_error);
 
             /** Удалить текстуру.
             */
@@ -60,6 +61,8 @@ namespace Utils {
 
             static const std::size_t MIN_TEXTURES_NUMBER;
             static const std::size_t MAX_TEXTURES_NUMBER;
+
+            const std::thread::id mainThreadID_;
 
             mutable std::mutex synchroMutex_;
 
@@ -82,14 +85,60 @@ namespace Utils {
 
             void updateFreeTextures();
             void updateTexturesForDelete();
-            void updateTexturesForCreate();
+            void updateTexturesForCreate() throw(std::runtime_error);
             void updateTexturesForCopy();
 
-            void copy(GLuint dst, GLuint src);
+            static void setTextureAttribs(GLuint texture, unsigned int width, unsigned int height, GLint format, const std::string& textureData) throw(std::runtime_error);
+            static void copy(GLuint dst, GLuint src);
 
-            const std::thread::id mainThreadID_;
+            static std::string resize(const std::string& textureData, unsigned int width, unsigned int height, GLint format, unsigned int newWidth, unsigned newHeight) throw(std::runtime_error);
+
+            static inline unsigned int nextPowerOf2(unsigned int n);
+            static inline unsigned int formatToBPP(GLint format);
 
     };
+
+
+
+    unsigned int TextureManager::nextPowerOf2(unsigned int n) {
+
+        n -= 1;
+
+        n |= n >> 16;
+        n |= n >> 8;
+        n |= n >> 4;
+        n |= n >> 2;
+        n |= n >> 1;
+
+        return n + 1;
+
+    }
+
+
+
+    unsigned int TextureManager::formatToBPP(GLint format) {
+
+        switch(format) {
+
+            case GL_RGB: {
+
+                return 3;
+
+            }
+            break;
+
+            case GL_RGBA: {
+
+                return 4;
+
+            }
+            break;
+
+        }
+
+        return 0;
+
+    }
 
 }
 
