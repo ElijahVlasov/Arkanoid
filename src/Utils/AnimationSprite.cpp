@@ -92,6 +92,8 @@ void AnimationSprite::render() {
 
             frames_.pop_front();
 
+            lastTimePoint_ = now;
+
         }
 
     }

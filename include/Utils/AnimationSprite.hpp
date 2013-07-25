@@ -75,6 +75,8 @@ namespace Utils {
 
         std::lock_guard<std::mutex> guard(isStartedAccessMutex_);
 
+        lastTimePoint_ = std::chrono::system_clock::now();
+
         isStarted_ = true;
 
     }
