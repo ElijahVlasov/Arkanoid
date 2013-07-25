@@ -34,7 +34,8 @@ Component::Component() throw(runtime_error):
     box_(PointI(0, 0), PointI(0, 0)),
     mouseDownX_(-100),
     mouseDownY_(-100),
-    isHovered_(false)
+    isHovered_(false),
+    isPressed_(false)
 {
 
     SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
@@ -226,6 +227,8 @@ void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
     }
 
+    isPressed_ = true;
+
     try {
 
         MouseEvent event;
@@ -244,6 +247,8 @@ void Component::mouseDown(int x, int y, Utils::MouseButton btn) {
 
 
 void Component::mouseUp(int x, int y, Utils::MouseButton btn) {
+
+    isPressed_ = false;
 
     try {
 
@@ -292,25 +297,29 @@ void Component::click(int x, int y) {
 
 
 
-void Component::mouseHover(int x, int y) {
+void Component::mouseMotion(int x, int y) {
 
-    try {
+    if(isContains(x, y)) {
 
-        MouseEvent event;
+        if(!isHovered_) {
 
-        event.x            =  x - box_.min_corner().x();
-        event.y            =  y - box_.min_corner().y();
-        event.mouseButton  =  MouseButton::BUTTON_NONE;
+            isHovered_ = true;
 
-        hoverEvent_(this, event);
+            mouseHover();
 
-    } catch(const boost::bad_function_call&) {}
+        }
 
-}
+    } else {
 
+        if(isHovered_) {
 
+            isHovered_ = false;
 
-void Component::mouseLeave(int x, int y) {
+            mouseLeave();
+
+        }
+
+    }
 
     try {
 
@@ -320,9 +329,37 @@ void Component::mouseLeave(int x, int y) {
         event.y             =   y;
         event.mouseButton   =   MouseButton::BUTTON_NONE;
 
-        leaveEvent_(event);
+        mouseMotionEvent_(this, event);
 
-    } catch (const boost::bad_function_call&){}
+    } catch(const boost::bad_function_call&) {}
+
+}
+
+
+
+void Component::mouseHover() {
+
+    try {
+
+        Event event;
+
+        hoverEvent_(this, event);
+
+    } catch(const boost::bad_function_call&) {}
+
+}
+
+
+
+void Component::mouseLeave() {
+
+    try {
+
+        Event event;
+
+        leaveEvent_(this, event);
+
+    } catch (const boost::bad_function_call&) {}
 
 }
 
@@ -374,6 +411,14 @@ void Component::keyUp(int key) {
 
 
 
+void Component::setMouseMotionEvent(const Component::MouseMotionEvent& eventHandler) {
+
+    mouseMotionEvent_ = eventHandler;
+
+}
+
+
+
 void Component::setHoveredEvent(const Component::MouseHoverEvent& eventHandler) {
 
     hoverEvent_ = eventHandler;
@@ -382,7 +427,7 @@ void Component::setHoveredEvent(const Component::MouseHoverEvent& eventHandler) 
 
 
 
-void Component::setMouseLeavedEvent(const Component::MouseLeaveEvent& eventHandler) {
+void Component::setLeavedEvent(const Component::MouseLeaveEvent& eventHandler) {
 
     leaveEvent_ = eventHandler;
 

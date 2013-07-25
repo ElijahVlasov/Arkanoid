@@ -185,13 +185,15 @@ LuaAPI_::LuaAPI_():
                 .def("draw",        &Component::draw)
                 .def("is_contains", &Component::isContains)
 
-                .def("set_hovered_event_handler",    &LuaAPI_::Lua_ComponentSetters::setHoveredEvent)
-                .def("set_clicked_event_handler",    &LuaAPI_::Lua_ComponentSetters::setClickedEvent)
-                .def("set_mouse_down_event_handler", &LuaAPI_::Lua_ComponentSetters::setMouseDownEvent)
-                .def("set_mouse_up_event_handler",   &LuaAPI_::Lua_ComponentSetters::setMouseUpEvent)
-                .def("set_draw_event_handler",       &LuaAPI_::Lua_ComponentSetters::setDrawEvent)
-                .def("set_key_down_event_handler",   &LuaAPI_::Lua_ComponentSetters::setKeyDownEvent)
-                .def("set_key_up_event_handler",     &LuaAPI_::Lua_ComponentSetters::setKeyUpEvent)
+                .def("set_mouse_motion_event_handler",  &LuaAPI_::Lua_ComponentSetters::setMouseMotionEvent)
+                .def("set_hovered_event_handler",       &LuaAPI_::Lua_ComponentSetters::setHoveredEvent)
+                .def("set_leaved_event_handler",        &LuaAPI_::Lua_ComponentSetters::setLeavedEvent)
+                .def("set_clicked_event_handler",       &LuaAPI_::Lua_ComponentSetters::setClickedEvent)
+                .def("set_mouse_down_event_handler",    &LuaAPI_::Lua_ComponentSetters::setMouseDownEvent)
+                .def("set_mouse_up_event_handler",      &LuaAPI_::Lua_ComponentSetters::setMouseUpEvent)
+                .def("set_draw_event_handler",          &LuaAPI_::Lua_ComponentSetters::setDrawEvent)
+                .def("set_key_down_event_handler",      &LuaAPI_::Lua_ComponentSetters::setKeyDownEvent)
+                .def("set_key_up_event_handler",        &LuaAPI_::Lua_ComponentSetters::setKeyUpEvent)
 
                 .property("x",      &Component::getX)
                 .property("y",      &Component::getY)
@@ -394,13 +396,41 @@ void LuaAPI_::System_ShowMenu(const char* name) {
 
 
 
-void LuaAPI_::Lua_ComponentSetters::setHoveredEvent(boost::shared_ptr<Component> component, luabind::object eventHandler) {
+void LuaAPI_::Lua_ComponentSetters::setMouseMotionEvent(boost::shared_ptr<Component> component, luabind::object eventHandler) {
 
     try {
 
         ComponentEvent_wrapper<MouseEvent> wrap(eventHandler);
 
+        component->setMouseMotionEvent(wrap);
+
+    } catch(const invalid_argument&) {}
+
+}
+
+
+
+void LuaAPI_::Lua_ComponentSetters::setHoveredEvent(boost::shared_ptr<Component> component, luabind::object eventHandler) {
+
+    try {
+
+        ComponentEvent_wrapper<Event> wrap(eventHandler);
+
         component->setHoveredEvent(wrap);
+
+    } catch(const invalid_argument&) {}
+
+}
+
+
+
+void LuaAPI_::Lua_ComponentSetters::setLeavedEvent(boost::shared_ptr<Component> component, luabind::object eventHandler) {
+
+    try {
+
+        ComponentEvent_wrapper<Event> wrap(eventHandler);
+
+        component->setLeavedEvent(wrap);
 
     } catch(const invalid_argument&) {}
 

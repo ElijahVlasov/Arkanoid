@@ -96,13 +96,15 @@ namespace LuaAPI {
 
                 public:
 
-                    static void setHoveredEvent(  boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
-                    static void setClickedEvent(  boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
-                    static void setMouseDownEvent(boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
-                    static void setMouseUpEvent(  boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
-                    static void setDrawEvent(     boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
-                    static void setKeyDownEvent(  boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
-                    static void setKeyUpEvent(    boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setMouseMotionEvent(    boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setHoveredEvent(        boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setLeavedEvent(         boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setClickedEvent(        boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setMouseDownEvent(      boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setMouseUpEvent(        boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setDrawEvent(           boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setKeyDownEvent(        boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
+                    static void setKeyUpEvent(          boost::shared_ptr<Utils::UI::Component> component, luabind::object eventHandler);
 
             };
 

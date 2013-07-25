@@ -50,15 +50,20 @@ namespace Utils {
 
                 typedef boost::function<void (Component*, MouseEvent&)> MouseClickEvent;
 
+                /** Делегат события движения курсора.
+                */
+
+                typedef boost::function<void (Component*, MouseEvent&)> MouseMotionEvent;
+
                 /** Делегат наведения курсора на компонент.
                 */
 
-                typedef boost::function<void (Component*, MouseEvent&)> MouseHoverEvent;
+                typedef boost::function<void (Component*, Event&)> MouseHoverEvent;
 
                 /** Делегат покидания курсором компонента.
                 */
 
-                typedef boost::function<void (MouseEvent& event)> MouseLeaveEvent;
+                typedef boost::function<void (Component*, Event&)> MouseLeaveEvent;
 
                 /** Делегат перерисовки компонента.
                 */
@@ -173,11 +178,13 @@ namespace Utils {
 
                 virtual void click(int x, int y);
 
+                virtual void mouseMotion(int x, int y);
+
                 /** Наведение мыши на компонент.
                 */
 
-                virtual void mouseHover(int x, int y);
-                virtual void mouseLeave(int x, int y);
+                virtual void mouseHover();
+                virtual void mouseLeave();
 
                 /** Клавиша зажата.
                 */
@@ -194,12 +201,14 @@ namespace Utils {
 
                 virtual void draw();
 
+                void setMouseMotionEvent(const MouseMotionEvent& eventHandler);
+
                 /** Установить MouseHoverEvent.
                 */
 
                 void setHoveredEvent(const MouseHoverEvent& eventHandler);
 
-                void setMouseLeavedEvent(const MouseLeaveEvent& eventHandler);
+                void setLeavedEvent(const MouseLeaveEvent& eventHandler);
 
                 /** Установить MouseClickEvent.
                 */
@@ -235,19 +244,19 @@ namespace Utils {
 
                 friend class Container;
 
-                inline void setHovered(bool isHovered) {
+                inline void setHovered(bool isHovered);
 
-                    isHovered_ = isHovered;
+                /** Наведен ли курсор на компонент.
+                */
 
-                }
+                inline bool isHovered() const;
 
+                inline void setPressed(bool isPressed);
 
+                /** Был ли компонент нажат.
+                */
 
-                inline bool isHovered() const {
-
-                    return isHovered_;
-
-                }
+                inline bool isPressed() const;
 
             private:
 
@@ -261,6 +270,7 @@ namespace Utils {
 
                 MouseDownEvent    mouseDownEvent_;
                 MouseUpEvent      mouseUpEvent_;
+                MouseMotionEvent  mouseMotionEvent_;
                 MouseHoverEvent   hoverEvent_;
                 MouseLeaveEvent   leaveEvent_;
                 MouseClickEvent   clickEvent_;
@@ -272,9 +282,41 @@ namespace Utils {
 
                 int mouseDownX_, mouseDownY_;
 
-                bool isHovered_;
+                bool isHovered_, isPressed_;
 
         };
+
+
+
+        void Component::setHovered(bool isHovered) {
+
+            isHovered_ = isHovered;
+
+        }
+
+
+
+        bool Component::isHovered() const {
+
+            return isHovered_;
+
+        }
+
+
+
+        void Component::setPressed(bool isPressed) {
+
+            isPressed_ = isPressed;
+
+        }
+
+
+
+        bool Component::isPressed() const {
+
+            return isPressed_;
+
+        }
 
     }
 

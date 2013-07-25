@@ -132,10 +132,13 @@ void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* 
 
 void ComponentBuilder::setLuaHandlers(const TiXmlElement* element, Component* component) throw(runtime_error) {
 
-    string          clickEvent, hoverEvent, mouseDownEvent, mouseUpEvent, drawEvent, keyDownEvent, keyUpEvent;
+    string          clickEvent, hoverEvent, leavedEvent, mouseMotionEvent, mouseDownEvent, mouseUpEvent, drawEvent, keyDownEvent, keyUpEvent;
 
     clickEvent      =   getXMLAttribute<string>(element, "on_click");
+    mouseMotionEvent=   getXMLAttribute<string>(element, "on_mouse_motion");
     hoverEvent      =   getXMLAttribute<string>(element, "on_hover");
+    leavedEvent     =   getXMLAttribute<string>(element, "on_leave");
+
     mouseDownEvent  =   getXMLAttribute<string>(element, "on_mouse_down");
     mouseUpEvent    =   getXMLAttribute<string>(element, "on_mouse_up");
 
@@ -155,7 +158,19 @@ void ComponentBuilder::setLuaHandlers(const TiXmlElement* element, Component* co
 
     try {
 
-        component->setHoveredEvent      (ComponentEvent_wrapper<MouseEvent>(hoverEvent));
+        component->setMouseMotionEvent  (ComponentEvent_wrapper<MouseEvent>(mouseMotionEvent));
+
+    } catch (const invalid_argument&) {}
+
+    try {
+
+        component->setHoveredEvent      (ComponentEvent_wrapper<Event>(hoverEvent));
+
+    } catch (const invalid_argument&) {}
+
+    try {
+
+        component->setLeavedEvent      (ComponentEvent_wrapper<Event>(leavedEvent));
 
     } catch (const invalid_argument&) {}
 

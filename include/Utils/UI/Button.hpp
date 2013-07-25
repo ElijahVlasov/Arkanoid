@@ -28,11 +28,6 @@ namespace Utils {
                 Button() throw(std::runtime_error);
                 ~Button();
 
-                void mouseDown(int x, int y, Utils::MouseButton btn);
-                void mouseUp(int x, int y, Utils::MouseButton btn);
-                void mouseHover(int x, int y);
-                void mouseLeave(int x, int y);
-
             protected:
 
                 /** Прорисовка кнопки по-умолчанию.
@@ -45,7 +40,7 @@ namespace Utils {
 
             private:
 
-                boost::shared_ptr<Texture> curTexture_, prevTexture_, defTexture_, clickedTexture_, hoveredTexture_;
+                boost::shared_ptr<Texture> defTexture_, clickedTexture_, hoveredTexture_;
 
         };
 

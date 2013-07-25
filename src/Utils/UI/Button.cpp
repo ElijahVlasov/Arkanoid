@@ -36,9 +36,6 @@ Button::Button() throw(runtime_error):
     clickedTexture_ = resourceManager->getResource<Texture>("textures/ui/button_clicked.png");
     hoveredTexture_ = resourceManager->getResource<Texture>("textures/ui/button_hovered.png");
 
-
-    curTexture_ = defTexture_;
-
     setDrawEvent( &Button::onDraw );
 
 }
@@ -62,9 +59,25 @@ void Button::onDraw(Component* sender, Event&) {
 
 void Button::drawTexture() {
 
+    boost::shared_ptr<Texture> texture;
+
+    if(isPressed()) {
+
+        texture = clickedTexture_;
+
+    } else if(isHovered()) {
+
+        texture = hoveredTexture_;
+
+    } else {
+
+        texture = defTexture_;
+
+    }
+
     Graphics::DrawTexture(
         getBoxI(),
-        *curTexture_
+        *texture
     );
 
 }
@@ -105,47 +118,5 @@ void Button::drawText() {
         getFont().renderText(getText(), x + xOffset, y + yOffset, width, height);
 
     } catch(const runtime_error&) {}
-
-}
-
-
-
-void Button::mouseDown(int x, int y, Utils::MouseButton btn) {
-
-    prevTexture_ = curTexture_;
-
-    curTexture_ = clickedTexture_;
-
-    Component::mouseDown(x, y, btn);
-
-}
-
-
-
-void Button::mouseUp(int x, int y, Utils::MouseButton btn) {
-
-    curTexture_ = prevTexture_;
-
-    Component::mouseUp(x, y, btn);
-
-}
-
-
-
-void Button::mouseHover(int x, int y) {
-
-    curTexture_ = hoveredTexture_;
-
-    Component::mouseHover(x, y);
-
-}
-
-
-
-void Button::mouseLeave(int x, int y) {
-
-    curTexture_ = defTexture_;
-
-    Component::mouseLeave(x, y);
 
 }
