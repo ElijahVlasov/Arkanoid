@@ -49,7 +49,7 @@ namespace Utils {
 	std::string LocalizationManager::getString(const char* key) const {
 
 		if(key == 0) {
-			return std::string(key);
+			return std::string();
 		}
 
 		return getString(std::string(key));
