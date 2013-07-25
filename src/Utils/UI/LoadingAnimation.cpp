@@ -41,7 +41,7 @@ LoadingAnimation::LoadingAnimation() throw(runtime_error):
     for(size_t i = 0; i < 4; i++) {
 
 
-        string fileName = (boost::format("%1%%2%")
+        string fileName = (boost::format("%1%%2%.png")
                                     % LOADING_ANIMATION_FRAME_PREFIX
                                     % i
                               ).str();
