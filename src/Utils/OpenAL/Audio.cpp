@@ -1,0 +1,105 @@
+#include <stdexcept>
+
+#include <boost/foreach.hpp>
+#include <boost/format.hpp>
+#include <boost/shared_ptr.hpp>
+
+#include <Utils/assert.hpp>
+
+#include <Utils/OpenAL/Audio.hpp>
+#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/OpenAL/SoundPlayer.hpp>
+
+#include "oal_includes.h"
+
+using namespace std;
+
+using namespace Utils;
+using namespace Utils::OpenAL;
+
+
+
+Audio::Audio() throw(runtime_error):
+    device_(alcOpenDevice(0))
+{
+
+    ASSERT(
+        (device_ != 0),
+        runtime_error("Can't open audio-device!")
+    );
+
+    context_ = alcCreateContext(device_, 0);
+
+    CheckALCErrors();
+
+    alcMakeContextCurrent(context_);
+
+    ALfloat listenerPos[] = { 0.0, 0.0, 0.0 };
+    ALfloat listenerVel[] = { 0.0, 0.0, 0.0 };
+    ALfloat listenerOri[] = { 0.0, 0.0, -1.0,  0.0, 1.0, 0.0 };
+
+    alListenerfv(AL_POSITION,    listenerPos);
+    alListenerfv(AL_VELOCITY,    listenerVel);
+    alListenerfv(AL_ORIENTATION, listenerOri);
+
+}
+
+
+
+Audio::~Audio() {
+
+    alcMakeContextCurrent(0);
+    alcDestroyContext(context_);
+    alcCloseDevice(device_);
+
+}
+
+
+
+boost::shared_ptr<SoundPlayer> Audio::createSoundPlayer(const boost::shared_ptr<Sound>& sound) {
+
+    boost::shared_ptr<SoundPlayer> player( new SoundPlayer(sound) );
+
+    players_.push_back(player);
+
+    return player;
+
+}
+
+
+
+void Audio::update() throw(runtime_error) {
+
+    BOOST_FOREACH(boost::shared_ptr< SoundPlayer >& player, players_) {
+
+        player->update();
+
+    }
+
+}
+
+
+
+void Audio::CheckALErrors() throw(runtime_error) {
+
+    ALenum errCode = alGetError();
+
+    ASSERT(
+        (errCode == AL_NO_ERROR),
+        runtime_error(static_cast<const char*>(alGetString(errCode)))
+    );
+
+}
+
+
+
+void Audio::CheckALCErrors() throw(runtime_error) {
+
+    ALenum errCode = alcGetError(instance_->device_);
+
+    ASSERT(
+        (errCode == AL_NO_ERROR),
+        runtime_error(static_cast<const char*>(alcGetString(instance_->device_, errCode)))
+    );
+
+}

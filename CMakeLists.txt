@@ -45,11 +45,13 @@ include_directories(
   ${FREETYPE_INCLUDE_DIR_freetype2}
   ${LUA_INCLUDE_DIR}
   ${LUABIND_INCLUDE_DIR}
+  ${OGG_INCLUDE_DIR}
   ${OPENAL_INCLUDE_DIR}
   ${OPENGL_INCLUDE_DIR}
   ${PROTOBUF_INCLUDE_DIRS}
   ${PNG_INCLUDE_DIRS}
   ${SDL_INCLUDE_DIR}
+  ${VORBISFILE_INCLUDE_DIR}
 )
 
 set(ENGINE_GAME_STATES_SOURCES
@@ -81,6 +83,19 @@ set(UTILS_FREETYPE_SOURCES
   ${SRC_DIR}/Utils/FreeType/Font.cpp
 )
 
+set(UTILS_OPENAL_SOURCES
+  ${SRC_DIR}/Utils/OpenAL/Audio.cpp
+  ${SRC_DIR}/Utils/OpenAL/Buffer.cpp
+  ${SRC_DIR}/Utils/OpenAL/IStream.cpp
+  ${SRC_DIR}/Utils/OpenAL/OGGSound.cpp
+  ${SRC_DIR}/Utils/OpenAL/OGGSoundBuilder.cpp
+  ${SRC_DIR}/Utils/OpenAL/OGGStream.cpp
+  ${SRC_DIR}/Utils/OpenAL/PCMSound.cpp
+  ${SRC_DIR}/Utils/OpenAL/PCMStream.cpp
+  ${SRC_DIR}/Utils/OpenAL/Sound.cpp
+  ${SRC_DIR}/Utils/OpenAL/SoundPlayer.cpp
+)
+
 set(UTILS_UI_SOURCES
   ${SRC_DIR}/Utils/UI/Button.cpp
   ${SRC_DIR}/Utils/UI/Component.cpp
@@ -96,9 +111,9 @@ set(UTILS_UI_SOURCES
 
 set(UTILS_SOURCES
   ${UTILS_FREETYPE_SOURCES}
+  ${UTILS_OPENAL_SOURCES}
   ${UTILS_UI_SOURCES}
   ${SRC_DIR}/Utils/AnimationSprite.cpp
-  ${SRC_DIR}/Utils/Audio.cpp
   ${SRC_DIR}/Utils/Graphics.cpp
   ${SRC_DIR}/Utils/LocalizationManager.cpp
   ${SRC_DIR}/Utils/Lua.cpp
@@ -106,7 +121,6 @@ set(UTILS_SOURCES
   ${SRC_DIR}/Utils/PNGTextureBuilder.cpp
   ${SRC_DIR}/Utils/ResourceLoader.cpp
   ${SRC_DIR}/Utils/ResourceManager.cpp
-  ${SRC_DIR}/Utils/Sound.cpp
   ${SRC_DIR}/Utils/Sprite.cpp
   ${SRC_DIR}/Utils/StaticSprite.cpp
   ${SRC_DIR}/Utils/Texture.cpp
@@ -169,6 +183,19 @@ set(UTILS_FREETYPE_HEADERS
   ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
 )
 
+set(UTILS_OPENAL_HEADERS
+  ${INCLUDE_DIR}/Utils/OpenAL/Audio.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/Buffer.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/IStream.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/OGGSound.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/OGGSoundBuilder.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/OGGStream.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/PCMSound.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/PCMStream.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/Sound.hpp
+  ${INCLUDE_DIR}/Utils/OpenAL/SoundPlayer.hpp
+)
+
 set(UTILS_UI_HEADERS
   ${INCLUDE_DIR}/Utils/UI/Button.hpp
   ${INCLUDE_DIR}/Utils/UI/Component.hpp
@@ -188,10 +215,10 @@ set(UTILS_UI_HEADERS
 
 set(UTILS_HEADERS
   ${UTILS_FREETYPE_HEADERS}
+  ${UTILS_OPENAL_HEADERS}
   ${UTILS_UI_HEADERS}
   ${INCLUDE_DIR}/Utils/assert.hpp
   ${INCLUDE_DIR}/Utils/AnimationSprite.hpp
-  ${INCLUDE_DIR}/Utils/Audio.hpp
   ${INCLUDE_DIR}/Utils/Color.hpp
   ${INCLUDE_DIR}/Utils/FreeType.hpp
   ${INCLUDE_DIR}/Utils/Graphics.hpp
@@ -204,7 +231,6 @@ set(UTILS_HEADERS
   ${INCLUDE_DIR}/Utils/ResourceManager.hpp
   ${INCLUDE_DIR}/Utils/Singleton.hpp
   ${INCLUDE_DIR}/Utils/SingletonPointer.hpp
-  ${INCLUDE_DIR}/Utils/Sound.hpp
   ${INCLUDE_DIR}/Utils/Sprite.hpp
   ${INCLUDE_DIR}/Utils/StaticSprite.hpp
   ${INCLUDE_DIR}/Utils/Texture.hpp
@@ -237,9 +263,11 @@ set(Salt2D_LIBS
   ${OPENAL_LIBRARY}
   ${OPENGL_LIBRARIES}
   ${PNG_LIBRARIES}
+  ${OGG_LIBRARY}
   ${SDL_LIBRARY}
   ${LUABIND_LIBRARIES}
   ${PROTOBUF_LITE_LIBRARIES}
+  ${VORBISFILE_LIBRARY}
   FTGL
   TinyXML
 )
@@ -263,3 +291,5 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
 
 add_executable(Salt2D WIN32 ${Salt2D_HEADERS} ${Salt2D_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
 target_link_libraries(Salt2D ${Salt2D_LIBS})
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)

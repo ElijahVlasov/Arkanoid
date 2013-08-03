@@ -51,6 +51,20 @@ if(NOT LUABIND_FOUND)
     return()
 endif()
 
+find_package(OGG REQUIRED)
+
+if(NOT OGG_FOUND)
+    message(FATAL_ERROR "Can't find OGG!")
+    return()
+endif()
+
+find_package(VorbisFile REQUIRED)
+
+if(NOT VORBISFILE_FOUND)
+    message(FATAL_ERROR "Can't find VorbisFile!")
+    return()
+endif()
+
 set(Boost_USE_STATIC_LIBS        1)
 set(Boost_USE_MULTITHREADED      1)
 set(Boost_USE_STATIC_RUNTIME     0)
