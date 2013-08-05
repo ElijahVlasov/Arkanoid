@@ -1,14 +1,15 @@
 #include <mutex>
 
-#include <Utils/AnimationSprite.hpp>
-#include <Utils/Graphics.hpp>
-#include <Utils/Texture.hpp>
+#include <Utils/Graphics/AnimationSprite.hpp>
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include "geometry_defines.hpp"
 
 using namespace std;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 
 
 
@@ -44,7 +45,7 @@ void AnimationSprite::onRender(const GeometryDefines::Box& box) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    Graphics::DrawTexture(box, *frames_.front().texture);
+    GraphicsManager::DrawTexture(box, *frames_.front().texture);
 
 }
 
@@ -56,7 +57,7 @@ void AnimationSprite::onRender(const GeometryDefines::Point& point) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    Graphics::DrawTexture(point, *frames_.front().texture);
+    GraphicsManager::DrawTexture(point, *frames_.front().texture);
 
 }
 
@@ -68,7 +69,7 @@ void AnimationSprite::onRender(const GeometryDefines::Polygon& polygon) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    Graphics::DrawTexture(polygon, *frames_.front().texture);
+    GraphicsManager::DrawTexture(polygon, *frames_.front().texture);
 
 }
 

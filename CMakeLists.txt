@@ -16,8 +16,8 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
 
 include_directories(
-  ${INCLUDE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
+    ${INCLUDE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 include(CheckLibs.cmake)
@@ -26,262 +26,269 @@ set(PROTOBUF_IMPORT_DIRS ${PROTOCOLS_DIR})
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
 
-  set(CMAKE_CXX_FLAGS_RELEASE "-w -O2 -std=c++0x")
-  set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++0x -g")
+    set(CMAKE_CXX_FLAGS_RELEASE "-w -O2 -std=c++0x")
+    set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++0x -g")
 
 endif()
 
 if(WIN32)
-  add_definitions(-DWINDOWS)
+    add_definitions(-DWINDOWS)
 endif()
 
 add_definitions(${PNG_DEFINITIONS})
 
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/FTGL/src
-  ${CMAKE_CURRENT_SOURCE_DIR}/TinyXML
-  ${Boost_INCLUDE_DIR}
-  ${FREETYPE_INCLUDE_DIR_ft2build}
-  ${FREETYPE_INCLUDE_DIR_freetype2}
-  ${LUA_INCLUDE_DIR}
-  ${LUABIND_INCLUDE_DIR}
-  ${OGG_INCLUDE_DIR}
-  ${OPENAL_INCLUDE_DIR}
-  ${OPENGL_INCLUDE_DIR}
-  ${PROTOBUF_INCLUDE_DIRS}
-  ${PNG_INCLUDE_DIRS}
-  ${SDL_INCLUDE_DIR}
-  ${VORBISFILE_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/FTGL/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/TinyXML
+    ${Boost_INCLUDE_DIR}
+    ${FREETYPE_INCLUDE_DIR_ft2build}
+    ${FREETYPE_INCLUDE_DIR_freetype2}
+    ${LUA_INCLUDE_DIR}
+    ${LUABIND_INCLUDE_DIR}
+    ${OGG_INCLUDE_DIR}
+    ${OPENAL_INCLUDE_DIR}
+    ${OPENGL_INCLUDE_DIR}
+    ${PROTOBUF_INCLUDE_DIRS}
+    ${PNG_INCLUDE_DIRS}
+    ${SDL_INCLUDE_DIR}
+    ${VORBISFILE_INCLUDE_DIR}
 )
 
 set(ENGINE_GAME_STATES_SOURCES
-  ${SRC_DIR}/Engine/GameStates/LoadingState.cpp
-  ${SRC_DIR}/Engine/GameStates/MenuState.cpp
-  ${SRC_DIR}/Engine/GameStates/SingleGameState.cpp
-  ${SRC_DIR}/Engine/GameStates/StartLogoState.cpp
+    ${SRC_DIR}/Engine/GameStates/LoadingState.cpp
+    ${SRC_DIR}/Engine/GameStates/MenuState.cpp
+    ${SRC_DIR}/Engine/GameStates/SingleGameState.cpp
+    ${SRC_DIR}/Engine/GameStates/StartLogoState.cpp
 )
 
 set(ENGINE_SOURCES
-  ${ENGINE_GAME_STATES_SOURCES}
-  ${SRC_DIR}/Engine/DynamicObject.cpp
-  ${SRC_DIR}/Engine/Game.cpp
-  ${SRC_DIR}/Engine/Location.cpp
-  ${SRC_DIR}/Engine/Object.cpp
-  ${SRC_DIR}/Engine/Renderer.cpp
-  ${SRC_DIR}/Engine/SaltEngine.cpp
-  ${SRC_DIR}/Engine/StaticObject.cpp
-  ${SRC_DIR}/Engine/World.cpp
+    ${ENGINE_GAME_STATES_SOURCES}
+    ${SRC_DIR}/Engine/DynamicObject.cpp
+    ${SRC_DIR}/Engine/Game.cpp
+    ${SRC_DIR}/Engine/Location.cpp
+    ${SRC_DIR}/Engine/Object.cpp
+    ${SRC_DIR}/Engine/Renderer.cpp
+    ${SRC_DIR}/Engine/SaltEngine.cpp
+    ${SRC_DIR}/Engine/StaticObject.cpp
+    ${SRC_DIR}/Engine/World.cpp
 )
 
 set(LUA_API_SOURCES
-  ${SRC_DIR}/LuaAPI/LuaAPI.cpp
-  ${SRC_DIR}/LuaAPI/Object_wrapper.cpp
-  ${SRC_DIR}/LuaAPI/Sprite_wrapper.cpp
-)
-
-set(UTILS_FREETYPE_SOURCES
-  ${SRC_DIR}/Utils/FreeType/Font.cpp
+    ${SRC_DIR}/LuaAPI/LuaAPI.cpp
+    ${SRC_DIR}/LuaAPI/Object_wrapper.cpp
+    ${SRC_DIR}/LuaAPI/Sprite_wrapper.cpp
 )
 
 set(UTILS_AUDIO_SOURCES
-  ${SRC_DIR}/Utils/Audio/AudioManager.cpp
-  ${SRC_DIR}/Utils/Audio/Buffer.cpp
-  ${SRC_DIR}/Utils/Audio/IStream.cpp
-  ${SRC_DIR}/Utils/Audio/OGGSound.cpp
-  ${SRC_DIR}/Utils/Audio/OGGSoundBuilder.cpp
-  ${SRC_DIR}/Utils/Audio/OGGStream.cpp
-  ${SRC_DIR}/Utils/Audio/PCMSound.cpp
-  ${SRC_DIR}/Utils/Audio/PCMStream.cpp
-  ${SRC_DIR}/Utils/Audio/Sound.cpp
-  ${SRC_DIR}/Utils/Audio/SoundPlayer.cpp
+    ${SRC_DIR}/Utils/Audio/AudioManager.cpp
+    ${SRC_DIR}/Utils/Audio/Buffer.cpp
+    ${SRC_DIR}/Utils/Audio/IStream.cpp
+    ${SRC_DIR}/Utils/Audio/OGGSound.cpp
+    ${SRC_DIR}/Utils/Audio/OGGSoundBuilder.cpp
+    ${SRC_DIR}/Utils/Audio/OGGStream.cpp
+    ${SRC_DIR}/Utils/Audio/PCMSound.cpp
+    ${SRC_DIR}/Utils/Audio/PCMStream.cpp
+    ${SRC_DIR}/Utils/Audio/Sound.cpp
+    ${SRC_DIR}/Utils/Audio/SoundPlayer.cpp
+)
+
+set(UTILS_FREETYPE_SOURCES
+    ${SRC_DIR}/Utils/FreeType/Font.cpp
+)
+
+set(UTILS_GRAPHICS_SOURCES
+    ${SRC_DIR}/Utils/Graphics/AnimationSprite.cpp
+    ${SRC_DIR}/Utils/Graphics/GraphicsManager.cpp
+    ${SRC_DIR}/Utils/Graphics/PNGTextureBuilder.cpp
+    ${SRC_DIR}/Utils/Graphics/Sprite.cpp
+    ${SRC_DIR}/Utils/Graphics/StaticSprite.cpp
+    ${SRC_DIR}/Utils/Graphics/Texture.cpp
+    ${SRC_DIR}/Utils/Graphics/TextureManager.cpp
 )
 
 set(UTILS_UI_SOURCES
-  ${SRC_DIR}/Utils/UI/Button.cpp
-  ${SRC_DIR}/Utils/UI/Component.cpp
-  ${SRC_DIR}/Utils/UI/ComponentBuilder.cpp
-  ${SRC_DIR}/Utils/UI/Container.cpp
-  ${SRC_DIR}/Utils/UI/Dialog.cpp
-  ${SRC_DIR}/Utils/UI/Label.cpp
-  ${SRC_DIR}/Utils/UI/LoadingAnimation.cpp
-  ${SRC_DIR}/Utils/UI/Menu.cpp
-  ${SRC_DIR}/Utils/UI/MenuBuilder.cpp
-  ${SRC_DIR}/Utils/UI/Picture.cpp
+    ${SRC_DIR}/Utils/UI/Button.cpp
+    ${SRC_DIR}/Utils/UI/Component.cpp
+    ${SRC_DIR}/Utils/UI/ComponentBuilder.cpp
+    ${SRC_DIR}/Utils/UI/Container.cpp
+    ${SRC_DIR}/Utils/UI/Dialog.cpp
+    ${SRC_DIR}/Utils/UI/Label.cpp
+    ${SRC_DIR}/Utils/UI/LoadingAnimation.cpp
+    ${SRC_DIR}/Utils/UI/Menu.cpp
+    ${SRC_DIR}/Utils/UI/MenuBuilder.cpp
+    ${SRC_DIR}/Utils/UI/Picture.cpp
 )
 
 set(UTILS_SOURCES
-  ${UTILS_AUDIO_SOURCES}
-  ${UTILS_FREETYPE_SOURCES}
-  ${UTILS_UI_SOURCES}
-  ${SRC_DIR}/Utils/AnimationSprite.cpp
-  ${SRC_DIR}/Utils/Graphics.cpp
-  ${SRC_DIR}/Utils/LocalizationManager.cpp
-  ${SRC_DIR}/Utils/Lua.cpp
-  ${SRC_DIR}/Utils/PCResourceLoader.cpp
-  ${SRC_DIR}/Utils/PNGTextureBuilder.cpp
-  ${SRC_DIR}/Utils/ResourceLoader.cpp
-  ${SRC_DIR}/Utils/ResourceManager.cpp
-  ${SRC_DIR}/Utils/Sprite.cpp
-  ${SRC_DIR}/Utils/StaticSprite.cpp
-  ${SRC_DIR}/Utils/Texture.cpp
-  ${SRC_DIR}/Utils/TextureManager.cpp
+    ${UTILS_AUDIO_SOURCES}
+    ${UTILS_GRAPHICS_SOURCES}
+    ${UTILS_FREETYPE_SOURCES}
+    ${UTILS_UI_SOURCES}
+    ${SRC_DIR}/Utils/LocalizationManager.cpp
+    ${SRC_DIR}/Utils/Lua.cpp
+    ${SRC_DIR}/Utils/PCResourceLoader.cpp
+    ${SRC_DIR}/Utils/ResourceLoader.cpp
+    ${SRC_DIR}/Utils/ResourceManager.cpp
 )
 
 set(PROTOCOLS
-  ${PROTOCOLS_DIR}/Box.proto
-  ${PROTOCOLS_DIR}/Point.proto
-  ${PROTOCOLS_DIR}/Resource.proto
-  ${PROTOCOLS_DIR}/StaticObject.proto
-  ${PROTOCOLS_DIR}/World.proto
+    ${PROTOCOLS_DIR}/Box.proto
+    ${PROTOCOLS_DIR}/Point.proto
+    ${PROTOCOLS_DIR}/Resource.proto
+    ${PROTOCOLS_DIR}/StaticObject.proto
+    ${PROTOCOLS_DIR}/World.proto
 )
 
 set(Salt2D_SOURCES
-  ${ENGINE_SOURCES}
-  ${LUA_API_SOURCES}
-  ${UTILS_SOURCES}
-  ${SRC_DIR}/main.cpp
-  ${SRC_DIR}/Application.cpp
+    ${ENGINE_SOURCES}
+    ${LUA_API_SOURCES}
+    ${UTILS_SOURCES}
+    ${SRC_DIR}/main.cpp
+    ${SRC_DIR}/Application.cpp
 )
 
 set(ENGINE_GAME_STATES_HEADERS
-  ${INCLUDE_DIR}/Engine/GameStates/IGameState.hpp
-  ${INCLUDE_DIR}/Engine/GameStates/LoadingState.hpp
-  ${INCLUDE_DIR}/Engine/GameStates/MenuState.hpp
-  ${INCLUDE_DIR}/Engine/GameStates/SingleGameState.hpp
-  ${INCLUDE_DIR}/Engine/GameStates/StartLogoState.hpp
+    ${INCLUDE_DIR}/Engine/GameStates/IGameState.hpp
+    ${INCLUDE_DIR}/Engine/GameStates/LoadingState.hpp
+    ${INCLUDE_DIR}/Engine/GameStates/MenuState.hpp
+    ${INCLUDE_DIR}/Engine/GameStates/SingleGameState.hpp
+    ${INCLUDE_DIR}/Engine/GameStates/StartLogoState.hpp
 )
 
 set(ENGINE_HEADERS
-  ${ENGINE_GAME_STATES_HEADERS}
-  ${INCLUDE_DIR}/Engine/Camera.hpp
-  ${INCLUDE_DIR}/Engine/Client.hpp
-  ${INCLUDE_DIR}/Engine/Collision.hpp
-  ${INCLUDE_DIR}/Engine/Direction.hpp
-  ${INCLUDE_DIR}/Engine/DirectionToCoordsArray.h
-  ${INCLUDE_DIR}/Engine/DynamicObject.hpp
-  ${INCLUDE_DIR}/Engine/Game.hpp
-  ${INCLUDE_DIR}/Engine/GameStates.hpp
-  ${INCLUDE_DIR}/Engine/IController.hpp
-  ${INCLUDE_DIR}/Engine/IUpdatable.hpp
-  ${INCLUDE_DIR}/Engine/Location.hpp
-  ${INCLUDE_DIR}/Engine/Object.hpp
-  ${INCLUDE_DIR}/Engine/Player.hpp
-  ${INCLUDE_DIR}/Engine/PCClient.hpp
-  ${INCLUDE_DIR}/Engine/Renderer.hpp
-  ${INCLUDE_DIR}/Engine/SaltEngine.hpp
-  ${INCLUDE_DIR}/Engine/StaticObject.hpp
-  ${INCLUDE_DIR}/Engine/World.hpp
+    ${ENGINE_GAME_STATES_HEADERS}
+    ${INCLUDE_DIR}/Engine/Camera.hpp
+    ${INCLUDE_DIR}/Engine/Client.hpp
+    ${INCLUDE_DIR}/Engine/Collision.hpp
+    ${INCLUDE_DIR}/Engine/Direction.hpp
+    ${INCLUDE_DIR}/Engine/DynamicObject.hpp
+    ${INCLUDE_DIR}/Engine/Game.hpp
+    ${INCLUDE_DIR}/Engine/GameStates.hpp
+    ${INCLUDE_DIR}/Engine/IController.hpp
+    ${INCLUDE_DIR}/Engine/IUpdatable.hpp
+    ${INCLUDE_DIR}/Engine/Location.hpp
+    ${INCLUDE_DIR}/Engine/Object.hpp
+    ${INCLUDE_DIR}/Engine/Player.hpp
+    ${INCLUDE_DIR}/Engine/PCClient.hpp
+    ${INCLUDE_DIR}/Engine/Renderer.hpp
+    ${INCLUDE_DIR}/Engine/SaltEngine.hpp
+    ${INCLUDE_DIR}/Engine/StaticObject.hpp
+    ${INCLUDE_DIR}/Engine/World.hpp
 )
 
 set(LUA_API_HEADERS
-  ${INCLUDE_DIR}/LuaAPI/LuaAPI.hpp
-  ${INCLUDE_DIR}/LuaAPI/Object_wrapper.hpp
-  ${INCLUDE_DIR}/LuaAPI/Sprite_wrapper.hpp
+    ${INCLUDE_DIR}/LuaAPI/LuaAPI.hpp
+    ${INCLUDE_DIR}/LuaAPI/Object_wrapper.hpp
+    ${INCLUDE_DIR}/LuaAPI/Sprite_wrapper.hpp
 )
 
 set(UTILS_FREETYPE_HEADERS
-  ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
+    ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
 )
 
 set(UTILS_AUDIO_HEADERS
-  ${INCLUDE_DIR}/Utils/Audio/AudioManager.hpp
-  ${INCLUDE_DIR}/Utils/Audio/Buffer.hpp
-  ${INCLUDE_DIR}/Utils/Audio/IStream.hpp
-  ${INCLUDE_DIR}/Utils/Audio/OGGSound.hpp
-  ${INCLUDE_DIR}/Utils/Audio/OGGSoundBuilder.hpp
-  ${INCLUDE_DIR}/Utils/Audio/OGGStream.hpp
-  ${INCLUDE_DIR}/Utils/Audio/PCMSound.hpp
-  ${INCLUDE_DIR}/Utils/Audio/PCMStream.hpp
-  ${INCLUDE_DIR}/Utils/Audio/Sound.hpp
-  ${INCLUDE_DIR}/Utils/Audio/SoundPlayer.hpp
+    ${INCLUDE_DIR}/Utils/Audio/AudioManager.hpp
+    ${INCLUDE_DIR}/Utils/Audio/Buffer.hpp
+    ${INCLUDE_DIR}/Utils/Audio/IStream.hpp
+    ${INCLUDE_DIR}/Utils/Audio/OGGSound.hpp
+    ${INCLUDE_DIR}/Utils/Audio/OGGSoundBuilder.hpp
+    ${INCLUDE_DIR}/Utils/Audio/OGGStream.hpp
+    ${INCLUDE_DIR}/Utils/Audio/PCMSound.hpp
+    ${INCLUDE_DIR}/Utils/Audio/PCMStream.hpp
+    ${INCLUDE_DIR}/Utils/Audio/Sound.hpp
+    ${INCLUDE_DIR}/Utils/Audio/SoundPlayer.hpp
+)
+
+set(UTILS_GRAPHICS_HEADERS
+    ${INCLUDE_DIR}/Utils/Graphics/AnimationSprite.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/GraphicsManager.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/PNGTextureBuilder.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/Sprite.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/StaticSprite.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/Texture.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/TextureManager.hpp
 )
 
 set(UTILS_UI_HEADERS
-  ${INCLUDE_DIR}/Utils/UI/Button.hpp
-  ${INCLUDE_DIR}/Utils/UI/Component.hpp
-  ${INCLUDE_DIR}/Utils/UI/ComponentBuilder.hpp
-  ${INCLUDE_DIR}/Utils/UI/ComponentEvent_wrapper.hpp
-  ${INCLUDE_DIR}/Utils/UI/Container.hpp
-  ${INCLUDE_DIR}/Utils/UI/Dialog.hpp
-  ${INCLUDE_DIR}/Utils/UI/Event.hpp
-  ${INCLUDE_DIR}/Utils/UI/KeyEvent.hpp
-  ${INCLUDE_DIR}/Utils/UI/Label.hpp
-  ${INCLUDE_DIR}/Utils/UI/LoadingAnimation.hpp
-  ${INCLUDE_DIR}/Utils/UI/Menu.hpp
-  ${INCLUDE_DIR}/Utils/UI/MenuBuilder.hpp
-  ${INCLUDE_DIR}/Utils/UI/MouseEvent.hpp
-  ${INCLUDE_DIR}/Utils/UI/Picture.hpp
+    ${INCLUDE_DIR}/Utils/UI/Button.hpp
+    ${INCLUDE_DIR}/Utils/UI/Component.hpp
+    ${INCLUDE_DIR}/Utils/UI/ComponentBuilder.hpp
+    ${INCLUDE_DIR}/Utils/UI/ComponentEvent_wrapper.hpp
+    ${INCLUDE_DIR}/Utils/UI/Container.hpp
+    ${INCLUDE_DIR}/Utils/UI/Dialog.hpp
+    ${INCLUDE_DIR}/Utils/UI/Event.hpp
+    ${INCLUDE_DIR}/Utils/UI/KeyEvent.hpp
+    ${INCLUDE_DIR}/Utils/UI/Label.hpp
+    ${INCLUDE_DIR}/Utils/UI/LoadingAnimation.hpp
+    ${INCLUDE_DIR}/Utils/UI/Menu.hpp
+    ${INCLUDE_DIR}/Utils/UI/MenuBuilder.hpp
+    ${INCLUDE_DIR}/Utils/UI/MouseEvent.hpp
+    ${INCLUDE_DIR}/Utils/UI/Picture.hpp
 )
 
 set(UTILS_HEADERS
-  ${UTILS_AUDIO_HEADERS}
-  ${UTILS_FREETYPE_HEADERS}
-  ${UTILS_UI_HEADERS}
-  ${INCLUDE_DIR}/Utils/assert.hpp
-  ${INCLUDE_DIR}/Utils/AnimationSprite.hpp
-  ${INCLUDE_DIR}/Utils/Color.hpp
-  ${INCLUDE_DIR}/Utils/FreeType.hpp
-  ${INCLUDE_DIR}/Utils/Graphics.hpp
-  ${INCLUDE_DIR}/Utils/LocalizationManager.hpp
-  ${INCLUDE_DIR}/Utils/Lua.hpp
-  ${INCLUDE_DIR}/Utils/MouseButton.hpp
-  ${INCLUDE_DIR}/Utils/PCResourceLoader.hpp
-  ${INCLUDE_DIR}/Utils/PNGTextureBuilder.hpp
-  ${INCLUDE_DIR}/Utils/ResourceLoader.hpp
-  ${INCLUDE_DIR}/Utils/ResourceManager.hpp
-  ${INCLUDE_DIR}/Utils/Singleton.hpp
-  ${INCLUDE_DIR}/Utils/SingletonPointer.hpp
-  ${INCLUDE_DIR}/Utils/Sprite.hpp
-  ${INCLUDE_DIR}/Utils/StaticSprite.hpp
-  ${INCLUDE_DIR}/Utils/Texture.hpp
-  ${INCLUDE_DIR}/Utils/TextureManager.hpp
-  ${INCLUDE_DIR}/Utils/UI.hpp
+    ${UTILS_AUDIO_HEADERS}
+    ${UTILS_GRAPHICS_HEADERS}
+    ${UTILS_FREETYPE_HEADERS}
+    ${UTILS_UI_HEADERS}
+    ${INCLUDE_DIR}/Utils/assert.hpp
+    ${INCLUDE_DIR}/Utils/Color.hpp
+    ${INCLUDE_DIR}/Utils/FreeType.hpp
+    ${INCLUDE_DIR}/Utils/LocalizationManager.hpp
+    ${INCLUDE_DIR}/Utils/Lua.hpp
+    ${INCLUDE_DIR}/Utils/MouseButton.hpp
+    ${INCLUDE_DIR}/Utils/PCResourceLoader.hpp
+    ${INCLUDE_DIR}/Utils/ResourceLoader.hpp
+    ${INCLUDE_DIR}/Utils/ResourceManager.hpp
+    ${INCLUDE_DIR}/Utils/Singleton.hpp
+    ${INCLUDE_DIR}/Utils/SingletonPointer.hpp
+    ${INCLUDE_DIR}/Utils/UI.hpp
 )
 
 set(Salt2D_HEADERS
-  ${ENGINE_HEADERS}
-  ${LUA_API_HEADERS}
-  ${TINY_XML_HEADERS}
-  ${UTILS_HEADERS}
-  ${INCLUDE_DIR}/Application.hpp
-  ${INCLUDE_DIR}/config.h
-  ${INCLUDE_DIR}/geometry_defines.hpp
-  ${INCLUDE_DIR}/gl_includes.h
-  ${INCLUDE_DIR}/salt_defines.h
-  ${INCLUDE_DIR}/Engine.hpp
-  ${INCLUDE_DIR}/LuaAPI.hpp
-  ${INCLUDE_DIR}/Utils.hpp
+    ${ENGINE_HEADERS}
+    ${LUA_API_HEADERS}
+    ${TINY_XML_HEADERS}
+    ${UTILS_HEADERS}
+    ${INCLUDE_DIR}/Application.hpp
+    ${INCLUDE_DIR}/config.h
+    ${INCLUDE_DIR}/geometry_defines.hpp
+    ${INCLUDE_DIR}/gl_includes.h
+    ${INCLUDE_DIR}/salt_defines.h
+    ${INCLUDE_DIR}/Engine.hpp
+    ${INCLUDE_DIR}/LuaAPI.hpp
+    ${INCLUDE_DIR}/Utils.hpp
 )
 
 if(WIN32)
-  set(Salt2D_SOURCES ${Salt2D_SOURCES} ${SRC_DIR}/resource.rc)
+    set(Salt2D_SOURCES ${Salt2D_SOURCES} ${SRC_DIR}/resource.rc)
 endif()
 
 set(Salt2D_LIBS
-  ${Boost_SYSTEM_LIBRARY}
-  ${LUA_LIBRARIES}
-  ${OPENAL_LIBRARY}
-  ${OPENGL_LIBRARIES}
-  ${PNG_LIBRARIES}
-  ${OGG_LIBRARY}
-  ${SDL_LIBRARY}
-  ${LUABIND_LIBRARIES}
-  ${PROTOBUF_LITE_LIBRARIES}
-  ${VORBISFILE_LIBRARY}
-  FTGL
-  TinyXML
+    ${Boost_SYSTEM_LIBRARY}
+    ${LUA_LIBRARIES}
+    ${OPENAL_LIBRARY}
+    ${OPENGL_LIBRARIES}
+    ${PNG_LIBRARIES}
+    ${OGG_LIBRARY}
+    ${SDL_LIBRARY}
+    ${LUABIND_LIBRARIES}
+    ${PROTOBUF_LITE_LIBRARIES}
+    ${VORBISFILE_LIBRARY}
+    FTGL
+    TinyXML
 )
 
 if(NOT WIN32)
-  include_directories(${GTK2_INCLUDE_DIRS})
-  set(Salt2D_LIBS ${Salt2D_LIBS} ${GTK2_LIBRARIES})
+    include_directories(${GTK2_INCLUDE_DIRS})
+    set(Salt2D_LIBS ${Salt2D_LIBS} ${GTK2_LIBRARIES})
 endif()
 
 protobuf_generate_cpp(PROTOCOLS_SOURCES PROTOCOLS_HEADERS ${PROTOCOLS})
 
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
-  ${INCLUDE_DIR}/config.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+    ${INCLUDE_DIR}/config.h
 )
 
 add_definitions(-DTIXML_USE_STL)

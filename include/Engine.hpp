@@ -2,7 +2,6 @@
 #define _SALT2D_ENGINE_HPP
 
 #include <Engine/Direction.hpp>
-#include <Engine/DirectionToCoordsArray.h>
 #include <Engine/DynamicObject.hpp>
 #include <Engine/IController.hpp>
 #include <Engine/Location.hpp>

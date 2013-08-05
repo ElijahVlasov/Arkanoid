@@ -4,16 +4,18 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/assert.hpp>
-#include <Utils/Graphics.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/UI/Picture.hpp>
 
 using namespace std;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 using namespace Utils::UI;
 
 
@@ -97,6 +99,6 @@ void Picture::onDraw(Component* sender, Event& event) {
 
     Picture* pic = dynamic_cast<Picture*>(sender);
 
-    Graphics::DrawTexture(pic->getBoxI(), *pic->texture_);
+    GraphicsManager::DrawTexture(pic->getBoxI(), *pic->texture_);
 
 }

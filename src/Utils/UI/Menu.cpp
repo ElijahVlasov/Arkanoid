@@ -5,8 +5,9 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/Color.hpp>
-#include <Utils/Graphics.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/UI/Container.hpp>
 #include <Utils/UI/Menu.hpp>
@@ -14,6 +15,8 @@
 using namespace std;
 
 using namespace Utils;
+
+using namespace Utils::Graphics;
 
 using namespace Utils::UI;
 
@@ -37,13 +40,13 @@ Menu::~Menu() {}
 
 void Menu::drawSelf() {
 
-    Graphics::ClearScreen(backgroundColor_);
+    GraphicsManager::ClearScreen(backgroundColor_);
 
     if(background_ == 0) {
         return;
     }
 
-    Graphics::DrawTexture(
+    GraphicsManager::DrawTexture(
         getBoxI(),
         *background_
     );

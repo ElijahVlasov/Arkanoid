@@ -1,8 +1,11 @@
 #include <LuaAPI/Sprite_wrapper.hpp>
 
-#include <Utils/Sprite.hpp>
+#include <Utils/Graphics/Sprite.hpp>
+
 
 using namespace LuaAPI;
+
+using namespace Utils::Graphics;
 
 
 

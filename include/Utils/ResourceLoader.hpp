@@ -6,8 +6,8 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Sound.hpp>
-#include <Utils/Texture.hpp>
+#include <Utils/Audio/Sound.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/FreeType/Font.hpp>
 
@@ -33,16 +33,16 @@ namespace Utils {
                                         throw(std::invalid_argument, std::runtime_error);
 
 
-            virtual boost::shared_ptr<Texture> loadTexture(const char* fileName)
+            virtual boost::shared_ptr<Graphics::Texture> loadTexture(const char* fileName)
                                         throw(std::invalid_argument, std::runtime_error);
 
-            inline  boost::shared_ptr<Texture> loadTexture(const std::string& fileName)
+            inline  boost::shared_ptr<Graphics::Texture> loadTexture(const std::string& fileName)
                                         throw(std::invalid_argument, std::runtime_error);
 
-            virtual boost::shared_ptr<Sound>   loadSound(const char* fileName)
+            virtual boost::shared_ptr<Audio::Sound>   loadSound(const char* fileName)
                                         throw(std::invalid_argument, std::runtime_error);
 
-            inline  boost::shared_ptr<Sound>   loadSound(const std::string& fileName)
+            inline  boost::shared_ptr<Audio::Sound>   loadSound(const std::string& fileName)
                                         throw(std::invalid_argument, std::runtime_error);
 
             virtual boost::shared_ptr<Font>    loadFont(const char* fileName)
@@ -59,13 +59,13 @@ namespace Utils {
 
     }
 
-    boost::shared_ptr<Texture> ResourceLoader::loadTexture(const std::string& fileName) throw(std::invalid_argument, std::runtime_error) {
+    boost::shared_ptr<Graphics::Texture> ResourceLoader::loadTexture(const std::string& fileName) throw(std::invalid_argument, std::runtime_error) {
 
         return loadTexture(fileName.c_str());
 
     }
 
-    boost::shared_ptr<Sound> ResourceLoader::loadSound(const std::string& fileName) throw(std::invalid_argument, std::runtime_error) {
+    boost::shared_ptr<Audio::Sound> ResourceLoader::loadSound(const std::string& fileName) throw(std::invalid_argument, std::runtime_error) {
 
         return loadSound(fileName.c_str());
 

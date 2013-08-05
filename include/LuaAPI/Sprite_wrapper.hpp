@@ -4,13 +4,13 @@
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
-#include <Utils/Sprite.hpp>
+#include <Utils/Graphics/Sprite.hpp>
 
 #include "geometry_defines.hpp"
 
 namespace LuaAPI {
 
-    class Sprite_wrapper: public Utils::Sprite, public luabind::wrap_base {
+    class Sprite_wrapper: public Utils::Graphics::Sprite, public luabind::wrap_base {
 
         public:
 

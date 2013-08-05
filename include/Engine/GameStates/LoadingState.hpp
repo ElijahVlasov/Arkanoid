@@ -8,10 +8,10 @@
 
 #include <Engine/GameStates/IGameState.hpp>
 
-#include <Utils/Resource.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Graphics/Texture.hpp>
 
 #include "salt_defines.h"
 
@@ -47,7 +47,7 @@ namespace Engine {
 
                 Utils::SingletonPointer<Game> game_;
 
-                boost::shared_ptr <Utils::Texture> loadingTexture_;
+                boost::shared_ptr <Utils::Graphics::Texture> loadingTexture_;
 
                 std::thread loadingThread_;
 
@@ -62,7 +62,7 @@ namespace Engine {
 
             Utils::SingletonPointer <Utils::ResourceManager> resourceManager = Utils::ResourceManager::getInstance();
 
-            loadingTexture_ = resourceManager->getResource<Utils::Texture>(LOADING_TEXTURE);
+            loadingTexture_ = resourceManager->getResource<Utils::Graphics::Texture>(LOADING_TEXTURE);
 
 
             loadingThread_.detach();

@@ -11,7 +11,7 @@
 #include <Utils/Resource.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Texture.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include "World.pb.h"
 
@@ -20,6 +20,7 @@ using namespace std;
 using namespace Engine;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 
 
 

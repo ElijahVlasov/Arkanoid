@@ -9,7 +9,8 @@
 
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceManager.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/UI/Event.hpp>
 #include <Utils/UI/Component.hpp>
@@ -40,7 +41,7 @@ namespace Utils {
 
             private:
 
-                boost::shared_ptr<Texture> defTexture_, clickedTexture_, hoveredTexture_;
+                boost::shared_ptr<Graphics::Texture> defTexture_, clickedTexture_, hoveredTexture_;
 
         };
 

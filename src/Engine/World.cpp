@@ -15,7 +15,10 @@
 #include <Utils/Lua.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Sound.hpp>
+
+#include <Utils/Audio/Sound.hpp>
+
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/FreeType/Font.hpp>
 
@@ -27,6 +30,9 @@ using namespace std;
 using namespace Engine;
 
 using namespace Utils;
+using namespace Utils::Audio;
+using namespace Utils::Graphics;
+using namespace Utils::FreeType;
 
 
 

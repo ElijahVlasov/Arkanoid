@@ -13,8 +13,13 @@
 #include <Utils/UI.hpp>
 #include <Utils/UI/MenuBuilder.hpp>
 
+#include <Utils/Graphics/Texture.hpp>
+
 using namespace std;
+
 using namespace boost;
+
+using namespace Utils::Graphics;
 using namespace Utils::UI;
 
 

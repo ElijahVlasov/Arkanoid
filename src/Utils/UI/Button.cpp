@@ -7,12 +7,13 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/FreeType.hpp>
-#include <Utils/Graphics.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/Resource.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/UI/Button.hpp>
 
@@ -21,6 +22,7 @@ using namespace std;
 using namespace boost;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 using namespace Utils::UI;
 using namespace Utils::FreeType;
 
@@ -75,7 +77,7 @@ void Button::drawTexture() {
 
     }
 
-    Graphics::DrawTexture(
+    GraphicsManager::DrawTexture(
         getBoxI(),
         *texture
     );

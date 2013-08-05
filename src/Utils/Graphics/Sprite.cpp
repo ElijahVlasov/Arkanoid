@@ -1,8 +1,9 @@
-#include <Utils/Sprite.hpp>
+#include <Utils/Graphics/Sprite.hpp>
 
 #include "geometry_defines.hpp"
 
 using namespace Utils;
+using namespace Utils::Graphics;
 
 
 

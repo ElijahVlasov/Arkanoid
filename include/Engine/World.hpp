@@ -10,8 +10,10 @@
 
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Sound.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Audio/Sound.hpp>
+
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/FreeType/Font.hpp>
 
@@ -53,9 +55,9 @@ namespace Engine {
 
             Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
-            std::list< boost::shared_ptr<Utils::FreeType::Font> >   fonts_;
-            std::list< boost::shared_ptr<Utils::Sound> >            sounds_;
-            std::list< boost::shared_ptr<Utils::Texture> >          textures_;
+            std::list< boost::shared_ptr<Utils::FreeType::Font> >       fonts_;
+            std::list< boost::shared_ptr<Utils::Audio::Sound> >         sounds_;
+            std::list< boost::shared_ptr<Utils::Graphics::Texture> >    textures_;
 
     };
 

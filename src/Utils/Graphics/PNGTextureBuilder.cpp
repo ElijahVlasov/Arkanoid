@@ -12,12 +12,14 @@
 #include <png.h>
 
 #include <Utils/assert.hpp>
-#include <Utils/Texture.hpp>
-#include <Utils/PNGTextureBuilder.hpp>
+
+#include <Utils/Graphics/Texture.hpp>
+#include <Utils/Graphics/PNGTextureBuilder.hpp>
 
 using namespace std;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 
 
 

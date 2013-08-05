@@ -8,19 +8,24 @@
 #include <string>
 
 #include <boost/format.hpp>
-#include <boost/local_function.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/assert.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
 
+#include <Utils/Audio/Sound.hpp>
+
+#include <Utils/Graphics/Texture.hpp>
+
 #include <Utils/FreeType/Font.hpp>
 
 using namespace std;
 
 using namespace Utils;
-using namespace FreeType;
+using namespace Utils::Audio;
+using namespace Utils::FreeType;
+using namespace Utils::Graphics;
 
 
 

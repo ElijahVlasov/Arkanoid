@@ -8,13 +8,14 @@
 #include <boost/shared_array.hpp>
 
 #include <Utils/assert.hpp>
-#include <Utils/TextureManager.hpp>
+#include <Utils/Graphics/TextureManager.hpp>
 
 #include "gl_includes.h"
 
 using namespace std;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 
 
 

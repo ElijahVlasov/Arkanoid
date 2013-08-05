@@ -7,10 +7,11 @@
 #include <boost/mem_fn.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Graphics.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/UI/Component.hpp>
 #include <Utils/UI/Event.hpp>
@@ -21,6 +22,7 @@
 using namespace std;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 using namespace Utils::UI;
 
 

@@ -8,9 +8,10 @@
 #include <Engine/GameStates/IGameState.hpp>
 
 #include <Utils/ResourceManager.hpp>
-#include <Utils/Texture.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
+
+#include <Utils/Graphics/Texture.hpp>
 
 namespace Engine {
 
@@ -50,7 +51,7 @@ namespace Engine {
 
                 Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
-                boost::shared_ptr<Utils::Texture> logo_;
+                boost::shared_ptr<Utils::Graphics::Texture> logo_;
 
         };
 

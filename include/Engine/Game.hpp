@@ -15,14 +15,15 @@
 
 #include <LuaAPI.hpp>
 
-#include <Utils/Graphics.hpp>
 #include <Utils/Lua.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/TextureManager.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuBuilder.hpp>
@@ -144,7 +145,9 @@ namespace Engine {
 
             Utils::SingletonPointer<Utils::UI::MenuBuilder> menuBuilder_;
 
-            Utils::SingletonPointer<Utils::TextureManager>  textureManager_;
+            Utils::SingletonPointer<Utils::Graphics::GraphicsManager>      graphicsManager_;
+
+            Utils::SingletonPointer<Utils::Graphics::TextureManager>  textureManager_;
 
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;
@@ -168,8 +171,6 @@ namespace Engine {
             void loadPauseMenu() throw(std::runtime_error);
 
             static int luaErrorHandler(lua_State* L);
-
-            Utils::SingletonPointer<Utils::Graphics>             graphics_;
 
             Utils::SingletonPointer<GameStates::StartLogoState>  startLogoState_;
             Utils::SingletonPointer<GameStates::MenuState>       menuGameState_;

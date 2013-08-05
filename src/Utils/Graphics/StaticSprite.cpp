@@ -1,12 +1,13 @@
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Graphics.hpp>
-#include <Utils/StaticSprite.hpp>
-#include <Utils/Texture.hpp>
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/StaticSprite.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include "geometry_defines.hpp"
 
 using namespace Utils;
+using namespace Utils::Graphics;
 
 
 
@@ -42,7 +43,7 @@ void StaticSprite::setTexture(const boost::shared_ptr<Texture>& texture) {
 
 void StaticSprite::onRender(const GeometryDefines::Point& point) {
 
-    Graphics::DrawTexture(
+    GraphicsManager::DrawTexture(
         point,
         *texture_
     );
@@ -53,7 +54,7 @@ void StaticSprite::onRender(const GeometryDefines::Point& point) {
 
 void StaticSprite::onRender(const GeometryDefines::Box& box) {
 
-    Graphics::DrawTexture(
+    GraphicsManager::DrawTexture(
         box,
         *texture_
     );
@@ -64,7 +65,7 @@ void StaticSprite::onRender(const GeometryDefines::Box& box) {
 
 void StaticSprite::onRender(const GeometryDefines::Polygon& polygon) {
 
-	Graphics::DrawTexture(
+	GraphicsManager::DrawTexture(
 		polygon,
 		*texture_
 	);

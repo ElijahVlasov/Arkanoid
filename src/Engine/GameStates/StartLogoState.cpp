@@ -6,9 +6,10 @@
 
 #include <Engine/GameStates/StartLogoState.hpp>
 
-#include <Utils/Graphics.hpp>
 #include <Utils/ResourceManager.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include "geometry_defines.hpp"
 
@@ -20,6 +21,7 @@ using namespace Engine;
 using namespace Engine::GameStates;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 
 
 
@@ -52,9 +54,9 @@ void StartLogoState::onRemove() {}
 
 void StartLogoState::onRender() {
 
-    Graphics::ClearScreen();
+    GraphicsManager::ClearScreen();
 
-    Graphics::DrawTexture(
+    GraphicsManager::DrawTexture(
         BoxI( PointI(0, 0),
               PointI( game_->getScreenWidth(), game_->getScreenHeight() )
         ),

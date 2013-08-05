@@ -5,21 +5,25 @@
 
 #include <Utils/assert.hpp>
 
-#include <Utils/PNGTextureBuilder.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Sound.hpp>
+
+#include <Utils/Audio/Sound.hpp>
+
+#include <Utils/Graphics/PNGTextureBuilder.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/FreeType/Font.hpp>
 
 using namespace std;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 using namespace Utils::FreeType;
 
 
 
-boost::shared_ptr<Texture> ResourceLoader::loadTexture(const char* fileName) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Graphics::Texture> ResourceLoader::loadTexture(const char* fileName) throw(invalid_argument, runtime_error) {
 
     Utils::SingletonPointer<PNGTextureBuilder> textureBuilder = PNGTextureBuilder::getInstance();
 
@@ -31,7 +35,7 @@ boost::shared_ptr<Texture> ResourceLoader::loadTexture(const char* fileName) thr
 
 
 
-boost::shared_ptr<Sound> ResourceLoader::loadSound(const char* fileName) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Audio::Sound> ResourceLoader::loadSound(const char* fileName) throw(invalid_argument, runtime_error) {
 
 
 

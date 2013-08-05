@@ -16,12 +16,13 @@
 
 #include <LuaAPI.hpp>
 
-#include <Utils/Graphics.hpp>
 #include <Utils/Lua.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
-#include <Utils/TextureManager.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuBuilder.hpp>
@@ -38,6 +39,7 @@ using namespace Engine::GameStates;
 using namespace LuaAPI;
 
 using namespace Utils;
+using namespace Utils::Graphics;
 using namespace Utils::UI;
 
 
@@ -46,14 +48,14 @@ Game::Game() throw(runtime_error):
     lua_(Lua::getInstance()),
     resourceManager_(ResourceManager::getInstance()),
     menuBuilder_(MenuBuilder::getInstance()),
+    graphicsManager_(GraphicsManager::getInstance()),
     textureManager_(TextureManager::getInstance()),
-    graphics_(Graphics::getInstance()),
     scrWidth_(640),
     scrHeight_(480),
     state_(0)
 {
 
-    graphics_->setViewportSize(scrWidth_, scrHeight_);
+    graphicsManager_->setViewportSize(scrWidth_, scrHeight_);
 
     //luabind::set_pcall_callback(luaErrorHandler);
 

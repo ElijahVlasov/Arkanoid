@@ -28,6 +28,8 @@ using namespace Engine;
 using namespace LuaAPI;
 
 using namespace Utils;
+using namespace Utils::Audio;
+using namespace Utils::Graphics;
 using namespace Utils::FreeType;
 using namespace Utils::UI;
 
@@ -38,7 +40,7 @@ LuaAPI_::LuaAPI_():
     menuGameState_(     GameStates::MenuState::getInstance()),
     lua_(               Lua::getInstance()					),
     resourceManager_(   ResourceManager::getInstance()		),
-    audio_(             Audio::getInstance()				)
+    audioManager_(      AudioManager::getInstance()		    )
 {
 
     lua_State* L = lua_->getLuaState();
@@ -61,10 +63,17 @@ LuaAPI_::LuaAPI_():
 
         ////////////////////////////////////////////////////////////////////////////
 
+        class_<SoundPlayer, boost::shared_ptr<SoundPlayer> >("sound_player")
+            .def("play",  &SoundPlayer::play)
+            .def("pause", &SoundPlayer::pause)
+            .def("stop",  &SoundPlayer::stop),
+
         // Конструкторы для звуков и текстур
         def("sound",        &LuaAPI_::System_LoadSound),
         def("texture",      &LuaAPI_::System_LoadTexture),
         /////////////////////////////////////
+
+        def("sound_player", &LuaAPI_::System_CreateSoundPlayer),
 
         def("get_screen_width",  &LuaAPI_::System_GetScreenWidth),
         def("get_screen_height", &LuaAPI_::System_GetScreenHeight),
@@ -73,7 +82,6 @@ LuaAPI_::LuaAPI_():
         def("get_main_menu",  &LuaAPI_::System_GetMainMenu),
         def("get_pause_menu", &LuaAPI_::System_GetPauseMenu),
 
-        def("play_sound",   &LuaAPI_::System_PlaySound),
         def("exit",         &LuaAPI_::System_Quit),
 
         def("load_script",  &LuaAPI_::System_LoadScript),
@@ -290,9 +298,9 @@ boost::shared_ptr<Texture> LuaAPI_::System_LoadTexture(const char* name)  {
 
 
 
-void LuaAPI_::System_PlaySound(const boost::shared_ptr<Sound>& sound) {
+boost::shared_ptr<Utils::Audio::SoundPlayer>  LuaAPI_::System_CreateSoundPlayer(const boost::shared_ptr<Sound>& sound) {
 
-    instance_->audio_->playSound(*sound);
+    instance_->audioManager_->createSoundPlayer(sound);
 
 }
 

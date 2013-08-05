@@ -3,7 +3,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Texture.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/UI/Container.hpp>
 
@@ -25,7 +25,7 @@ namespace Utils {
 
             private:
 
-                boost::shared_ptr<Utils::Texture> frame_;
+                boost::shared_ptr<Utils::Graphics::Texture> frame_;
 
         };
 

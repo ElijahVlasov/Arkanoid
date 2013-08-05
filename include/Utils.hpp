@@ -19,7 +19,6 @@
 #include <boost/geometry/geometries/point_xy.hpp>
 
 #include <Utils/assert.hpp>
-#include <Utils/AnimationSprite.hpp>
 #include <Utils/Audio.hpp>
 #include <Utils/Color.hpp>
 #include <Utils/FreeType.hpp>
@@ -28,15 +27,9 @@
 #include <Utils/Lua.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/PCResourceLoader.hpp>
-#include <Utils/PNGTextureBuilder.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
-#include <Utils/Sound.hpp>
-#include <Utils/Sprite.hpp>
-#include <Utils/StaticSprite.hpp>
-#include <Utils/Texture.hpp>
-#include <Utils/TextureManager.hpp>
 #include <Utils/UI.hpp>
 
 namespace Utils {

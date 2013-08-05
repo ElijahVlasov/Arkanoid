@@ -13,8 +13,9 @@
 #include <Utils/assert.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/Singleton.hpp>
-#include <Utils/Sound.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Audio/Sound.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/FreeType/Font.hpp>
 
@@ -143,10 +144,10 @@ namespace Utils {
             std::map< std::string, boost::shared_ptr<FreeType::Font> >  fonts_;
 
             std::mutex texturesAccess_;
-            std::map< std::string, boost::shared_ptr<Texture> >         textures_;
+            std::map< std::string, boost::shared_ptr<Graphics::Texture> >         textures_;
 
             std::mutex soundsAccess_;
-            std::map< std::string, boost::shared_ptr<Sound> >           sounds_;
+            std::map< std::string, boost::shared_ptr<Audio::Sound> >           sounds_;
 
     };
 

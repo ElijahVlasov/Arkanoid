@@ -6,7 +6,8 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/Color.hpp>
-#include <Utils/Texture.hpp>
+
+#include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/UI/Container.hpp>
 
@@ -25,12 +26,12 @@ namespace Utils {
                 Menu() throw(std::runtime_error);
                 ~Menu();
 
-                void setBackground(const boost::shared_ptr<Texture>& background);
+                void setBackground(const boost::shared_ptr<Graphics::Texture>& background);
 
                 /** Фоновая текстура.
                 */
 
-                const boost::shared_ptr<Texture>& getBackground() const;
+                const boost::shared_ptr<Graphics::Texture>& getBackground() const;
 
                 /** Установить фоновый цвет.
                 */
@@ -50,7 +51,7 @@ namespace Utils {
 
                 Color backgroundColor_;
 
-                boost::shared_ptr<Texture> background_;
+                boost::shared_ptr<Graphics::Texture> background_;
 
         };
 

@@ -2,8 +2,9 @@
 
 #include <Engine/GameStates/LoadingState.hpp>
 
-#include <Utils/Graphics.hpp>
 #include <Utils/SingletonPointer.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
 
 #include "geometry_defines.hpp"
 
@@ -22,7 +23,7 @@ void LoadingState::onRemove() {}
 
 void LoadingState::onRender() {
 
-    Utils::Graphics::DrawTexture(
+    Utils::Graphics::GraphicsManager::DrawTexture(
         GeometryDefines::BoxI(
             GeometryDefines::PointI(0, 0),
             GeometryDefines::PointI(game_->getScreenWidth(), game_->getScreenHeight())

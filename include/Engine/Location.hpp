@@ -7,7 +7,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/Texture.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 #include "World.pb.h"
 
@@ -26,8 +26,8 @@ namespace Engine {
 
 			~Location();
 
-			void setGroundTexture(const boost::shared_ptr<Utils::Texture>& groundTexture);
-			boost::shared_ptr<Utils::Texture> getGroundTexture() const;
+			void setGroundTexture(const boost::shared_ptr<Utils::Graphics::Texture>& groundTexture);
+			boost::shared_ptr<Utils::Graphics::Texture> getGroundTexture() const;
 
 			void addObject(const ObjectPtr& object);
 
@@ -50,7 +50,7 @@ namespace Engine {
 
 			std::string name_;
 
-			boost::shared_ptr<Utils::Texture> groundTexture_;
+			boost::shared_ptr<Utils::Graphics::Texture> groundTexture_;
 
 			std::list<ObjectPtr> objects_;
 

@@ -22,10 +22,10 @@ namespace LuaAPI {
 
             static void System_LoadScript(const char* name);
 
-            static boost::shared_ptr<Utils::Sound> System_LoadSound(const char* name);
-            static void System_PlaySound(const boost::shared_ptr<Utils::Sound>& sound);
+            static boost::shared_ptr<Utils::Audio::Sound> System_LoadSound(const char* name);
+            static boost::shared_ptr<Utils::Audio::SoundPlayer> System_CreateSoundPlayer(const boost::shared_ptr<Utils::Audio::Sound>& sound);
 
-            static boost::shared_ptr<Utils::Texture> System_LoadTexture(const char* name);
+            static boost::shared_ptr<Utils::Graphics::Texture> System_LoadTexture(const char* name);
             //static void System_DrawTexture(float x, float y, const boost::shared_ptr<Utils::Texture>& texture, Engine::Direction textureDirection);
 
             static void System_ShowDialog(const char* name);
@@ -52,9 +52,9 @@ namespace LuaAPI {
         private:
 
             template <class Geometry>
-            static void Graphics_DrawTexture(const Geometry& geometry, boost::shared_ptr<Utils::Texture> texture) {
+            static void Graphics_DrawTexture(const Geometry& geometry, boost::shared_ptr<Utils::Graphics::Texture> texture) {
 
-                Utils::Graphics::DrawTexture(geometry, *texture);
+                Utils::Graphics::GraphicsManager::DrawTexture(geometry, *texture);
 
             }
 
@@ -116,7 +116,7 @@ namespace LuaAPI {
 
             Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
 
-            Utils::SingletonPointer<Utils::Audio> audio_;
+            Utils::SingletonPointer<Utils::Audio::AudioManager> audioManager_;
 
     };
 
