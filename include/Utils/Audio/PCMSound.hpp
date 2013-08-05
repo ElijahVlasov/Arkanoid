@@ -1,17 +1,17 @@
-#ifndef _SALT2D_UTILS_OPENAL_PCMSOUND_HPP
-#define _SALT2D_UTILS_OPENAL_PCMSOUND_HPP
+#ifndef _SALT2D_UTILS_AUDIO_PCMSOUND_HPP
+#define _SALT2D_UTILS_AUDIO_PCMSOUND_HPP
 
 #include <string>
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/OpenAL/Buffer.hpp>
-#include <Utils/OpenAL/IStream.hpp>
-#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/Audio/Buffer.hpp>
+#include <Utils/Audio/IStream.hpp>
+#include <Utils/Audio/Sound.hpp>
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
         class PCMSound: public Sound {
 

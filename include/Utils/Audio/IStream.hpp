@@ -1,11 +1,11 @@
-#ifndef _SALT2D_UTILS_OPENAL_ISTREAM_HPP
-#define _SALT2D_UTILS_OPENAL_ISTREAM_HPP
+#ifndef _SALT2D_UTILS_AUDIO_ISTREAM_HPP
+#define _SALT2D_UTILS_AUDIO_ISTREAM_HPP
 
-#include <Utils/OpenAL/Buffer.hpp>
+#include <Utils/Audio/Buffer.hpp>
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
         class IStream {
 

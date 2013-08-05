@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(OALTest)
+project(AudioTest)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -14,20 +14,20 @@ include_directories(
   ${BOOST_INCLUDE_DIR}
 )
 
-set(OALTest_SOURCES
-  ${UTILS_OPENAL_SOURCES}
+set(AudioTest_SOURCES
+  ${UTILS_AUDIO_SOURCES}
   ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
-set(OALTest_HEADERS
-  ${UTILS_OPENAL_HEADERS}
+set(AudioTest_HEADERS
+  ${UTILS_AUDIO_HEADERS}
 )
 
-set(OALTest_LIBS
+set(AudioTest_LIBS
   ${OPENAL_LIBRARY}
   ${OGG_LIBRARY}
   ${VORBISFILE_LIBRARY}
 )
 
-add_executable(OALTest ${OALTest_SOURCES} ${OALTest_HEADERS})
-target_link_libraries(OALTest ${OALTest_LIBS})
+add_executable(AudioTest ${AudioTest_SOURCES} ${AudioTest_HEADERS})
+target_link_libraries(AudioTest ${AudioTest_LIBS})

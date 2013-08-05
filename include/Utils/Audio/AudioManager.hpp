@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_OPENAL_AUDIO_HPP
-#define _SALT2D_UTILS_OPENAL_AUDIO_HPP
+#ifndef _SALT2D_UTILS_AUDIO_AUDIOMANAGER_HPP
+#define _SALT2D_UTILS_AUDIO_AUDIOMANAGER_HPP
 
 
 #include <list>
@@ -7,18 +7,18 @@
 
 #include <Utils/Singleton.hpp>
 
-#include <Utils/OpenAL/Sound.hpp>
-#include <Utils/OpenAL/SoundPlayer.hpp>
+#include <Utils/Audio/Sound.hpp>
+#include <Utils/Audio/SoundPlayer.hpp>
 
 #include "oal_includes.h"
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
-        class Audio: public Singleton<Audio> {
+        class AudioManager: public Singleton<AudioManager> {
 
-            SINGLETON(Audio)
+            SINGLETON(AudioManager)
 
             public:
 
@@ -31,8 +31,8 @@ namespace Utils {
 
             protected:
 
-                Audio() throw(std::runtime_error);
-                ~Audio();
+                AudioManager() throw(std::runtime_error);
+                ~AudioManager();
 
             private:
 

@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_OPENAL_SOUNDPLAYER_HPP
-#define _SALT2D_UTILS_OPENAL_SOUNDPLAYER_HPP
+#ifndef _SALT2D_UTILS_AUDIO_SOUNDPLAYER_HPP
+#define _SALT2D_UTILS_AUDIO_SOUNDPLAYER_HPP
 
 #include <map>
 #include <mutex>
@@ -8,15 +8,15 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
 
-#include <Utils/OpenAL/Buffer.hpp>
-#include <Utils/OpenAL/IStream.hpp>
-#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/Audio/Buffer.hpp>
+#include <Utils/Audio/IStream.hpp>
+#include <Utils/Audio/Sound.hpp>
 
 #include "oal_includes.h"
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
         class SoundPlayer: public boost::noncopyable {
 
@@ -25,7 +25,7 @@ namespace Utils {
                 SoundPlayer(const boost::shared_ptr<Sound>& sound) throw(std::runtime_error);
                 ~SoundPlayer();
 
-                void play();
+                void play() throw(std::runtime_error);
                 void stop();
                 void pause();
 

@@ -8,17 +8,17 @@
 
 #include <Utils/assert.hpp>
 
-#include <Utils/OpenAL/OGGSound.hpp>
-#include <Utils/OpenAL/OGGSoundBuilder.hpp>
-#include <Utils/OpenAL/PCMSound.hpp>
-#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/Audio/OGGSound.hpp>
+#include <Utils/Audio/OGGSoundBuilder.hpp>
+#include <Utils/Audio/PCMSound.hpp>
+#include <Utils/Audio/Sound.hpp>
 
 #include "oal_includes.h"
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 
@@ -136,7 +136,7 @@ bool OGGSoundBuilder::ReadOggBlock(OggVorbis_File* oggVorbisFile, string& out, s
 
     }
 
-    return (reserved > 0);
+    return (reserved <= 0);
 
 }
 

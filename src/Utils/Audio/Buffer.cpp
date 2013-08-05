@@ -1,19 +1,19 @@
 #include <stdexcept>
 #include <string>
 
-#include <Utils/OpenAL/Audio.hpp>
-#include <Utils/OpenAL/Buffer.hpp>
+#include <Utils/Audio/AudioManager.hpp>
+#include <Utils/Audio/Buffer.hpp>
 
 #include "oal_includes.h"
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 
-Buffer::Buffer(const string& data, ALenum format, ALsizei frequency) throw(runtime_error):
+Buffer::Buffer(ALenum format, ALsizei frequency, const string& data) throw(runtime_error):
     format_(format),
     frequency_(frequency)
 {
@@ -28,7 +28,7 @@ Buffer::Buffer(const string& data, ALenum format, ALsizei frequency) throw(runti
                  frequency
                 );
 
-    Audio::CheckALErrors();
+    AudioManager::CheckALErrors();
 
 }
 

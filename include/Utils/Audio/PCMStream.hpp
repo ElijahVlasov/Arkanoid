@@ -1,14 +1,14 @@
-#ifndef _SALT2D_UTILS_OPENAL_PCMSTREAM_HPP
-#define _SALT2D_UTILS_OPENAL_PCMSTREAM_HPP
+#ifndef _SALT2D_UTILS_AUDIO_PCMSTREAM_HPP
+#define _SALT2D_UTILS_AUDIO_PCMSTREAM_HPP
 
 #include <string>
 
-#include <Utils/OpenAL/Buffer.hpp>
-#include <Utils/OpenAL/IStream.hpp>
+#include <Utils/Audio/Buffer.hpp>
+#include <Utils/Audio/IStream.hpp>
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
         class PCMStream: public IStream {
 

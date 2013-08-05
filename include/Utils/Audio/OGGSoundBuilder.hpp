@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_OPENAL_OGGSOUNDBUILDER_HPP
-#define _SALT2D_UTILS_OPENAL_OGGSOUNDBUILDER_HPP
+#ifndef _SALT2D_UTILS_AUDIO_OGGSOUNDBUILDER_HPP
+#define _SALT2D_UTILS_AUDIO_OGGSOUNDBUILDER_HPP
 
 #include <stdexcept>
 #include <string>
@@ -11,11 +11,11 @@
 
 #include <Utils/Singleton.hpp>
 
-#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/Audio/Sound.hpp>
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
         class OGGSoundBuilder: public Singleton<OGGSoundBuilder> {
 

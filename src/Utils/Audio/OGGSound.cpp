@@ -2,15 +2,15 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/OpenAL/IStream.hpp>
-#include <Utils/OpenAL/OGGSound.hpp>
-#include <Utils/OpenAL/OGGStream.hpp>
-#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/Audio/IStream.hpp>
+#include <Utils/Audio/OGGSound.hpp>
+#include <Utils/Audio/OGGStream.hpp>
+#include <Utils/Audio/Sound.hpp>
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 

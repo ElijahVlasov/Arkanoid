@@ -1,9 +1,9 @@
-#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/Audio/Sound.hpp>
 
 #include "oal_includes.h"
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 

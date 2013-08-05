@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_OPENAL_BUFFER_HPP
-#define _SALT2D_UTILS_OPENAL_BUFFER_HPP
+#ifndef _SALT2D_UTILS_AUDIO_BUFFER_HPP
+#define _SALT2D_UTILS_AUDIO_BUFFER_HPP
 
 #include <stdexcept>
 #include <string>
@@ -16,7 +16,7 @@ namespace Utils {
 
             public:
 
-                Buffer(const std::string& data, ALenum format, ALsizei frequency) throw(std::runtime_error);
+                Buffer(ALenum format, ALsizei frequency, const std::string& data = std::string()) throw(std::runtime_error);
 
                 ~Buffer();
 

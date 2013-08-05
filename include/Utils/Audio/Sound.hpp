@@ -1,15 +1,15 @@
-#ifndef _SALT2D_UTILS_OPENAL_SOUND_HPP
-#define _SALT2D_UTILS_OPENAL_SOUND_HPP
+#ifndef _SALT2D_UTILS_AUDIO_SOUND_HPP
+#define _SALT2D_UTILS_AUDIO_SOUND_HPP
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/OpenAL/IStream.hpp>
+#include <Utils/Audio/IStream.hpp>
 
 #include "oal_includes.h"
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
         class Sound {
 

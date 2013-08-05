@@ -4,20 +4,20 @@
 #include <fstream>
 #include <ios>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
-#include <conio.h>
-
+#include <Utils/assert.hpp>
 #include <Utils/SingletonPointer.hpp>
 
-#include <Utils/OpenAL/Audio.hpp>
-#include <Utils/OpenAL/OGGSound.hpp>
-#include <Utils/OpenAL/OGGSoundBuilder.hpp>
+#include <Utils/Audio/AudioManager.hpp>
+#include <Utils/Audio/OGGSound.hpp>
+#include <Utils/Audio/OGGSoundBuilder.hpp>
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 
@@ -25,11 +25,16 @@ int main(int argc, char* argv[]) {
 
     try {
 
-        SingletonPointer<Audio>             audio           =   Audio::getInstance();
+        SingletonPointer<AudioManager>      audioManager    =   AudioManager::getInstance();
         SingletonPointer<OGGSoundBuilder>   soundBuilder    =   OGGSoundBuilder::getInstance();
 
-        fstream soundStream("sound.ogg");
+        ifstream soundStream("sound.ogg", ios::binary);
         string soundData;
+
+        ASSERT(
+            soundStream.good(),
+            runtime_error("Can't load \"sound.ogg\"")
+        );
 
         soundStream.seekg(0, ios_base::end);
         soundData.resize(soundStream.tellg());
@@ -39,12 +44,14 @@ int main(int argc, char* argv[]) {
 
         auto sound = soundBuilder->createSound(soundData);
 
-        auto player = audio->createSoundPlayer(sound);
+        auto player = audioManager->createSoundPlayer(sound);
+
+        player->setLooping(true);
 
         player->play();
 
         while(true) {
-            audio->update();
+            audioManager->update();
         }
 
     } catch(const std::exception& e) {

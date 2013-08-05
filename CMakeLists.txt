@@ -83,17 +83,17 @@ set(UTILS_FREETYPE_SOURCES
   ${SRC_DIR}/Utils/FreeType/Font.cpp
 )
 
-set(UTILS_OPENAL_SOURCES
-  ${SRC_DIR}/Utils/OpenAL/Audio.cpp
-  ${SRC_DIR}/Utils/OpenAL/Buffer.cpp
-  ${SRC_DIR}/Utils/OpenAL/IStream.cpp
-  ${SRC_DIR}/Utils/OpenAL/OGGSound.cpp
-  ${SRC_DIR}/Utils/OpenAL/OGGSoundBuilder.cpp
-  ${SRC_DIR}/Utils/OpenAL/OGGStream.cpp
-  ${SRC_DIR}/Utils/OpenAL/PCMSound.cpp
-  ${SRC_DIR}/Utils/OpenAL/PCMStream.cpp
-  ${SRC_DIR}/Utils/OpenAL/Sound.cpp
-  ${SRC_DIR}/Utils/OpenAL/SoundPlayer.cpp
+set(UTILS_AUDIO_SOURCES
+  ${SRC_DIR}/Utils/Audio/AudioManager.cpp
+  ${SRC_DIR}/Utils/Audio/Buffer.cpp
+  ${SRC_DIR}/Utils/Audio/IStream.cpp
+  ${SRC_DIR}/Utils/Audio/OGGSound.cpp
+  ${SRC_DIR}/Utils/Audio/OGGSoundBuilder.cpp
+  ${SRC_DIR}/Utils/Audio/OGGStream.cpp
+  ${SRC_DIR}/Utils/Audio/PCMSound.cpp
+  ${SRC_DIR}/Utils/Audio/PCMStream.cpp
+  ${SRC_DIR}/Utils/Audio/Sound.cpp
+  ${SRC_DIR}/Utils/Audio/SoundPlayer.cpp
 )
 
 set(UTILS_UI_SOURCES
@@ -110,8 +110,8 @@ set(UTILS_UI_SOURCES
 )
 
 set(UTILS_SOURCES
+  ${UTILS_AUDIO_SOURCES}
   ${UTILS_FREETYPE_SOURCES}
-  ${UTILS_OPENAL_SOURCES}
   ${UTILS_UI_SOURCES}
   ${SRC_DIR}/Utils/AnimationSprite.cpp
   ${SRC_DIR}/Utils/Graphics.cpp
@@ -183,17 +183,17 @@ set(UTILS_FREETYPE_HEADERS
   ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
 )
 
-set(UTILS_OPENAL_HEADERS
-  ${INCLUDE_DIR}/Utils/OpenAL/Audio.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/Buffer.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/IStream.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/OGGSound.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/OGGSoundBuilder.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/OGGStream.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/PCMSound.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/PCMStream.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/Sound.hpp
-  ${INCLUDE_DIR}/Utils/OpenAL/SoundPlayer.hpp
+set(UTILS_AUDIO_HEADERS
+  ${INCLUDE_DIR}/Utils/Audio/AudioManager.hpp
+  ${INCLUDE_DIR}/Utils/Audio/Buffer.hpp
+  ${INCLUDE_DIR}/Utils/Audio/IStream.hpp
+  ${INCLUDE_DIR}/Utils/Audio/OGGSound.hpp
+  ${INCLUDE_DIR}/Utils/Audio/OGGSoundBuilder.hpp
+  ${INCLUDE_DIR}/Utils/Audio/OGGStream.hpp
+  ${INCLUDE_DIR}/Utils/Audio/PCMSound.hpp
+  ${INCLUDE_DIR}/Utils/Audio/PCMStream.hpp
+  ${INCLUDE_DIR}/Utils/Audio/Sound.hpp
+  ${INCLUDE_DIR}/Utils/Audio/SoundPlayer.hpp
 )
 
 set(UTILS_UI_HEADERS
@@ -214,8 +214,8 @@ set(UTILS_UI_HEADERS
 )
 
 set(UTILS_HEADERS
+  ${UTILS_AUDIO_HEADERS}
   ${UTILS_FREETYPE_HEADERS}
-  ${UTILS_OPENAL_HEADERS}
   ${UTILS_UI_HEADERS}
   ${INCLUDE_DIR}/Utils/assert.hpp
   ${INCLUDE_DIR}/Utils/AnimationSprite.hpp

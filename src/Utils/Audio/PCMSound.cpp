@@ -2,15 +2,15 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/OpenAL/IStream.hpp>
-#include <Utils/OpenAL/PCMSound.hpp>
-#include <Utils/OpenAL/PCMStream.hpp>
-#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/Audio/IStream.hpp>
+#include <Utils/Audio/PCMSound.hpp>
+#include <Utils/Audio/PCMStream.hpp>
+#include <Utils/Audio/Sound.hpp>
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 

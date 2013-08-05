@@ -1,14 +1,14 @@
-#ifndef _SALT2D_UTILS_OPENAL_OGGSOUND_HPP
-#define _SALT2D_UTILS_OPENAL_OGGSOUND_HPP
+#ifndef _SALT2D_UTILS_AUDIO_OGGSOUND_HPP
+#define _SALT2D_UTILS_AUDIO_OGGSOUND_HPP
 
 #include <string>
 
-#include <Utils/OpenAL/IStream.hpp>
-#include <Utils/OpenAL/Sound.hpp>
+#include <Utils/Audio/IStream.hpp>
+#include <Utils/Audio/Sound.hpp>
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
         class OGGSound: public Sound {
 
@@ -28,4 +28,4 @@ namespace Utils {
 
 }
 
-#endif // _SALT2D_UTILS_OPENAL_OGGSOUND_HPP
+#endif

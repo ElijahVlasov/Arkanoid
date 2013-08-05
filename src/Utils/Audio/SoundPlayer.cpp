@@ -2,17 +2,19 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <Utils/OpenAL/Sound.hpp>
-#include <Utils/OpenAL/SoundPlayer.hpp>
+#include <Utils/Audio/AudioManager.hpp>
+#include <Utils/Audio/Sound.hpp>
+#include <Utils/Audio/SoundPlayer.hpp>
 
 #include "oal_includes.h"
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 
@@ -26,21 +28,21 @@ SoundPlayer::SoundPlayer(const boost::shared_ptr<Sound>& sound) throw(runtime_er
 
     alGenSources(1, &sourceID_);
 
+    AudioManager::CheckALErrors();
+
     alSourcef( sourceID_, AL_PITCH,    1.0f);
-    alSourcef( sourceID_, AL_GAIN,     0.0f);
+    alSourcef( sourceID_, AL_GAIN,     1.0f);
     alSource3f(sourceID_, AL_POSITION, 0.0f, 0.0f, 0.0f);
     alSource3f(sourceID_, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
     alSourcei( sourceID_, AL_LOOPING,  AL_FALSE);
 
     for(std::size_t i = 0; i < BUFFERS_COUNT; i++) {
 
-        boost::shared_ptr<Buffer> buffer( new Buffer(string(), sound->getFormat(), sound->getFrequency()) );
+        boost::shared_ptr<Buffer> buffer( new Buffer(sound->getFormat(), sound->getFrequency()) );
 
         ALuint bufferID = buffer->getID();
 
         buffers_[bufferID] = buffer;
-
-//        alSourceQueueBuffers(sourceID_, 1, &bufferID);
 
     }
 
@@ -56,9 +58,35 @@ SoundPlayer::~SoundPlayer() {
 
 
 
-void SoundPlayer::play() {
+void SoundPlayer::play() throw(runtime_error) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    ALenum sourceState;
+
+    alGetSourcei(sourceID_, AL_SOURCE_STATE, &sourceState);
+
+    if(sourceState == AL_INITIAL) {
+
+        typedef pair< ALuint, boost::shared_ptr<Buffer> > BufferPair;
+
+        BOOST_FOREACH(BufferPair buffer, buffers_) {
+
+            if(buffer.second != 0) {
+
+                bool isSoundEnded = stream_->nextBuffer(*buffer.second);
+
+                alSourceQueueBuffers(sourceID_, 1, &buffer.first);
+
+                if(isSoundEnded && !isLooped_) {
+                    break;
+                }
+
+            }
+
+        }
+
+    }
 
     alSourcePlay(sourceID_);
 
@@ -105,7 +133,11 @@ void SoundPlayer::update() throw(runtime_error) {
         alSourceQueueBuffers(sourceID_, 1, &bufferID);
 
         if(isEnded && !isLooped_) {
+
+            alSourceStop(sourceID_);
+
             return;
+
         }
 
     }

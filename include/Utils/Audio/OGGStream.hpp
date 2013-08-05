@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_OPENAL_OGGSTREAM_HPP
-#define _SALT2D_UTILS_OPENAL_OGGSTREAM_HPP
+#ifndef _SALT2D_UTILS_AUDIO_OGGSTREAM_HPP
+#define _SALT2D_UTILS_AUDIO_OGGSTREAM_HPP
 
 #include <stdexcept>
 #include <string>
@@ -10,12 +10,12 @@
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 
-#include <Utils/OpenAL/Buffer.hpp>
-#include <Utils/OpenAL/IStream.hpp>
+#include <Utils/Audio/Buffer.hpp>
+#include <Utils/Audio/IStream.hpp>
 
 namespace Utils {
 
-    namespace OpenAL {
+    namespace Audio {
 
         class OGGStream: public boost::noncopyable, public IStream {
 

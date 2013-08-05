@@ -6,20 +6,20 @@
 
 #include <Utils/assert.hpp>
 
-#include <Utils/OpenAL/Audio.hpp>
-#include <Utils/OpenAL/Sound.hpp>
-#include <Utils/OpenAL/SoundPlayer.hpp>
+#include <Utils/Audio/AudioManager.hpp>
+#include <Utils/Audio/Sound.hpp>
+#include <Utils/Audio/SoundPlayer.hpp>
 
 #include "oal_includes.h"
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 
-Audio::Audio() throw(runtime_error):
+AudioManager::AudioManager() throw(runtime_error):
     device_(alcOpenDevice(0))
 {
 
@@ -30,7 +30,13 @@ Audio::Audio() throw(runtime_error):
 
     context_ = alcCreateContext(device_, 0);
 
-    CheckALCErrors();
+    ALenum errCode = alcGetError(device_);
+
+    ASSERT(
+        (errCode == AL_NO_ERROR),
+        runtime_error(static_cast<const char*>(alcGetString(device_, errCode)))
+    );
+
 
     alcMakeContextCurrent(context_);
 
@@ -46,7 +52,7 @@ Audio::Audio() throw(runtime_error):
 
 
 
-Audio::~Audio() {
+AudioManager::~AudioManager() {
 
     alcMakeContextCurrent(0);
     alcDestroyContext(context_);
@@ -56,7 +62,7 @@ Audio::~Audio() {
 
 
 
-boost::shared_ptr<SoundPlayer> Audio::createSoundPlayer(const boost::shared_ptr<Sound>& sound) {
+boost::shared_ptr<SoundPlayer> AudioManager::createSoundPlayer(const boost::shared_ptr<Sound>& sound) {
 
     boost::shared_ptr<SoundPlayer> player( new SoundPlayer(sound) );
 
@@ -68,7 +74,7 @@ boost::shared_ptr<SoundPlayer> Audio::createSoundPlayer(const boost::shared_ptr<
 
 
 
-void Audio::update() throw(runtime_error) {
+void AudioManager::update() throw(runtime_error) {
 
     BOOST_FOREACH(boost::shared_ptr< SoundPlayer >& player, players_) {
 
@@ -80,7 +86,7 @@ void Audio::update() throw(runtime_error) {
 
 
 
-void Audio::CheckALErrors() throw(runtime_error) {
+void AudioManager::CheckALErrors() throw(runtime_error) {
 
     ALenum errCode = alGetError();
 
@@ -93,7 +99,7 @@ void Audio::CheckALErrors() throw(runtime_error) {
 
 
 
-void Audio::CheckALCErrors() throw(runtime_error) {
+void AudioManager::CheckALCErrors() throw(runtime_error) {
 
     ALenum errCode = alcGetError(instance_->device_);
 

@@ -9,14 +9,14 @@
 
 #include <Utils/assert.hpp>
 
-#include <Utils/OpenAL/Buffer.hpp>
-#include <Utils/OpenAL/OGGSoundBuilder.hpp>
-#include <Utils/OpenAL/OGGStream.hpp>
+#include <Utils/Audio/Buffer.hpp>
+#include <Utils/Audio/OGGSoundBuilder.hpp>
+#include <Utils/Audio/OGGStream.hpp>
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 

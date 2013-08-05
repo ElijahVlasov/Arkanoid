@@ -1,12 +1,12 @@
 #include <string>
 
-#include <Utils/OpenAL/Buffer.hpp>
-#include <Utils/OpenAL/PCMStream.hpp>
+#include <Utils/Audio/Buffer.hpp>
+#include <Utils/Audio/PCMStream.hpp>
 
 using namespace std;
 
 using namespace Utils;
-using namespace Utils::OpenAL;
+using namespace Utils::Audio;
 
 
 
@@ -19,5 +19,7 @@ PCMStream::PCMStream(const string& pcmData):
 bool PCMStream::nextBuffer(Buffer& buffer) {
 
     buffer.setData(pcmData_);
+
+    return true;
 
 }
