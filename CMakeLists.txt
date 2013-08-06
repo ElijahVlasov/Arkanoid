@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.8.8)
 
-project(Salt2D)
+project(BattleFight)
 
-set(Salt2D_PROJECT_NAME ${PROJECT_NAME})
+set(${PROJECT_NAME}_PROJECT_NAME ${PROJECT_NAME})
 
-set(Salt2D_VERSION_MAJOR 0)
-set(Salt2D_VERSION_MINOR 1)
+set(${PROJECT_NAME}_VERSION_MAJOR 0)
+set(${PROJECT_NAME}_VERSION_MINOR 1)
 
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -16,6 +16,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
 
 include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${INCLUDE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
@@ -139,7 +140,7 @@ set(PROTOCOLS
     ${PROTOCOLS_DIR}/World.proto
 )
 
-set(Salt2D_SOURCES
+set(${PROJECT_NAME}_SOURCES
     ${ENGINE_SOURCES}
     ${LUA_API_SOURCES}
     ${UTILS_SOURCES}
@@ -245,7 +246,7 @@ set(UTILS_HEADERS
     ${INCLUDE_DIR}/Utils/UI.hpp
 )
 
-set(Salt2D_HEADERS
+set(${PROJECT_NAME}_HEADERS
     ${ENGINE_HEADERS}
     ${LUA_API_HEADERS}
     ${TINY_XML_HEADERS}
@@ -261,10 +262,10 @@ set(Salt2D_HEADERS
 )
 
 if(WIN32)
-    set(Salt2D_SOURCES ${Salt2D_SOURCES} ${SRC_DIR}/resource.rc)
+    set(${PROJECT_NAME}_SOURCES ${Salt2D_SOURCES} ${SRC_DIR}/resource.rc)
 endif()
 
-set(Salt2D_LIBS
+set(${PROJECT_NAME}_LIBS
     ${Boost_SYSTEM_LIBRARY}
     ${LUA_LIBRARIES}
     ${OPENAL_LIBRARY}
@@ -275,13 +276,14 @@ set(Salt2D_LIBS
     ${LUABIND_LIBRARIES}
     ${PROTOBUF_LITE_LIBRARIES}
     ${VORBISFILE_LIBRARY}
+    Box2D
     FTGL
     TinyXML
 )
 
 if(NOT WIN32)
     include_directories(${GTK2_INCLUDE_DIRS})
-    set(Salt2D_LIBS ${Salt2D_LIBS} ${GTK2_LIBRARIES})
+    set(${PROJECT_NAME}_LIBS ${${PROJECT_NAME}_LIBS} ${GTK2_LIBRARIES})
 endif()
 
 protobuf_generate_cpp(PROTOCOLS_SOURCES PROTOCOLS_HEADERS ${PROTOCOLS})
@@ -293,10 +295,13 @@ configure_file(
 
 add_definitions(-DTIXML_USE_STL)
 
+set(BOX2D_BUILD_STATIC TRUE)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Box2D)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/TinyXML)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
 
-add_executable(Salt2D WIN32 ${Salt2D_HEADERS} ${Salt2D_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
-target_link_libraries(Salt2D ${Salt2D_LIBS})
+add_executable(${PROJECT_NAME} WIN32 ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
+target_link_libraries(${PROJECT_NAME} ${${PROJECT_NAME}_LIBS})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)
