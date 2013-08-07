@@ -16,17 +16,40 @@ namespace Utils {
 
     namespace Audio {
 
+        /** Менеджер аудио.
+          * Используется для инициализации звуковой системы и проверки ошибок.
+          * Для коректности вывода звука, необходимо вызывать AudioManager::update().
+          * @author Elijah Vlasov
+        */
+
         class AudioManager: public Singleton<AudioManager> {
 
             SINGLETON(AudioManager)
 
             public:
 
+                /** Создать проигрыватель для звука.
+                  * Следует использывать этот метод, а не конструктор проигрывателя.
+                */
+
                 boost::shared_ptr<SoundPlayer> createSoundPlayer(const boost::shared_ptr<Sound>& sound);
+
+                /** Обновить состояние аудио.
+                  * Может быть очень затратным при большом количестве проигрываемых звуков.
+                */
 
                 void update()                   throw(std::runtime_error);
 
+                /** Проверить OpenAL-ошибки.
+                  * @throws Генерирует std::runtime_error, если ошибки есть.
+                */
+
                 static void CheckALErrors()     throw(std::runtime_error);
+
+                /** Проверить ALC-ошибки.
+                  * @throws Генерирует std::runtime_error, если ошибки есть.
+                */
+
                 static void CheckALCErrors()    throw(std::runtime_error);
 
             protected:

@@ -17,6 +17,10 @@ namespace Utils {
 
     namespace Audio {
 
+        /** Поток для Ogg звуков.
+          * @author Elijah Vlasov
+        */
+
         class OGGStream: public boost::noncopyable, public IStream {
 
             public:
@@ -27,6 +31,8 @@ namespace Utils {
                 bool nextBuffer(Buffer& buffer);
 
             private:
+
+                // Количество аудио-буферов.
 
                 static const std::size_t BUFFERS_COUNT;
 

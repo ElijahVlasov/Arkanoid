@@ -10,6 +10,10 @@ namespace Utils {
 
     namespace Audio {
 
+        /** PCM-поток.
+          * @author Elijah Vlasov
+        */
+
         class PCMStream: public IStream {
 
             public:

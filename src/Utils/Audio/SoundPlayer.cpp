@@ -66,11 +66,11 @@ void SoundPlayer::play() throw(runtime_error) {
 
     alGetSourcei(sourceID_, AL_SOURCE_STATE, &sourceState);
 
-    if(sourceState == AL_INITIAL) {
+    if(sourceState == AL_INITIAL) { // Если проигрыватель не был в состоянии паузы.
 
         typedef pair< ALuint, boost::shared_ptr<Buffer> > BufferPair;
 
-        BOOST_FOREACH(BufferPair buffer, buffers_) {
+        BOOST_FOREACH(BufferPair buffer, buffers_) { // Заполняем буферы.
 
             if(buffer.second != 0) {
 

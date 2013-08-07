@@ -10,6 +10,10 @@ namespace Utils {
 
     namespace Audio {
 
+        /** Звук в формате Ogg Vorbis.
+          * @author Elijah Vlasov
+        */
+
         class OGGSound: public Sound {
 
             public:

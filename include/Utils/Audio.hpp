@@ -13,3 +13,14 @@
 #include <Utils/Audio/SoundPlayer.hpp>
 
 #endif
+
+namespace Utils {
+
+    /** Классы для работы со звуком.
+    */
+
+    namespace Audio {
+
+    }
+
+}

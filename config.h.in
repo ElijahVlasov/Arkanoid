@@ -1,8 +1,8 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define Salt2D_VERSION_MAJOR @Salt2D_VERSION_MAJOR@
-#define Salt2D_VERSION_MINOR @Salt2D_VERSION_MINOR@
-#define Salt2D_PROJECT_NAME  "@Salt2D_PROJECT_NAME@"
+#define BattleFight_VERSION_MAJOR @BattleFight_VERSION_MAJOR@
+#define BattleFight_VERSION_MINOR @BattleFight_VERSION_MINOR@
+#define BattleFight_PROJECT_NAME  "@BattleFight_PROJECT_NAME@"
 
 #endif

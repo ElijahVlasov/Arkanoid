@@ -11,12 +11,19 @@ namespace Utils {
 
     namespace Audio {
 
+        /** Звук.
+          * @author Elijah Vlasov
+        */
+
         class Sound {
 
             public:
 
                 Sound();
                 virtual ~Sound();
+
+                /** Создать поток для проигрывания этого звука.
+                */
 
                 virtual boost::shared_ptr<IStream> createStream() = 0;
 

@@ -13,6 +13,10 @@ namespace Utils {
 
     namespace Audio {
 
+        /** PCM-звук.
+          * @author Elijah Vlasov
+        */
+
         class PCMSound: public Sound {
 
             public:

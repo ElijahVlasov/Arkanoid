@@ -18,6 +18,10 @@ namespace Utils {
 
     namespace Audio {
 
+        /** Проигрыватель звуков.
+          * @author Elijah Vlasov
+        */
+
         class SoundPlayer: public boost::noncopyable {
 
             public:
@@ -25,9 +29,23 @@ namespace Utils {
                 SoundPlayer(const boost::shared_ptr<Sound>& sound) throw(std::runtime_error);
                 ~SoundPlayer();
 
+                /** Проиграть звук.
+                */
+
                 void play() throw(std::runtime_error);
+
+                /** Остановить проигрывание.
+                */
+
                 void stop();
+
+                /** Сделать паузу.
+                */
+
                 void pause();
+
+                /** Обновить проигрыватель.
+                */
 
                 void update() throw(std::runtime_error);
 
@@ -43,6 +61,8 @@ namespace Utils {
                 boost::shared_ptr<IStream> stream_;
 
                 ALuint sourceID_;
+
+                // Ассоциация буфер-ида с указателем на буфер.
 
                 std::map< ALuint, boost::shared_ptr<Buffer> > buffers_;
 

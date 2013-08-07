@@ -233,6 +233,7 @@ set(UTILS_HEADERS
     ${UTILS_FREETYPE_HEADERS}
     ${UTILS_UI_HEADERS}
     ${INCLUDE_DIR}/Utils/assert.hpp
+    ${INCLUDE_DIR}/Utils/Audio.hpp
     ${INCLUDE_DIR}/Utils/Color.hpp
     ${INCLUDE_DIR}/Utils/FreeType.hpp
     ${INCLUDE_DIR}/Utils/LocalizationManager.hpp

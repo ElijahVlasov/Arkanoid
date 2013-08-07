@@ -42,7 +42,7 @@ Application::Application() throw(runtime_error):
 
 	setLocale();
 
-    initSDL(800, 600, Salt2D_PROJECT_NAME);
+    initSDL(800, 600, BattleFight_PROJECT_NAME);
 
 }
 

@@ -17,6 +17,10 @@ namespace Utils {
 
     namespace Audio {
 
+        /** Класс для создания звуков из Ogg Vorbis данных.
+          * @author Elijah Vlasov
+        */
+
         class OGGSoundBuilder: public Singleton<OGGSoundBuilder> {
 
             SINGLETON(OGGSoundBuilder)

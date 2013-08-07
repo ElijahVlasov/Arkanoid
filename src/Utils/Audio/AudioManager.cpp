@@ -20,7 +20,7 @@ using namespace Utils::Audio;
 
 
 AudioManager::AudioManager() throw(runtime_error):
-    device_(alcOpenDevice(0))
+    device_(alcOpenDevice(0)) // Получаем девайс по-умолчанию.
 {
 
     ASSERT(
@@ -29,6 +29,8 @@ AudioManager::AudioManager() throw(runtime_error):
     );
 
     context_ = alcCreateContext(device_, 0);
+
+    // Тут нельзя вызвать CheckALErrors(), потому что instance_ еще не получил значения.
 
     ALenum errCode = alcGetError(device_);
 

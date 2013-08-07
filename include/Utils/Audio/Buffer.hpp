@@ -12,6 +12,10 @@ namespace Utils {
 
     namespace Audio {
 
+        /** Обертка над OpenAL-буфером.
+          * @author ELijah Vlasov
+        */
+
         class Buffer: public boost::noncopyable {
 
             public:
