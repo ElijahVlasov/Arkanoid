@@ -22,9 +22,6 @@
 
 #include <Utils/FreeType/Font.hpp>
 
-#include "Resource.pb.h"
-#include "World.pb.h"
-
 using namespace std;
 
 using namespace Engine;
@@ -43,77 +40,6 @@ World::World() {
         resourceManager_ = ResourceManager::getInstance();
 
     } catch (const runtime_error&) {}
-
-}
-
-
-
-World::World(const EngineData::World& worldData) throw(runtime_error):
-    resourceManager_(ResourceManager::getInstance())
-{
-
-    SingletonPointer<LocalizationManager> localizationManager = LocalizationManager::getInstance();
-    SingletonPointer<Lua> lua = Lua::getInstance();
-
-    name_ = localizationManager->getString(worldData.name());
-    desc_ = localizationManager->getString(worldData.desc());
-
-    auto locations = worldData.location();
-
-    BOOST_FOREACH(EngineData::Location locationData, locations) {
-
-        LocationPtr newLocation(new Location(locationData));
-
-        if(locationData.has_on_create()) {
-
-            luabind::object onCreate = lua->getFunctionObject(locationData.on_create());
-
-            try {
-
-                luabind::call_function<void>(onCreate, newLocation);
-
-            } catch(const luabind::error& err) {
-
-                throw(runtime_error(err.what()));
-
-            }
-
-        }
-
-        locations_.push_back(newLocation);
-
-    }
-
-    auto resources = worldData.resources();
-
-    BOOST_FOREACH(EngineData::Resource resource, resources) {
-
-        switch(resource.type()) {
-
-            case EngineData::Resource_Type::Resource_Type_FONT: {
-
-                fonts_.push_back( resourceManager_->getResource<FreeType::Font>(resource.resource_name()));
-
-            }
-            break;
-
-            case EngineData::Resource_Type::Resource_Type_TEXTURE: {
-
-                textures_.push_back( resourceManager_->getResource<Texture>(resource.resource_name()));
-
-            }
-            break;
-
-            case EngineData::Resource_Type::Resource_Type_SOUND: {
-
-                sounds_.push_back( resourceManager_->getResource<Sound>(resource.resource_name()));
-
-            }
-            break;
-
-        }
-
-    }
 
 }
 

@@ -1,3 +1,4 @@
+#include <mutex>
 #include <stdexcept>
 
 #include <boost/foreach.hpp>
@@ -66,6 +67,8 @@ AudioManager::~AudioManager() {
 
 boost::shared_ptr<SoundPlayer> AudioManager::createSoundPlayer(const boost::shared_ptr<Sound>& sound) {
 
+    std::lock_guard<std::mutex> guard(playersMutex_);
+
     boost::shared_ptr<SoundPlayer> player( new SoundPlayer(sound) );
 
     players_.push_back(player);
@@ -77,6 +80,8 @@ boost::shared_ptr<SoundPlayer> AudioManager::createSoundPlayer(const boost::shar
 
 
 void AudioManager::update() throw(runtime_error) {
+
+    std::lock_guard<std::mutex> guard(playersMutex_);
 
     BOOST_FOREACH(boost::shared_ptr< SoundPlayer >& player, players_) {
 

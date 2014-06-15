@@ -11,6 +11,9 @@
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
 
+#include <Utils/Audio/AudioManager.hpp>
+#include <Utils/Audio/Sound.hpp>
+
 #include <Utils/Graphics/Texture.hpp>
 
 namespace Engine {
@@ -49,7 +52,11 @@ namespace Engine {
 
                 Utils::SingletonPointer<Game> game_;
 
+                Utils::SingletonPointer<Utils::Audio::AudioManager>    audioManager_;
                 Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
+
+                boost::shared_ptr<Utils::Audio::Sound>       hello_;
+                boost::shared_ptr<Utils::Audio::SoundPlayer> helloPlayer_;
 
                 boost::shared_ptr<Utils::Graphics::Texture> logo_;
 

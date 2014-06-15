@@ -17,8 +17,6 @@
 
 #include <Utils/FreeType/Font.hpp>
 
-#include "World.pb.h"
-
 namespace Engine {
 
     class Location;
@@ -29,7 +27,7 @@ namespace Engine {
         public:
 
             World();
-            World(const EngineData::World&) throw(std::runtime_error);
+            //World(const EngineData::World&) throw(std::runtime_error);
 
             ~World();
 

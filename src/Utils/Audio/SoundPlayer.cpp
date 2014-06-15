@@ -23,6 +23,7 @@ const std::size_t SoundPlayer::BUFFERS_COUNT = 10;
 
 
 SoundPlayer::SoundPlayer(const boost::shared_ptr<Sound>& sound) throw(runtime_error):
+    isPlaying_(false),
     stream_(sound->createStream())
 {
 
@@ -90,6 +91,8 @@ void SoundPlayer::play() throw(runtime_error) {
 
     alSourcePlay(sourceID_);
 
+    isPlaying_ = true;
+
 }
 
 
@@ -99,6 +102,8 @@ void SoundPlayer::stop() {
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     alSourceStop(sourceID_);
+
+    isPlaying_ = false;
 
 }
 
@@ -110,6 +115,8 @@ void SoundPlayer::pause() {
 
     alSourcePause(sourceID_);
 
+    isPlaying_ = false;
+
 }
 
 
@@ -117,6 +124,10 @@ void SoundPlayer::pause() {
 void SoundPlayer::update() throw(runtime_error) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    if(!isPlaying_) {
+        return;
+    }
 
     int processed;
 

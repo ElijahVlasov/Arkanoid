@@ -58,6 +58,8 @@ namespace Utils {
 
                 mutable std::mutex synchroMutex_;
 
+                bool isPlaying_;
+
                 boost::shared_ptr<IStream> stream_;
 
                 ALuint sourceID_;

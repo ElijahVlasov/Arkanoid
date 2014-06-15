@@ -8,6 +8,10 @@
 
 #include <Utils/ResourceManager.hpp>
 
+#include <Utils/Audio/AudioManager.hpp>
+#include <Utils/Audio/Sound.hpp>
+#include <Utils/Audio/SoundPlayer.hpp>
+
 #include <Utils/Graphics/GraphicsManager.hpp>
 #include <Utils/Graphics/Texture.hpp>
 
@@ -21,16 +25,21 @@ using namespace Engine;
 using namespace Engine::GameStates;
 
 using namespace Utils;
+using namespace Utils::Audio;
 using namespace Utils::Graphics;
 
 
 
 StartLogoState::StartLogoState() throw(runtime_error):
+    audioManager_(AudioManager::getInstance()),
     game_(Game::getInstance()),
     resourceManager_(ResourceManager::getInstance())
 {
 
-    logo_ = resourceManager_->getResource<Texture>("textures/logo.png");
+    hello_ = resourceManager_->getResource<Sound>("sounds/hello.ogg");
+    logo_  = resourceManager_->getResource<Texture>("textures/logo.png");
+
+    helloPlayer_ = boost::shared_ptr<SoundPlayer>(new SoundPlayer(hello_));
 
 }
 
@@ -38,17 +47,26 @@ StartLogoState::StartLogoState() throw(runtime_error):
 
 StartLogoState::~StartLogoState() {
 
+    resourceManager_->deleteResource<Sound>(hello_);
 	resourceManager_->deleteResource<Texture>(logo_);
 
 }
 
 
 
-void StartLogoState::onActive() {}
+void StartLogoState::onActive() {
+
+    helloPlayer_->play();
+
+}
 
 
 
-void StartLogoState::onRemove() {}
+void StartLogoState::onRemove() {
+
+    helloPlayer_->stop();
+
+}
 
 
 

@@ -77,13 +77,6 @@ if(NOT Boost_FOUND)
     return()
 endif ()
 
-find_package(Protobuf REQUIRED)
-
-if(NOT PROTOBUF_FOUND)
-  message(FATAL_ERROR "Can't find Google Protocol Buffers")
-  return()
-endif()
-
 if(NOT WIN32)
 
   find_package(GTK2 REQUIRED)

@@ -3,6 +3,7 @@
 
 
 #include <list>
+#include <mutex>
 #include <stdexcept>
 
 #include <Utils/Singleton.hpp>
@@ -58,6 +59,8 @@ namespace Utils {
                 ~AudioManager();
 
             private:
+
+                std::mutex playersMutex_;
 
                 std::list< boost::shared_ptr<SoundPlayer> > players_;
 

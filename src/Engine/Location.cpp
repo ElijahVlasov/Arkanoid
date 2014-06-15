@@ -13,8 +13,6 @@
 #include <Utils/SingletonPointer.hpp>
 #include <Utils/Graphics/Texture.hpp>
 
-#include "World.pb.h"
-
 using namespace std;
 
 using namespace Engine;
@@ -25,21 +23,6 @@ using namespace Utils::Graphics;
 
 
 Location::Location() {}
-
-
-
-Location::Location(const EngineData::Location& locationData) throw(runtime_error):
-	width_(locationData.width()),
-	height_(locationData.height()),
-	name_(locationData.name())
-{
-
-    SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
-
-    groundTexture_ = resourceManager->getResource<Texture>(locationData.name());
-
-
-}
 
 
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.8)
 
-project(BattleFight)
+project(Arkanoid)
 
 set(${PROJECT_NAME}_PROJECT_NAME ${PROJECT_NAME})
 
@@ -23,12 +23,10 @@ include_directories(
 
 include(CheckLibs.cmake)
 
-set(PROTOBUF_IMPORT_DIRS ${PROTOCOLS_DIR})
-
 if ( CMAKE_COMPILER_IS_GNUCXX )
 
-    set(CMAKE_CXX_FLAGS_RELEASE "-w -O2 -std=c++0x")
-    set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++0x -g")
+    set(CMAKE_CXX_FLAGS_RELEASE "-w -O2 -std=c++11")
+    set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++11 -g")
 
 endif()
 
@@ -49,7 +47,6 @@ include_directories(
     ${OGG_INCLUDE_DIR}
     ${OPENAL_INCLUDE_DIR}
     ${OPENGL_INCLUDE_DIR}
-    ${PROTOBUF_INCLUDE_DIRS}
     ${PNG_INCLUDE_DIRS}
     ${SDL_INCLUDE_DIR}
     ${VORBISFILE_INCLUDE_DIR}
@@ -130,14 +127,6 @@ set(UTILS_SOURCES
     ${SRC_DIR}/Utils/PCResourceLoader.cpp
     ${SRC_DIR}/Utils/ResourceLoader.cpp
     ${SRC_DIR}/Utils/ResourceManager.cpp
-)
-
-set(PROTOCOLS
-    ${PROTOCOLS_DIR}/Box.proto
-    ${PROTOCOLS_DIR}/Point.proto
-    ${PROTOCOLS_DIR}/Resource.proto
-    ${PROTOCOLS_DIR}/StaticObject.proto
-    ${PROTOCOLS_DIR}/World.proto
 )
 
 set(${PROJECT_NAME}_SOURCES
@@ -263,7 +252,7 @@ set(${PROJECT_NAME}_HEADERS
 )
 
 if(WIN32)
-    set(${PROJECT_NAME}_SOURCES ${Salt2D_SOURCES} ${SRC_DIR}/resource.rc)
+    set(${PROJECT_NAME}_SOURCES ${${PROJECT_NAME}_SOURCES} ${SRC_DIR}/resource.rc)
 endif()
 
 set(${PROJECT_NAME}_LIBS
@@ -275,7 +264,6 @@ set(${PROJECT_NAME}_LIBS
     ${OGG_LIBRARY}
     ${SDL_LIBRARY}
     ${LUABIND_LIBRARIES}
-    ${PROTOBUF_LITE_LIBRARIES}
     ${VORBISFILE_LIBRARY}
     Box2D
     FTGL
@@ -286,8 +274,6 @@ if(NOT WIN32)
     include_directories(${GTK2_INCLUDE_DIRS})
     set(${PROJECT_NAME}_LIBS ${${PROJECT_NAME}_LIBS} ${GTK2_LIBRARIES})
 endif()
-
-protobuf_generate_cpp(PROTOCOLS_SOURCES PROTOCOLS_HEADERS ${PROTOCOLS})
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
@@ -302,7 +288,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Box2D)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/TinyXML)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
 
-add_executable(${PROJECT_NAME} WIN32 ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_SOURCES} ${PROTOCOLS_SOURCES} ${PROTOCOLS_HEADERS})
+add_executable(${PROJECT_NAME} WIN32 ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_SOURCES})
 target_link_libraries(${PROJECT_NAME} ${${PROJECT_NAME}_LIBS})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)

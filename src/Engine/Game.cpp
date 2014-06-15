@@ -1,3 +1,4 @@
+#include <chrono>
 #include <exception>
 #include <mutex>
 #include <stdexcept>
@@ -20,6 +21,9 @@
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
+
+#include <Utils/Audio/AudioManager.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
@@ -39,12 +43,16 @@ using namespace Engine::GameStates;
 using namespace LuaAPI;
 
 using namespace Utils;
+using namespace Utils::Audio;
 using namespace Utils::Graphics;
 using namespace Utils::UI;
 
 
+const std::chrono::milliseconds Game::START_LOGO_DURATION = std::chrono::milliseconds(5000);
+
 
 Game::Game() throw(runtime_error):
+    audioManager_(AudioManager::getInstance()),
     lua_(Lua::getInstance()),
     resourceManager_(ResourceManager::getInstance()),
     menuBuilder_(MenuBuilder::getInstance()),
@@ -239,7 +247,8 @@ void Game::setState(IGameState* state) {
 
 void Game::run() throw(runtime_error) {
 
-    isRunning_ = true;
+    isRunning_          = true;
+    isAudioThreadNeed_  = true;
 
     // Запускаем загрузку ресурсов
     initThread_ =  boost::shared_ptr<std::thread>(new std::thread([this] () {
@@ -247,6 +256,12 @@ void Game::run() throw(runtime_error) {
     }));
 
     initThread_->detach();
+
+    audioThread_ =  boost::shared_ptr<std::thread>(new std::thread([this] () {
+        this->audioThread();
+    }));
+
+    audioThread_->detach();
 
 }
 
@@ -257,6 +272,8 @@ void Game::quit() {
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     isRunning_ = false;
+
+    setAudioThreadNeed(false);
 
 }
 
@@ -320,6 +337,24 @@ boost::shared_ptr<Menu> Game::getMainMenu() const {
 
 
 
+void Game::setAudioThreadNeed(bool isNeed) {
+
+    std::lock_guard<std::mutex> guard(audioMutex_);
+
+    isAudioThreadNeed_ = isNeed;
+
+}
+
+
+
+bool Game::isAudioThreadNeed() const {
+
+    std::lock_guard<std::mutex> guard(audioMutex_);
+
+    return isAudioThreadNeed_;
+
+}
+
 
 
 void Game::setException(const std::exception_ptr& e) {
@@ -342,6 +377,20 @@ const std::exception_ptr& Game::getException() {
 
 
 
+void Game::audioThread() {
+
+    SingletonPointer<AudioManager> audioManager = AudioManager::getInstance();
+
+    while(isAudioThreadNeed()) {
+
+        audioManager->update();
+
+    }
+
+}
+
+
+
 // Загрузка ресурсов
 void Game::loadResources() {
 
@@ -350,6 +399,8 @@ void Game::loadResources() {
     try {
 
         std::lock_guard<std::mutex> guard(initMutex_);
+
+        auto startLoading = chrono::system_clock::now();
 
         luaAPI_ = LuaAPI_::getInstance();
 
@@ -365,7 +416,15 @@ void Game::loadResources() {
 
         menuGameState_->setMenu(mainMenu_);
 
+        auto n = chrono::system_clock::now() - startLoading;
+
+        while(n <= START_LOGO_DURATION) {
+            n = chrono::system_clock::now() - startLoading;
+        }
+
         setState(menuGameState_.get());
+
+        startLogoState_ = 0;
 
     } catch(...) {
 

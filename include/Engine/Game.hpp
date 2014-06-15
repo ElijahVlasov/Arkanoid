@@ -1,6 +1,7 @@
 ﻿#ifndef _SALT2D_ENGINE_GAME_HPP
 #define _SALT2D_ENGINE_GAME_HPP
 
+#include <chrono>
 #include <exception>
 #include <mutex>
 #include <stdexcept>
@@ -21,6 +22,8 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
+
+#include <Utils/Audio/AudioManager.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
@@ -137,6 +140,9 @@ namespace Engine {
 
         private:
 
+            static const std::chrono::milliseconds START_LOGO_DURATION;
+
+            Utils::SingletonPointer<Utils::Audio::AudioManager>    audioManager_;
             Utils::SingletonPointer<Utils::Lua>             lua_;
 
             Utils::SingletonPointer<LuaAPI::LuaAPI_>        luaAPI_;
@@ -154,17 +160,28 @@ namespace Engine {
 
             std::exception_ptr e_;
 
+            bool isAudioThreadNeed_;
+
             mutable std::mutex   stateAccessMutex_;
 
             mutable std::mutex   exceptionCheckMutex_;  // мьютекс защиты e_
             mutable std::mutex   synchroMutex_;          // мьютекс защиты state_, scrWidth, scrHeight, isRunning
 
+            mutable std::mutex   audioMutex_;
+
             mutable std::mutex   initMutex_; // нужен для синхронизации основного потока и потока загрузки
             boost::shared_ptr<std::thread> initThread_;
+
+            boost::shared_ptr<std::thread> audioThread_;
 
             // Установить текущее исключение(потом в главном потоке оно генерируется)
             void setException(const std::exception_ptr& e);
             const std::exception_ptr& getException();
+
+            bool isAudioThreadNeed() const;
+            void setAudioThreadNeed(bool isNeed);
+
+            void audioThread();
 
             void loadResources();
             void loadMainMenu()  throw(std::runtime_error);

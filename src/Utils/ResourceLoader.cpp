@@ -8,6 +8,7 @@
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/SingletonPointer.hpp>
 
+#include <Utils/Audio/OGGSoundBuilder.hpp>
 #include <Utils/Audio/Sound.hpp>
 
 #include <Utils/Graphics/PNGTextureBuilder.hpp>
@@ -18,16 +19,17 @@
 using namespace std;
 
 using namespace Utils;
+using namespace Utils::Audio;
 using namespace Utils::Graphics;
 using namespace Utils::FreeType;
 
 
 
-boost::shared_ptr<Graphics::Texture> ResourceLoader::loadTexture(const char* fileName) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Texture> ResourceLoader::loadTexture(const char* fileName) throw(invalid_argument, runtime_error) {
 
     Utils::SingletonPointer<PNGTextureBuilder> textureBuilder = PNGTextureBuilder::getInstance();
 
-    std::string data = readFile(fileName);
+    string data = readFile(fileName);
 
     return textureBuilder->createTexture(data);
 
@@ -35,9 +37,13 @@ boost::shared_ptr<Graphics::Texture> ResourceLoader::loadTexture(const char* fil
 
 
 
-boost::shared_ptr<Audio::Sound> ResourceLoader::loadSound(const char* fileName) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Sound> ResourceLoader::loadSound(const char* fileName) throw(invalid_argument, runtime_error) {
 
+    Utils::SingletonPointer<OGGSoundBuilder> soundBuilder = OGGSoundBuilder::getInstance();
 
+    string data = readFile(fileName);
+
+    return soundBuilder->createSound(data);
 
 }
 
@@ -45,7 +51,7 @@ boost::shared_ptr<Audio::Sound> ResourceLoader::loadSound(const char* fileName) 
 
 boost::shared_ptr<Font> ResourceLoader::loadFont(const char* fileName) throw(invalid_argument, runtime_error) {
 
-    std::string data = readFile(fileName);
+    string data = readFile(fileName);
 
     return boost::shared_ptr<Font>(new Font(data));
 
