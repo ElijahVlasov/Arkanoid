@@ -48,7 +48,7 @@ using namespace Utils::Graphics;
 using namespace Utils::UI;
 
 
-const std::chrono::milliseconds Game::START_LOGO_DURATION = std::chrono::milliseconds(5000);
+const std::chrono::milliseconds Game::START_LOGO_DURATION = std::chrono::milliseconds(2300);
 
 
 Game::Game() throw(runtime_error):

@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 
         auto player = audioManager->createSoundPlayer(sound);
 
-        player->setLooping(true);
+        player->setLooping(false);
 
         player->play();
 

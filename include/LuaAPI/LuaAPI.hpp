@@ -6,7 +6,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Game.hpp>
-#include <Engine/Direction.hpp>
 
 #include <Utils.hpp>
 

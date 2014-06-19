@@ -100,6 +100,7 @@ void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* 
     int             x,          y;
     unsigned int    width,      height;
     string          fontName,   componentName;
+    unsigned int    fontSize;
 
     // загружаем свойства объекта
     x               =   getXMLAttribute<int>(element, "x", 0);
@@ -108,6 +109,7 @@ void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* 
     height          =   static_cast<unsigned int>(getXMLAttribute<int>(element, "height", 100));
 
     fontName        =   getXMLAttribute<string>(element, "font", DEFAULT_FONT);
+    fontSize        =   static_cast<unsigned int>(getXMLAttribute<int>(element, "font_size", 12));
     componentName   =   getXMLAttribute<string>(element, "name");
 
     component->setRect(x, y, width, height);
@@ -115,6 +117,8 @@ void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* 
     try {
 
         boost::shared_ptr<Font> font = resourceManager_->getResource<Font>(fontName);
+
+        font->setSize(fontSize);
 
         component->setFont(*font);
 

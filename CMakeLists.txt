@@ -61,19 +61,11 @@ set(ENGINE_GAME_STATES_SOURCES
 
 set(ENGINE_SOURCES
     ${ENGINE_GAME_STATES_SOURCES}
-    ${SRC_DIR}/Engine/DynamicObject.cpp
     ${SRC_DIR}/Engine/Game.cpp
-    ${SRC_DIR}/Engine/Location.cpp
-    ${SRC_DIR}/Engine/Object.cpp
-    ${SRC_DIR}/Engine/Renderer.cpp
-    ${SRC_DIR}/Engine/SaltEngine.cpp
-    ${SRC_DIR}/Engine/StaticObject.cpp
-    ${SRC_DIR}/Engine/World.cpp
 )
 
 set(LUA_API_SOURCES
     ${SRC_DIR}/LuaAPI/LuaAPI.cpp
-    ${SRC_DIR}/LuaAPI/Object_wrapper.cpp
     ${SRC_DIR}/LuaAPI/Sprite_wrapper.cpp
 )
 
@@ -147,28 +139,12 @@ set(ENGINE_GAME_STATES_HEADERS
 
 set(ENGINE_HEADERS
     ${ENGINE_GAME_STATES_HEADERS}
-    ${INCLUDE_DIR}/Engine/Camera.hpp
-    ${INCLUDE_DIR}/Engine/Client.hpp
-    ${INCLUDE_DIR}/Engine/Collision.hpp
-    ${INCLUDE_DIR}/Engine/Direction.hpp
-    ${INCLUDE_DIR}/Engine/DynamicObject.hpp
     ${INCLUDE_DIR}/Engine/Game.hpp
     ${INCLUDE_DIR}/Engine/GameStates.hpp
-    ${INCLUDE_DIR}/Engine/IController.hpp
-    ${INCLUDE_DIR}/Engine/IUpdatable.hpp
-    ${INCLUDE_DIR}/Engine/Location.hpp
-    ${INCLUDE_DIR}/Engine/Object.hpp
-    ${INCLUDE_DIR}/Engine/Player.hpp
-    ${INCLUDE_DIR}/Engine/PCClient.hpp
-    ${INCLUDE_DIR}/Engine/Renderer.hpp
-    ${INCLUDE_DIR}/Engine/SaltEngine.hpp
-    ${INCLUDE_DIR}/Engine/StaticObject.hpp
-    ${INCLUDE_DIR}/Engine/World.hpp
 )
 
 set(LUA_API_HEADERS
     ${INCLUDE_DIR}/LuaAPI/LuaAPI.hpp
-    ${INCLUDE_DIR}/LuaAPI/Object_wrapper.hpp
     ${INCLUDE_DIR}/LuaAPI/Sprite_wrapper.hpp
 )
 

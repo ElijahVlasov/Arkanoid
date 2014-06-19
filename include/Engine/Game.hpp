@@ -11,7 +11,6 @@
 
 #include <lua.hpp>
 
-#include <Engine/SaltEngine.hpp>
 #include <Engine/GameStates.hpp>
 
 #include <LuaAPI.hpp>

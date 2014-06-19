@@ -39,7 +39,7 @@ StartLogoState::StartLogoState() throw(runtime_error):
     hello_ = resourceManager_->getResource<Sound>("sounds/hello.ogg");
     logo_  = resourceManager_->getResource<Texture>("textures/logo.png");
 
-    helloPlayer_ = boost::shared_ptr<SoundPlayer>(new SoundPlayer(hello_));
+    helloPlayer_ = boost::shared_ptr<SoundPlayer>(audioManager_->createSoundPlayer(hello_));
 
 }
 

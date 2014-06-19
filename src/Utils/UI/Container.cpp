@@ -6,6 +6,8 @@
 #include <Utils/UI/Container.hpp>
 #include <Utils/UI/Event.hpp>
 
+#include "gl_includes.h"
+
 using namespace std;
 
 using namespace Utils::UI;
@@ -135,10 +137,17 @@ void Container::onDraw(Component* sender, Event&) {
 
 void Container::drawChildren() {
 
+    /*glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glTranslatef(getX(), getY(), 0.0f);
+    glScalef(getWidth() / 100.0f, getHeight() / 100.0f, 0.0f);*/
+
     BOOST_FOREACH(Container::children_ptr child, components_) {
 
         child->draw();
 
     }
+
+    //glPopMatrix();
 
 }

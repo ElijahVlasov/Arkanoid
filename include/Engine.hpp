@@ -1,16 +1,8 @@
 ﻿#ifndef _SALT2D_ENGINE_HPP
 #define _SALT2D_ENGINE_HPP
 
-#include <Engine/Direction.hpp>
-#include <Engine/DynamicObject.hpp>
-#include <Engine/IController.hpp>
-#include <Engine/Location.hpp>
-#include <Engine/Object.hpp>
-#include <Engine/Player.hpp>
-#include <Engine/Renderer.hpp>
-#include <Engine/SaltEngine.hpp>
-#include <Engine/StaticObject.hpp>
-#include <Engine/World.hpp>
+#include <Engine/Game.hpp>
+#include <Engine/GameStates.hpp>
 
 
 #endif

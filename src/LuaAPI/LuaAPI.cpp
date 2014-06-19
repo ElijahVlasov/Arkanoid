@@ -230,7 +230,7 @@ LuaAPI_::LuaAPI_():
 
     ];
 
-    module(L, "engine") [
+    /*module(L, "engine") [
 
         class_<Object, Object_wrapper, ObjectPtr>("object")
             .def("on_collision",        &Object::onCollision)
@@ -251,7 +251,7 @@ LuaAPI_::LuaAPI_():
             .property("name",           &Location::getName,          (void (Location::*)(const string&))&Location::setName)
 
 
-    ];
+    ];*/
 
 }
 

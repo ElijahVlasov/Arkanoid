@@ -3,8 +3,6 @@
 
 #include <stdexcept>
 
-#include <Engine/Renderer.hpp>
-
 #include <Engine/GameStates/IGameState.hpp>
 #include <Engine/GameStates/MenuState.hpp>
 
