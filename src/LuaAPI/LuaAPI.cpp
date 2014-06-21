@@ -71,6 +71,7 @@ LuaAPI_::LuaAPI_():
         // Конструкторы для звуков и текстур
         def("sound",        &LuaAPI_::System_LoadSound),
         def("texture",      &LuaAPI_::System_LoadTexture),
+        def("font",         &LuaAPI_::System_LoadFont),
         /////////////////////////////////////
 
         def("sound_player", &LuaAPI_::System_CreateSoundPlayer),
@@ -252,6 +253,20 @@ LuaAPI_::LuaAPI_():
 
 
     ];*/
+
+}
+
+
+
+boost::shared_ptr<Font> LuaAPI_::System_LoadFont(const char* name) {
+
+    try {
+
+        return instance_->resourceManager_->getResource<Font>(name);
+
+    } catch(const std::exception&) {}
+
+    return boost::shared_ptr<Font>();
 
 }
 
