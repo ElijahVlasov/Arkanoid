@@ -16,6 +16,8 @@
 
 #include <Utils/Color.hpp>
 
+#include "salt_defines.h"
+
 namespace Utils {
 
     namespace FreeType {

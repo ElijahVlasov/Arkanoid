@@ -9,7 +9,10 @@
 #define PAUSE_MENU "ui/pause_menu.xml"
 
 #define LOADING_TEXTURE "textures/ui/loading.png"
+#define LOADING_TEXT    "loading_text"
 
 #define LOADING_ANIMATION_FRAME_PREFIX "textures/ui/loading_frame_"
+
+#define GAME_BACKGROUND "textures/game/background.png"
 
 #endif

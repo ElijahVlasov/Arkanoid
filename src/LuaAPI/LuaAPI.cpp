@@ -89,6 +89,9 @@ LuaAPI_::LuaAPI_():
         def("show_dialog",  &LuaAPI_::System_ShowDialog),
         def("show_menu",    &LuaAPI_::System_ShowMenu),
 
+        def("start_game",   &LuaAPI_::System_StartGame),
+        def("quit_game",    &LuaAPI_::System_QuitGame),
+
         class_<MouseButton>("mouse_btn")
             .enum_("") [
 
@@ -346,9 +349,9 @@ boost::shared_ptr<Menu> LuaAPI_::System_GetPauseMenu() {
 
 
 
-void LuaAPI_::System_StartGame(const char* worldName) {
+void LuaAPI_::System_StartGame() {
 
-	instance_->game_->startGame(worldName);
+	instance_->game_->startGame();
 
 }
 

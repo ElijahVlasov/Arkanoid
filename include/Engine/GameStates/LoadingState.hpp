@@ -8,10 +8,13 @@
 
 #include <Engine/GameStates/IGameState.hpp>
 
+#include <Utils/LocalizationManager.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
 
 #include <Utils/Graphics/Texture.hpp>
+
+#include <Utils/UI/Label.hpp>
 
 #include "salt_defines.h"
 
@@ -49,6 +52,8 @@ namespace Engine {
 
                 boost::shared_ptr <Utils::Graphics::Texture> loadingTexture_;
 
+                Utils::UI::Label loadingLabel_;
+
                 std::thread loadingThread_;
 
         };
@@ -60,10 +65,14 @@ namespace Engine {
             loadingThread_(loadingFunc)
         {
 
-            Utils::SingletonPointer <Utils::ResourceManager> resourceManager = Utils::ResourceManager::getInstance();
+            Utils::SingletonPointer <Utils::ResourceManager>     resourceManager     = Utils::ResourceManager::getInstance();
+            Utils::SingletonPointer <Utils::LocalizationManager> localizationManager = Utils::LocalizationManager::getInstance();
 
             loadingTexture_ = resourceManager->getResource<Utils::Graphics::Texture>(LOADING_TEXTURE);
 
+            loadingLabel_.setRect(20, 20, 200, 100);
+
+            loadingLabel_.setText(localizationManager->getString(LOADING_TEXT));
 
             loadingThread_.detach();
 

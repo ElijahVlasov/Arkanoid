@@ -37,7 +37,7 @@ namespace LuaAPI {
             static boost::shared_ptr<Utils::UI::Menu> System_GetMainMenu();
             static boost::shared_ptr<Utils::UI::Menu> System_GetPauseMenu();
 
-            static void System_StartGame(const char* worldName);
+            static void System_StartGame();
             static void System_QuitGame();
 
             static void System_Quit();

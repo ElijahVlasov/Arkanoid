@@ -99,6 +99,8 @@ namespace Engine {
 
             int getScreenHeight() const;
 
+            GameStates::IGameState* getState();
+
             /** Состояние игры.
             */
 
@@ -124,8 +126,7 @@ namespace Engine {
 
             bool isRunning() const;
 
-            void startGame(const char* worldName);
-            void startGame(const std::string& worldName);
+            void startGame();
 
             void quitGame();
 
@@ -156,6 +157,8 @@ namespace Engine {
 
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;
+
+            boost::shared_ptr<GameStates::LoadingState> loadingState_;
 
             std::exception_ptr e_;
 

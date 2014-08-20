@@ -7,16 +7,21 @@
 #include <Engine/GameStates/MenuState.hpp>
 #include <Engine/GameStates/SingleGameState.hpp>
 
+#include <Utils/Graphics/GraphicsManager.hpp>
 #include <Utils/Lua.hpp>
+#include <Utils/ResourceLoader.hpp>
+#include <Utils/SingletonPointer.hpp>
+
+#include "geometry_defines.hpp"
+#include "salt_defines.h"
 
 using namespace std;
 
 using namespace Engine;
-
 using namespace Engine::GameStates;
 
 using namespace Utils;
-
+using namespace Utils::Graphics;
 
 
 SingleGameState::SingleGameState() throw(runtime_error):
@@ -48,7 +53,13 @@ void SingleGameState::makeScreenshot() {}
 
 void SingleGameState::onRender() {
 
-//	renderer_->onRender();
+    GraphicsManager::DrawTexture(
+        GeometryDefines::BoxI(
+            GeometryDefines::PointI(0, 0),
+            GeometryDefines::PointI(game_->getScreenWidth(), game_->getScreenHeight())
+        ),
+        *background_
+    );
 
 }
 
@@ -131,6 +142,18 @@ void SingleGameState::onMouseDown(int x, int y, MouseButton btn) {
 
 
 void SingleGameState::onMouseUp(int x, int y, MouseButton btn) {
+
+
+
+}
+
+
+
+void SingleGameState::init() throw(runtime_error) {
+
+    SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
+
+    background_ = resourceManager->getResource<Texture>(GAME_BACKGROUND);
 
 
 

@@ -23,6 +23,8 @@ void LoadingState::onRemove() {}
 
 void LoadingState::onRender() {
 
+    Utils::Graphics::GraphicsManager::ClearScreen();
+
     Utils::Graphics::GraphicsManager::DrawTexture(
         GeometryDefines::BoxI(
             GeometryDefines::PointI(0, 0),
@@ -30,6 +32,8 @@ void LoadingState::onRender() {
         ),
         *loadingTexture_
     );
+
+    loadingLabel_.draw();
 
 }
 

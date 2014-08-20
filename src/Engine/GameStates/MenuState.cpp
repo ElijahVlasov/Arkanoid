@@ -63,6 +63,8 @@ void MenuState::onRender() {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
+    Utils::Graphics::GraphicsManager::ClearScreen();
+
     if(menu_ != 0) {
         menu_->draw();
     }

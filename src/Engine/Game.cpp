@@ -84,6 +84,8 @@ Game* Game::Create() throw(runtime_error) {
 
     game->setState(game->startLogoState_.get());
 
+    game->singleGameState_ = SingleGameState::getInstance();
+
     return game;
 
 }
@@ -106,10 +108,10 @@ void Game::onLoop() throw(std::exception) {
 
 void Game::onRender() {
 
-    std::lock_guard<std::mutex> guard(stateAccessMutex_);
+    IGameState* state = getState();
 
-    if(state_ != 0) {
-        state_->onRender();
+    if(state != 0) {
+        state->onRender();
     }
 
 }
@@ -118,10 +120,10 @@ void Game::onRender() {
 
 void Game::onKeyDown(int key) {
 
-    std::lock_guard<std::mutex> guard(stateAccessMutex_);
+    IGameState* state = getState();
 
-    if(state_ != 0) {
-        state_->onKeyDown(key);
+    if(state != 0) {
+        state->onKeyDown(key);
     }
 
 }
@@ -130,10 +132,10 @@ void Game::onKeyDown(int key) {
 
 void Game::onKeyUp(int key) {
 
-    std::lock_guard<std::mutex> guard(stateAccessMutex_);
+    IGameState* state = getState();
 
-    if(state_ != 0) {
-        state_->onKeyUp(key);
+    if(state != 0) {
+        state->onKeyUp(key);
     }
 
 }
@@ -142,10 +144,10 @@ void Game::onKeyUp(int key) {
 
 void Game::onMouseMotion(int x, int y) {
 
-    std::lock_guard<std::mutex> guard(stateAccessMutex_);
+    IGameState* state = getState();
 
-    if(state_ != 0) {
-        state_->onMouseMotion(x, y);
+    if(state != 0) {
+        state->onMouseMotion(x, y);
     }
 
 }
@@ -154,10 +156,10 @@ void Game::onMouseMotion(int x, int y) {
 
 void Game::onMouseDown(int x, int y, MouseButton btn) {
 
-    std::lock_guard<std::mutex> guard(stateAccessMutex_);
+    IGameState* state = getState();
 
-    if(state_ != 0) {
-        state_->onMouseDown(x, y, btn);
+    if(state != 0) {
+        state->onMouseDown(x, y, btn);
     }
 
 }
@@ -166,10 +168,10 @@ void Game::onMouseDown(int x, int y, MouseButton btn) {
 
 void Game::onMouseUp(int x, int y, MouseButton btn) {
 
-    std::lock_guard<std::mutex> guard(stateAccessMutex_);
+    IGameState* state = getState();
 
-    if(state_ != 0) {
-        state_->onMouseUp(x, y, btn);
+    if(state != 0) {
+        state->onMouseUp(x, y, btn);
     }
 
 }
@@ -183,10 +185,10 @@ void Game::setScreenRect(unsigned int width, unsigned int height) {
     scrHeight_ =  height;
     scrWidth_  =  width;
 
-    std::lock_guard<std::mutex> stateGuard(stateAccessMutex_);
+    IGameState* state = getState();
 
-    if(state_ != 0) {
-        state_->onResize(width, height);
+    if(state != 0) {
+        state->onResize(width, height);
     }
 
 }
@@ -208,6 +210,16 @@ int Game::getScreenWidth() const {
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     return scrWidth_;
+
+}
+
+
+
+IGameState* Game::getState() {
+
+    std::lock_guard<std::mutex> guard(stateAccessMutex_);
+
+    return state_;
 
 }
 
@@ -289,19 +301,27 @@ bool Game::isRunning() const {
 
 
 
-void Game::startGame(const char* worldName) {
+void Game::startGame() {
 
-    singleGameState_ = SingleGameState::getInstance();
+    loadingState_ = boost::shared_ptr<LoadingState>(
 
-    setState(singleGameState_.get());
+        new LoadingState(
 
-}
+            [this] () {
 
+                this->singleGameState_->init();
 
+                this->setState(this->singleGameState_.get());
 
-void Game::startGame(const string& worldName) {
+                this->loadingState_ = 0;
 
-    startGame(worldName.c_str());
+            }
+
+        )
+
+    );
+
+    setState(loadingState_.get());
 
 }
 

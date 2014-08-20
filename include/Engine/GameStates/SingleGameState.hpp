@@ -3,12 +3,15 @@
 
 #include <stdexcept>
 
+#include <boost/shared_ptr.hpp>
+
 #include <Engine/GameStates/IGameState.hpp>
 #include <Engine/GameStates/MenuState.hpp>
 
 #include <Utils/Lua.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
+#include <Utils/Graphics/Texture.hpp>
 
 namespace Engine {
 
@@ -39,6 +42,8 @@ namespace Engine {
                 void onMouseDown(int x, int y, Utils::MouseButton mouseButton);
                 void onMouseUp(int x, int y, Utils::MouseButton mouseButton);
 
+                void init() throw(std::runtime_error);
+
             protected:
 
                 SingleGameState() throw(std::runtime_error);
@@ -53,6 +58,8 @@ namespace Engine {
                 Utils::SingletonPointer<Utils::Lua>        	lua_;
 
                 Utils::SingletonPointer<MenuState>          menuState_;
+
+                boost::shared_ptr<Utils::Graphics::Texture> background_;
 
         };
 
