@@ -4,8 +4,8 @@ project(Arkanoid)
 
 set(${PROJECT_NAME}_PROJECT_NAME ${PROJECT_NAME})
 
-set(${PROJECT_NAME}_VERSION_MAJOR 0)
-set(${PROJECT_NAME}_VERSION_MINOR 1)
+set(VERSION_MAJOR 1)
+set(VERSION_MINOR 0)
 
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -62,6 +62,7 @@ set(ENGINE_GAME_STATES_SOURCES
 set(ENGINE_SOURCES
     ${ENGINE_GAME_STATES_SOURCES}
     ${SRC_DIR}/Engine/Game.cpp
+    ${SRC_DIR}/Engine/Platform.cpp
 )
 
 set(LUA_API_SOURCES
@@ -141,6 +142,8 @@ set(ENGINE_HEADERS
     ${ENGINE_GAME_STATES_HEADERS}
     ${INCLUDE_DIR}/Engine/Game.hpp
     ${INCLUDE_DIR}/Engine/GameStates.hpp
+    ${INCLUDE_DIR}/Engine/Object.hpp
+    ${INCLUDE_DIR}/Engine/Platform.hpp
 )
 
 set(LUA_API_HEADERS

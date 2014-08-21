@@ -11,6 +11,10 @@
 #include <Utils/Lua.hpp>
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
+
+#include <Utils/Audio/Sound.hpp>
+#include <Utils/Audio/SoundPlayer.hpp>
+
 #include <Utils/Graphics/Texture.hpp>
 
 namespace Engine {
@@ -53,13 +57,16 @@ namespace Engine {
                 void showDebugInfo();
                 void makeScreenshot();
 
-                Utils::SingletonPointer<Engine::Game>       game_;
+                Utils::SingletonPointer<Engine::Game>           game_;
 
-                Utils::SingletonPointer<Utils::Lua>        	lua_;
+                Utils::SingletonPointer<Utils::Lua>        	    lua_;
 
-                Utils::SingletonPointer<MenuState>          menuState_;
+                Utils::SingletonPointer<MenuState>              menuState_;
 
-                boost::shared_ptr<Utils::Graphics::Texture> background_;
+                boost::shared_ptr<Utils::Graphics::Texture>     background_;
+                boost::shared_ptr<Utils::Audio::Sound>          music_;
+
+                boost::shared_ptr<Utils::Audio::SoundPlayer>    musicPlayer_;
 
         };
 

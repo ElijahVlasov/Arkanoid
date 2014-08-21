@@ -1,16 +1,21 @@
 #include <stdexcept>
 
-#include <SDL/SDL_keysym.h>
+#include <SDL/SDL_keycode.h>
 
 #include <Engine/Game.hpp>
 
 #include <Engine/GameStates/MenuState.hpp>
 #include <Engine/GameStates/SingleGameState.hpp>
 
-#include <Utils/Graphics/GraphicsManager.hpp>
 #include <Utils/Lua.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/SingletonPointer.hpp>
+
+#include <Utils/Audio/AudioManager.hpp>
+#include <Utils/Audio/Sound.hpp>
+#include <Utils/Audio/SoundPlayer.hpp>
+
+#include <Utils/Graphics/GraphicsManager.hpp>
 
 #include "geometry_defines.hpp"
 #include "salt_defines.h"
@@ -21,6 +26,7 @@ using namespace Engine;
 using namespace Engine::GameStates;
 
 using namespace Utils;
+using namespace Utils::Audio;
 using namespace Utils::Graphics;
 
 
@@ -35,11 +41,19 @@ void SingleGameState::quit() {}
 
 
 
-void SingleGameState::onActive() {}
+void SingleGameState::onActive() {
+
+    musicPlayer_->play();
+
+}
 
 
 
-void SingleGameState::onRemove() {}
+void SingleGameState::onRemove() {
+
+    musicPlayer_->pause();
+
+}
 
 
 
@@ -152,9 +166,14 @@ void SingleGameState::onMouseUp(int x, int y, MouseButton btn) {
 void SingleGameState::init() throw(runtime_error) {
 
     SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
+    SingletonPointer<AudioManager>    audioManager    = AudioManager::getInstance();
 
-    background_ = resourceManager->getResource<Texture>(GAME_BACKGROUND);
+    background_  = resourceManager->getResource<Texture>(GAME_BACKGROUND);
 
+    music_       = resourceManager->getResource<Sound>(GAME_MUSIC);
 
+    musicPlayer_ = audioManager->createSoundPlayer(music_);
+
+    musicPlayer_->setLooping(true);
 
 }

@@ -1,8 +1,8 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define BattleFight_VERSION_MAJOR @BattleFight_VERSION_MAJOR@
-#define BattleFight_VERSION_MINOR @BattleFight_VERSION_MINOR@
-#define BattleFight_PROJECT_NAME  "@BattleFight_PROJECT_NAME@"
+#define VERSION_MAJOR @VERSION_MAJOR@
+#define VERSION_MINOR @VERSION_MINOR@
+#define PROJECT_NAME  "@PROJECT_NAME@"
 
 #endif

@@ -309,11 +309,19 @@ void Game::startGame() {
 
             [this] () {
 
-                this->singleGameState_->init();
+                try {
 
-                this->setState(this->singleGameState_.get());
+                    this->singleGameState_->init();
 
-                this->loadingState_ = 0;
+                    this->setState(this->singleGameState_.get());
+
+                    this->loadingState_ = 0;
+
+                } catch(...) {
+
+                    this->setException(current_exception());
+
+                }
 
             }
 

@@ -14,5 +14,6 @@
 #define LOADING_ANIMATION_FRAME_PREFIX "textures/ui/loading_frame_"
 
 #define GAME_BACKGROUND "textures/game/background.png"
+#define GAME_MUSIC      "sounds/game/fon.ogg"
 
 #endif

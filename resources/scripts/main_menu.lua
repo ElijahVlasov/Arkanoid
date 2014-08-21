@@ -8,3 +8,9 @@ function new_game_click(event)
     system.start_game()
 
 end
+
+function exit_click(event)
+
+    system.exit()
+
+end

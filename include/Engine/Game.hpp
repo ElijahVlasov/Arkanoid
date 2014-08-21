@@ -142,18 +142,18 @@ namespace Engine {
 
             static const std::chrono::milliseconds START_LOGO_DURATION;
 
-            Utils::SingletonPointer<Utils::Audio::AudioManager>    audioManager_;
-            Utils::SingletonPointer<Utils::Lua>             lua_;
+            Utils::SingletonPointer<Utils::Audio::AudioManager>             audioManager_;
+            Utils::SingletonPointer<Utils::Lua>                             lua_;
 
-            Utils::SingletonPointer<LuaAPI::LuaAPI_>        luaAPI_;
+            Utils::SingletonPointer<LuaAPI::LuaAPI_>                        luaAPI_;
 
-            Utils::SingletonPointer<Utils::ResourceManager> resourceManager_;
+            Utils::SingletonPointer<Utils::ResourceManager>                 resourceManager_;
 
-            Utils::SingletonPointer<Utils::UI::MenuBuilder> menuBuilder_;
+            Utils::SingletonPointer<Utils::UI::MenuBuilder>                 menuBuilder_;
 
-            Utils::SingletonPointer<Utils::Graphics::GraphicsManager>      graphicsManager_;
+            Utils::SingletonPointer<Utils::Graphics::GraphicsManager>       graphicsManager_;
 
-            Utils::SingletonPointer<Utils::Graphics::TextureManager>  textureManager_;
+            Utils::SingletonPointer<Utils::Graphics::TextureManager>        textureManager_;
 
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;

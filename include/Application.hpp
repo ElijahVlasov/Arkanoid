@@ -80,7 +80,7 @@ class Application: public boost::noncopyable {
           * @param unicode Юникодовый транслированный символ клавиши
         */
 
-        void OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode);
+        void OnKeyUp(SDL_Keycode key, Uint16 mod);
 
         /** Клавиша отпущена.
           * @param key код клавиши
@@ -88,7 +88,7 @@ class Application: public boost::noncopyable {
           * @param unicode Юникодовый транслированный символ клавиши
         */
 
-        void OnKeyDown(SDLKey key, SDLMod mod, Uint16 unicode);
+        void OnKeyDown(SDL_Keycode key, Uint16 mod);
 
         /** Кнопка мыши зажата.
           * @param x координата курсора
@@ -121,7 +121,7 @@ class Application: public boost::noncopyable {
 
         void setLocale() throw(std::runtime_error);
 
-        static const boost::uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL;
+        //static const boost::uint32_t SDL_FLAGS = SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL;
 
         bool isFullscreen_;
 
@@ -130,7 +130,7 @@ class Application: public boost::noncopyable {
 		Utils::SingletonPointer<Utils::ResourceManager>			resourceManager_;
 		Utils::SingletonPointer<Engine::Game>            		game_;
 
-        SDL_Surface* surface_;
+        SDL_Window* window_;
 
         bool isRunning_;
 

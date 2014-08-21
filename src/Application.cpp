@@ -1,4 +1,5 @@
 #include <boost/cstdint.hpp>
+#include <boost/format.hpp>
 
 #include <exception>
 #include <locale>
@@ -34,15 +35,21 @@ Application::Application() throw(runtime_error):
     isFullscreen_(false),
     localizationManager_(LocalizationManager::getInstance()),
     resourceLoader_(PCResourceLoader::getInstance()),
-    resourceManager_(ResourceManager::getInstance()),
-    surface_(0)
+    resourceManager_(ResourceManager::getInstance())
 {
 
 	resourceManager_->setResourceLoader(resourceLoader_.get());
 
 	setLocale();
 
-    initSDL(800, 600, BattleFight_PROJECT_NAME);
+    initSDL(
+        640, 480,
+        (boost::format("%1% v%2%.%3%")
+            % PROJECT_NAME
+            % VERSION_MAJOR
+            % VERSION_MINOR
+        ).str().c_str()
+    );
 
 }
 
@@ -63,19 +70,37 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
         runtime_error("Can't load SDL library!")
     );
 
-    // Задаем иконку и заголовок окна
-    ::SDL_WM_SetCaption(name, 0);
+    string iconName = (boost::format("%1%/icon.bmp")
+        % RESOURCE_PATH
+    ).str();
 
+    Uint32          colorkey;
+    SDL_Surface     *image;
+
+    image = ::SDL_LoadBMP(iconName.c_str());
+
+    //colorkey = ::SDL_MapRGBA(image->format, 255, 255, 255, 255);
+
+    ::SDL_SetColorKey(image, SDL_TRUE, colorkey);
+
+    window_ = ::SDL_CreateWindow(name,
+                            SDL_WINDOWPOS_CENTERED,
+                            SDL_WINDOWPOS_CENTERED,
+                            width, height,
+                            SDL_WINDOW_OPENGL);
+
+    ::SDL_SetWindowIcon(window_, image);
+    ::SDL_GL_CreateContext(window_);
 
     // Задаем параметры OpenGL
-    ::SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
+    /*::SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
     ::SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
     ::SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
     ::SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
 
 
     ::SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
-    ::SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);
+    ::SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);*/
  /**/
     // под X11 не работает:
     // ::SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,    8);
@@ -85,7 +110,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
 
     //::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
     //::SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
-    setSurfaceSize(640, 480);
+    //setSurfaceSize(width, height);
 
 }
 
@@ -93,7 +118,7 @@ void Application::initSDL(unsigned int width, unsigned int height, const char* n
 
 void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(std::runtime_error) {
 
-    uint32_t flags = SDL_FLAGS;
+    /*uint32_t flags = SDL_FLAGS;
 
     if(surface_ != 0) { // удаляем предыдущий surface
         ::SDL_FreeSurface(surface_);
@@ -108,7 +133,7 @@ void Application::setSurfaceSize(unsigned int width, unsigned int height) throw(
     ASSERT(
         (surface_ != 0),
         runtime_error(::SDL_GetError())
-    );
+    );*/
 
 }
 
@@ -193,16 +218,17 @@ void Application::OnRender() {
     scrWidth  = game_->getScreenWidth();
     scrHeight = game_->getScreenHeight();
 
-    if( (scrWidth != static_cast<unsigned int>(surface_->w) )
+    /*if( (scrWidth != static_cast<unsigned int>(surface_->w) )
         || (scrHeight != static_cast<unsigned int>(surface_->h)) ) { // если измененно, то меняем размер surface'а
 
         setSurfaceSize(scrWidth, scrHeight);
 
-    }
+    }*/
+    ::SDL_SetWindowSize(window_, scrWidth, scrHeight);
 
     game_->onRender();
 
-    ::SDL_GL_SwapBuffers();
+    ::SDL_GL_SwapWindow(window_);
 
 }
 
@@ -224,12 +250,21 @@ void Application::OnRestore() {
 
 
 
-void Application::OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode) {
+void Application::OnKeyUp(SDL_Keycode key, Uint16 mod) {
 
     if(key == SDLK_F11) {
 
-        isFullscreen_ = !isFullscreen_;
-        setSurfaceSize(surface_->w, surface_->h);
+        if(!isFullscreen_ ) {
+
+            ::SDL_SetWindowFullscreen(window_, SDL_WINDOW_FULLSCREEN);
+            isFullscreen_ = true;
+
+        } else {
+
+            ::SDL_SetWindowFullscreen(window_, 0);
+            isFullscreen_ = false;
+
+        }
 
     } else {
 
@@ -241,7 +276,7 @@ void Application::OnKeyUp(SDLKey key, SDLMod mod, Uint16 unicode) {
 
 
 
-void Application::OnKeyDown(SDLKey key, SDLMod mod, Uint16 unicode) {
+void Application::OnKeyDown(SDL_Keycode key, Uint16 mod) {
 
 
     game_->onKeyDown(static_cast<int>(key));
@@ -347,20 +382,19 @@ void Application::OnEvent(SDL_Event* event) {
         }
         break;
 
-        case SDL_ACTIVEEVENT: {
+        case SDL_WINDOWEVENT: {
 
-            if(event->active.state != SDL_APPACTIVE) {
-                return;
-            }
+            switch (event->window.event) {
 
-            // если приложение развертывается
-            if(event->active.gain) {
+                case SDL_WINDOWEVENT_SHOWN:
 
-                OnRestore();
+                    OnRestore();
+                    break;
 
-            } else { // если свертывается
+                case SDL_WINDOWEVENT_HIDDEN:
 
-                OnMinimize();
+                    OnMinimize();
+                    break;
 
             }
 
@@ -370,8 +404,7 @@ void Application::OnEvent(SDL_Event* event) {
         case SDL_KEYDOWN: { // по нажатию клавиши
 
             OnKeyDown(event->key.keysym.sym,
-                        event->key.keysym.mod,
-                            event->key.keysym.unicode);
+                            event->key.keysym.mod);
 
         }
         break;
@@ -379,8 +412,7 @@ void Application::OnEvent(SDL_Event* event) {
         case SDL_KEYUP: { // по отпусканию клавиши
 
             OnKeyUp(event->key.keysym.sym,
-                        event->key.keysym.mod,
-                            event->key.keysym.unicode);
+                            event->key.keysym.mod);
 
         }
         break;
