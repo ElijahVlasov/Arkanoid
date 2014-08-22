@@ -63,6 +63,10 @@ void LoadingState::onMouseUp(int x, int y, Utils::MouseButton btn) {}
 
 
 
+void LoadingState::onLoop() {}
+
+
+
 Utils::SingletonPointer<Game> LoadingState::getGame() {
 
     return Utils::SingletonPointer<Game>(Game::getInstance());

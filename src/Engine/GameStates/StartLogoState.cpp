@@ -106,3 +106,7 @@ void StartLogoState::onMouseDown(int x, int y, Utils::MouseButton btn) {}
 
 
 void StartLogoState::onMouseUp(int x, int y, Utils::MouseButton btn) {}
+
+
+
+void StartLogoState::onLoop() {}

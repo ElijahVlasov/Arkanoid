@@ -158,9 +158,9 @@ namespace Engine {
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;
 
-            boost::shared_ptr<GameStates::LoadingState> loadingState_;
+            boost::shared_ptr<GameStates::LoadingState> loadingState_; // Загрузочный экран. Находится здесь, чтобы не было утечек памяти. Обнулять указатель, если в загрузке нет необходимости.
 
-            std::exception_ptr e_;
+            std::exception_ptr e_; // Исключения из других потоков
 
             bool isAudioThreadNeed_;
 

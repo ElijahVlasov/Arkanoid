@@ -1,9 +1,14 @@
 #ifndef _SALT2D_ENGINE_GAMESTATES_SINGLEGAMESTATE_HPP
 #define _SALT2D_ENGINE_GAMESTATES_SINGLEGAMESTATE_HPP
 
+#include <chrono>
 #include <stdexcept>
 
 #include <boost/shared_ptr.hpp>
+
+#include <Engine/Ball.hpp>
+#include <Engine/Block.hpp>
+#include <Engine/Platform.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
 #include <Engine/GameStates/MenuState.hpp>
@@ -30,8 +35,6 @@ namespace Engine {
 
             public:
 
-                void quit();
-
                 void onActive();
                 void onRemove();
 
@@ -46,13 +49,21 @@ namespace Engine {
                 void onMouseDown(int x, int y, Utils::MouseButton mouseButton);
                 void onMouseUp(int x, int y, Utils::MouseButton mouseButton);
 
+                void onLoop();
+
                 void init() throw(std::runtime_error);
+                void quit();
+
+                float getWorldWidth()  const;
+                float getWorldHeight() const;
 
             protected:
 
                 SingleGameState() throw(std::runtime_error);
 
             private:
+
+                static const std::chrono::milliseconds LOADING_DURATION;
 
                 void showDebugInfo();
                 void makeScreenshot();
@@ -67,6 +78,13 @@ namespace Engine {
                 boost::shared_ptr<Utils::Audio::Sound>          music_;
 
                 boost::shared_ptr<Utils::Audio::SoundPlayer>    musicPlayer_;
+
+                boost::shared_ptr<Engine::Platform>             platform_;
+
+                bool isPlatformClicked_;
+                int  lastMouseX_;
+                boost::shared_ptr<Block> blocks_[6][8];
+                boost::shared_ptr<Ball>  ball_;
 
         };
 

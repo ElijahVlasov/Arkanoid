@@ -50,6 +50,8 @@ namespace Engine {
                 virtual void onMouseDown(int x, int y, Utils::MouseButton mouseButton) = 0;
                 virtual void onMouseUp(int x, int y, Utils::MouseButton mouseButton) = 0;
 
+                virtual void onLoop() = 0;
+
         };
 
     }

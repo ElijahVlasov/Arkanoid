@@ -42,7 +42,7 @@ Font::Font(const string& fontData) throw(std::runtime_error):
 {
 
     color_[0] = 0.0f;
-    color_[1] = 0.5f;
+    color_[1] = 0.0f;
     color_[2] = 0.0f;
     color_[3] = 0.0f;
 

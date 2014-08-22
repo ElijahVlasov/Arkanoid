@@ -142,3 +142,7 @@ void MenuState::onMouseUp(int x, int y, Utils::MouseButton btn) {
     }
 
 }
+
+
+
+void MenuState::onLoop() {}

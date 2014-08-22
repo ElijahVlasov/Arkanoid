@@ -43,6 +43,8 @@ namespace Engine {
                 void onMouseDown(int x, int y, Utils::MouseButton mouseButton);
                 void onMouseUp(int x, int y, Utils::MouseButton mouseButton);
 
+                void onLoop();
+
             protected:
 
                 StartLogoState() throw(std::runtime_error);

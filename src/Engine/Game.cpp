@@ -28,6 +28,7 @@
 #include <Utils/Graphics/GraphicsManager.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
 
+#include <Utils/UI/Label.hpp>
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuBuilder.hpp>
 
@@ -96,10 +97,16 @@ void Game::onLoop() throw(std::exception) {
 
     textureManager_->update();
 
-    exception_ptr e = getException();
+    exception_ptr e = getException(); // Получаем исключения из других потоков...
 
     if(e != 0) {
-        rethrow_exception(e);
+        rethrow_exception(e);         // ...и генерируем их еще раз
+    }
+
+    IGameState* state = getState();
+
+    if(state != 0) {
+        state->onLoop();
     }
 
 }
@@ -303,6 +310,8 @@ bool Game::isRunning() const {
 
 void Game::startGame() {
 
+    // Запускаем загрузку
+
     loadingState_ = boost::shared_ptr<LoadingState>(
 
         new LoadingState(
@@ -311,11 +320,11 @@ void Game::startGame() {
 
                 try {
 
-                    this->singleGameState_->init();
+                    this->singleGameState_->init(); // Инициализация игры
 
                     this->setState(this->singleGameState_.get());
 
-                    this->loadingState_ = 0;
+                    this->loadingState_ = 0; // Удаляем загрузочный экран
 
                 } catch(...) {
 

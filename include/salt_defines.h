@@ -16,4 +16,7 @@
 #define GAME_BACKGROUND "textures/game/background.png"
 #define GAME_MUSIC      "sounds/game/fon.ogg"
 
+#define PLATFORM_TEXTURE "textures/game/platform.png"
+#define BALL_TEXTURE "textures/game/ball.png"
+
 #endif
