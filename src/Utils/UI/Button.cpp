@@ -105,7 +105,7 @@ void Button::drawText() {
 
             xOffset = (width - rect.width) / 2;
 
-            width = 10000.0f;
+            width = -1.0f;
 
         }
 
@@ -113,7 +113,7 @@ void Button::drawText() {
 
             yOffset = (height - rect.height) / 2;
 
-            height = 10000.0f;
+            height = -1.0f;
 
         }
 

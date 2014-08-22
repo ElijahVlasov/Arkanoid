@@ -228,10 +228,8 @@ void Font::renderText(const wchar_t* wText, float x, float y, float width, float
     glColor3fv(color_.c_array());
 
     font_->Render(wText,
-                    textLen,
-                    FTPoint(static_cast<FTGL_FLOAT>(x), static_cast<FTGL_FLOAT>(y)),
-                    FTPoint(),
-                    FTGL::RENDER_ALL);
+                  textLen,
+                  FTPoint(static_cast<FTGL_FLOAT>(x), static_cast<FTGL_FLOAT>(y)));
 
     glPopAttrib();
     glPopMatrix();
