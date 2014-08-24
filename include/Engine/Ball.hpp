@@ -1,9 +1,12 @@
 #ifndef _SALT2D_ENGINE_BALL_HPP
 #define _SALT2D_ENGINE_BALL_HPP
 
+#include <chrono>
 #include <stdexcept>
 
 #include <boost/shared_ptr.hpp>
+
+#include <Engine/Object.hpp>
 
 #include <Utils/Graphics/Texture.hpp>
 
@@ -11,17 +14,16 @@
 
 namespace Engine {
 
-    class Ball {
+    class Ball: public Object {
 
         public:
 
             Ball(const GeometryDefines::Point& center, float radius, bool isSleep, float xSpeed = 0.0f, float ySpeed = 0.0f) throw(std::runtime_error);
+            ~Ball();
 
             void move(float x, float y);
 
             void update();
-
-            void draw();
 
             void sleep();
             void awake();
@@ -41,13 +43,16 @@ namespace Engine {
             float getYSpeed() const;
             void setYSpeed(float ySpeed);
 
+            GeometryDefines::Box getRect() const;
+
         private:
 
             static const float STEP;
+            static const std::chrono::milliseconds STEP_TIME;
+
+            std::chrono::system_clock::time_point lastUpdate_;
 
             bool isSleep_;
-
-            boost::shared_ptr<Utils::Graphics::Texture> texture_;
 
             GeometryDefines::Point center_;
 

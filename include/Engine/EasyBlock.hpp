@@ -17,12 +17,7 @@ namespace Engine {
 
             EasyBlock(const GeometryDefines::Box& rect) throw(std::runtime_error);
 
-            void draw();
             bool crash();
-
-        private:
-
-            boost::shared_ptr<Utils::Graphics::Texture> texture_;
 
     };
 

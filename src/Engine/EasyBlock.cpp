@@ -2,11 +2,8 @@
 
 #include <Engine/EasyBlock.hpp>
 
-#include <Utils/ResourceManager.hpp>
-#include <Utils/SingletonPointer.hpp>
-
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/Texture.hpp>
+#include <Utils/Graphics/SpriteBuilder.hpp>
 
 #include "geometry_defines.hpp"
 
@@ -21,17 +18,7 @@ EasyBlock::EasyBlock(const GeometryDefines::Box& rect) throw(runtime_error):
     Block(rect)
 {
 
-    SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
-
-    texture_ = resourceManager->getResource<Texture>("textures/game/easyblock.png");
-
-}
-
-
-
-void EasyBlock::draw() {
-
-    GraphicsManager::DrawTexture(getRect(), *texture_);
+    setSprite(SpriteBuilder::createSprite("textures/game/easyblock.png", SpriteBuilder::SpriteType::STATIC));
 
 }
 

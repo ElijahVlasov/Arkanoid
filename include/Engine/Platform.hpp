@@ -7,6 +7,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Engine/Ball.hpp>
+#include <Engine/Object.hpp>
 
 #include <Utils/SingletonPointer.hpp>
 
@@ -22,7 +23,7 @@ namespace Engine {
         class SingleGameState;
     }
 
-    class Platform {
+    class Platform: public Object {
 
         public:
 
@@ -32,14 +33,14 @@ namespace Engine {
             };
 
             Platform(const GeometryDefines::Box& rect) throw(std::runtime_error);
-
-            void draw();
+            ~Platform();
 
             void move(MovingDirection dir, float step = PLATFORM_STEP);
 
-            inline const GeometryDefines::Box getRect() const { return rect_; }
+            GeometryDefines::Box getRect() const;
 
             void bindBall(const boost::shared_ptr<Ball>& ball);
+            void pushBall();
 
         private:
 

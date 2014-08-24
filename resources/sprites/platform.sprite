@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<sprite>
+    <frame duration="100" texture="textures/game/platform1.png" />
+    <frame duration="100" texture="textures/game/platform2.png" />
+    <frame duration="100" texture="textures/game/platform3.png" />
+    <frame duration="100" texture="textures/game/platform4.png" />
+    <frame duration="100" texture="textures/game/platform5.png" />
+    <frame duration="100" texture="textures/game/platform6.png" />
+    <frame duration="100" texture="textures/game/platform5.png" />
+    <frame duration="100" texture="textures/game/platform4.png" />
+    <frame duration="100" texture="textures/game/platform3.png" />
+    <frame duration="100" texture="textures/game/platform2.png" />
+    <frame duration="100" texture="textures/game/platform1.png" />
+</sprite>

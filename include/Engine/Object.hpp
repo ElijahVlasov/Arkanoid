@@ -3,19 +3,28 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <Utils/Graphics/Sprite.hpp>
+
+#include "geometry_defines.hpp"
+
 namespace Engine {
 
     class Object {
 
         public:
 
-            Object() {}
-            virtual ~Object() {}
+            virtual ~Object();
 
-            virtual void collision(const boost::shared_ptr<Object>& object) = 0;
-            virtual void update() = 0;
-            virtual void draw() = 0;
-      //      virtual void checkCollision()
+            virtual void draw();
+
+            void setSprite(const boost::shared_ptr<Utils::Graphics::Sprite>& sprite);
+            const boost::shared_ptr<Utils::Graphics::Sprite>& getSprite() const;
+
+            virtual GeometryDefines::Box getRect() const = 0;
+
+        private:
+
+            boost::shared_ptr<Utils::Graphics::Sprite> sprite_;
 
     };
 

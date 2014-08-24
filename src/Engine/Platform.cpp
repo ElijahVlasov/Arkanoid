@@ -8,11 +8,8 @@
 
 #include <Engine/GameStates/SingleGameState.hpp>
 
-#include <Utils/ResourceManager.hpp>
-#include <Utils/SingletonPointer.hpp>
-
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/Texture.hpp>
+#include <Utils/Graphics/SpriteBuilder.hpp>
 
 #include "salt_defines.h"
 
@@ -31,21 +28,13 @@ Platform::Platform(const GeometryDefines::Box& rect) throw(runtime_error):
     singleGame_(SingleGameState::getInstance())
 {
 
-    SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
-
-    texture_ = resourceManager->getResource<Texture>(PLATFORM_TEXTURE);
+    setSprite(SpriteBuilder::createSprite(PLATFORM_SPRITE, SpriteBuilder::ANIMATION));
 
 }
 
 
 
-void Platform::draw() {
-
-    std::lock_guard<std::mutex> guard(synchroMutex_);
-
-    GraphicsManager::DrawTexture(rect_, *texture_);
-
-}
+Platform::~Platform() {}
 
 
 
@@ -104,6 +93,37 @@ void Platform::move(Platform::MovingDirection dir, float step) {
 
 void Platform::bindBall(const boost::shared_ptr<Ball>& ball) {
 
+    if(ball == 0) {
+        return;
+    }
+
     ball_ = ball;
+
+    ball_->sleep();
+
+    ball_->setCenter((rect_.min_corner().x() + rect_.max_corner().x()) / 2.0f,
+                          rect_.max_corner().y() + ball_->getRadius());
+
+}
+
+
+
+void Platform::pushBall() {
+
+    if(ball_ == 0) {
+        return;
+    }
+
+    ball_->awake();
+
+    ball_ = 0;
+
+}
+
+
+
+GeometryDefines::Box Platform::getRect() const {
+
+    return rect_;
 
 }

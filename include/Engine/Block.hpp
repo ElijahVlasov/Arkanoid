@@ -1,21 +1,22 @@
 #ifndef _SALT2D_ENGINE_BLOCK_HPP
 #define _SALT2D_ENGINE_BLOCK_HPP
 
+#include <Engine/Object.hpp>
+
 #include "geometry_defines.hpp"
 
 namespace Engine {
 
-    class Block {
+    class Block: public Object {
 
         public:
 
             Block(const GeometryDefines::Box& rect);
             virtual ~Block();
 
-            virtual void draw()  = 0;
             virtual bool crash() = 0;
 
-            const GeometryDefines::Box& getRect() const;
+            GeometryDefines::Box getRect() const;
 
         private:
 

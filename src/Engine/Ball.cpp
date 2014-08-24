@@ -1,10 +1,12 @@
+#include <cmath>
+#include <ctime>
+
+#include <chrono>
+
 #include <Engine/Ball.hpp>
 
-#include <Utils/ResourceManager.hpp>
-#include <Utils/SingletonPointer.hpp>
-
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/Texture.hpp>
+#include <Utils/Graphics/SpriteBuilder.hpp>
 
 #include "geometry_defines.hpp"
 #include "salt_defines.h"
@@ -16,7 +18,8 @@ using namespace Engine;
 using namespace Utils;
 using namespace Utils::Graphics;
 
-const float Ball::STEP = 5.0f;
+const float Ball::STEP = 10.0f;
+const chrono::milliseconds Ball::STEP_TIME = chrono::milliseconds(50);
 
 
 Ball::Ball(const GeometryDefines::Point& center, float radius, bool isSleep, float xSpeed, float ySpeed) throw(runtime_error):
@@ -27,11 +30,12 @@ Ball::Ball(const GeometryDefines::Point& center, float radius, bool isSleep, flo
     ySpeed_(ySpeed)
 {
 
-    SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
-
-    texture_ = resourceManager->getResource<Texture>(BALL_TEXTURE);
+    setSprite(SpriteBuilder::createSprite(BALL_TEXTURE, SpriteBuilder::SpriteType::STATIC));
 
     if(xSpeed_ == 0.0f) {
+
+        srand(time(0));
+        srand(rand());
 
         int a = rand() % 80 - 40;
 
@@ -46,6 +50,10 @@ Ball::Ball(const GeometryDefines::Point& center, float radius, bool isSleep, flo
     }
 
 }
+
+
+
+Ball::~Ball() {}
 
 
 
@@ -64,25 +72,19 @@ void Ball::update() {
         return;
     }
 
+    auto now = chrono::system_clock::now();
+
+    if(now - lastUpdate_ < STEP_TIME) {
+        return;
+    }
+
+    lastUpdate_ = now;
+
     float xStep = xSpeed_ * STEP;
     float yStep = ySpeed_ * STEP;
 
     center_.x(center_.x() + xStep);
     center_.y(center_.y() + yStep);
-
-}
-
-
-
-void Ball::draw() {
-
-    GraphicsManager::DrawTexture(
-        GeometryDefines::Box(
-            GeometryDefines::Point(center_.x() - radius_, center_.y() - radius_),
-            GeometryDefines::Point(center_.x() + radius_, center_.y() + radius_)
-        ),
-        *texture_
-    );
 
 }
 
@@ -99,6 +101,8 @@ void Ball::sleep() {
 void Ball::awake() {
 
     isSleep_ = false;
+
+    lastUpdate_ = chrono::system_clock::now();
 
 }
 
@@ -181,4 +185,14 @@ const GeometryDefines::Point & Ball::getCenter() const {
 
     return center_;
 
+}
+
+
+
+GeometryDefines::Box Ball::getRect() const {
+
+    return GeometryDefines::Box(
+               GeometryDefines::Point(center_.x() - radius_, center_.y() - radius_),
+               GeometryDefines::Point(center_.x() + radius_, center_.y() + radius_)
+           );
 }

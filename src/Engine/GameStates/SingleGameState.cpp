@@ -171,6 +171,13 @@ void SingleGameState::onKeyUp(int key) {
 		}
 		break;
 
+		case SDLK_SPACE: {
+
+            platform_->pushBall();
+
+		}
+		break;
+
 		default: {
 
 		}
@@ -293,7 +300,7 @@ void SingleGameState::init() throw(runtime_error) {
     }
 
     ball_ = boost::shared_ptr<Ball>(new Ball(
-                                     GeometryDefines::Point(330.0f, 55.0f),
+                                     GeometryDefines::Point(0.0f, 0.0f),
                                      20.0f, true
                                     )
                                    );

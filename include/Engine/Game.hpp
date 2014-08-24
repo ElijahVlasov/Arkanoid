@@ -25,6 +25,7 @@
 #include <Utils/Audio/AudioManager.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/SpriteBuilder.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
@@ -152,6 +153,8 @@ namespace Engine {
             Utils::SingletonPointer<Utils::UI::MenuBuilder>                 menuBuilder_;
 
             Utils::SingletonPointer<Utils::Graphics::GraphicsManager>       graphicsManager_;
+
+            Utils::SingletonPointer<Utils::Graphics::SpriteBuilder>         spriteBuilder_;
 
             Utils::SingletonPointer<Utils::Graphics::TextureManager>        textureManager_;
 

@@ -14,7 +14,7 @@ Block::~Block() {}
 
 
 
-const GeometryDefines::Box& Block::getRect() const {
+GeometryDefines::Box Block::getRect() const {
 
     return rect_;
 

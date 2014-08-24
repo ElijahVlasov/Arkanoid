@@ -26,6 +26,7 @@
 #include <Utils/Audio/AudioManager.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/SpriteBuilder.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
 
 #include <Utils/UI/Label.hpp>
@@ -58,6 +59,7 @@ Game::Game() throw(runtime_error):
     resourceManager_(ResourceManager::getInstance()),
     menuBuilder_(MenuBuilder::getInstance()),
     graphicsManager_(GraphicsManager::getInstance()),
+    spriteBuilder_(SpriteBuilder::getInstance()),
     textureManager_(TextureManager::getInstance()),
     scrWidth_(640),
     scrHeight_(480),

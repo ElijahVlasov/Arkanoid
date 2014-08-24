@@ -65,6 +65,7 @@ set(ENGINE_SOURCES
     ${SRC_DIR}/Engine/Block.cpp
     ${SRC_DIR}/Engine/EasyBlock.cpp
     ${SRC_DIR}/Engine/Game.cpp
+    ${SRC_DIR}/Engine/Object.cpp
     ${SRC_DIR}/Engine/Platform.cpp
 )
 
@@ -95,6 +96,7 @@ set(UTILS_GRAPHICS_SOURCES
     ${SRC_DIR}/Utils/Graphics/GraphicsManager.cpp
     ${SRC_DIR}/Utils/Graphics/PNGTextureBuilder.cpp
     ${SRC_DIR}/Utils/Graphics/Sprite.cpp
+    ${SRC_DIR}/Utils/Graphics/SpriteBuilder.cpp
     ${SRC_DIR}/Utils/Graphics/StaticSprite.cpp
     ${SRC_DIR}/Utils/Graphics/Texture.cpp
     ${SRC_DIR}/Utils/Graphics/TextureManager.cpp
@@ -179,6 +181,7 @@ set(UTILS_GRAPHICS_HEADERS
     ${INCLUDE_DIR}/Utils/Graphics/GraphicsManager.hpp
     ${INCLUDE_DIR}/Utils/Graphics/PNGTextureBuilder.hpp
     ${INCLUDE_DIR}/Utils/Graphics/Sprite.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/SpriteBuilder.hpp
     ${INCLUDE_DIR}/Utils/Graphics/StaticSprite.hpp
     ${INCLUDE_DIR}/Utils/Graphics/Texture.hpp
     ${INCLUDE_DIR}/Utils/Graphics/TextureManager.hpp
