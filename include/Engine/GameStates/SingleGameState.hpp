@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <stdexcept>
+#include <vector>
 
 #include <boost/shared_ptr.hpp>
 
@@ -17,6 +18,7 @@
 #include <Utils/Singleton.hpp>
 #include <Utils/SingletonPointer.hpp>
 
+#include <Utils/Audio/AudioManager.hpp>
 #include <Utils/Audio/Sound.hpp>
 #include <Utils/Audio/SoundPlayer.hpp>
 
@@ -63,19 +65,29 @@ namespace Engine {
 
             private:
 
+                void checkBallAndWalls();
+                void checkBallAndObjects();
+
+                void die();
+
+                void bounceSound();
+
                 static const std::chrono::milliseconds LOADING_DURATION;
 
                 void showDebugInfo();
                 void makeScreenshot();
 
-                Utils::SingletonPointer<Engine::Game>           game_;
+                Utils::SingletonPointer<Engine::Game>                   game_;
 
-                Utils::SingletonPointer<Utils::Lua>        	    lua_;
+                Utils::SingletonPointer<Utils::Lua>        	            lua_;
 
-                Utils::SingletonPointer<MenuState>              menuState_;
+                Utils::SingletonPointer<MenuState>                      menuState_;
+
+                Utils::SingletonPointer<Utils::Audio::AudioManager>     audioManager_;
 
                 boost::shared_ptr<Utils::Graphics::Texture>     background_;
                 boost::shared_ptr<Utils::Audio::Sound>          music_;
+                boost::shared_ptr<Utils::Audio::Sound>          bounceSound_;
 
                 boost::shared_ptr<Utils::Audio::SoundPlayer>    musicPlayer_;
 
@@ -83,7 +95,7 @@ namespace Engine {
 
                 bool isPlatformClicked_;
                 int  lastMouseX_;
-                boost::shared_ptr<Block> blocks_[6][8];
+                std::vector< std::vector< boost::shared_ptr<Block> > > blocks_;
                 boost::shared_ptr<Ball>  ball_;
 
         };

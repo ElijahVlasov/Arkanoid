@@ -8,6 +8,7 @@
 
 #include <Engine/GameStates/IGameState.hpp>
 
+#include <Utils/Color.hpp>
 #include <Utils/LocalizationManager.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
@@ -70,11 +71,17 @@ namespace Engine {
             Utils::SingletonPointer <Utils::ResourceManager>     resourceManager     = Utils::ResourceManager::getInstance();
             Utils::SingletonPointer <Utils::LocalizationManager> localizationManager = Utils::LocalizationManager::getInstance();
 
+            Utils::Color color = {1.0f, 1.0f, 0.0f};
+
             loadingTexture_ = resourceManager->getResource<Utils::Graphics::Texture>(LOADING_TEXTURE);
 
             loadingLabel_.setRect(20, 20, 200, 100);
 
             loadingLabel_.setText(localizationManager->getString(LOADING_TEXT));
+
+            loadingLabel_.getFont().setColor(color);
+            loadingLabel_.getFont().setSize(18);
+
 
             loadingThread_.detach();
 

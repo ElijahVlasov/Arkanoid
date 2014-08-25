@@ -52,6 +52,8 @@ namespace Utils {
                 void setLooping(bool isLooped);
                 bool isLooped() const;
 
+                bool isPlaying() const;
+
             private:
 
                 static const std::size_t BUFFERS_COUNT;

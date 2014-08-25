@@ -128,8 +128,8 @@ namespace Engine {
             bool isRunning() const;
 
             void startGame();
-
             void quitGame();
+            void resumeGame();
 
             boost::shared_ptr<Utils::UI::Menu> getMainMenu() const;
             boost::shared_ptr<Utils::UI::Menu> getPauseMenu() const;

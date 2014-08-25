@@ -15,6 +15,7 @@
 
 #define GAME_BACKGROUND "textures/game/background.png"
 #define GAME_MUSIC      "sounds/game/fon.ogg"
+#define BOUNCE_SOUND    "sounds/game/bounce.ogg"
 
 #define PLATFORM_SPRITE "sprites/platform.sprite"
 #define BALL_TEXTURE "textures/game/ball.png"

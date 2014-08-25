@@ -23,28 +23,7 @@ namespace GeometryDefines {
     inline Box BoxIToBox(const BoxI&);
     inline Polygon PolygonIToPolygon(const PolygonI&);
 
-    class Circle {
-
-        public:
-
-            Circle(Point center, float radius):
-                center_(center),
-                radius_(radius)
-            {}
-
-            inline const Point& center() const { return center_; }
-            inline float radius()        const { return radius_; }
-
-            inline void center(const Point& point) { center_ = point;}
-            inline void radius(float r)            { radius_ = r;    }
-
-        private:
-
-            Point center_;
-            float radius_;
-
-    };
-
+    typedef Point Vector2D;
 }
 
 

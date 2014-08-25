@@ -42,6 +42,8 @@ namespace LuaAPI {
             static void System_StartGame();
             static void System_QuitGame();
 
+            static void System_ResumeGame();
+
             static void System_Quit();
 
             static Utils::SingletonPointer<Engine::Game> Engine_GetGame();

@@ -40,12 +40,23 @@ const std::chrono::milliseconds SingleGameState::LOADING_DURATION = std::chrono:
 SingleGameState::SingleGameState() throw(runtime_error):
     game_(Game::getInstance()),
     lua_(Lua::getInstance()),
+    menuState_(MenuState::getInstance()),
+    audioManager_(AudioManager::getInstance()),
     isPlatformClicked_(false)
 {}
 
 
 
-void SingleGameState::quit() {}
+void SingleGameState::quit() {
+
+    background_  = 0;
+    ball_        = 0;
+    musicPlayer_ = 0;
+    music_       = 0;
+
+    blocks_.clear();
+
+}
 
 
 
@@ -87,9 +98,9 @@ void SingleGameState::onRender() {
 
     platform_->draw();
 
-    for(int i = 0; i < 6; i++) {
+    for(size_t i = 0; i < 6; i++) {
 
-        for(int j = 0; j < 8; j++) {
+        for(size_t j = 0; j < blocks_[i].size(); j++) {
 
             if(blocks_[i][j] != 0) {
                 blocks_[i][j]->draw();
@@ -121,9 +132,9 @@ void SingleGameState::onKeyDown(int key) {
 
 		case SDLK_ESCAPE: {
 
-            /*menuState_->setMenu(game_->getPauseMenu());
+            menuState_->setMenu(game_->getPauseMenu());
 
-			game_->setState(menuState_.get());*/
+			game_->setState(menuState_.get());
 
 		}
 		break;
@@ -253,6 +264,13 @@ void SingleGameState::onLoop() {
 
     if(ball_ != 0) {
 
+        if(!ball_->isSleep()) {
+
+            checkBallAndWalls();
+            checkBallAndObjects();
+
+        }
+
         ball_->update();
 
     }
@@ -266,13 +284,13 @@ void SingleGameState::init() throw(runtime_error) {
     auto startLoading = chrono::system_clock::now();
 
     SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
-    SingletonPointer<AudioManager>    audioManager    = AudioManager::getInstance();
 
     background_  = resourceManager->getResource<Texture>(GAME_BACKGROUND);
 
     music_       = resourceManager->getResource<Sound>(GAME_MUSIC);
+    bounceSound_ = resourceManager->getResource<Sound>(BOUNCE_SOUND);
 
-    musicPlayer_ = audioManager->createSoundPlayer(music_);
+    musicPlayer_ = audioManager_->createSoundPlayer(music_);
 
     musicPlayer_->setLooping(true);
 
@@ -282,18 +300,20 @@ void SingleGameState::init() throw(runtime_error) {
                        )
                    );
 
-    for(int i = 0; i < 6; i++) { // Создаем блоки
+    blocks_.resize(6);
 
-        for(int j = 0; j < 8; j++) {
+    for(size_t i = 0; i < 6; i++) { // Создаем блоки
 
-            blocks_[i][j] = boost::shared_ptr<Block>(
-                                new EasyBlock(
-                                    GeometryDefines::Box(
-                                        GeometryDefines::Point(j * 80,      300 + i * 30),
-                                        GeometryDefines::Point(j * 80 + 78, 300 + i * 30 + 28)
+        for(size_t j = 0; j < 8; j++) {
+
+            blocks_[i].push_back(boost::shared_ptr<Block>(
+                                    new EasyBlock(
+                                        GeometryDefines::Box(
+                                            GeometryDefines::Point(j * 80,      300 + i * 30),
+                                            GeometryDefines::Point(j * 80 + 78, 300 + i * 30 + 28)
+                                        )
                                     )
-                                )
-                            );
+                                 ));
 
         }
 
@@ -301,7 +321,7 @@ void SingleGameState::init() throw(runtime_error) {
 
     ball_ = boost::shared_ptr<Ball>(new Ball(
                                      GeometryDefines::Point(0.0f, 0.0f),
-                                     20.0f, true
+                                     15.0f, true
                                     )
                                    );
 
@@ -328,5 +348,65 @@ float SingleGameState::getWorldHeight() const {
 float SingleGameState::getWorldWidth() const {
 
     return game_->getScreenWidth();
+
+}
+
+
+
+void SingleGameState::checkBallAndWalls() {
+
+    if(ball_ == 0) {
+
+
+
+    }
+
+    GeometryDefines::Point nextPoint = ball_->getNextPoint();
+
+    GeometryDefines::Vector2D direction = ball_->getDirection();
+
+    if(nextPoint.y() - ball_->getRadius() < 0.0f) { // Мяч достиг нижней границы
+
+        die();
+
+    } else if(nextPoint.y() + ball_->getRadius() > getWorldHeight()) {
+
+        bounceSound();
+
+        direction.y(-direction.y());
+
+    }
+
+    if( (nextPoint.x() - ball_->getRadius() < 0.0f) ||  (nextPoint.x() + ball_->getRadius() > getWorldWidth())) { // Шар столкнулся с боковыми стенками
+
+        bounceSound();
+
+        direction.x(-direction.x());
+
+    }
+
+    ball_->setDirection(direction);
+
+}
+
+
+
+void SingleGameState::checkBallAndObjects() {
+
+
+
+}
+
+
+
+void SingleGameState::die() {}
+
+
+
+void SingleGameState::bounceSound() {
+
+    boost::shared_ptr<SoundPlayer> bouncePlayer = audioManager_->createSoundPlayer(bounceSound_);
+
+    bouncePlayer->play();
 
 }

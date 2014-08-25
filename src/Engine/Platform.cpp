@@ -1,3 +1,6 @@
+#include <cstdlib>
+#include <ctime>
+
 #include <mutex>
 #include <stdexcept>
 
@@ -113,6 +116,18 @@ void Platform::pushBall() {
     if(ball_ == 0) {
         return;
     }
+
+    GeometryDefines::Vector2D ballDirection;
+
+    srand(time(0));
+    srand(rand());
+
+    int a = rand() % 80 - 40;
+
+    ballDirection.x(static_cast<float>(a) / 100.0f);
+    ballDirection.y(1.0f);
+
+    ball_->setDirection(ballDirection);
 
     ball_->awake();
 

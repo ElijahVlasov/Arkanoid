@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <list>
 #include <mutex>
 #include <stdexcept>
 
@@ -83,9 +85,30 @@ void AudioManager::update() throw(runtime_error) {
 
     std::lock_guard<std::mutex> guard(playersMutex_);
 
+    std::list< boost::shared_ptr<SoundPlayer> > playersForDelete;
+
     BOOST_FOREACH(boost::shared_ptr< SoundPlayer >& player, players_) {
 
+        if( (player.use_count() == 1)
+            && (!player->isPlaying()) ) {
+
+            playersForDelete.push_back(player);
+
+            continue;
+
+        }
+
         player->update();
+
+    }
+
+    while(!playersForDelete.empty()) {
+
+        auto playerPos = find(players_.begin(), players_.end(), playersForDelete.front());
+
+        playersForDelete.pop_front();
+
+        players_.erase(playerPos);
 
     }
 

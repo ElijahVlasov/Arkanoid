@@ -1,6 +1,3 @@
-#include <cmath>
-#include <ctime>
-
 #include <chrono>
 
 #include <Engine/Ball.hpp>
@@ -18,36 +15,18 @@ using namespace Engine;
 using namespace Utils;
 using namespace Utils::Graphics;
 
-const float Ball::STEP = 10.0f;
 const chrono::milliseconds Ball::STEP_TIME = chrono::milliseconds(50);
 
 
-Ball::Ball(const GeometryDefines::Point& center, float radius, bool isSleep, float xSpeed, float ySpeed) throw(runtime_error):
+Ball::Ball(const GeometryDefines::Point& center, float radius, bool isSleep, float speed, const GeometryDefines::Vector2D& direction) throw(runtime_error):
     center_(center),
     radius_(radius),
     isSleep_(isSleep),
-    xSpeed_(xSpeed),
-    ySpeed_(ySpeed)
+    speed_(speed),
+    direction_(direction)
 {
 
     setSprite(SpriteBuilder::createSprite(BALL_TEXTURE, SpriteBuilder::SpriteType::STATIC));
-
-    if(xSpeed_ == 0.0f) {
-
-        srand(time(0));
-        srand(rand());
-
-        int a = rand() % 80 - 40;
-
-        xSpeed_ = static_cast<float>(a) / 100.0f;
-
-    }
-
-    if(ySpeed_ == 0.0f) {
-
-        ySpeed_ = 1.0f;
-
-    }
 
 }
 
@@ -80,11 +59,7 @@ void Ball::update() {
 
     lastUpdate_ = now;
 
-    float xStep = xSpeed_ * STEP;
-    float yStep = ySpeed_ * STEP;
-
-    center_.x(center_.x() + xStep);
-    center_.y(center_.y() + yStep);
+    center_ = getNextPoint();
 
 }
 
@@ -111,38 +86,6 @@ void Ball::awake() {
 bool Ball::isSleep() const {
 
     return isSleep_;
-
-}
-
-
-
-void Ball::setYSpeed(float ySpeed) {
-
-    ySpeed_ = ySpeed;
-
-}
-
-
-
-float Ball::getYSpeed() const {
-
-    return ySpeed_;
-
-}
-
-
-
-void Ball::setXSpeed(float xSpeed) {
-
-    xSpeed_ = xSpeed;
-
-}
-
-
-
-float Ball::getXSpeed() const {
-
-    return xSpeed_;
 
 }
 
@@ -195,4 +138,52 @@ GeometryDefines::Box Ball::getRect() const {
                GeometryDefines::Point(center_.x() - radius_, center_.y() - radius_),
                GeometryDefines::Point(center_.x() + radius_, center_.y() + radius_)
            );
+}
+
+
+
+void Ball::setSpeed(float speed) {
+
+    speed_ = speed;
+
+}
+
+
+
+float Ball::getSpeed() const {
+
+    return speed_;
+
+}
+
+
+
+void Ball::setDirection(const GeometryDefines::Vector2D& direction) {
+
+    direction_ = direction;
+
+}
+
+
+
+const GeometryDefines::Vector2D & Ball::getDirection() const {
+
+    return direction_;
+
+}
+
+
+
+GeometryDefines::Point Ball::getNextPoint() const {
+
+    GeometryDefines::Point nextCenter;
+
+    float xStep = direction_.x() * speed_;
+    float yStep = direction_.y() * speed_;
+
+    nextCenter.x(center_.x() + xStep);
+    nextCenter.y(center_.y() + yStep);
+
+    return nextCenter;
+
 }

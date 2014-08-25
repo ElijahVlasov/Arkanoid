@@ -174,3 +174,13 @@ bool SoundPlayer::isLooped() const {
     return isLooped_;
 
 }
+
+
+
+bool SoundPlayer::isPlaying() const {
+
+    std::lock_guard<std::mutex> guard(synchroMutex_);
+
+    return isPlaying_;
+
+}

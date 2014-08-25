@@ -12,6 +12,8 @@
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
 
+#include <SDL/SDL_keycode.h>
+
 #include <Engine/Game.hpp>
 #include <Engine/GameStates.hpp>
 
@@ -29,6 +31,7 @@
 #include <Utils/Graphics/SpriteBuilder.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
 
+#include <Utils/UI/Component.hpp>
 #include <Utils/UI/Label.hpp>
 #include <Utils/UI/Menu.hpp>
 #include <Utils/UI/MenuBuilder.hpp>
@@ -348,11 +351,13 @@ void Game::startGame() {
 
 void Game::quitGame() {
 
+    menuGameState_->setMenu(mainMenu_);
+
+    setState(menuGameState_.get());
+
     if(singleGameState_ != 0) {
 
         singleGameState_->quit();
-
-        singleGameState_ = 0;
 
     }
 
@@ -360,9 +365,21 @@ void Game::quitGame() {
 
 
 
+void Game::resumeGame() {
+
+    if(singleGameState_ == 0) {
+        return;
+    }
+
+    setState(singleGameState_.get());
+
+}
+
+
+
 boost::shared_ptr<Menu> Game::getPauseMenu() const {
 
-    return mainMenu_;
+    return pauseMenu_;
 
 }
 
@@ -370,7 +387,7 @@ boost::shared_ptr<Menu> Game::getPauseMenu() const {
 
 boost::shared_ptr<Menu> Game::getMainMenu() const {
 
-    return pauseMenu_;
+    return mainMenu_;
 
 }
 
@@ -502,6 +519,14 @@ void Game::loadPauseMenu() throw(runtime_error) {
     Color menuColor = {0.5f, 0.5f, 0.5f, 0.0f};
 
     pauseMenu_->setBackgroundColor(menuColor);
+
+    pauseMenu_->setKeyDownEvent(
+        [this](Component*, KeyEvent& event) {
+            if(event.key == SDLK_ESCAPE) {
+                this->resumeGame();
+            }
+        }
+    );
 
 }
 

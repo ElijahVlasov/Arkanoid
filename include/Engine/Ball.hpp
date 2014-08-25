@@ -18,7 +18,8 @@ namespace Engine {
 
         public:
 
-            Ball(const GeometryDefines::Point& center, float radius, bool isSleep, float xSpeed = 0.0f, float ySpeed = 0.0f) throw(std::runtime_error);
+            Ball(const GeometryDefines::Point& center, float radius, bool isSleep,
+                    float speed = 10.0f, const GeometryDefines::Vector2D& direction = GeometryDefines::Vector2D(0.0f, 0.0f)) throw(std::runtime_error);
             ~Ball();
 
             void move(float x, float y);
@@ -37,17 +38,18 @@ namespace Engine {
             float getRadius() const;
             void setRadius(float radius);
 
-            float getXSpeed() const;
-            void setXSpeed(float xSpeed);
+            const GeometryDefines::Vector2D& getDirection() const;
+            void setDirection(const GeometryDefines::Vector2D& direction);
 
-            float getYSpeed() const;
-            void setYSpeed(float ySpeed);
+            float getSpeed() const;
+            void setSpeed(float speed);
+
+            GeometryDefines::Point getNextPoint() const;
 
             GeometryDefines::Box getRect() const;
 
         private:
 
-            static const float STEP;
             static const std::chrono::milliseconds STEP_TIME;
 
             std::chrono::system_clock::time_point lastUpdate_;
@@ -58,7 +60,9 @@ namespace Engine {
 
             float radius_;
 
-            float xSpeed_, ySpeed_;
+            float speed_;
+
+            GeometryDefines::Vector2D direction_;
 
     };
 

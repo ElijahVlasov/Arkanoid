@@ -92,6 +92,7 @@ LuaAPI_::LuaAPI_():
 
         def("start_game",   &LuaAPI_::System_StartGame),
         def("quit_game",    &LuaAPI_::System_QuitGame),
+        def("resume_game",  &LuaAPI_::System_ResumeGame),
 
         class_<MouseButton>("mouse_btn")
             .enum_("") [
@@ -375,6 +376,14 @@ void LuaAPI_::System_StartGame() {
 void LuaAPI_::System_QuitGame() {
 
 	instance_->game_->quitGame();
+
+}
+
+
+
+void LuaAPI_::System_ResumeGame() {
+
+    instance_->game_->resumeGame();
 
 }
 

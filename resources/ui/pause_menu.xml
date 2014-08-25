@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 
-<menu>
-    <button x="10.0" y="10.0" width="400" height="200" font_size="20">resume_game_button_text</button>
+<menu background="textures/ui/pause_menu.png">
+    <button x="10" y="400" width="300" height="50" on_click="pause_menu.resume_button_click">resume_game_button_text</button>
+    <button x="10" y="320" width="300" height="50" on_click="pause_menu.quit_click">to_main_menu_button_text</button>
 </menu>
