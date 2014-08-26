@@ -122,12 +122,12 @@ void Platform::pushBall() {
     srand(time(0));
     srand(rand());
 
-    int a = rand() % 80 - 40;
+    int a = rand() % 90 + 45;
 
-    ballDirection.x(static_cast<float>(a) / 100.0f);
-    ballDirection.y(1.0f);
+    /*ballDirection.x(static_cast<float>(a) / 100.0f);
+    ballDirection.y(1.0f);*/
 
-    ball_->setDirection(ballDirection);
+    ball_->setAngle(static_cast<float>(a));
 
     ball_->awake();
 

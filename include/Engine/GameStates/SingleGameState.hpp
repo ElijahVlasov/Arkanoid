@@ -24,6 +24,8 @@
 
 #include <Utils/Graphics/Texture.hpp>
 
+#include "geometry_defines.hpp"
+
 namespace Engine {
 
     class Game;
@@ -67,6 +69,9 @@ namespace Engine {
 
                 void checkBallAndWalls();
                 void checkBallAndObjects();
+                void checkBallAndPlatform();
+                void checkBallAndBlocks();
+                void checkBallAndBlock(boost::shared_ptr<Block>& block, const GeometryDefines::Point& nextBallPoint);
 
                 void die();
 
@@ -86,6 +91,9 @@ namespace Engine {
                 Utils::SingletonPointer<Utils::Audio::AudioManager>     audioManager_;
 
                 boost::shared_ptr<Utils::Graphics::Texture>     background_;
+                boost::shared_ptr<Utils::Graphics::Texture>     bar_;
+                boost::shared_ptr<Utils::Graphics::Texture>     ballIcon_;
+
                 boost::shared_ptr<Utils::Audio::Sound>          music_;
                 boost::shared_ptr<Utils::Audio::Sound>          bounceSound_;
 
@@ -97,6 +105,10 @@ namespace Engine {
                 int  lastMouseX_;
                 std::vector< std::vector< boost::shared_ptr<Block> > > blocks_;
                 boost::shared_ptr<Ball>  ball_;
+
+                bool isPaused_;
+
+                unsigned int ballsCount_;
 
         };
 

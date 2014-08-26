@@ -1,5 +1,9 @@
+#include <cmath>
+
 #include <chrono>
 #include <stdexcept>
+
+#include <boost/geometry/geometry.hpp>
 
 #include <SDL/SDL_keycode.h>
 
@@ -42,7 +46,9 @@ SingleGameState::SingleGameState() throw(runtime_error):
     lua_(Lua::getInstance()),
     menuState_(MenuState::getInstance()),
     audioManager_(AudioManager::getInstance()),
-    isPlatformClicked_(false)
+    isPlatformClicked_(false),
+    isPaused_(false),
+    ballsCount_(3)
 {}
 
 
@@ -64,6 +70,18 @@ void SingleGameState::onActive() {
 
     musicPlayer_->play();
 
+    if(ball_ == 0) {
+        return;
+    }
+
+    if(isPaused_) {
+
+        ball_->awake();
+
+        isPaused_ = false;
+
+    }
+
 }
 
 
@@ -71,6 +89,14 @@ void SingleGameState::onActive() {
 void SingleGameState::onRemove() {
 
     musicPlayer_->pause();
+
+    if(ball_ == 0) {
+        return;
+    }
+
+    ball_->sleep();
+
+    isPaused_ = true;
 
 }
 
@@ -98,7 +124,7 @@ void SingleGameState::onRender() {
 
     platform_->draw();
 
-    for(size_t i = 0; i < 6; i++) {
+    for(size_t i = 0; i < blocks_.size(); i++) {
 
         for(size_t j = 0; j < blocks_[i].size(); j++) {
 
@@ -112,6 +138,26 @@ void SingleGameState::onRender() {
 
     if(ball_ != 0) {
         ball_->draw();
+    }
+
+    GraphicsManager::DrawTexture(
+        GeometryDefines::BoxI(
+            GeometryDefines::PointI(0.0f, 450),
+            GeometryDefines::PointI(getWorldWidth(), getWorldHeight())
+        ),
+        *bar_
+    );
+
+    for(unsigned int i = 0; i < ballsCount_; i++) {
+
+        GraphicsManager::DrawTexture(
+            GeometryDefines::BoxI(
+                GeometryDefines::PointI(5 + i * 18, 457),
+                GeometryDefines::PointI(5 + i * 18 + 16, 473)
+            ),
+            *ballIcon_
+        );
+
     }
 
 }
@@ -262,18 +308,23 @@ void SingleGameState::onMouseUp(int x, int y, MouseButton btn) {
 
 void SingleGameState::onLoop() {
 
-    if(ball_ != 0) {
-
-        if(!ball_->isSleep()) {
-
-            checkBallAndWalls();
-            checkBallAndObjects();
-
-        }
-
-        ball_->update();
-
+    if(ball_ == 0) {
+        return;
     }
+
+    if(ball_->isSleep()) {
+       return;
+    }
+
+
+    checkBallAndWalls();
+    checkBallAndObjects();
+
+    if(ball_ == 0) {
+        return;
+    }
+
+    ball_->update();
 
 }
 
@@ -286,6 +337,8 @@ void SingleGameState::init() throw(runtime_error) {
     SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
     background_  = resourceManager->getResource<Texture>(GAME_BACKGROUND);
+    bar_         = resourceManager->getResource<Texture>(GAME_BAR);
+    ballIcon_    = resourceManager->getResource<Texture>(BALL_ICON);
 
     music_       = resourceManager->getResource<Sound>(GAME_MUSIC);
     bounceSound_ = resourceManager->getResource<Sound>(BOUNCE_SOUND);
@@ -300,17 +353,17 @@ void SingleGameState::init() throw(runtime_error) {
                        )
                    );
 
-    blocks_.resize(6);
+    blocks_.resize(10);
 
-    for(size_t i = 0; i < 6; i++) { // Создаем блоки
+    for(size_t i = 0; i < 10; i++) { // Создаем блоки
 
-        for(size_t j = 0; j < 8; j++) {
+        for(size_t j = 0; j < 16; j++) {
 
             blocks_[i].push_back(boost::shared_ptr<Block>(
                                     new EasyBlock(
                                         GeometryDefines::Box(
-                                            GeometryDefines::Point(j * 80,      300 + i * 30),
-                                            GeometryDefines::Point(j * 80 + 78, 300 + i * 30 + 28)
+                                            GeometryDefines::Point(j * 40,      300 + i * 15),
+                                            GeometryDefines::Point(j * 40 + 38, 300 + i * 15 + 13)
                                         )
                                     )
                                  ));
@@ -321,7 +374,7 @@ void SingleGameState::init() throw(runtime_error) {
 
     ball_ = boost::shared_ptr<Ball>(new Ball(
                                      GeometryDefines::Point(0.0f, 0.0f),
-                                     15.0f, true
+                                     10.0f, true
                                     )
                                    );
 
@@ -356,20 +409,19 @@ float SingleGameState::getWorldWidth() const {
 void SingleGameState::checkBallAndWalls() {
 
     if(ball_ == 0) {
-
-
-
+        return;
     }
 
-    GeometryDefines::Point nextPoint = ball_->getNextPoint();
-
+    GeometryDefines::Point    nextPoint = ball_->getNextPoint();
     GeometryDefines::Vector2D direction = ball_->getDirection();
 
-    if(nextPoint.y() - ball_->getRadius() < 0.0f) { // Мяч достиг нижней границы
+    if(nextPoint.y() + ball_->getRadius() < platform_->getRect().max_corner().y()) { // Мяч достиг нижней границы
 
         die();
 
-    } else if(nextPoint.y() + ball_->getRadius() > getWorldHeight()) {
+        return;
+
+    } else if(nextPoint.y() + ball_->getRadius() > getWorldHeight() - 30) {
 
         bounceSound();
 
@@ -391,15 +443,202 @@ void SingleGameState::checkBallAndWalls() {
 
 
 
+#define IS_IN(N, R1, R2) ( ( (N) >= (R1) ) && ( (N) <= (R2) ) )
 void SingleGameState::checkBallAndObjects() {
 
+    if(ball_ == 0) {
+        return;
+    }
+
+    GeometryDefines::Box   platformRect = platform_->getRect();
+    GeometryDefines::Point ballCenter   = ball_->getCenter();
+    float diameter = ball_->getRadius();
+
+    //Проверяем положение шарика:
+
+    float platformAreaMinX = platformRect.min_corner().x() - diameter;
+    float platformAreaMaxX = platformRect.max_corner().x() + diameter;
+    float platformAreaMaxY = platformRect.max_corner().y() + diameter;
+
+    if(IS_IN(ballCenter.x(), platformAreaMinX, platformAreaMaxX)) {
+
+        if( ballCenter.y() <= platformAreaMaxY) { // Если шарик рядом с платформой
+
+            checkBallAndPlatform();
+
+            return;
+
+        }
+
+    }
+
+    if(ballCenter.y() >= 300 - diameter) {
+
+        checkBallAndBlocks();
+
+    }
 
 
 }
 
 
 
-void SingleGameState::die() {}
+void SingleGameState::checkBallAndPlatform() {
+
+    GeometryDefines::Point      ballNextCenter = ball_->getNextPoint();
+    GeometryDefines::Box        platformRect   = platform_->getRect();
+    GeometryDefines::Vector2D   direction      = ball_->getDirection();
+    GeometryDefines::Point      contact;
+
+    if( !GeometryDefines::boxAndCircleContact(ball_->getRadius(), ballNextCenter, platformRect, contact) ) {
+        return;
+    }
+
+    bounceSound();
+
+    if(contact.y() == platformRect.max_corner().y()) {
+
+        if(contact.x() == platformRect.min_corner().x()) {
+
+            ball_->setAngle(135.0f);
+
+            direction = ball_->getDirection();
+
+        } else if(contact.x() == platformRect.max_corner().x()) {
+
+            ball_->setAngle(45.0f);
+
+            direction = ball_->getDirection();
+
+        } else {
+
+            direction.y(-direction.y());
+
+        }
+
+    } else if(contact.y() > platformRect.min_corner().y()) {
+
+        direction.x(-direction.x());
+        direction.y(-direction.y());
+
+    }
+
+    ball_->setDirection(direction);
+
+}
+
+
+
+void SingleGameState::checkBallAndBlocks() {
+
+    GeometryDefines::Point      ballNextCenter = ball_->getNextPoint();
+    float                       diameter       = ball_->getRadius() * 2;
+
+    for(size_t i = 0; i < blocks_.size(); i++) {
+
+        for(size_t j = 0; j < blocks_[i].size(); j++) {
+
+            if(blocks_[i][j] == 0) {
+                continue;
+            }
+
+            GeometryDefines::Box blockRect = blocks_[i][j]->getRect();
+
+            float blockAreaMinX = blockRect.min_corner().x() - diameter;
+            float blockAreaMaxX = blockRect.max_corner().x() + diameter;
+            float blockAreaMinY = blockRect.min_corner().y() - diameter;
+            float blockAreaMaxY = blockRect.max_corner().y() + diameter;
+
+            if( IS_IN(ballNextCenter.x(), blockAreaMinX, blockAreaMaxX) ) {
+
+                if( IS_IN(ballNextCenter.y(), blockAreaMinY, blockAreaMaxY) ) {
+
+                    checkBallAndBlock(blocks_[i][j], ballNextCenter);
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+void SingleGameState::checkBallAndBlock(boost::shared_ptr<Block>& block, const GeometryDefines::Point& ballNextCenter) {
+
+    GeometryDefines::Vector2D direction         = ball_->getDirection();
+    GeometryDefines::Box      blockRect         = block->getRect();
+    GeometryDefines::Point    contact;
+
+    if( !GeometryDefines::boxAndCircleContact(ball_->getRadius(), ballNextCenter, blockRect, contact) ) {
+        return;
+    }
+
+    if(contact.x() == blockRect.min_corner().x()) {
+
+        if(contact.y() == blockRect.min_corner().y()) {
+
+            ball_->setAngle(225.0f);
+
+        } else if(contact.y() == blockRect.max_corner().y()) {
+
+            ball_->setAngle(135.0f);
+
+        } else {
+
+            direction.x(-direction.x());
+
+        }
+
+    } else if(contact.x() == blockRect.max_corner().x()) {
+
+        if(contact.y() == blockRect.min_corner().y()) {
+
+            ball_->setAngle(315.0f);
+
+        } else if(contact.y() == blockRect.max_corner().y()) {
+
+            ball_->setAngle(45.0f);
+
+        } else {
+
+            direction.x(-direction.x());
+
+        }
+
+    } else {
+
+        direction.y(-direction.y());
+
+    }
+
+    ball_->setDirection(direction);
+
+    if(block->crash()) {
+        block = 0;
+    }
+
+}
+
+
+
+void SingleGameState::die() {
+
+    if(ballsCount_ == 0) {
+
+        ball_ = 0;
+
+        return;
+
+    }
+
+    ballsCount_--;
+    platform_->bindBall(ball_);
+
+}
 
 
 

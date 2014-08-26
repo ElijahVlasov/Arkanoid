@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <chrono>
 
 #include <Engine/Ball.hpp>
@@ -51,15 +53,9 @@ void Ball::update() {
         return;
     }
 
-    auto now = chrono::system_clock::now();
-
-    if(now - lastUpdate_ < STEP_TIME) {
-        return;
-    }
-
-    lastUpdate_ = now;
-
     center_ = getNextPoint();
+
+    lastUpdate_ = chrono::system_clock::now();
 
 }
 
@@ -78,6 +74,16 @@ void Ball::awake() {
     isSleep_ = false;
 
     lastUpdate_ = chrono::system_clock::now();
+
+}
+
+
+
+void Ball::rotate(float angle) {
+
+    float currentAngle = getAngle();
+
+    setAngle(currentAngle + angle);
 
 }
 
@@ -158,9 +164,33 @@ float Ball::getSpeed() const {
 
 
 
+void Ball::setAngle(float angle) {
+
+    float radian = (angle / 180) * 3.1415;
+
+    direction_.x(cos(radian));
+    direction_.y(sin(radian));
+
+}
+
+
+
+float Ball::getAngle() const {
+
+    return (acos(direction_.x()) * 180) / 3.1415;
+
+}
+
+
+
 void Ball::setDirection(const GeometryDefines::Vector2D& direction) {
 
     direction_ = direction;
+
+    float length = direction_.x() * direction_.x() + direction_.y() * direction_.y();
+
+    direction_.x(direction_.x() / length);
+    direction_.y(direction_.y() / length);
 
 }
 
@@ -178,8 +208,10 @@ GeometryDefines::Point Ball::getNextPoint() const {
 
     GeometryDefines::Point nextCenter;
 
-    float xStep = direction_.x() * speed_;
-    float yStep = direction_.y() * speed_;
+    auto timeDelta = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now() - lastUpdate_).count();
+
+    float xStep = direction_.x() * speed_ *  (timeDelta / 1000.0f);
+    float yStep = direction_.y() * speed_ *  (timeDelta / 1000.0f);
 
     nextCenter.x(center_.x() + xStep);
     nextCenter.y(center_.y() + yStep);

@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 
 <menu background="textures/ui/main_menu.png">
-    <button x="0" y="0" height="50" width="300" font_size="12" on_click="main_menu.new_game_click">new_game_button_text</button>
-    <button x="250" y="210" height="100" width="150" on_click="main_menu.option_click">options_button_text</button>
-    <button x="250" y="50" height="100" width="150">about_button_text</button>
-    <button x="470" y="20" height="100" width="150" on_click="main_menu.exit_click">exit_text</button>
-    <label  x="400" y="400" height="100" width="300" font_size="30">Arkanoid v1.0</label>
+    <button x="170" y="200" height="50" width="300" on_click="main_menu.new_game_click">new_game_button_text</button>
+    <button x="170" y="140" height="50" width="300" on_click="main_menu.option_click">options_button_text</button>
+    <button x="170" y="80" height="50" width="300">about_button_text</button>
+    <button x="170" y="20" height="50" width="300" on_click="main_menu.exit_click">exit_text</button>
 </menu>

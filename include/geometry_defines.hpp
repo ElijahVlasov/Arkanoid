@@ -1,8 +1,11 @@
 #ifndef _SALT2D_GEOMERTY_DEFINES_HPP
 #define _SALT2D_GEOMERTY_DEFINES_HPP
 
+#include <cmath>
+
 #include <boost/foreach.hpp>
 
+#include <boost/geometry.hpp>
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
@@ -22,6 +25,8 @@ namespace GeometryDefines {
     inline Point PointIToPoint(const PointI&);
     inline Box BoxIToBox(const BoxI&);
     inline Polygon PolygonIToPolygon(const PolygonI&);
+
+    inline bool boxAndCircleContact(float radius, const Point& center, const Box& box, Point& contact);
 
     typedef Point Vector2D;
 }
@@ -56,6 +61,117 @@ GeometryDefines::Polygon GeometryDefines::PolygonIToPolygon(const GeometryDefine
     }
 
     return res;
+
+}
+
+
+
+bool GeometryDefines::boxAndCircleContact(float radius, const GeometryDefines::Point& center, const GeometryDefines::Box& box, GeometryDefines::Point& contact) {
+
+    if(center.y() > box.max_corner().y()) { // Сверху
+
+        if(center.x() < box.min_corner().x()) { // Слева
+
+            GeometryDefines::Point leftTopCorner(box.min_corner().x(), box.max_corner().y());
+
+            if(boost::geometry::distance(center, leftTopCorner) <= radius) {
+
+                contact = leftTopCorner;
+
+                return true;
+
+            }
+
+        } else if(center.x() > box.max_corner().x()) { // Справа
+
+            if(boost::geometry::distance(center, box.max_corner()) <= radius) {
+
+                contact = box.max_corner();
+
+                return true;
+
+            }
+
+        } else { // Посередине
+
+            if(abs(center.y() - box.max_corner().y()) <= radius) {
+
+                contact.x(center.x());
+                contact.y(box.max_corner().y());
+
+                return true;
+
+            }
+
+        }
+
+    } else if(center.y() < box.min_corner().y()) { // Снизу
+
+        if(center.x() < box.min_corner().x()) { // Слева
+
+            if(boost::geometry::distance(center, box.min_corner()) <= radius) {
+
+                contact = box.min_corner();
+
+                return true;
+
+            }
+
+        } else if(center.x() > box.max_corner().x()) { // Справа
+
+            GeometryDefines::Point rightBottomCorner(box.max_corner().x(), box.min_corner().y());
+
+            if(boost::geometry::distance(center, rightBottomCorner) <= radius) {
+
+                contact = rightBottomCorner;
+
+                return true;
+
+            }
+
+        } else { // Посередине
+
+            if(abs(center.y() - box.min_corner().y()) <= radius) {
+
+                contact.x(center.x());
+                contact.y(box.min_corner().y());
+
+                return true;
+
+            }
+
+        }
+
+    } else { // Посередине
+
+
+        if(center.x() < box.min_corner().x()) {
+
+            if(abs(box.min_corner().x() - center.x()) <= radius) {
+
+                contact.x(box.min_corner().x());
+                contact.y(center.y());
+
+                return true;
+
+            }
+
+        } else {
+
+            if(abs(box.max_corner().x() - center.x()) <= radius) {
+
+                contact.x(box.max_corner().x());
+                contact.y(center.y());
+
+                return true;
+
+            }
+
+        }
+
+    }
+
+    return false;
 
 }
 
