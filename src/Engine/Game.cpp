@@ -27,6 +27,8 @@
 
 #include <Utils/Audio/AudioManager.hpp>
 
+#include <Utils/FreeType/FontManager.hpp>
+
 #include <Utils/Graphics/GraphicsManager.hpp>
 #include <Utils/Graphics/SpriteBuilder.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
@@ -49,6 +51,7 @@ using namespace LuaAPI;
 
 using namespace Utils;
 using namespace Utils::Audio;
+using namespace Utils::FreeType;
 using namespace Utils::Graphics;
 using namespace Utils::UI;
 
@@ -64,6 +67,7 @@ Game::Game() throw(runtime_error):
     graphicsManager_(GraphicsManager::getInstance()),
     spriteBuilder_(SpriteBuilder::getInstance()),
     textureManager_(TextureManager::getInstance()),
+    fontManager_(FontManager::getInstance()),
     scrWidth_(640),
     scrHeight_(480),
     state_(0)
@@ -101,6 +105,7 @@ Game* Game::Create() throw(runtime_error) {
 void Game::onLoop() throw(std::exception) {
 
     textureManager_->update();
+    fontManager_->update();
 
     exception_ptr e = getException(); // Получаем исключения из других потоков...
 

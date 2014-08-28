@@ -42,6 +42,8 @@ namespace Engine {
             void bindBall(const boost::shared_ptr<Ball>& ball);
             void pushBall();
 
+            boost::shared_ptr<Ball> getBall() const;
+
         private:
 
             std::mutex synchroMutex_;

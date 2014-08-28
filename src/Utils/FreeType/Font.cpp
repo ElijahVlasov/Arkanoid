@@ -31,14 +31,18 @@ using namespace Utils::FreeType;
 
 
 Font::Font():
-    font_(0)
+    fontManager_(FontManager::getInstance()),
+    font_(0),
+    size_(12)
 {}
 
 
 
 Font::Font(const string& fontData) throw(std::runtime_error):
-    font_(new FTTextureFont((const unsigned char*)fontData.data(), fontData.size())),
-    fontBuffer_(fontData)
+    fontManager_(FontManager::getInstance()),
+    id_(fontManager_->createFont(fontData)),
+    font_(0),
+    size_(12)
 {
 
     color_[0] = 0.0f;
@@ -46,34 +50,23 @@ Font::Font(const string& fontData) throw(std::runtime_error):
     color_[2] = 0.0f;
     color_[3] = 0.0f;
 
-    font_->FaceSize(12);
-
-    ASSERT(
-        !font_->Error(),
-        runtime_error("Can't create font")
-    );
-
-    font_->CharMap(ft_encoding_unicode);
-
 }
 
 
 
 Font::Font(const Font& font):
     color_(font.color_),
+    fontManager_(font.fontManager_),
+    id_(fontManager_->createFontCopy(font.id_)),
     font_(0),
-    fontBuffer_(font.fontBuffer_)
-{
+    size_(font.size_)
+{}
 
-    if(font.font_ != 0) {
 
-        font_ = boost::shared_ptr<FTTextureFont>( new FTTextureFont((const unsigned char*)fontBuffer_.data(), fontBuffer_.size()) );
 
-        font_->FaceSize(font.font_->FaceSize());
+Font::~Font() {
 
-        font_->CharMap(ft_encoding_unicode);
-
-    }
+    fontManager_->deleteFont(id_);
 
 }
 
@@ -83,22 +76,11 @@ Font& Font::operator=(const Font& font) {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    color_ = font.color_;
+    color_  = font.color_;
 
-    font_ = boost::shared_ptr<FTTextureFont>();
-    fontBuffer_.clear();
+    id_     = fontManager_->createFontCopy(font.id_);
 
-    if(font.font_ != 0) {
-
-        fontBuffer_ = font.fontBuffer_;
-
-        font_  = boost::shared_ptr<FTTextureFont>( new FTTextureFont((const unsigned char*)fontBuffer_.data(), fontBuffer_.size()) );
-
-        font_->FaceSize(font.font_->FaceSize());
-
-        font_->CharMap(ft_encoding_unicode);
-
-    }
+    size_   = font.size_;
 
     return *this;
 
@@ -135,8 +117,16 @@ Font::FONT_RECT Font::measureText(const wchar_t* wText) throw(invalid_argument, 
     );
 
     if(font_ == 0) {
-        return Font::FONT_RECT();
+
+        font_ = fontManager_->getFont(id_);
+
+        if(font_ == 0) {
+            return Font::FONT_RECT();
+        }
+
     }
+
+    font_->FaceSize(size_);
 
     FTBBox bbox = font_->BBox(wText, -1);
 
@@ -199,10 +189,14 @@ void Font::renderText(const wchar_t* wText, float x, float y, float width, float
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
     if(font_ == 0) {
-        return;
+
+        font_ = fontManager_->getFont(id_);
+
     }
 
     size_t textLen = wcslen(wText);
+
+    font_->FaceSize(size_);
 
     if(width >= 0.0f) {
 
@@ -223,9 +217,11 @@ void Font::renderText(const wchar_t* wText, float x, float y, float width, float
     }
 
     glPushMatrix();
-    glPushAttrib(GL_COLOR_BUFFER_BIT);
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     glColor3fv(color_.c_array());
+
+    glEnable(GL_BLEND);
 
     font_->Render(wText,
                   textLen,
@@ -254,11 +250,7 @@ unsigned int Font::getSize() const {
 
     std::lock_guard<std::mutex> guard(synchroMutex_);
 
-    if(font_ == 0) {
-        return 0;
-    }
-
-    return font_->FaceSize();
+    return size_;
 
 }
 
@@ -273,11 +265,7 @@ void Font::setSize(unsigned int size) throw(invalid_argument) {
         invalid_argument("size")
     );
 
-    if(font_ == 0) {
-        return;
-    }
-
-    font_->FaceSize(size);
+    size_ = size;
 
 }
 

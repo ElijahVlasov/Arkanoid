@@ -24,6 +24,8 @@
 
 #include <Utils/Audio/AudioManager.hpp>
 
+#include <Utils/FreeType/FontManager.hpp>
+
 #include <Utils/Graphics/GraphicsManager.hpp>
 #include <Utils/Graphics/SpriteBuilder.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
@@ -157,6 +159,8 @@ namespace Engine {
             Utils::SingletonPointer<Utils::Graphics::SpriteBuilder>         spriteBuilder_;
 
             Utils::SingletonPointer<Utils::Graphics::TextureManager>        textureManager_;
+
+            Utils::SingletonPointer<Utils::FreeType::FontManager>           fontManager_;
 
             boost::shared_ptr<Utils::UI::Menu> mainMenu_;
             boost::shared_ptr<Utils::UI::Menu> pauseMenu_;

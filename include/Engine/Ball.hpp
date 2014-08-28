@@ -19,7 +19,7 @@ namespace Engine {
         public:
 
             Ball(const GeometryDefines::Point& center, float radius, bool isSleep,
-                    float speed = 200.0f, const GeometryDefines::Vector2D& direction = GeometryDefines::Vector2D(0.0f, 0.0f)) throw(std::runtime_error);
+                    float speed = 300.0f, const GeometryDefines::Vector2D& direction = GeometryDefines::Vector2D(0.0f, 0.0f)) throw(std::runtime_error);
             ~Ball();
 
             void move(float x, float y);

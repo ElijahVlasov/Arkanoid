@@ -3,7 +3,7 @@
 #include <chrono>
 #include <stdexcept>
 
-#include <boost/geometry/geometry.hpp>
+#include <boost/format.hpp>
 
 #include <SDL/SDL_keycode.h>
 
@@ -15,6 +15,7 @@
 #include <Engine/GameStates/MenuState.hpp>
 #include <Engine/GameStates/SingleGameState.hpp>
 
+#include <Utils/Color.hpp>
 #include <Utils/Lua.hpp>
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/SingletonPointer.hpp>
@@ -46,19 +47,23 @@ SingleGameState::SingleGameState() throw(runtime_error):
     lua_(Lua::getInstance()),
     menuState_(MenuState::getInstance()),
     audioManager_(AudioManager::getInstance()),
+    isDebugInfoVisible_(false),
     isPlatformClicked_(false),
-    isPaused_(false),
-    ballsCount_(3)
+    isPaused_(false)
 {}
 
 
 
 void SingleGameState::quit() {
 
-    background_  = 0;
-    ball_        = 0;
-    musicPlayer_ = 0;
-    music_       = 0;
+    background_     = 0;
+    ball_           = 0;
+    musicPlayer_    = 0;
+    music_          = 0;
+    isPaused_       = false;
+    debugInfoFont_  = 0;
+    loseFont_       = 0;
+    winFont_        = 0;
 
     blocks_.clear();
 
@@ -76,7 +81,9 @@ void SingleGameState::onActive() {
 
     if(isPaused_) {
 
-        ball_->awake();
+        if(platform_->getBall() == 0) {
+            ball_->awake();
+        }
 
         isPaused_ = false;
 
@@ -102,7 +109,73 @@ void SingleGameState::onRemove() {
 
 
 
-void SingleGameState::showDebugInfo() {}
+void SingleGameState::showDebugInfo() {
+
+    string debugInfo;
+
+    float y = 450.0f;
+
+    if(ball_ != 0) {
+
+        debugInfoFont_->renderText(
+            (boost::format("ball.center=(%1%;%2%)")
+                % ball_->getCenter().x()
+                % ball_->getCenter().y()
+            ).str(),
+            0.0f, y
+        );
+
+        y -= 20.0f;
+
+        debugInfoFont_->renderText(
+            (boost::format("ball.direction=(%1%;%2%)")
+                % ball_->getDirection().x()
+                % ball_->getDirection().y()
+            ).str(),
+            0.0f, y
+        );
+
+        y -= 20.0f;
+
+        debugInfoFont_->renderText(
+            (boost::format("ball.radius=%1%")
+                % ball_->getRadius()
+            ).str(),
+            0.0f, y
+        );
+
+        y -= 20.0f;
+
+        debugInfoFont_->renderText(
+            (boost::format("ball.angle=%1%")
+                % ball_->getAngle()
+            ).str(),
+            0.0f, y
+        );
+
+        y -= 20.0f;
+
+    }
+
+    debugInfoFont_->renderText(
+        (boost::format("platform.min_corner=(%1%;%2%)")
+            % platform_->getRect().min_corner().x()
+            % platform_->getRect().min_corner().y()
+        ).str(),
+        0.0f, y
+    );
+
+    y -= 20.0f;
+
+    debugInfoFont_->renderText(
+        (boost::format("platform.max_corner=(%1%;%2%)")
+            % platform_->getRect().max_corner().x()
+            % platform_->getRect().max_corner().y()
+        ).str(),
+        0.0f, y
+    );
+
+}
 
 
 
@@ -148,7 +221,7 @@ void SingleGameState::onRender() {
         *bar_
     );
 
-    for(unsigned int i = 0; i < ballsCount_; i++) {
+    for(unsigned int i = 0; i < ballsCount_; i++) { // Нарисовать оставшиеся шарики
 
         GraphicsManager::DrawTexture(
             GeometryDefines::BoxI(
@@ -158,6 +231,20 @@ void SingleGameState::onRender() {
             *ballIcon_
         );
 
+    }
+
+    if(ballsCount_ == 0) {
+
+        loseFont_->renderText("You lost!!!", 100, 100);
+
+    } else if(blocks_.empty()) {
+
+        winFont_->renderText("You win!!!", 50, 100);
+
+    }
+
+    if(isDebugInfoVisible_) {
+        showDebugInfo();
     }
 
 }
@@ -173,6 +260,14 @@ void SingleGameState::onResize(unsigned int width, unsigned int height) {
 
 
 void SingleGameState::onKeyDown(int key) {
+
+    if(ballsCount_ == 0) {
+        game_->quitGame();
+    }
+
+    if(blocks_.empty()) {
+        game_->quitGame();
+    }
 
 	switch(key) {
 
@@ -199,27 +294,8 @@ void SingleGameState::onKeyDown(int key) {
 		}
 		break;
 
-		default: {
-
-		}
-
-	}
-
-}
-
-
-
-void SingleGameState::onKeyUp(int key) {
-
-	switch(key) {
-
-		case SDLK_ESCAPE: {
-			//game_->setState(menuState_.get());
-		}
-		break;
-
 		case SDLK_F1: {
-			showDebugInfo();
+			isDebugInfoVisible_ = !isDebugInfoVisible_;
 		}
 		break;
 
@@ -235,6 +311,13 @@ void SingleGameState::onKeyUp(int key) {
 		}
 		break;
 
+		case SDLK_c: {
+
+            blocks_.clear();
+
+		}
+		break;
+
 		default: {
 
 		}
@@ -242,6 +325,10 @@ void SingleGameState::onKeyUp(int key) {
 	}
 
 }
+
+
+
+void SingleGameState::onKeyUp(int key) {}
 
 
 
@@ -308,6 +395,10 @@ void SingleGameState::onMouseUp(int x, int y, MouseButton btn) {
 
 void SingleGameState::onLoop() {
 
+    if(blocks_.empty()) {
+        return;
+    }
+
     if(ball_ == 0) {
         return;
     }
@@ -326,6 +417,8 @@ void SingleGameState::onLoop() {
 
     ball_->update();
 
+    checkBlocks();
+
 }
 
 
@@ -336,12 +429,28 @@ void SingleGameState::init() throw(runtime_error) {
 
     SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
-    background_  = resourceManager->getResource<Texture>(GAME_BACKGROUND);
-    bar_         = resourceManager->getResource<Texture>(GAME_BAR);
-    ballIcon_    = resourceManager->getResource<Texture>(BALL_ICON);
+    background_     = resourceManager->getResource<Texture>(GAME_BACKGROUND);
+    bar_            = resourceManager->getResource<Texture>(GAME_BAR);
+    ballIcon_       = resourceManager->getResource<Texture>(BALL_ICON);
 
-    music_       = resourceManager->getResource<Sound>(GAME_MUSIC);
-    bounceSound_ = resourceManager->getResource<Sound>(BOUNCE_SOUND);
+    music_          = resourceManager->getResource<Sound>(GAME_MUSIC);
+    bounceSound_    = resourceManager->getResource<Sound>(BOUNCE_SOUND);
+
+    debugInfoFont_  = resourceManager->getResource<Font>(DEBUG_INFO_FONT);
+    loseFont_       = resourceManager->getResource<Font>(YOU_LOST_FONT);
+    winFont_        = resourceManager->getResource<Font>(YOU_WIN_FONT);
+
+    Color debugColor = {1.0f, 1.0f, 1.0f};
+    debugInfoFont_->setColor(debugColor);
+    debugInfoFont_->setSize(20);
+
+    Color loseColor = {1.0f, 0.0f, 0.0f};
+    loseFont_->setColor(loseColor);
+    loseFont_->setSize(144);
+
+    Color winColor = {0.97f, 0.07f, 0.94f};
+    winFont_->setColor(winColor);
+    winFont_->setSize(120);
 
     musicPlayer_ = audioManager_->createSoundPlayer(music_);
 
@@ -379,6 +488,8 @@ void SingleGameState::init() throw(runtime_error) {
                                    );
 
     platform_->bindBall(ball_);
+
+    ballsCount_ = 3;
 
     auto n = chrono::system_clock::now() - startLoading;
 
@@ -582,14 +693,16 @@ void SingleGameState::checkBallAndBlock(boost::shared_ptr<Block>& block, const G
         if(contact.y() == blockRect.min_corner().y()) {
 
             ball_->setAngle(225.0f);
+            direction = ball_->getDirection();
 
         } else if(contact.y() == blockRect.max_corner().y()) {
 
             ball_->setAngle(135.0f);
+            direction = ball_->getDirection();
 
         } else {
 
-            direction.x(-direction.x());
+            direction.x(-abs(direction.x()));
 
         }
 
@@ -598,20 +711,30 @@ void SingleGameState::checkBallAndBlock(boost::shared_ptr<Block>& block, const G
         if(contact.y() == blockRect.min_corner().y()) {
 
             ball_->setAngle(315.0f);
+            direction = ball_->getDirection();
 
         } else if(contact.y() == blockRect.max_corner().y()) {
 
             ball_->setAngle(45.0f);
+            direction = ball_->getDirection();
 
         } else {
 
-            direction.x(-direction.x());
+            direction.x(abs(direction.x()));
 
         }
 
     } else {
 
-        direction.y(-direction.y());
+        if(contact.y() == blockRect.min_corner().y()) {
+
+            direction.y(-abs(direction.y()));
+
+        } else {
+
+            direction.y(abs(direction.y()));
+
+        }
 
     }
 
@@ -625,9 +748,37 @@ void SingleGameState::checkBallAndBlock(boost::shared_ptr<Block>& block, const G
 
 
 
+void SingleGameState::checkBlocks() {
+
+    if(blocks_.empty()) {
+        return;
+    }
+
+    // Пробегаем матрицу блоков. Если есть ненулевой блок выходим из функции.
+
+    for(size_t i = 0; i < blocks_.size(); i++) {
+
+        for(size_t j = 0; j < blocks_[i].size(); j++) {
+
+            if(blocks_[i][j] != 0) {
+                return;
+            }
+
+        }
+
+    }
+
+    // Если дошли до сюда, значит, все элементы пустые.
+
+    blocks_.clear();
+
+}
+
+
+
 void SingleGameState::die() {
 
-    if(ballsCount_ == 0) {
+    if(--ballsCount_ == 0) {
 
         ball_ = 0;
 
@@ -635,7 +786,6 @@ void SingleGameState::die() {
 
     }
 
-    ballsCount_--;
     platform_->bindBall(ball_);
 
 }

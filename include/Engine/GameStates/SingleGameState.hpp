@@ -22,6 +22,8 @@
 #include <Utils/Audio/Sound.hpp>
 #include <Utils/Audio/SoundPlayer.hpp>
 
+#include <Utils/FreeType/Font.hpp>
+
 #include <Utils/Graphics/Texture.hpp>
 
 #include "geometry_defines.hpp"
@@ -72,6 +74,7 @@ namespace Engine {
                 void checkBallAndPlatform();
                 void checkBallAndBlocks();
                 void checkBallAndBlock(boost::shared_ptr<Block>& block, const GeometryDefines::Point& nextBallPoint);
+                void checkBlocks();
 
                 void die();
 
@@ -89,6 +92,12 @@ namespace Engine {
                 Utils::SingletonPointer<MenuState>                      menuState_;
 
                 Utils::SingletonPointer<Utils::Audio::AudioManager>     audioManager_;
+
+                bool isDebugInfoVisible_;
+                boost::shared_ptr<Utils::FreeType::Font> debugInfoFont_;
+
+                boost::shared_ptr<Utils::FreeType::Font> loseFont_;
+                boost::shared_ptr<Utils::FreeType::Font> winFont_;
 
                 boost::shared_ptr<Utils::Graphics::Texture>     background_;
                 boost::shared_ptr<Utils::Graphics::Texture>     bar_;

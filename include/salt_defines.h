@@ -4,6 +4,9 @@
 #define RESOURCE_PATH "../resources"
 
 #define DEFAULT_FONT "fonts/arial.ttf"
+#define DEBUG_INFO_FONT "fonts/clacon.ttf"
+#define YOU_LOST_FONT "fonts/youmurdererbb_reg.ttf"
+#define YOU_WIN_FONT "fonts/edundot.ttf"
 
 #define MAIN_MENU "ui/main_menu.xml"
 #define PAUSE_MENU "ui/pause_menu.xml"

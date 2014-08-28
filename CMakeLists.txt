@@ -4,8 +4,8 @@ project(Arkanoid)
 
 set(${PROJECT_NAME}_PROJECT_NAME ${PROJECT_NAME})
 
-set(VERSION_MAJOR 1)
-set(VERSION_MINOR 0)
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 8)
 
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -89,6 +89,7 @@ set(UTILS_AUDIO_SOURCES
 
 set(UTILS_FREETYPE_SOURCES
     ${SRC_DIR}/Utils/FreeType/Font.cpp
+    ${SRC_DIR}/Utils/FreeType/FontManager.cpp
 )
 
 set(UTILS_GRAPHICS_SOURCES
@@ -161,6 +162,7 @@ set(LUA_API_HEADERS
 
 set(UTILS_FREETYPE_HEADERS
     ${INCLUDE_DIR}/Utils/FreeType/Font.hpp
+    ${INCLUDE_DIR}/Utils/FreeType/FontManager.hpp
 )
 
 set(UTILS_AUDIO_HEADERS
@@ -253,7 +255,6 @@ set(${PROJECT_NAME}_LIBS
     ${SDL_LIBRARY}
     ${LUABIND_LIBRARIES}
     ${VORBISFILE_LIBRARY}
-    Box2D
     FTGL
     TinyXML
 )
@@ -270,9 +271,6 @@ configure_file(
 
 add_definitions(-DTIXML_USE_STL)
 
-set(BOX2D_BUILD_STATIC TRUE)
-
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Box2D)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/TinyXML)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
 

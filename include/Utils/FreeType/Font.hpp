@@ -15,6 +15,9 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/Color.hpp>
+#include <Utils/SingletonPointer.hpp>
+
+#include <Utils/FreeType/FontManager.hpp>
 
 #include "salt_defines.h"
 
@@ -42,6 +45,7 @@ namespace Utils {
                 Font();
                 Font(const std::string& fontData) throw(std::runtime_error);
                 Font(const Font& font);
+                ~Font();
 
                 Font& operator=(const Font& font);
 
@@ -135,15 +139,21 @@ namespace Utils {
 
                 void setColor(const Utils::Color& color);
 
+                unsigned int getID() const;
+
             private:
 
                 mutable std::mutex synchroMutex_;
 
+                SingletonPointer<FontManager> fontManager_;
+
+                mutable boost::shared_ptr<FTFont> font_;
+
+                unsigned int size_;
+
+                unsigned int id_;
+
                 Utils::Color color_;
-
-                boost::shared_ptr<FTTextureFont> font_;
-
-                std::string fontBuffer_;
 
         };
 

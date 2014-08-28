@@ -100,12 +100,12 @@ void Platform::bindBall(const boost::shared_ptr<Ball>& ball) {
         return;
     }
 
+    ball->sleep();
+
     ball_ = ball;
 
-    ball_->sleep();
-
     ball_->setCenter((rect_.min_corner().x() + rect_.max_corner().x()) / 2.0f,
-                          rect_.max_corner().y() + ball_->getRadius());
+                          rect_.max_corner().y() + ball_->getRadius() + 5.0f);
 
 }
 
@@ -132,6 +132,14 @@ void Platform::pushBall() {
     ball_->awake();
 
     ball_ = 0;
+
+}
+
+
+
+boost::shared_ptr<Ball> Platform::getBall() const {
+
+    return ball_;
 
 }
 

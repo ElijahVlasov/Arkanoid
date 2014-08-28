@@ -24,7 +24,8 @@ const std::size_t SoundPlayer::BUFFERS_COUNT = 10;
 
 SoundPlayer::SoundPlayer(const boost::shared_ptr<Sound>& sound) throw(runtime_error):
     isPlaying_(false),
-    stream_(sound->createStream())
+    stream_(sound->createStream()),
+    isLooped_(false)
 {
 
     alGenSources(1, &sourceID_);
