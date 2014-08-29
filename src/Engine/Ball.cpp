@@ -5,7 +5,7 @@
 #include <Engine/Ball.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/SpriteBuilder.hpp>
+#include <Utils/Graphics/SpriteFactory.hpp>
 
 #include "geometry_defines.hpp"
 #include "salt_defines.h"
@@ -28,7 +28,7 @@ Ball::Ball(const GeometryDefines::Point& center, float radius, bool isSleep, flo
     direction_(direction)
 {
 
-    setSprite(SpriteBuilder::createSprite(BALL_TEXTURE, SpriteBuilder::SpriteType::STATIC));
+    setSprite(SpriteFactory::createSprite(BALL_TEXTURE, SpriteFactory::SpriteType::STATIC));
 
 }
 

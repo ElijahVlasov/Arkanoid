@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_UI_COMPONENTBUILDER_HPP
-#define _SALT2D_UTILS_UI_COMPONENTBUILDER_HPP
+#ifndef _SALT2D_UTILS_UI_COMPONENTFACTORY_HPP
+#define _SALT2D_UTILS_UI_COMPONENTFACTORY_HPP
 
 #include <stdexcept>
 #include <string>
@@ -23,9 +23,9 @@ namespace Utils {
           * @author Elijah Vlasov
         */
 
-        class ComponentBuilder: public Utils::Singleton<ComponentBuilder> {
+        class ComponentFactory: public Utils::Singleton<ComponentFactory> {
 
-            SINGLETON(ComponentBuilder)
+            SINGLETON(ComponentFactory)
 
             public:
 
@@ -41,7 +41,7 @@ namespace Utils {
 
             protected:
 
-                ComponentBuilder();
+                ComponentFactory();
 
             private:
 

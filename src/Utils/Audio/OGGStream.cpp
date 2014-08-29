@@ -10,7 +10,7 @@
 #include <Utils/assert.hpp>
 
 #include <Utils/Audio/Buffer.hpp>
-#include <Utils/Audio/OGGSoundBuilder.hpp>
+#include <Utils/Audio/OGGSoundFactory.hpp>
 #include <Utils/Audio/OGGStream.hpp>
 
 using namespace std;
@@ -30,10 +30,10 @@ OGGStream::OGGStream(const string& oggData) throw(runtime_error):
 
     ov_callbacks cb;
 
-    cb.read_func    =   OGGSoundBuilder::ReadOgg;
-    cb.close_func   =   OGGSoundBuilder::CloseOgg;
-    cb.seek_func    =   OGGSoundBuilder::SeekOgg;
-    cb.tell_func    =   OGGSoundBuilder::TellOgg;
+    cb.read_func    =   OGGSoundFactory::ReadOgg;
+    cb.close_func   =   OGGSoundFactory::CloseOgg;
+    cb.seek_func    =   OGGSoundFactory::SeekOgg;
+    cb.tell_func    =   OGGSoundFactory::TellOgg;
 
     ASSERT(
         (ov_open_callbacks(&oggDataStream_, &oggVorbisFile_, 0, -1, cb) == 0),
@@ -64,7 +64,7 @@ bool OGGStream::nextBuffer(Buffer& buffer) {
 
     string pcm;
 
-    bool res = OGGSoundBuilder::ReadOggBlock(&oggVorbisFile_, pcm, bufferSize_);
+    bool res = OGGSoundFactory::ReadOggBlock(&oggVorbisFile_, pcm, bufferSize_);
 
     buffer.setData(pcm);
 

@@ -415,9 +415,9 @@ void LuaAPI_::System_ShowMenu(const char* name) {
 
     try {
 
-        SingletonPointer<MenuBuilder> menuBuilder = MenuBuilder::getInstance();
+        SingletonPointer<MenuFactory> menuFactory = MenuFactory::getInstance();
 
-        Menu* menu = menuBuilder->createMenu(instance_->resourceManager_->getFileData(name));
+        Menu* menu = menuFactory->createMenu(instance_->resourceManager_->getFileData(name));
 
         boost::shared_ptr<Menu> menuPtr(menu);
 

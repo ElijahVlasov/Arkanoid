@@ -3,7 +3,7 @@
 #include <Engine/EasyBlock.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/SpriteBuilder.hpp>
+#include <Utils/Graphics/SpriteFactory.hpp>
 
 #include "geometry_defines.hpp"
 
@@ -18,7 +18,7 @@ EasyBlock::EasyBlock(const GeometryDefines::Box& rect) throw(runtime_error):
     Block(rect)
 {
 
-    setSprite(SpriteBuilder::createSprite("textures/game/easyblock.png", SpriteBuilder::SpriteType::STATIC));
+    setSprite(SpriteFactory::createSprite("textures/game/easyblock.png", SpriteFactory::SpriteType::STATIC));
 
 }
 

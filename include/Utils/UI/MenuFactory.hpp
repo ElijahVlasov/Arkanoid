@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_UI_MENUBUILDER_HPP
-#define _SALT2D_UTILS_UI_MENUBUILDER_HPP
+#ifndef _SALT2D_UTILS_UI_MENUFACTORY_HPP
+#define _SALT2D_UTILS_UI_MENUFACTORY_HPP
 
 #include <fstream>
 #include <stdexcept>
@@ -10,7 +10,7 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
 
-#include <Utils/UI/ComponentBuilder.hpp>
+#include <Utils/UI/ComponentFactory.hpp>
 #include <Utils/UI/Menu.hpp>
 
 namespace Utils {
@@ -21,9 +21,9 @@ namespace Utils {
           * @author Elijah Vlasov
         */
 
-        class MenuBuilder: public Utils::Singleton<MenuBuilder> {
+        class MenuFactory: public Utils::Singleton<MenuFactory> {
 
-            SINGLETON(MenuBuilder)
+            SINGLETON(MenuFactory)
 
             public:
 
@@ -49,13 +49,13 @@ namespace Utils {
 
             protected:
 
-                MenuBuilder() throw(std::runtime_error);
+                MenuFactory() throw(std::runtime_error);
 
             private:
 
                 Utils::SingletonPointer<ResourceManager>    resourceManager_;
 
-                Utils::SingletonPointer<ComponentBuilder>   componentBuilder_;
+                Utils::SingletonPointer<ComponentFactory>   componentFactory_;
 
                 static const std::string MENU_ROOT_NODE_VALUE;
 

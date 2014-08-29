@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_GRAPHICS_PNGTEXTUREBUILDER_HPP
-#define _SALT2D_UTILS_GRAPHICS_PNGTEXTUREBUILDER_HPP
+#ifndef _SALT2D_UTILS_GRAPHICS_PNGTEXTUREFACTORY_HPP
+#define _SALT2D_UTILS_GRAPHICS_PNGTEXTUREFACTORY_HPP
 
 #include <istream>
 #include <list>
@@ -27,9 +27,9 @@ namespace Utils {
           * @author Elijah Vlasov
         */
 
-        class PNGTextureBuilder: public Singleton<PNGTextureBuilder> {
+        class PNGTextureFactory: public Singleton<PNGTextureFactory> {
 
-            SINGLETON(PNGTextureBuilder)
+            SINGLETON(PNGTextureFactory)
 
             public:
 
@@ -87,7 +87,7 @@ namespace Utils {
         };
 
         // Проверить сигнатуру PNG.
-        bool PNGTextureBuilder::checkPNG(std::istream& pngStream) {
+        bool PNGTextureFactory::checkPNG(std::istream& pngStream) {
 
             png_byte pngSig[PNG_SIG_SIZE];
 

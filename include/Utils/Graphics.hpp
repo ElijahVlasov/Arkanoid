@@ -3,7 +3,7 @@
 
 #include <Utils/Graphics/AnimationSprite.hpp>
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/PNGTextureBuilder.hpp>
+#include <Utils/Graphics/PNGTextureFactory.hpp>
 #include <Utils/Graphics/Sprite.hpp>
 #include <Utils/Graphics/StaticSprite.hpp>
 #include <Utils/Graphics/Texture.hpp>

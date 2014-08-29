@@ -16,7 +16,7 @@
 #include <Utils/ResourceManager.hpp>
 #include <Utils/UI.hpp>
 
-#include <Utils/UI/ComponentBuilder.hpp>
+#include <Utils/UI/ComponentFactory.hpp>
 
 #include "salt_defines.h"
 
@@ -27,20 +27,20 @@ using namespace Utils::UI;
 
 
 
-const std::string ComponentBuilder::BUTTON_TYPE     =   "button";
-const std::string ComponentBuilder::LABEL_TYPE      =   "label";
-const std::string ComponentBuilder::PICTURE_TYPE    =   "picture";
+const std::string ComponentFactory::BUTTON_TYPE     =   "button";
+const std::string ComponentFactory::LABEL_TYPE      =   "label";
+const std::string ComponentFactory::PICTURE_TYPE    =   "picture";
 
 
 
-ComponentBuilder::ComponentBuilder():
+ComponentFactory::ComponentFactory():
 	localizationManager_(LocalizationManager::getInstance()),
     resourceManager_(ResourceManager::getInstance())
 {}
 
 
 
-Component* ComponentBuilder::createComponent(const TiXmlElement* element) throw(invalid_argument, runtime_error) {
+Component* ComponentFactory::createComponent(const TiXmlElement* element) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (element != 0),
@@ -87,7 +87,7 @@ Component* ComponentBuilder::createComponent(const TiXmlElement* element) throw(
 
 
 
-void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* component) throw(runtime_error) {
+void ComponentFactory::setXMLAttributes(const TiXmlElement* element, Component* component) throw(runtime_error) {
 
     if(component == 0) {
         return;
@@ -134,7 +134,7 @@ void ComponentBuilder::setXMLAttributes(const TiXmlElement* element, Component* 
 
 
 
-void ComponentBuilder::setLuaHandlers(const TiXmlElement* element, Component* component) throw(runtime_error) {
+void ComponentFactory::setLuaHandlers(const TiXmlElement* element, Component* component) throw(runtime_error) {
 
     string          clickEvent, hoverEvent, leavedEvent, mouseMotionEvent, mouseDownEvent, mouseUpEvent, drawEvent, keyDownEvent, keyUpEvent;
 
@@ -212,7 +212,7 @@ void ComponentBuilder::setLuaHandlers(const TiXmlElement* element, Component* co
 
 
 
-template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* element, const char* attrName) throw(runtime_error) {
+template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const char* attrName) throw(runtime_error) {
 
     return getXMLAttribute<T>(element, string(attrName));
 
@@ -220,7 +220,7 @@ template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* ele
 
 
 
-template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* element, const char* attrName, const T& defValue) throw(runtime_error) {
+template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const char* attrName, const T& defValue) throw(runtime_error) {
 
     return getXMLAttribute<T>(element, string(attrName), defValue);
 
@@ -228,7 +228,7 @@ template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* ele
 
 
 
-template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* element, const string& attrName) throw(runtime_error) {
+template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const string& attrName) throw(runtime_error) {
 
     return getXMLAttribute<T>(element, attrName, T());
 
@@ -236,7 +236,7 @@ template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* ele
 
 
 
-template<typename T> T ComponentBuilder::getXMLAttribute(const TiXmlElement* element, const string& attrName, const T& defValue) throw(runtime_error) {
+template<typename T> T ComponentFactory::getXMLAttribute(const TiXmlElement* element, const string& attrName, const T& defValue) throw(runtime_error) {
 
     T attr;
 

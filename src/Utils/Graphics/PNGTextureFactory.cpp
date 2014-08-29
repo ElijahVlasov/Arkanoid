@@ -14,7 +14,7 @@
 #include <Utils/assert.hpp>
 
 #include <Utils/Graphics/Texture.hpp>
-#include <Utils/Graphics/PNGTextureBuilder.hpp>
+#include <Utils/Graphics/PNGTextureFactory.hpp>
 
 using namespace std;
 
@@ -23,9 +23,9 @@ using namespace Utils::Graphics;
 
 
 
-boost::shared_ptr<Texture> PNGTextureBuilder::createTexture(const string& buffer) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Texture> PNGTextureFactory::createTexture(const string& buffer) throw(invalid_argument, runtime_error) {
 
-    PNGTextureBuilder::PNGReadStruct readStruct;
+    PNGTextureFactory::PNGReadStruct readStruct;
 
     istringstream is(buffer);
 
@@ -39,7 +39,7 @@ boost::shared_ptr<Texture> PNGTextureBuilder::createTexture(const string& buffer
         runtime_error("Unknown data format")
     );
 
-    png_set_read_fn(readStruct.readStruct, reinterpret_cast<png_voidp>(&is), PNGTextureBuilder::PNGReadFunc);
+    png_set_read_fn(readStruct.readStruct, reinterpret_cast<png_voidp>(&is), PNGTextureFactory::PNGReadFunc);
 
     png_set_sig_bytes(readStruct.readStruct, PNG_SIG_SIZE);
 
@@ -49,7 +49,7 @@ boost::shared_ptr<Texture> PNGTextureBuilder::createTexture(const string& buffer
 
 
 
-boost::shared_ptr<Texture> PNGTextureBuilder::PNGToTexture(png_structp readStruct, png_infop infoStruct) throw(runtime_error) {
+boost::shared_ptr<Texture> PNGTextureFactory::PNGToTexture(png_structp readStruct, png_infop infoStruct) throw(runtime_error) {
 
     png_read_info(readStruct, infoStruct);
 
@@ -119,7 +119,7 @@ boost::shared_ptr<Texture> PNGTextureBuilder::PNGToTexture(png_structp readStruc
 
 
 
-void PNGTextureBuilder::PNGReadFunc(png_structp readStruct, png_bytep data, png_size_t length) {
+void PNGTextureFactory::PNGReadFunc(png_structp readStruct, png_bytep data, png_size_t length) {
 
     png_voidp s = png_get_io_ptr(readStruct);
 
@@ -131,7 +131,7 @@ void PNGTextureBuilder::PNGReadFunc(png_structp readStruct, png_bytep data, png_
 
 
 
-void PNGTextureBuilder::PNGErrFunc(png_structp readStruct, const char* errString) {
+void PNGTextureFactory::PNGErrFunc(png_structp readStruct, const char* errString) {
 
     throw(runtime_error(
             (boost::format("PNG error: %1%")

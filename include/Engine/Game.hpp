@@ -27,11 +27,10 @@
 #include <Utils/FreeType/FontManager.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/SpriteBuilder.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
-#include <Utils/UI/MenuBuilder.hpp>
+#include <Utils/UI/MenuFactory.hpp>
 
 namespace Engine {
 
@@ -152,11 +151,9 @@ namespace Engine {
 
             Utils::SingletonPointer<Utils::ResourceManager>                 resourceManager_;
 
-            Utils::SingletonPointer<Utils::UI::MenuBuilder>                 menuBuilder_;
+            Utils::SingletonPointer<Utils::UI::MenuFactory>                 menuFactory_;
 
             Utils::SingletonPointer<Utils::Graphics::GraphicsManager>       graphicsManager_;
-
-            Utils::SingletonPointer<Utils::Graphics::SpriteBuilder>         spriteBuilder_;
 
             Utils::SingletonPointer<Utils::Graphics::TextureManager>        textureManager_;
 

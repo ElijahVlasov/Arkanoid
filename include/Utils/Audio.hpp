@@ -5,7 +5,7 @@
 #include <Utils/Audio/Buffer.hpp>
 #include <Utils/Audio/IStream.hpp>
 #include <Utils/Audio/OGGSound.hpp>
-#include <Utils/Audio/OGGSoundBuilder.hpp>
+#include <Utils/Audio/OGGSoundFactory.hpp>
 #include <Utils/Audio/OGGStream.hpp>
 #include <Utils/Audio/PCMSound.hpp>
 #include <Utils/Audio/PCMStream.hpp>

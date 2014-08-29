@@ -11,7 +11,7 @@
 #include <Utils/ResourceManager.hpp>
 
 #include <Utils/UI.hpp>
-#include <Utils/UI/MenuBuilder.hpp>
+#include <Utils/UI/MenuFactory.hpp>
 
 #include <Utils/Graphics/Texture.hpp>
 
@@ -24,18 +24,18 @@ using namespace Utils::UI;
 
 
 
-const std::string MenuBuilder::MENU_ROOT_NODE_VALUE = "menu";
+const std::string MenuFactory::MENU_ROOT_NODE_VALUE = "menu";
 
 
 
-MenuBuilder::MenuBuilder() throw(runtime_error):
+MenuFactory::MenuFactory() throw(runtime_error):
     resourceManager_(ResourceManager::getInstance()),
-    componentBuilder_(ComponentBuilder::getInstance())
+    componentFactory_(ComponentFactory::getInstance())
 {}
 
 
 
-Menu* MenuBuilder::createMenu(const char* xmlMenu) throw(invalid_argument, runtime_error) {
+Menu* MenuFactory::createMenu(const char* xmlMenu) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (xmlMenu != 0),
@@ -66,7 +66,7 @@ Menu* MenuBuilder::createMenu(const char* xmlMenu) throw(invalid_argument, runti
 
 
 
-Menu* MenuBuilder::createMenu(const string& xmlMenu) throw(invalid_argument, runtime_error) {
+Menu* MenuFactory::createMenu(const string& xmlMenu) throw(invalid_argument, runtime_error) {
 
     return createMenu(xmlMenu.c_str());
 
@@ -74,7 +74,7 @@ Menu* MenuBuilder::createMenu(const string& xmlMenu) throw(invalid_argument, run
 
 
 
-void MenuBuilder::loadComponents(TiXmlDocument& document, Menu* menu) throw(runtime_error) {
+void MenuFactory::loadComponents(TiXmlDocument& document, Menu* menu) throw(runtime_error) {
 
     TiXmlElement* rootElement = document.RootElement();
 
@@ -114,7 +114,7 @@ void MenuBuilder::loadComponents(TiXmlDocument& document, Menu* menu) throw(runt
 
         try {
 
-            component = componentBuilder_->createComponent(uiElement);
+            component = componentFactory_->createComponent(uiElement);
 
         } catch(const invalid_argument&) {}
 

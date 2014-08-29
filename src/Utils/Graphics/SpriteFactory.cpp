@@ -11,7 +11,7 @@
 
 #include <Utils/Graphics/AnimationSprite.hpp>
 #include <Utils/Graphics/Sprite.hpp>
-#include <Utils/Graphics/SpriteBuilder.hpp>
+#include <Utils/Graphics/SpriteFactory.hpp>
 #include <Utils/Graphics/StaticSprite.hpp>
 #include <Utils/Graphics/Texture.hpp>
 
@@ -20,17 +20,17 @@ using namespace std;
 using namespace Utils;
 using namespace Utils::Graphics;
 
-const string SpriteBuilder::SPRITE_ROOT_ELEMENT = "sprite";
+const string SpriteFactory::SPRITE_ROOT_ELEMENT = "sprite";
 
 
 
-SpriteBuilder::SpriteBuilder():
+SpriteFactory::SpriteFactory():
     resourceManager_(ResourceManager::getInstance())
 {}
 
 
 
-boost::shared_ptr<Sprite> SpriteBuilder::createSprite(const char* fileName, SpriteBuilder::SpriteType spriteType) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Sprite> SpriteFactory::createSprite(const char* fileName, SpriteFactory::SpriteType spriteType) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         (fileName != 0),
@@ -43,7 +43,7 @@ boost::shared_ptr<Sprite> SpriteBuilder::createSprite(const char* fileName, Spri
 
 
 
-boost::shared_ptr<Sprite> SpriteBuilder::createSprite(const string& fileName, SpriteBuilder::SpriteType spriteType) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Sprite> SpriteFactory::createSprite(const string& fileName, SpriteFactory::SpriteType spriteType) throw(invalid_argument, runtime_error) {
 
     ASSERT(
         !fileName.empty(),
@@ -68,7 +68,7 @@ boost::shared_ptr<Sprite> SpriteBuilder::createSprite(const string& fileName, Sp
 
 
 
-boost::shared_ptr<Sprite> SpriteBuilder::createStaticSprite(const string& fileName) throw(runtime_error) {
+boost::shared_ptr<Sprite> SpriteFactory::createStaticSprite(const string& fileName) throw(runtime_error) {
 
     boost::shared_ptr<Texture>      texture = resourceManager_->getResource<Texture>(fileName);
 
@@ -80,7 +80,7 @@ boost::shared_ptr<Sprite> SpriteBuilder::createStaticSprite(const string& fileNa
 
 
 
-boost::shared_ptr<Sprite> SpriteBuilder::createAnimationSprite(const std::string& fileName) throw(runtime_error) {
+boost::shared_ptr<Sprite> SpriteFactory::createAnimationSprite(const std::string& fileName) throw(runtime_error) {
 
     boost::shared_ptr<AnimationSprite> animationSprite(new AnimationSprite());
 

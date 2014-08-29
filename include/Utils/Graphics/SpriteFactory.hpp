@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_GRAPHICS_SPRITEBUILDER_HPP
-#define _SALT2D_UTILS_GRAPHICS_SPRITEBUILDER_HPP
+#ifndef _SALT2D_UTILS_GRAPHICS_SPRITEFACTORY_HPP
+#define _SALT2D_UTILS_GRAPHICS_SPRITEFACTORY_HPP
 
 #include <stdexcept>
 #include <string>
@@ -16,9 +16,9 @@ namespace Utils {
 
     namespace Graphics {
 
-        class SpriteBuilder: public Singleton<SpriteBuilder> {
+        class SpriteFactory: public Singleton<SpriteFactory> {
 
-            SINGLETON(SpriteBuilder)
+            SINGLETON(SpriteFactory)
 
             public:
 
@@ -34,7 +34,7 @@ namespace Utils {
 
             protected:
 
-                SpriteBuilder();
+                SpriteFactory();
 
             private:
 

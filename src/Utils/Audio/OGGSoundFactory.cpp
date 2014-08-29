@@ -9,7 +9,7 @@
 #include <Utils/assert.hpp>
 
 #include <Utils/Audio/OGGSound.hpp>
-#include <Utils/Audio/OGGSoundBuilder.hpp>
+#include <Utils/Audio/OGGSoundFactory.hpp>
 #include <Utils/Audio/PCMSound.hpp>
 #include <Utils/Audio/Sound.hpp>
 
@@ -22,11 +22,11 @@ using namespace Utils::Audio;
 
 
 
-const std::size_t OGGSoundBuilder::MAX_PCM_SOUND_SIZE = 1024;
+const std::size_t OGGSoundFactory::MAX_PCM_SOUND_SIZE = 1024;
 
 
 
-boost::shared_ptr<Sound> OGGSoundBuilder::createSound(const string& oggBuffer) throw(invalid_argument, runtime_error) {
+boost::shared_ptr<Sound> OGGSoundFactory::createSound(const string& oggBuffer) throw(invalid_argument, runtime_error) {
 
     struct OggVorbisFile {
 
@@ -41,10 +41,10 @@ boost::shared_ptr<Sound> OGGSoundBuilder::createSound(const string& oggBuffer) t
 
             ov_callbacks    cb;
 
-            cb.read_func    =   OGGSoundBuilder::ReadOgg;
-            cb.close_func   =   OGGSoundBuilder::CloseOgg;
-            cb.seek_func    =   OGGSoundBuilder::SeekOgg;
-            cb.tell_func    =   OGGSoundBuilder::TellOgg;
+            cb.read_func    =   OGGSoundFactory::ReadOgg;
+            cb.close_func   =   OGGSoundFactory::CloseOgg;
+            cb.seek_func    =   OGGSoundFactory::SeekOgg;
+            cb.tell_func    =   OGGSoundFactory::TellOgg;
 
             ASSERT(
                 (ov_open_callbacks(&oggInput, &vf, 0, -1, cb) == 0),
@@ -101,7 +101,7 @@ boost::shared_ptr<Sound> OGGSoundBuilder::createSound(const string& oggBuffer) t
 
 
 
-bool OGGSoundBuilder::ReadOggBlock(OggVorbis_File* oggVorbisFile, string& out, std::size_t blockSize) {
+bool OGGSoundFactory::ReadOggBlock(OggVorbis_File* oggVorbisFile, string& out, std::size_t blockSize) {
 
     std::size_t totalReserved = 0;
 
@@ -142,7 +142,7 @@ bool OGGSoundBuilder::ReadOggBlock(OggVorbis_File* oggVorbisFile, string& out, s
 
 
 
-std::size_t OGGSoundBuilder::ReadOgg(void* out, std::size_t size, std::size_t num, void* dataSource) {
+std::size_t OGGSoundFactory::ReadOgg(void* out, std::size_t size, std::size_t num, void* dataSource) {
 
     istream* is = reinterpret_cast<istream*>(dataSource);
 
@@ -154,7 +154,7 @@ std::size_t OGGSoundBuilder::ReadOgg(void* out, std::size_t size, std::size_t nu
 
 
 
-int OGGSoundBuilder::SeekOgg(void* dataSource, ogg_int64_t offset, int whence) {
+int OGGSoundFactory::SeekOgg(void* dataSource, ogg_int64_t offset, int whence) {
 
     istream* is = reinterpret_cast<istream*>(dataSource);
 
@@ -199,7 +199,7 @@ int OGGSoundBuilder::SeekOgg(void* dataSource, ogg_int64_t offset, int whence) {
 
 
 
-long OGGSoundBuilder::TellOgg(void* dataSource) {
+long OGGSoundFactory::TellOgg(void* dataSource) {
 
     istream* is = reinterpret_cast<istream*>(dataSource);
 
@@ -209,7 +209,7 @@ long OGGSoundBuilder::TellOgg(void* dataSource) {
 
 
 
-int OGGSoundBuilder::CloseOgg(void* dataSource) {
+int OGGSoundFactory::CloseOgg(void* dataSource) {
 
     return 0;
 

@@ -1,5 +1,5 @@
-#ifndef _SALT2D_UTILS_AUDIO_OGGSOUNDBUILDER_HPP
-#define _SALT2D_UTILS_AUDIO_OGGSOUNDBUILDER_HPP
+#ifndef _SALT2D_UTILS_AUDIO_OGGSOUNDFACTORY_HPP
+#define _SALT2D_UTILS_AUDIO_OGGSOUNDFACTORY_HPP
 
 #include <stdexcept>
 #include <string>
@@ -21,9 +21,9 @@ namespace Utils {
           * @author Elijah Vlasov
         */
 
-        class OGGSoundBuilder: public Singleton<OGGSoundBuilder> {
+        class OGGSoundFactory: public Singleton<OGGSoundFactory> {
 
-            SINGLETON(OGGSoundBuilder)
+            SINGLETON(OGGSoundFactory)
 
             public:
 

@@ -30,13 +30,12 @@
 #include <Utils/FreeType/FontManager.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/SpriteBuilder.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
 
 #include <Utils/UI/Component.hpp>
 #include <Utils/UI/Label.hpp>
 #include <Utils/UI/Menu.hpp>
-#include <Utils/UI/MenuBuilder.hpp>
+#include <Utils/UI/MenuFactory.hpp>
 
 #include "salt_defines.h"
 
@@ -63,9 +62,8 @@ Game::Game() throw(runtime_error):
     audioManager_(AudioManager::getInstance()),
     lua_(Lua::getInstance()),
     resourceManager_(ResourceManager::getInstance()),
-    menuBuilder_(MenuBuilder::getInstance()),
+    menuFactory_(MenuFactory::getInstance()),
     graphicsManager_(GraphicsManager::getInstance()),
-    spriteBuilder_(SpriteBuilder::getInstance()),
     textureManager_(TextureManager::getInstance()),
     fontManager_(FontManager::getInstance()),
     scrWidth_(640),
@@ -501,7 +499,7 @@ void Game::loadMainMenu() throw(runtime_error) {
 
     string menuXML = resourceManager_->getFileData(MAIN_MENU);
 
-    Menu* mainMenu = menuBuilder_->createMenu(menuXML);
+    Menu* mainMenu = menuFactory_->createMenu(menuXML);
 
     mainMenu_ = boost::shared_ptr<Menu>(mainMenu);
 
@@ -517,7 +515,7 @@ void Game::loadPauseMenu() throw(runtime_error) {
 
     string menuXML = resourceManager_->getFileData(PAUSE_MENU);
 
-    Menu* pauseMenu = menuBuilder_->createMenu(menuXML);
+    Menu* pauseMenu = menuFactory_->createMenu(menuXML);
 
     pauseMenu_ = boost::shared_ptr<Menu>(pauseMenu);
 

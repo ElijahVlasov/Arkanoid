@@ -12,7 +12,7 @@
 #include <Engine/GameStates/SingleGameState.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
-#include <Utils/Graphics/SpriteBuilder.hpp>
+#include <Utils/Graphics/SpriteFactory.hpp>
 
 #include "salt_defines.h"
 
@@ -31,7 +31,7 @@ Platform::Platform(const GeometryDefines::Box& rect) throw(runtime_error):
     singleGame_(SingleGameState::getInstance())
 {
 
-    setSprite(SpriteBuilder::createSprite(PLATFORM_SPRITE, SpriteBuilder::ANIMATION));
+    setSprite(SpriteFactory::createSprite(PLATFORM_SPRITE, SpriteFactory::ANIMATION));
 
 }
 

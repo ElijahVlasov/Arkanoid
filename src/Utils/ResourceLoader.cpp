@@ -8,10 +8,10 @@
 #include <Utils/ResourceLoader.hpp>
 #include <Utils/SingletonPointer.hpp>
 
-#include <Utils/Audio/OGGSoundBuilder.hpp>
+#include <Utils/Audio/OGGSoundFactory.hpp>
 #include <Utils/Audio/Sound.hpp>
 
-#include <Utils/Graphics/PNGTextureBuilder.hpp>
+#include <Utils/Graphics/PNGTextureFactory.hpp>
 #include <Utils/Graphics/Texture.hpp>
 
 #include <Utils/FreeType/Font.hpp>
@@ -27,11 +27,11 @@ using namespace Utils::FreeType;
 
 boost::shared_ptr<Texture> ResourceLoader::loadTexture(const char* fileName) throw(invalid_argument, runtime_error) {
 
-    Utils::SingletonPointer<PNGTextureBuilder> textureBuilder = PNGTextureBuilder::getInstance();
+    Utils::SingletonPointer<PNGTextureFactory> textureFactory = PNGTextureFactory::getInstance();
 
     string data = readFile(fileName);
 
-    return textureBuilder->createTexture(data);
+    return textureFactory->createTexture(data);
 
 }
 
@@ -39,11 +39,11 @@ boost::shared_ptr<Texture> ResourceLoader::loadTexture(const char* fileName) thr
 
 boost::shared_ptr<Sound> ResourceLoader::loadSound(const char* fileName) throw(invalid_argument, runtime_error) {
 
-    Utils::SingletonPointer<OGGSoundBuilder> soundBuilder = OGGSoundBuilder::getInstance();
+    Utils::SingletonPointer<OGGSoundFactory> soundFactory = OGGSoundFactory::getInstance();
 
     string data = readFile(fileName);
 
-    return soundBuilder->createSound(data);
+    return soundFactory->createSound(data);
 
 }
 

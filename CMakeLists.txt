@@ -79,7 +79,7 @@ set(UTILS_AUDIO_SOURCES
     ${SRC_DIR}/Utils/Audio/Buffer.cpp
     ${SRC_DIR}/Utils/Audio/IStream.cpp
     ${SRC_DIR}/Utils/Audio/OGGSound.cpp
-    ${SRC_DIR}/Utils/Audio/OGGSoundBuilder.cpp
+    ${SRC_DIR}/Utils/Audio/OGGSoundFactory.cpp
     ${SRC_DIR}/Utils/Audio/OGGStream.cpp
     ${SRC_DIR}/Utils/Audio/PCMSound.cpp
     ${SRC_DIR}/Utils/Audio/PCMStream.cpp
@@ -95,9 +95,9 @@ set(UTILS_FREETYPE_SOURCES
 set(UTILS_GRAPHICS_SOURCES
     ${SRC_DIR}/Utils/Graphics/AnimationSprite.cpp
     ${SRC_DIR}/Utils/Graphics/GraphicsManager.cpp
-    ${SRC_DIR}/Utils/Graphics/PNGTextureBuilder.cpp
+    ${SRC_DIR}/Utils/Graphics/PNGTextureFactory.cpp
     ${SRC_DIR}/Utils/Graphics/Sprite.cpp
-    ${SRC_DIR}/Utils/Graphics/SpriteBuilder.cpp
+    ${SRC_DIR}/Utils/Graphics/SpriteFactory.cpp
     ${SRC_DIR}/Utils/Graphics/StaticSprite.cpp
     ${SRC_DIR}/Utils/Graphics/Texture.cpp
     ${SRC_DIR}/Utils/Graphics/TextureManager.cpp
@@ -106,13 +106,13 @@ set(UTILS_GRAPHICS_SOURCES
 set(UTILS_UI_SOURCES
     ${SRC_DIR}/Utils/UI/Button.cpp
     ${SRC_DIR}/Utils/UI/Component.cpp
-    ${SRC_DIR}/Utils/UI/ComponentBuilder.cpp
+    ${SRC_DIR}/Utils/UI/ComponentFactory.cpp
     ${SRC_DIR}/Utils/UI/Container.cpp
     ${SRC_DIR}/Utils/UI/Dialog.cpp
     ${SRC_DIR}/Utils/UI/Label.cpp
     ${SRC_DIR}/Utils/UI/LoadingAnimation.cpp
     ${SRC_DIR}/Utils/UI/Menu.cpp
-    ${SRC_DIR}/Utils/UI/MenuBuilder.cpp
+    ${SRC_DIR}/Utils/UI/MenuFactory.cpp
     ${SRC_DIR}/Utils/UI/Picture.cpp
 )
 
@@ -170,7 +170,7 @@ set(UTILS_AUDIO_HEADERS
     ${INCLUDE_DIR}/Utils/Audio/Buffer.hpp
     ${INCLUDE_DIR}/Utils/Audio/IStream.hpp
     ${INCLUDE_DIR}/Utils/Audio/OGGSound.hpp
-    ${INCLUDE_DIR}/Utils/Audio/OGGSoundBuilder.hpp
+    ${INCLUDE_DIR}/Utils/Audio/OGGSoundFactory.hpp
     ${INCLUDE_DIR}/Utils/Audio/OGGStream.hpp
     ${INCLUDE_DIR}/Utils/Audio/PCMSound.hpp
     ${INCLUDE_DIR}/Utils/Audio/PCMStream.hpp
@@ -181,9 +181,9 @@ set(UTILS_AUDIO_HEADERS
 set(UTILS_GRAPHICS_HEADERS
     ${INCLUDE_DIR}/Utils/Graphics/AnimationSprite.hpp
     ${INCLUDE_DIR}/Utils/Graphics/GraphicsManager.hpp
-    ${INCLUDE_DIR}/Utils/Graphics/PNGTextureBuilder.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/PNGTextureFactory.hpp
     ${INCLUDE_DIR}/Utils/Graphics/Sprite.hpp
-    ${INCLUDE_DIR}/Utils/Graphics/SpriteBuilder.hpp
+    ${INCLUDE_DIR}/Utils/Graphics/SpriteFactory.hpp
     ${INCLUDE_DIR}/Utils/Graphics/StaticSprite.hpp
     ${INCLUDE_DIR}/Utils/Graphics/Texture.hpp
     ${INCLUDE_DIR}/Utils/Graphics/TextureManager.hpp
@@ -192,7 +192,7 @@ set(UTILS_GRAPHICS_HEADERS
 set(UTILS_UI_HEADERS
     ${INCLUDE_DIR}/Utils/UI/Button.hpp
     ${INCLUDE_DIR}/Utils/UI/Component.hpp
-    ${INCLUDE_DIR}/Utils/UI/ComponentBuilder.hpp
+    ${INCLUDE_DIR}/Utils/UI/ComponentFactory.hpp
     ${INCLUDE_DIR}/Utils/UI/ComponentEvent_wrapper.hpp
     ${INCLUDE_DIR}/Utils/UI/Container.hpp
     ${INCLUDE_DIR}/Utils/UI/Dialog.hpp
@@ -201,7 +201,7 @@ set(UTILS_UI_HEADERS
     ${INCLUDE_DIR}/Utils/UI/Label.hpp
     ${INCLUDE_DIR}/Utils/UI/LoadingAnimation.hpp
     ${INCLUDE_DIR}/Utils/UI/Menu.hpp
-    ${INCLUDE_DIR}/Utils/UI/MenuBuilder.hpp
+    ${INCLUDE_DIR}/Utils/UI/MenuFactory.hpp
     ${INCLUDE_DIR}/Utils/UI/MouseEvent.hpp
     ${INCLUDE_DIR}/Utils/UI/Picture.hpp
 )
@@ -215,6 +215,7 @@ set(UTILS_HEADERS
     ${INCLUDE_DIR}/Utils/Audio.hpp
     ${INCLUDE_DIR}/Utils/Color.hpp
     ${INCLUDE_DIR}/Utils/FreeType.hpp
+    ${INCLUDE_DIR}/Utils/Graphics.hpp
     ${INCLUDE_DIR}/Utils/LocalizationManager.hpp
     ${INCLUDE_DIR}/Utils/Lua.hpp
     ${INCLUDE_DIR}/Utils/MouseButton.hpp
