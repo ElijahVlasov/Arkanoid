@@ -9,6 +9,7 @@
 
 #include <Engine/Ball.hpp>
 #include <Engine/Block.hpp>
+#include <Engine/DebugOutput.hpp>
 #include <Engine/Platform.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
@@ -80,9 +81,10 @@ namespace Engine {
 
                 void bounceSound();
 
+                void printDebugInfo();
+
                 static const std::chrono::milliseconds LOADING_DURATION;
 
-                void showDebugInfo();
                 void makeScreenshot();
 
                 Utils::SingletonPointer<Engine::Game>                   game_;
@@ -93,8 +95,7 @@ namespace Engine {
 
                 Utils::SingletonPointer<Utils::Audio::AudioManager>     audioManager_;
 
-                bool isDebugInfoVisible_;
-                boost::shared_ptr<Utils::FreeType::Font> debugInfoFont_;
+                boost::shared_ptr<DebugOutput> debugOutput_;
 
                 boost::shared_ptr<Utils::FreeType::Font> loseFont_;
                 boost::shared_ptr<Utils::FreeType::Font> winFont_;

@@ -9,6 +9,7 @@
 
 #include <Engine/Ball.hpp>
 #include <Engine/Block.hpp>
+#include <Engine/DebugOutput.hpp>
 #include <Engine/EasyBlock.hpp>
 #include <Engine/Game.hpp>
 
@@ -47,7 +48,6 @@ SingleGameState::SingleGameState() throw(runtime_error):
     lua_(Lua::getInstance()),
     menuState_(MenuState::getInstance()),
     audioManager_(AudioManager::getInstance()),
-    isDebugInfoVisible_(false),
     isPlatformClicked_(false),
     isPaused_(false)
 {}
@@ -61,7 +61,6 @@ void SingleGameState::quit() {
     musicPlayer_    = 0;
     music_          = 0;
     isPaused_       = false;
-    debugInfoFont_  = 0;
     loseFont_       = 0;
     winFont_        = 0;
 
@@ -109,71 +108,24 @@ void SingleGameState::onRemove() {
 
 
 
-void SingleGameState::showDebugInfo() {
+void SingleGameState::printDebugInfo() {
 
-    string debugInfo;
+    if(debugOutput_ == 0) {
+        return;
+    }
 
-    float y = 450.0f;
+    debugOutput_->clear();
 
     if(ball_ != 0) {
 
-        debugInfoFont_->renderText(
-            (boost::format("ball.center=(%1%;%2%)")
-                % ball_->getCenter().x()
-                % ball_->getCenter().y()
-            ).str(),
-            0.0f, y
-        );
-
-        y -= 20.0f;
-
-        debugInfoFont_->renderText(
-            (boost::format("ball.direction=(%1%;%2%)")
-                % ball_->getDirection().x()
-                % ball_->getDirection().y()
-            ).str(),
-            0.0f, y
-        );
-
-        y -= 20.0f;
-
-        debugInfoFont_->renderText(
-            (boost::format("ball.radius=%1%")
-                % ball_->getRadius()
-            ).str(),
-            0.0f, y
-        );
-
-        y -= 20.0f;
-
-        debugInfoFont_->renderText(
-            (boost::format("ball.angle=%1%")
-                % ball_->getAngle()
-            ).str(),
-            0.0f, y
-        );
-
-        y -= 20.0f;
+        debugOutput_->printf("ball.center=(%f;%f)\n",    ball_->getCenter().x(),    ball_->getCenter().y());
+        debugOutput_->printf("ball.direction=(%f;%f)\n", ball_->getDirection().x(), ball_->getDirection().y());
+        debugOutput_->printf("ball.radius=%f\nball.angle=%f\nball.speed=%f\n", ball_->getRadius(), ball_->getAngle(), ball_->getSpeed());
 
     }
 
-    debugInfoFont_->renderText(
-        (boost::format("platform.min_corner=(%1%;%2%)")
-            % platform_->getRect().min_corner().x()
-            % platform_->getRect().min_corner().y()
-        ).str(),
-        0.0f, y
-    );
-
-    y -= 20.0f;
-
-    debugInfoFont_->renderText(
-        (boost::format("platform.max_corner=(%1%;%2%)")
-            % platform_->getRect().max_corner().x()
-            % platform_->getRect().max_corner().y()
-        ).str(),
-        0.0f, y
-    );
+    debugOutput_->printf("platform.min_corner=(%f;%f)\n", platform_->getRect().min_corner().x(), platform_->getRect().min_corner().y());
+    debugOutput_->printf("platform.max_corner=(%f;%f)\n", platform_->getRect().max_corner().x(), platform_->getRect().max_corner().y());
 
 }
 
@@ -243,8 +195,8 @@ void SingleGameState::onRender() {
 
     }
 
-    if(isDebugInfoVisible_) {
-        showDebugInfo();
+    if(debugOutput_ != 0) {
+        debugOutput_->onRender();
     }
 
 }
@@ -295,7 +247,13 @@ void SingleGameState::onKeyDown(int key) {
 		break;
 
 		case SDLK_F1: {
-			isDebugInfoVisible_ = !isDebugInfoVisible_;
+
+			if(debugOutput_ == 0) {
+                debugOutput_ = boost::shared_ptr<DebugOutput>(new DebugOutput());
+			} else {
+                debugOutput_ = 0;
+			}
+
 		}
 		break;
 
@@ -395,6 +353,8 @@ void SingleGameState::onMouseUp(int x, int y, MouseButton btn) {
 
 void SingleGameState::onLoop() {
 
+    printDebugInfo();
+
     if(blocks_.empty()) {
         return;
     }
@@ -436,13 +396,8 @@ void SingleGameState::init() throw(runtime_error) {
     music_          = resourceManager->getResource<Sound>(GAME_MUSIC);
     bounceSound_    = resourceManager->getResource<Sound>(BOUNCE_SOUND);
 
-    debugInfoFont_  = resourceManager->getResource<Font>(DEBUG_INFO_FONT);
     loseFont_       = resourceManager->getResource<Font>(YOU_LOST_FONT);
     winFont_        = resourceManager->getResource<Font>(YOU_WIN_FONT);
-
-    Color debugColor = {1.0f, 1.0f, 1.0f};
-    debugInfoFont_->setColor(debugColor);
-    debugInfoFont_->setSize(20);
 
     Color loseColor = {1.0f, 0.0f, 0.0f};
     loseFont_->setColor(loseColor);

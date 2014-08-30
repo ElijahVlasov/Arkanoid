@@ -63,6 +63,7 @@ set(ENGINE_SOURCES
     ${ENGINE_GAME_STATES_SOURCES}
     ${SRC_DIR}/Engine/Ball.cpp
     ${SRC_DIR}/Engine/Block.cpp
+    ${SRC_DIR}/Engine/DebugOutput.cpp
     ${SRC_DIR}/Engine/EasyBlock.cpp
     ${SRC_DIR}/Engine/Game.cpp
     ${SRC_DIR}/Engine/Object.cpp
@@ -148,6 +149,7 @@ set(ENGINE_HEADERS
     ${ENGINE_GAME_STATES_HEADERS}
     ${INCLUDE_DIR}/Engine/Ball.hpp
     ${INCLUDE_DIR}/Engine/Block.hpp
+    ${INCLUDE_DIR}/Engine/DebugOutput.hpp
     ${INCLUDE_DIR}/Engine/EasyBlock.hpp
     ${INCLUDE_DIR}/Engine/Game.hpp
     ${INCLUDE_DIR}/Engine/GameStates.hpp
