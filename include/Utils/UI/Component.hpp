@@ -8,8 +8,9 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/FreeType.hpp>
+#include <Utils/LocalizationManager.hpp>
 #include <Utils/MouseButton.hpp>
-#include <Utils/ResourceManager.hpp>
+#include <Utils/SingletonPointer.hpp>
 
 #include <Utils/UI/Event.hpp>
 #include <Utils/UI/KeyEvent.hpp>
@@ -126,6 +127,8 @@ namespace Utils {
                 */
 
                 const std::string& getText() const;
+
+                const std::string& getLocalizedText() const;
 
                 /** Установить имя компонента.
                   * @param name Имя компонента. Если равно NULL, то текст устанавливается
@@ -259,6 +262,8 @@ namespace Utils {
                 inline bool isPressed() const;
 
             private:
+
+                SingletonPointer<LocalizationManager> localizationManager_;
 
                 Utils::FreeType::Font font_;
 

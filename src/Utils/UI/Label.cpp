@@ -47,7 +47,7 @@ void Label::drawText() {
     // рендерим текст
     try {
 
-        getFont().renderText(getText(), x, y, width, height);
+        getFont().renderText(getLocalizedText(), x, y, width, height);
 
     } catch(const runtime_error&) {}
 

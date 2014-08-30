@@ -48,6 +48,9 @@ namespace LuaAPI {
 
             static Utils::SingletonPointer<Engine::Game> Engine_GetGame();
 
+            static const char* System_GetLocale();
+            static void System_SetLocale(const char* locale);
+
         protected:
 
             LuaAPI_();
@@ -114,6 +117,8 @@ namespace LuaAPI {
             Utils::SingletonPointer<Engine::Game> game_;
 
             Utils::SingletonPointer<Engine::GameStates::MenuState> menuGameState_;
+
+            Utils::SingletonPointer<Utils::LocalizationManager> localizationManager_;
 
             Utils::SingletonPointer<Utils::Lua> lua_;
 

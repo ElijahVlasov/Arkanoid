@@ -1,6 +1,5 @@
 function option_click()
-    --system.exit()
-    system.show_menu("ui/pause_menu.xml")
+    system.show_menu("ui/option_menu.xml")
 end
 
 function new_game_click()

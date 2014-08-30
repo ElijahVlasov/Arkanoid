@@ -28,25 +28,28 @@ namespace Utils {
 			void setLocale(const char* localeName) 				throw(std::runtime_error);
 			void setLocale(const std::string& localeName) 		throw(std::runtime_error);
 
+			const std::string& getLocale() const;
+
 			/** Получить локализованную версию строкки.
 			*/
 
-			inline std::string getString(const char* key) const;
-			inline std::string getString(const std::string& key) const;
+			inline const std::string& getString(const char* key) const;
+			inline const std::string& getString(const std::string& key) const;
 
 		private:
 
 			static const std::string LOCALIZATION_DOCUMENT_ROOT_ELEMENT;
 			static const std::string LOCALIZATION_DOCUMENT_ELEMENT;
 
-			std::map< std::string, std::string > localization_;
+            std::string locale_;
 
+			std::map< std::string, std::string > localization_;
 
 	};
 
 
 
-	std::string LocalizationManager::getString(const char* key) const {
+	const std::string& LocalizationManager::getString(const char* key) const {
 
 		if(key == 0) {
 			return std::string();
@@ -58,7 +61,7 @@ namespace Utils {
 
 
 
-	std::string LocalizationManager::getString(const std::string& key) const {
+	const std::string& LocalizationManager::getString(const std::string& key) const {
 
 		auto strIter = localization_.find(key);
 

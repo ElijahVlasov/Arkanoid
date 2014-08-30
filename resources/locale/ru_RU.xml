@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<localization>
+    <string name="new_game_button_text">Новая игра</string>
+    <string name="options_button_text">Опции</string>
+    <string name="about_button_text">Об игре</string>
+    <string name="resume_game_button_text">Продолжить</string>
+    <string name="to_main_menu_button_text">Главное меню</string>
+    <string name="loading_text">Загрузка...</string>
+    <string name="exit_text">Выход</string>
+    <string name="change_language_text">Язык: Русский</string>
+</localization>

@@ -8,6 +8,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <Utils/FreeType.hpp>
+#include <Utils/LocalizationManager.hpp>
 #include <Utils/MouseButton.hpp>
 #include <Utils/ResourceManager.hpp>
 #include <Utils/SingletonPointer.hpp>
@@ -20,17 +21,18 @@
 #include "salt_defines.h"
 #include "geometry_defines.hpp"
 
+using namespace std;
+
 using namespace GeometryDefines;
 
+using namespace Utils;
 using namespace Utils::FreeType;
-
 using namespace Utils::UI;
-
-using namespace std;
 
 
 
 Component::Component() throw(runtime_error):
+    localizationManager_(LocalizationManager::getInstance()),
     box_(PointI(0, 0), PointI(0, 0)),
     mouseDownX_(-100),
     mouseDownY_(-100),
@@ -131,6 +133,14 @@ void Component::setText(const string& text) {
 const string& Component::getText() const {
 
     return text_;
+
+}
+
+
+
+const string& Component::getLocalizedText() const {
+
+    return localizationManager_->getString(text_);
 
 }
 

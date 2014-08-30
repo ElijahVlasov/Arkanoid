@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<localization>
+    <string name="new_game_button_text">新游戏</string>
+    <string name="options_button_text">选项</string>
+    <string name="about_button_text">关于游戏</string>
+    <string name="resume_game_button_text">继续</string>
+    <string name="to_main_menu_button_text">主菜单</string>
+    <string name="loading_text">加载中...</string>
+    <string name="exit_text">输出</string>
+    <string name="change_language_text">语言: 中国</string>
+</localization>

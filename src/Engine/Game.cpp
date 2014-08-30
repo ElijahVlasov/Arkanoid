@@ -30,6 +30,7 @@
 #include <Utils/FreeType/FontManager.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/SpriteFactory.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
 
 #include <Utils/UI/Component.hpp>
@@ -64,6 +65,7 @@ Game::Game() throw(runtime_error):
     resourceManager_(ResourceManager::getInstance()),
     menuFactory_(MenuFactory::getInstance()),
     graphicsManager_(GraphicsManager::getInstance()),
+    spriteFactory_(SpriteFactory::getInstance()),
     textureManager_(TextureManager::getInstance()),
     fontManager_(FontManager::getInstance()),
     scrWidth_(640),

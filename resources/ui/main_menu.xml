@@ -2,7 +2,7 @@
 
 <menu background="textures/ui/main_menu.png">
     <button x="170" y="200" height="50" width="300" on_click="main_menu.new_game_click">new_game_button_text</button>
-    <button x="170" y="140" height="50" width="300">options_button_text</button>
+    <button x="170" y="140" height="50" width="300" on_click="main_menu.option_click">options_button_text</button>
     <button x="170" y="80" height="50" width="300">about_button_text</button>
     <button x="170" y="20" height="50" width="300" on_click="main_menu.exit_click">exit_text</button>
 </menu>

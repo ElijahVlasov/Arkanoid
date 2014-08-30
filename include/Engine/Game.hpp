@@ -27,6 +27,7 @@
 #include <Utils/FreeType/FontManager.hpp>
 
 #include <Utils/Graphics/GraphicsManager.hpp>
+#include <Utils/Graphics/SpriteFactory.hpp>
 #include <Utils/Graphics/TextureManager.hpp>
 
 #include <Utils/UI/Menu.hpp>
@@ -154,6 +155,8 @@ namespace Engine {
             Utils::SingletonPointer<Utils::UI::MenuFactory>                 menuFactory_;
 
             Utils::SingletonPointer<Utils::Graphics::GraphicsManager>       graphicsManager_;
+
+            Utils::SingletonPointer<Utils::Graphics::SpriteFactory>         spriteFactory_;
 
             Utils::SingletonPointer<Utils::Graphics::TextureManager>        textureManager_;
 

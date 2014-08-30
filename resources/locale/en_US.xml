@@ -8,4 +8,5 @@
     <string name="to_main_menu_button_text">Main menu</string>
     <string name="loading_text">Loading...</string>
     <string name="exit_text">Exit</string>
+    <string name="change_language_text">Language: English</string>
 </localization>

@@ -49,7 +49,6 @@ namespace Utils {
                 static const std::string LABEL_TYPE;
                 static const std::string PICTURE_TYPE;
 
-                Utils::SingletonPointer<LocalizationManager>	localizationManager_;
                 Utils::SingletonPointer<ResourceManager> 		resourceManager_;
 
                 void setXMLAttributes(const TiXmlElement* element, Component* component)

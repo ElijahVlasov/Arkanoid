@@ -71,6 +71,8 @@ void LocalizationManager::setLocale(const char* localeName) throw(runtime_error)
 		)
 	);
 
+	locale_ = localeName;
+
 	for(TiXmlNode* node = rootElement->FirstChild(); node != 0; node = node->NextSibling()) {
 
 		TiXmlElement* localElement = node->ToElement();
@@ -119,5 +121,13 @@ void LocalizationManager::setLocale(const char* localeName) throw(runtime_error)
 void LocalizationManager::setLocale(const string& localeName) throw(runtime_error) {
 
 	setLocale(localeName.c_str());
+
+}
+
+
+
+const string& LocalizationManager::getLocale() const {
+
+    return locale_;
 
 }

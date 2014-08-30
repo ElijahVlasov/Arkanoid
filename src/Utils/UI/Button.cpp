@@ -96,7 +96,9 @@ void Button::drawText() {
     // рендерим текст
     try {
 
-        Font::FONT_RECT rect = getFont().measureText(getText());
+        const string& text = getLocalizedText();
+
+        Font::FONT_RECT rect = getFont().measureText(text);
 
         float xOffset = 0.0f;
         float yOffset = 0.0f;
@@ -117,7 +119,7 @@ void Button::drawText() {
 
         }
 
-        getFont().renderText(getText(), x + xOffset, y + yOffset, width, height);
+        getFont().renderText(text, x + xOffset, y + yOffset, width, height);
 
     } catch(const runtime_error&) {}
 

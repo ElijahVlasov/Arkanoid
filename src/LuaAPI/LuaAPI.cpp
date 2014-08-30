@@ -11,6 +11,8 @@
 #include <luabind/luabind.hpp>
 #include <luabind/iterator_policy.hpp>
 
+#include <SDL/SDL_keycode.h>
+
 #include <Engine.hpp>
 #include <Utils.hpp>
 
@@ -36,11 +38,12 @@ using namespace Utils::UI;
 
 
 LuaAPI_::LuaAPI_():
-    game_(              Game::getInstance()					),
-    menuGameState_(     GameStates::MenuState::getInstance()),
-    lua_(               Lua::getInstance()					),
-    resourceManager_(   ResourceManager::getInstance()		),
-    audioManager_(      AudioManager::getInstance()		    )
+    game_(Game::getInstance()),
+    menuGameState_(GameStates::MenuState::getInstance()),
+    localizationManager_(LocalizationManager::getInstance()),
+    lua_(Lua::getInstance()),
+    resourceManager_(ResourceManager::getInstance()),
+    audioManager_(AudioManager::getInstance())
 {
 
     lua_State* L = lua_->getLuaState();
@@ -86,6 +89,9 @@ LuaAPI_::LuaAPI_():
         def("exit",         &LuaAPI_::System_Quit),
 
         def("load_script",  &LuaAPI_::System_LoadScript),
+
+        def("get_locale", &LuaAPI_::System_GetLocale),
+        def("set_locale", &LuaAPI_::System_SetLocale),
 
         def("show_dialog",  &LuaAPI_::System_ShowDialog),
         def("show_menu",    &LuaAPI_::System_ShowMenu),
@@ -421,9 +427,47 @@ void LuaAPI_::System_ShowMenu(const char* name) {
 
         boost::shared_ptr<Menu> menuPtr(menu);
 
+        if(instance_->game_->getState() == instance_->menuGameState_.get()) {
+
+            boost::shared_ptr<Menu> lastMenu = instance_->menuGameState_->getMenu();
+
+            menuPtr->setKeyDownEvent(   [lastMenu, instance_](Component*, KeyEvent& event){
+
+                                            if(lastMenu == 0) {
+                                                return;
+                                            }
+
+                                            if(event.key == SDLK_ESCAPE) {
+                                                instance_->menuGameState_->setMenu(lastMenu);
+                                            }
+
+                                        });
+
+        }
+
         instance_->menuGameState_->setMenu(menuPtr);
 
         instance_->game_->setState(instance_->menuGameState_.get());
+
+    } catch(const runtime_error&) {}
+
+}
+
+
+
+const char* LuaAPI_::System_GetLocale() {
+
+    return instance_->localizationManager_->getLocale().c_str();
+
+}
+
+
+
+void LuaAPI_::System_SetLocale(const char* locale) {
+
+    try {
+
+        instance_->localizationManager_->setLocale(locale);
 
     } catch(const runtime_error&) {}
 

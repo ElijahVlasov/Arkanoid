@@ -34,7 +34,6 @@ const std::string ComponentFactory::PICTURE_TYPE    =   "picture";
 
 
 ComponentFactory::ComponentFactory():
-	localizationManager_(LocalizationManager::getInstance()),
     resourceManager_(ResourceManager::getInstance())
 {}
 
@@ -49,10 +48,9 @@ Component* ComponentFactory::createComponent(const TiXmlElement* element) throw(
 
     Component* component;
 
-    string elementType = element->ValueStr();
+    string elementType   = element->ValueStr();
 
-    const char*     textKey    	=   element->GetText();
-    string 			text		=	localizationManager_->getString(textKey);
+    const char*     text =   element->GetText();
 
     // Создаем нужный объект
     if(elementType == BUTTON_TYPE) {
