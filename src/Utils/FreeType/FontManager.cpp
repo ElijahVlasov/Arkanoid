@@ -47,7 +47,7 @@ unsigned int FontManager::createFont(const string& fontData) throw(invalid_argum
 
     FontManager::PFontStruct fontStruct = createFontStruct();
 
-    fontStruct->data = fontData;
+    fontStruct->data = boost::shared_ptr<string>(new string(fontData));
 
     if(mainThreadID_ == std::this_thread::get_id()) {
 
@@ -76,7 +76,7 @@ unsigned int FontManager::createFontCopy(unsigned int srcFont) throw(invalid_arg
 
     if(mainThreadID_ == std::this_thread::get_id()) {
 
-        dstFontStruct->font = createFont(dstFontStruct->data.data(), dstFontStruct->data.size());
+        dstFontStruct->font = createFont(dstFontStruct->data->data(), dstFontStruct->data->size());
 
     } else {
 
@@ -120,7 +120,7 @@ void FontManager::createFonts() throw(runtime_error) {
 
     BOOST_FOREACH(FontManager::PFontStruct& fontStruct, fontsForCreate_) {
 
-        fontStruct->font = createFont(fontStruct->data.data(), fontStruct->data.size());
+        fontStruct->font = createFont(fontStruct->data->data(), fontStruct->data->size());
 
     }
 

@@ -50,9 +50,9 @@ namespace Utils {
 
                 struct FontStruct {
 
-                    unsigned int uid;
-                    boost::shared_ptr<FTFont> font;
-                    std::string data;
+                    unsigned int                    uid;
+                    boost::shared_ptr<FTFont>       font;
+                    boost::shared_ptr<std::string>  data;
 
                 };
 
