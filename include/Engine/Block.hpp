@@ -16,11 +16,16 @@ namespace Engine {
 
             virtual bool crash() = 0;
 
+            void setNeedCount(bool isNeedCount);
+            bool isNeedCount() const;
+
             GeometryDefines::Box getRect() const;
 
         private:
 
             GeometryDefines::Box rect_;
+
+            bool isNeedCount_;
 
     };
 

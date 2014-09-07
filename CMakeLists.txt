@@ -64,13 +64,14 @@ set(ENGINE_SOURCES
     ${SRC_DIR}/Engine/Ball.cpp
     ${SRC_DIR}/Engine/Block.cpp
     ${SRC_DIR}/Engine/DebugOutput.cpp
-    ${SRC_DIR}/Engine/EasyBlock.cpp
     ${SRC_DIR}/Engine/Game.cpp
+    ${SRC_DIR}/Engine/Level.cpp
     ${SRC_DIR}/Engine/Object.cpp
     ${SRC_DIR}/Engine/Platform.cpp
 )
 
 set(LUA_API_SOURCES
+    ${SRC_DIR}/LuaAPI/Block_wrapper.cpp
     ${SRC_DIR}/LuaAPI/LuaAPI.cpp
     ${SRC_DIR}/LuaAPI/Sprite_wrapper.cpp
 )
@@ -150,14 +151,15 @@ set(ENGINE_HEADERS
     ${INCLUDE_DIR}/Engine/Ball.hpp
     ${INCLUDE_DIR}/Engine/Block.hpp
     ${INCLUDE_DIR}/Engine/DebugOutput.hpp
-    ${INCLUDE_DIR}/Engine/EasyBlock.hpp
     ${INCLUDE_DIR}/Engine/Game.hpp
     ${INCLUDE_DIR}/Engine/GameStates.hpp
+    ${INCLUDE_DIR}/Engine/Level.hpp
     ${INCLUDE_DIR}/Engine/Object.hpp
     ${INCLUDE_DIR}/Engine/Platform.hpp
 )
 
 set(LUA_API_HEADERS
+    ${INCLUDE_DIR}/LuaAPI/Block_wrapper.hpp
     ${INCLUDE_DIR}/LuaAPI/LuaAPI.hpp
     ${INCLUDE_DIR}/LuaAPI/Sprite_wrapper.hpp
 )

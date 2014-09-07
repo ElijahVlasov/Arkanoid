@@ -5,12 +5,14 @@
 
 #include <boost/format.hpp>
 
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
+
 #include <SDL/SDL_keycode.h>
 
 #include <Engine/Ball.hpp>
 #include <Engine/Block.hpp>
 #include <Engine/DebugOutput.hpp>
-#include <Engine/EasyBlock.hpp>
 #include <Engine/Game.hpp>
 
 #include <Engine/GameStates/MenuState.hpp>
@@ -56,15 +58,12 @@ SingleGameState::SingleGameState() throw(runtime_error):
 
 void SingleGameState::quit() {
 
-    background_     = 0;
     ball_           = 0;
     musicPlayer_    = 0;
-    music_          = 0;
     isPaused_       = false;
     loseFont_       = 0;
     winFont_        = 0;
-
-    blocks_.clear();
+    level_          = 0;
 
 }
 
@@ -116,6 +115,8 @@ void SingleGameState::printDebugInfo() {
 
     debugOutput_->clear();
 
+    debugOutput_->printf("blocks.count=%u\n", level_->getBlocksCount());
+
     if(ball_ != 0) {
 
         debugOutput_->printf("ball.center=(%f;%f)\n",    ball_->getCenter().x(),    ball_->getCenter().y());
@@ -139,27 +140,9 @@ void SingleGameState::onRender() {
 
     GraphicsManager::ClearScreen();
 
-    GraphicsManager::DrawTexture(
-        GeometryDefines::BoxI(
-            GeometryDefines::PointI(0, 0),
-            GeometryDefines::PointI(game_->getScreenWidth(), game_->getScreenHeight())
-        ),
-        *background_
-    );
+    level_->draw();
 
     platform_->draw();
-
-    for(size_t i = 0; i < blocks_.size(); i++) {
-
-        for(size_t j = 0; j < blocks_[i].size(); j++) {
-
-            if(blocks_[i][j] != 0) {
-                blocks_[i][j]->draw();
-            }
-
-        }
-
-    }
 
     if(ball_ != 0) {
         ball_->draw();
@@ -189,7 +172,7 @@ void SingleGameState::onRender() {
 
         loseFont_->renderText("You lost!!!", 100, 100);
 
-    } else if(blocks_.empty()) {
+    } else if(level_->getBlocksCount() == 0) {
 
         winFont_->renderText("You win!!!", 50, 100);
 
@@ -215,10 +198,12 @@ void SingleGameState::onKeyDown(int key) {
 
     if(ballsCount_ == 0) {
         game_->quitGame();
+        return;
     }
 
-    if(blocks_.empty()) {
+    if(level_->getBlocksCount() == 0) {
         game_->quitGame();
+        return;
     }
 
 	switch(key) {
@@ -271,7 +256,7 @@ void SingleGameState::onKeyDown(int key) {
 
 		case SDLK_c: {
 
-            blocks_.clear();
+            level_->clear();
 
 		}
 		break;
@@ -355,7 +340,7 @@ void SingleGameState::onLoop() {
 
     printDebugInfo();
 
-    if(blocks_.empty()) {
+    if(level_->getBlocksCount() == 0) {
         return;
     }
 
@@ -377,8 +362,6 @@ void SingleGameState::onLoop() {
 
     ball_->update();
 
-    checkBlocks();
-
 }
 
 
@@ -389,11 +372,9 @@ void SingleGameState::init() throw(runtime_error) {
 
     SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
-    background_     = resourceManager->getResource<Texture>(GAME_BACKGROUND);
     bar_            = resourceManager->getResource<Texture>(GAME_BAR);
     ballIcon_       = resourceManager->getResource<Texture>(BALL_ICON);
 
-    music_          = resourceManager->getResource<Sound>(GAME_MUSIC);
     bounceSound_    = resourceManager->getResource<Sound>(BOUNCE_SOUND);
 
     loseFont_       = resourceManager->getResource<Font>(YOU_LOST_FONT);
@@ -407,34 +388,17 @@ void SingleGameState::init() throw(runtime_error) {
     winFont_->setColor(winColor);
     winFont_->setSize(120);
 
-    musicPlayer_ = audioManager_->createSoundPlayer(music_);
+    level_ = boost::shared_ptr<Level>(new Level(resourceManager->getFileData("levels/test.lvl")));
+
+    musicPlayer_ = audioManager_->createSoundPlayer(level_->getSound());
 
     musicPlayer_->setLooping(true);
 
     platform_    = boost::shared_ptr<Platform>(
                        new Platform(
-                           GeometryDefines::Box(GeometryDefines::Point(220, 10), GeometryDefines::Point(420, 35))
+                           GeometryDefines::Box(GeometryDefines::Point(270, 10), GeometryDefines::Point(370, 35))
                        )
                    );
-
-    blocks_.resize(10);
-
-    for(size_t i = 0; i < 10; i++) { // Создаем блоки
-
-        for(size_t j = 0; j < 16; j++) {
-
-            blocks_[i].push_back(boost::shared_ptr<Block>(
-                                    new EasyBlock(
-                                        GeometryDefines::Box(
-                                            GeometryDefines::Point(j * 40,      300 + i * 15),
-                                            GeometryDefines::Point(j * 40 + 38, 300 + i * 15 + 13)
-                                        )
-                                    )
-                                 ));
-
-        }
-
-    }
 
     ball_ = boost::shared_ptr<Ball>(new Ball(
                                      GeometryDefines::Point(0.0f, 0.0f),
@@ -467,6 +431,19 @@ float SingleGameState::getWorldHeight() const {
 float SingleGameState::getWorldWidth() const {
 
     return game_->getScreenWidth();
+
+}
+
+
+
+float SingleGameState::genAngleDelta() {
+
+    boost::random::mt19937 gen;
+    boost::random::uniform_int_distribution<> dist(-5, 5);
+
+    float deltaAngle = dist(gen) / 1.0f;
+
+    return deltaAngle;
 
 }
 
@@ -538,7 +515,7 @@ void SingleGameState::checkBallAndObjects() {
 
     }
 
-    if(ballCenter.y() >= 300 - diameter) {
+    if(ballCenter.y() >= level_->getRect().min_corner().y() - diameter) {
 
         checkBallAndBlocks();
 
@@ -591,6 +568,12 @@ void SingleGameState::checkBallAndPlatform() {
 
     ball_->setDirection(direction);
 
+    float angle = ball_->getAngle();
+
+    angle += genAngleDelta();
+
+    ball_->setAngle(angle);
+
 }
 
 
@@ -598,34 +581,23 @@ void SingleGameState::checkBallAndPlatform() {
 void SingleGameState::checkBallAndBlocks() {
 
     GeometryDefines::Point      ballNextCenter = ball_->getNextPoint();
-    float                       diameter       = ball_->getRadius() * 2;
+    float                       radius         = ball_->getRadius();
+    GeometryDefines::Box        ballArea       = ball_->getRect();
 
-    for(size_t i = 0; i < blocks_.size(); i++) {
+    ballArea.min_corner().x(ballArea.min_corner().x() - radius);
+    ballArea.min_corner().y(ballArea.min_corner().y() - radius);
+    ballArea.max_corner().x(ballArea.max_corner().x() + radius);
+    ballArea.max_corner().y(ballArea.max_corner().y() + radius);
 
-        for(size_t j = 0; j < blocks_[i].size(); j++) {
+    list< boost::shared_ptr< Block > > blocks = level_->getBlocksInBox(ballArea);
 
-            if(blocks_[i][j] == 0) {
-                continue;
-            }
+    if(blocks.empty()) {
+        return;
+    }
 
-            GeometryDefines::Box blockRect = blocks_[i][j]->getRect();
+    BOOST_FOREACH(boost::shared_ptr<Block>& block, blocks) {
 
-            float blockAreaMinX = blockRect.min_corner().x() - diameter;
-            float blockAreaMaxX = blockRect.max_corner().x() + diameter;
-            float blockAreaMinY = blockRect.min_corner().y() - diameter;
-            float blockAreaMaxY = blockRect.max_corner().y() + diameter;
-
-            if( IS_IN(ballNextCenter.x(), blockAreaMinX, blockAreaMaxX) ) {
-
-                if( IS_IN(ballNextCenter.y(), blockAreaMinY, blockAreaMaxY) ) {
-
-                    checkBallAndBlock(blocks_[i][j], ballNextCenter);
-
-                }
-
-            }
-
-        }
+        checkBallAndBlock(block, ballNextCenter);
 
     }
 
@@ -695,37 +667,7 @@ void SingleGameState::checkBallAndBlock(boost::shared_ptr<Block>& block, const G
 
     ball_->setDirection(direction);
 
-    if(block->crash()) {
-        block = 0;
-    }
-
-}
-
-
-
-void SingleGameState::checkBlocks() {
-
-    if(blocks_.empty()) {
-        return;
-    }
-
-    // Пробегаем матрицу блоков. Если есть ненулевой блок выходим из функции.
-
-    for(size_t i = 0; i < blocks_.size(); i++) {
-
-        for(size_t j = 0; j < blocks_[i].size(); j++) {
-
-            if(blocks_[i][j] != 0) {
-                return;
-            }
-
-        }
-
-    }
-
-    // Если дошли до сюда, значит, все элементы пустые.
-
-    blocks_.clear();
+    level_->crashBlock(block);
 
 }
 

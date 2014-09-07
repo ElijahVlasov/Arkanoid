@@ -1,6 +1,7 @@
 #ifndef _SALT2D_ENGINE_DEBUGOUTPUT_HPP
 #define _SALT2D_ENGINE_DEBUGOUTPUT_HPP
 
+#include <fstream>
 #include <stdexcept>
 #include <string>
 
@@ -27,6 +28,12 @@ namespace Engine {
             void onRender();
 
         private:
+
+#ifndef NDEBUG
+
+            static std::ofstream outputStream_;
+
+#endif
 
             static const size_t MAX_LINE_SIZE;
 

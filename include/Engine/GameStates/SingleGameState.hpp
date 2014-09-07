@@ -10,6 +10,7 @@
 #include <Engine/Ball.hpp>
 #include <Engine/Block.hpp>
 #include <Engine/DebugOutput.hpp>
+#include <Engine/Level.hpp>
 #include <Engine/Platform.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
@@ -70,12 +71,13 @@ namespace Engine {
 
             private:
 
+                static float genAngleDelta();
+
                 void checkBallAndWalls();
                 void checkBallAndObjects();
                 void checkBallAndPlatform();
                 void checkBallAndBlocks();
                 void checkBallAndBlock(boost::shared_ptr<Block>& block, const GeometryDefines::Point& nextBallPoint);
-                void checkBlocks();
 
                 void die();
 
@@ -100,11 +102,9 @@ namespace Engine {
                 boost::shared_ptr<Utils::FreeType::Font> loseFont_;
                 boost::shared_ptr<Utils::FreeType::Font> winFont_;
 
-                boost::shared_ptr<Utils::Graphics::Texture>     background_;
                 boost::shared_ptr<Utils::Graphics::Texture>     bar_;
                 boost::shared_ptr<Utils::Graphics::Texture>     ballIcon_;
 
-                boost::shared_ptr<Utils::Audio::Sound>          music_;
                 boost::shared_ptr<Utils::Audio::Sound>          bounceSound_;
 
                 boost::shared_ptr<Utils::Audio::SoundPlayer>    musicPlayer_;
@@ -113,7 +113,9 @@ namespace Engine {
 
                 bool isPlatformClicked_;
                 int  lastMouseX_;
-                std::vector< std::vector< boost::shared_ptr<Block> > > blocks_;
+
+                boost::shared_ptr< Level > level_;
+
                 boost::shared_ptr<Ball>  ball_;
 
                 bool isPaused_;

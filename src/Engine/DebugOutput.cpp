@@ -31,6 +31,10 @@ using namespace Utils::FreeType;
 
 const size_t DebugOutput::MAX_LINE_SIZE = 2048;
 
+#ifndef NDEBUG
+ofstream DebugOutput::outputStream_("log.txt");
+#endif
+
 
 
 DebugOutput::DebugOutput() throw(runtime_error):
@@ -67,6 +71,10 @@ void DebugOutput::printf(const char* format, ...) {
     delete newCString;
 
     outputString_ += newString;
+
+#ifndef NDEBUG
+    outputStream_ << newString;
+#endif
 
 }
 

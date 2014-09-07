@@ -110,16 +110,19 @@ LuaAPI_::LuaAPI_():
 
             ],
 
-        class_<Sprite, Sprite_wrapper, boost::shared_ptr<Sprite> >("sprite")
-            .def("on_render_p", (void (Sprite::*)(const gd::Point&) ) &Sprite::onRender)
-            .def("on_render_pi", (void (Sprite::*)(const gd::PointI&) ) &Sprite::onRender,
-                 (void (*)(boost::shared_ptr<Sprite>, const gd::PointI&) ) &Sprite_wrapper::default_onRender)
-            .def("on_render_b", (void (Sprite::*)(const gd::Box&) ) &Sprite::onRender)
-            .def("on_render_bi", (void (Sprite::*)(const gd::BoxI&) ) &Sprite::onRender,
-                 (void (*)(boost::shared_ptr<Sprite>, const gd::BoxI&) ) &Sprite_wrapper::default_onRender)
-            .def("on_render_pol", (void (Sprite::*)(const gd::Polygon&) ) &Sprite::onRender)
-            .def("on_render_poli", (void (Sprite::*)(const gd::PolygonI&) ) &Sprite::onRender,
-                 (void (*)(boost::shared_ptr<Sprite>, const gd::PolygonI&) ) &Sprite_wrapper::default_onRender),
+        class_<Sprite,          boost::shared_ptr<Sprite> >("sprite"),
+        class_<AnimationSprite, Sprite, boost::shared_ptr<AnimationSprite> >("animation_sprite"),
+        class_<StaticSprite,    Sprite, boost::shared_ptr<StaticSprite> >("static_sprite"),
+
+        class_<SpriteFactory::SpriteType>("sprite_type")
+            .enum_("")[
+
+                value("static",    SpriteFactory::SpriteType::STATIC),
+                value("animation", SpriteFactory::SpriteType::ANIMATION)
+
+            ],
+
+        def("create_sprite", (boost::shared_ptr<Sprite> (*)(const char*, SpriteFactory::SpriteType))&SpriteFactory::createSprite),
 
         namespace_("geometry") [
 
@@ -241,28 +244,14 @@ LuaAPI_::LuaAPI_():
 
     ];
 
-    /*module(L, "engine") [
+    module(L, "engine") [
 
-        class_<Object, Object_wrapper, ObjectPtr>("object")
-            .def("on_collision",        &Object::onCollision)
-            .def("on_render",           &Object::onRender,    &Object_wrapper::default_onRender)
-            .def("live",                &Object::live)
-            .def("move",                &Object::move,        &Object_wrapper::default_move)
-            .def("spin",                &Object::spin,        &Object_wrapper::default_spin)
-//            .def("get_center"           &Object::getCenter, &Object_wrapper::default_getCenter)
-            .property("location",       &Object::getLocation, &Object::setLocation),
-
-
-
-        class_<Location, LocationPtr >("location")
-            .def(constructor<>())
-            .property("ground_texture", &Location::getGroundTexture, &Location::setGroundTexture)
-            .property("width",          &Location::getWidth,         &Location::setWidth)
-            .property("height",         &Location::getHeight,        &Location::setHeight)
-            .property("name",           &Location::getName,          (void (Location::*)(const string&))&Location::setName)
-
-
-    ];*/
+        class_<Block, Block_wrapper>("block")
+            .def(constructor<const gd::Box&>())
+            .def("crash", &Block::crash)
+            .def("set_sprite", &Block::setSprite)
+            .property("is_need_count", &Block::isNeedCount, &Block::setNeedCount)
+    ];
 
 }
 

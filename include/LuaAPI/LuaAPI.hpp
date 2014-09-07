@@ -25,7 +25,6 @@ namespace LuaAPI {
             static boost::shared_ptr<Utils::Audio::SoundPlayer> System_CreateSoundPlayer(const boost::shared_ptr<Utils::Audio::Sound>& sound);
 
             static boost::shared_ptr<Utils::Graphics::Texture> System_LoadTexture(const char* name);
-            //static void System_DrawTexture(float x, float y, const boost::shared_ptr<Utils::Texture>& texture, Engine::Direction textureDirection);
 
             static boost::shared_ptr<Utils::FreeType::Font> System_LoadFont(const char* name);
 
