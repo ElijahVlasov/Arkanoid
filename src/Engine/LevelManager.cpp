@@ -76,7 +76,7 @@ void LevelManager::parseLevels(const char* fileName) throw(runtime_error) {
 
     string levels = resourceManager_->getFileData(fileName);
 
-    boost::algorithm::split(levels_, levels, boost::is_any_of("\t\n "));
+    boost::algorithm::split(levels_, levels, boost::is_any_of("\t\r\n "));
 
     nextLevel_ = levels_.cbegin();
 
