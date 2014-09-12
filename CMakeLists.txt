@@ -39,11 +39,11 @@ add_definitions(${PNG_DEFINITIONS})
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/FTGL/src
     ${CMAKE_CURRENT_SOURCE_DIR}/TinyXML
+    ${CMAKE_CURRENT_SOURCE_DIR}/Luabind
     ${Boost_INCLUDE_DIR}
     ${FREETYPE_INCLUDE_DIR_ft2build}
     ${FREETYPE_INCLUDE_DIR_freetype2}
     ${LUA_INCLUDE_DIR}
-    ${LUABIND_INCLUDE_DIR}
     ${OGG_INCLUDE_DIR}
     ${OPENAL_INCLUDE_DIR}
     ${OPENGL_INCLUDE_DIR}
@@ -260,10 +260,10 @@ set(${PROJECT_NAME}_LIBS
     ${PNG_LIBRARIES}
     ${OGG_LIBRARY}
     ${SDL_LIBRARY}
-    ${LUABIND_LIBRARIES}
     ${VORBISFILE_LIBRARY}
     FTGL
     TinyXML
+    Luabind
 )
 
 if(NOT WIN32)
@@ -280,6 +280,7 @@ add_definitions(-DTIXML_USE_STL)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/TinyXML)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/FTGL)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Luabind)
 
 add_executable(${PROJECT_NAME} WIN32 ${${PROJECT_NAME}_HEADERS} ${${PROJECT_NAME}_SOURCES})
 target_link_libraries(${PROJECT_NAME} ${${PROJECT_NAME}_LIBS})

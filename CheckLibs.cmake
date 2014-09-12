@@ -44,13 +44,6 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-find_package(Luabind REQUIRED)
-
-if(NOT LUABIND_FOUND)
-    message(FATAL_ERROR "Can't find Luabind")
-    return()
-endif()
-
 find_package(OGG REQUIRED)
 
 if(NOT OGG_FOUND)
