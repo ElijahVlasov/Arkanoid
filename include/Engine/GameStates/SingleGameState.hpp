@@ -11,7 +11,10 @@
 #include <Engine/Block.hpp>
 #include <Engine/DebugOutput.hpp>
 #include <Engine/Level.hpp>
+#include <Engine/LevelManager.hpp>
 #include <Engine/Platform.hpp>
+
+#include <Engine/GameStates/LoadingState.hpp>
 
 #include <Engine/GameStates/IGameState.hpp>
 #include <Engine/GameStates/MenuState.hpp>
@@ -85,9 +88,9 @@ namespace Engine {
 
                 void printDebugInfo();
 
-                static const std::chrono::milliseconds LOADING_DURATION;
-
                 void makeScreenshot();
+
+                boost::shared_ptr<LoadingState> loadingState_;
 
                 Utils::SingletonPointer<Engine::Game>                   game_;
 
@@ -114,9 +117,14 @@ namespace Engine {
                 bool isPlatformClicked_;
                 int  lastMouseX_;
 
-                boost::shared_ptr< Level > level_;
+                boost::shared_ptr<LevelManager> levelManager_;
+
+                boost::shared_ptr<Level> level_;
 
                 boost::shared_ptr<Ball>  ball_;
+
+
+                bool isWin_;
 
                 bool isPaused_;
 

@@ -12,7 +12,7 @@
 
 #include <Utils/Audio/AudioManager.hpp>
 #include <Utils/Audio/OGGSound.hpp>
-#include <Utils/Audio/OGGSoundBuilder.hpp>
+#include <Utils/Audio/OGGSoundFactory.hpp>
 
 using namespace std;
 
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     try {
 
         SingletonPointer<AudioManager>      audioManager    =   AudioManager::getInstance();
-        SingletonPointer<OGGSoundBuilder>   soundBuilder    =   OGGSoundBuilder::getInstance();
+        SingletonPointer<OGGSoundFactory>   soundFactory    =   OGGSoundFactory::getInstance();
 
         ifstream soundStream("sound.ogg", ios::binary);
         string soundData;
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
         soundStream.read(const_cast<char*>(soundData.data()), soundData.size());
 
-        auto sound = soundBuilder->createSound(soundData);
+        auto sound = soundFactory->createSound(soundData);
 
         auto player = audioManager->createSoundPlayer(sound);
 

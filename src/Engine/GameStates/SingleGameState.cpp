@@ -41,8 +41,6 @@ using namespace Utils;
 using namespace Utils::Audio;
 using namespace Utils::Graphics;
 
-const std::chrono::milliseconds SingleGameState::LOADING_DURATION = std::chrono::milliseconds(3000);
-
 
 
 SingleGameState::SingleGameState() throw(runtime_error):
@@ -51,6 +49,7 @@ SingleGameState::SingleGameState() throw(runtime_error):
     menuState_(MenuState::getInstance()),
     audioManager_(AudioManager::getInstance()),
     isPlatformClicked_(false),
+    isWin_(false),
     isPaused_(false)
 {}
 
@@ -64,6 +63,7 @@ void SingleGameState::quit() {
     loseFont_       = 0;
     winFont_        = 0;
     level_          = 0;
+    levelManager_   = 0;
 
 }
 
@@ -172,7 +172,7 @@ void SingleGameState::onRender() {
 
         loseFont_->renderText("You lost!!!", 100, 100);
 
-    } else if(level_->getBlocksCount() == 0) {
+    } else if(isWin_) {
 
         winFont_->renderText("You win!!!", 50, 100);
 
@@ -201,7 +201,7 @@ void SingleGameState::onKeyDown(int key) {
         return;
     }
 
-    if(level_->getBlocksCount() == 0) {
+    if(isWin_) {
         game_->quitGame();
         return;
     }
@@ -340,8 +340,31 @@ void SingleGameState::onLoop() {
 
     printDebugInfo();
 
-    if(level_->getBlocksCount() == 0) {
+    if(isWin_) {
         return;
+    }
+
+    if(level_->getBlocksCount() == 0) {
+
+        if(!levelManager_->hasNextLevel()) {
+
+            isWin_ = true;
+
+        } else {
+
+            loadingState_ = boost::shared_ptr<LoadingState>(new LoadingState([this](){
+
+                                                                                     this->level_ = this->levelManager_->loadNextLevel();
+
+                                                                                     this->musicPlayer_ = this->audioManager_->createSoundPlayer(this->level_->getSound());
+                                                                                     this->musicPlayer_->setLooping(true);
+
+                                                                                 }, this));
+
+            game_->setState(loadingState_.get());
+
+        }
+
     }
 
     if(ball_ == 0) {
@@ -368,8 +391,6 @@ void SingleGameState::onLoop() {
 
 void SingleGameState::init() throw(runtime_error) {
 
-    auto startLoading = chrono::system_clock::now();
-
     SingletonPointer<ResourceManager> resourceManager = ResourceManager::getInstance();
 
     bar_            = resourceManager->getResource<Texture>(GAME_BAR);
@@ -388,7 +409,9 @@ void SingleGameState::init() throw(runtime_error) {
     winFont_->setColor(winColor);
     winFont_->setSize(120);
 
-    level_ = boost::shared_ptr<Level>(new Level(resourceManager->getFileData("levels/test.lvl")));
+    levelManager_ = boost::shared_ptr<LevelManager>(new LevelManager(LEVELS_FILE));
+
+    level_ = levelManager_->loadNextLevel();
 
     musicPlayer_ = audioManager_->createSoundPlayer(level_->getSound());
 
@@ -409,12 +432,6 @@ void SingleGameState::init() throw(runtime_error) {
     platform_->bindBall(ball_);
 
     ballsCount_ = 3;
-
-    auto n = chrono::system_clock::now() - startLoading;
-
-    while(n <= LOADING_DURATION) {
-        n = chrono::system_clock::now() - startLoading;
-    }
 
 }
 

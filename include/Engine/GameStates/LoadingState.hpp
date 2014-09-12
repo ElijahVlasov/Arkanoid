@@ -1,6 +1,7 @@
 #ifndef _SALT2D_ENGINE_GAMESTATES_LOADINGSTATE_HPP
 #define _SALT2D_ENGINE_GAMESTATES_LOADINGSTATE_HPP
 
+#include <chrono>
 #include <stdexcept>
 #include <thread>
 
@@ -28,7 +29,7 @@ namespace Engine {
 
             public:
 
-                template <class LoadingFunc> LoadingState(LoadingFunc loadingFunc) throw(std::runtime_error);
+                template <class LoadingFunc> LoadingState(LoadingFunc loadingFunc, IGameState* nextState) throw(std::runtime_error);
 
                 void onActive();
                 void onRemove();
@@ -49,6 +50,7 @@ namespace Engine {
             private:
 
                 Utils::SingletonPointer<Game> getGame();
+                void setGameState(IGameState* state);
 
                 Utils::SingletonPointer<Game> game_;
 
@@ -62,9 +64,21 @@ namespace Engine {
 
 
 
-        template <class LoadingFunc> LoadingState::LoadingState(LoadingFunc loadingFunc) throw(std::runtime_error):
+        template <class LoadingFunc> LoadingState::LoadingState(LoadingFunc loadingFunc, IGameState* nextState) throw(std::runtime_error):
             game_(getGame()),
-            loadingThread_(loadingFunc)
+            loadingThread_([loadingFunc, nextState, this]() {
+                                    auto startLoading = std::chrono::system_clock::now();
+
+                                    loadingFunc();
+
+                                    auto n = std::chrono::system_clock::now() - startLoading;
+
+                                    while(n <= std::chrono::milliseconds(LOADING_DURATION)) {
+                                        n = std::chrono::system_clock::now() - startLoading;
+                                    }
+
+                                    this->setGameState(nextState);
+                                })
         {
 
             Utils::SingletonPointer <Utils::ResourceManager>     resourceManager     = Utils::ResourceManager::getInstance();

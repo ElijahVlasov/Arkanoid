@@ -332,9 +332,7 @@ void Game::startGame() {
 
                     this->singleGameState_->init(); // Инициализация игры
 
-                    this->setState(this->singleGameState_.get());
-
-                    this->loadingState_ = 0; // Удаляем загрузочный экран
+                    //this->loadingState_ = 0; // Удаляем загрузочный экран
 
                 } catch(...) {
 
@@ -342,7 +340,9 @@ void Game::startGame() {
 
                 }
 
-            }
+            },
+
+            this->singleGameState_.get()
 
         )
 

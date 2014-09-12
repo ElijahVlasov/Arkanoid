@@ -25,7 +25,7 @@ include(CheckLibs.cmake)
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
 
-    set(CMAKE_CXX_FLAGS_RELEASE "-w -O2 -std=c++11")
+    set(CMAKE_CXX_FLAGS_RELEASE "-w -O2 -std=c++11 -DNDEBUG")
     set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++11 -g")
 
 endif()
@@ -66,6 +66,7 @@ set(ENGINE_SOURCES
     ${SRC_DIR}/Engine/DebugOutput.cpp
     ${SRC_DIR}/Engine/Game.cpp
     ${SRC_DIR}/Engine/Level.cpp
+    ${SRC_DIR}/Engine/LevelManager.cpp
     ${SRC_DIR}/Engine/Object.cpp
     ${SRC_DIR}/Engine/Platform.cpp
 )
@@ -154,6 +155,7 @@ set(ENGINE_HEADERS
     ${INCLUDE_DIR}/Engine/Game.hpp
     ${INCLUDE_DIR}/Engine/GameStates.hpp
     ${INCLUDE_DIR}/Engine/Level.hpp
+    ${INCLUDE_DIR}/Engine/LevelManager.hpp
     ${INCLUDE_DIR}/Engine/Object.hpp
     ${INCLUDE_DIR}/Engine/Platform.hpp
 )

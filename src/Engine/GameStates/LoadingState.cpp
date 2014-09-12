@@ -72,3 +72,11 @@ Utils::SingletonPointer<Game> LoadingState::getGame() {
     return Utils::SingletonPointer<Game>(Game::getInstance());
 
 }
+
+
+
+void LoadingState::setGameState(IGameState* state) {
+
+    game_->setState(state);
+
+}

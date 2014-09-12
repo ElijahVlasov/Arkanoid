@@ -13,6 +13,7 @@
 
 #define LOADING_TEXTURE "textures/ui/loading.png"
 #define LOADING_TEXT    "loading_text"
+#define LOADING_DURATION 3000
 
 #define LOADING_ANIMATION_FRAME_PREFIX "textures/ui/loading_frame_"
 
@@ -26,5 +27,7 @@
 
 #define BALL_TEXTURE "textures/game/ball.png"
 #define BALL_ICON "textures/game/ball_icon.png"
+
+#define LEVELS_FILE "levels/levels"
 
 #endif
