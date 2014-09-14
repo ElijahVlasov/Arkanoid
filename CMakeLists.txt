@@ -25,8 +25,8 @@ include(CheckLibs.cmake)
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
 
-    set(CMAKE_CXX_FLAGS_RELEASE "-w -O2 -std=c++11 -DNDEBUG")
-    set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++11 -g")
+    set(CMAKE_CXX_FLAGS_RELEASE "-w 	-static-libgcc	-static-libstdc++ -O2 -std=c++11 -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_DEBUG   "-Wall 	-static-libgcc 	-static-libstdc++ -std=c++11 -g")
 
 endif()
 
