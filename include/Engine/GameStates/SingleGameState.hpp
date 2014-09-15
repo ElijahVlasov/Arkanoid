@@ -80,7 +80,6 @@ namespace Engine {
                 void checkBallAndObjects();
                 void checkBallAndPlatform();
                 void checkBallAndBlocks();
-                void checkBallAndBlock(boost::shared_ptr<Block>& block, const GeometryDefines::Point& nextBallPoint);
 
                 void die();
 

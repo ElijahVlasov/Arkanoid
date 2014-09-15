@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include <chrono>
+#include <list>
 #include <stdexcept>
 
 #include <boost/format.hpp>
@@ -217,20 +218,6 @@ void SingleGameState::onKeyDown(int key) {
 		}
 		break;
 
-		case SDLK_RIGHT: {
-
-		    platform_->move(Platform::MovingDirection::RIGHT);
-
-		}
-		break;
-
-		case SDLK_LEFT: {
-
-		    platform_->move(Platform::MovingDirection::LEFT);
-
-		}
-		break;
-
 		case SDLK_F1: {
 
 			if(debugOutput_ == 0) {
@@ -358,6 +345,8 @@ void SingleGameState::onLoop() {
 
                                                                                      this->musicPlayer_ = this->audioManager_->createSoundPlayer(this->level_->getSound());
                                                                                      this->musicPlayer_->setLooping(true);
+
+                                                                                     this->platform_->bindBall(ball_);
 
                                                                                  }, this));
 
@@ -600,6 +589,7 @@ void SingleGameState::checkBallAndBlocks() {
     GeometryDefines::Point      ballNextCenter = ball_->getNextPoint();
     float                       radius         = ball_->getRadius();
     GeometryDefines::Box        ballArea       = ball_->getRect();
+    GeometryDefines::Vector2D   direction         = ball_->getDirection();
 
     ballArea.min_corner().x(ballArea.min_corner().x() - radius);
     ballArea.min_corner().y(ballArea.min_corner().y() - radius);
@@ -612,24 +602,55 @@ void SingleGameState::checkBallAndBlocks() {
         return;
     }
 
+    list< GeometryDefines::Point > contacts;
+    list< boost::shared_ptr<Block> > blocksForCrash;
+
     BOOST_FOREACH(boost::shared_ptr<Block>& block, blocks) {
 
-        checkBallAndBlock(block, ballNextCenter);
+        GeometryDefines::Box      blockRect         = block->getRect();
+
+        GeometryDefines::Point contact;
+
+        if( !GeometryDefines::boxAndCircleContact(ball_->getRadius(), ballNextCenter, blockRect, contact) ) {
+            continue;
+        }
+
+        contacts.push_back(contact);
+        blocksForCrash.push_back(block);
 
     }
 
-}
-
-
-
-void SingleGameState::checkBallAndBlock(boost::shared_ptr<Block>& block, const GeometryDefines::Point& ballNextCenter) {
-
-    GeometryDefines::Vector2D direction         = ball_->getDirection();
-    GeometryDefines::Box      blockRect         = block->getRect();
-    GeometryDefines::Point    contact;
-
-    if( !GeometryDefines::boxAndCircleContact(ball_->getRadius(), ballNextCenter, blockRect, contact) ) {
+    if(contacts.empty()) {
         return;
+    }
+
+    GeometryDefines::Point contact = contacts.front();
+    GeometryDefines::Box blockRect = blocksForCrash.front()->getRect();
+
+    if(contacts.size() > 1) {
+
+        if(contact.x() == blockRect.min_corner().x()) {
+
+            direction.x(-abs(direction.x()));
+
+        } else if(contact.x() == blockRect.max_corner().x()) {
+
+            direction.x(abs(direction.x()));
+
+        } else {
+
+            if(contact.y() == blockRect.min_corner().y()) {
+
+                direction.y(-abs(direction.y()));
+
+            } else {
+
+                direction.y(abs(direction.y()));
+
+            }
+
+        }
+
     }
 
     if(contact.x() == blockRect.min_corner().x()) {
@@ -684,7 +705,11 @@ void SingleGameState::checkBallAndBlock(boost::shared_ptr<Block>& block, const G
 
     ball_->setDirection(direction);
 
-    level_->crashBlock(block);
+    BOOST_FOREACH(boost::shared_ptr<Block>& block, blocksForCrash) {
+
+        level_->crashBlock(block);
+
+    }
 
 }
 
